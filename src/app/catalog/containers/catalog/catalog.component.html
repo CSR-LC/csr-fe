@@ -1,1 +1,22 @@
-<p>catalog works!</p>
+<lc-main-header
+  [pageTitle]="title">
+</lc-main-header>
+
+<section class="catalog">
+  <form class="search-form">
+    <mat-form-field class="" appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput placeholder="Search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+  
+  <div class="catalog-list">
+    <lc-preview-equipment-card
+      [equipmentName]="name"
+      [equipmentInfo]="infoText"
+      [equipmentImg]="imgSrc"
+    >
+    </lc-preview-equipment-card>
+  </div>
+</section>
