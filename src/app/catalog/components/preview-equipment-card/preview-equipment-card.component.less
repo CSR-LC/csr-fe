@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.equipment-card {
+  align-items: center;
+  border-radius: 8px;
+  border: 2px solid #000;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 20px;
+
+  &__img {
+    border-radius: 8px 8px 0 0;
+    display: block;
+    margin: 0;
+    width: 100%;
+  }
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &__info {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  &__btns {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
