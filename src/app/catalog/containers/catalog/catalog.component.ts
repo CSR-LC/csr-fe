@@ -32,4 +32,12 @@ export class CatalogComponent implements OnInit {
   get imgSrc() {
     return this.controller.imgSrc;
   }
+
+  public onCardInfo() {
+    this.controller.onInfo();
+  }
+
+  public onCardOrder() {
+    this.controller.onOrder();
+  }
 }
