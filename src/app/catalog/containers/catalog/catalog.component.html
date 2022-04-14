@@ -1,7 +1,3 @@
-<lc-main-header
-  [pageTitle]="title">
-</lc-main-header>
-
 <section class="catalog">
   <form class="search-form">
     <mat-form-field class="" appearance="fill">
@@ -16,6 +12,8 @@
       [equipmentName]="name"
       [equipmentInfo]="infoText"
       [equipmentImg]="imgSrc"
+      (onInfo)="onCardInfo()"
+      (onOrder)="onCardOrder()"
     >
     </lc-preview-equipment-card>
   </div>

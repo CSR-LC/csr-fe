@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CatalogController} from "../../services";
 
 @Component({
@@ -6,7 +6,6 @@ import {CatalogController} from "../../services";
   templateUrl: './preview-equipment-card.component.html',
   styleUrls: ['./preview-equipment-card.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CatalogController],
 })
 export class PreviewEquipmentCardComponent implements OnInit {
 
@@ -14,18 +13,20 @@ export class PreviewEquipmentCardComponent implements OnInit {
   @Input() equipmentInfo: string | undefined;
   @Input() equipmentImg: string | undefined;
 
+  @Output('onInfo') onInfoEmit = new EventEmitter();
+  @Output('onOrder') onOrderEmit = new EventEmitter();
+
   constructor(
-      private controller: CatalogController
   ) { }
 
   ngOnInit(): void {
   }
 
   public onOrder() {
-    this.controller.onOrder();
+    this.onOrderEmit.emit();
   }
 
   public onInfo() {
-    this.controller.onInfo();
+    this.onInfoEmit.emit();
   }
 }
