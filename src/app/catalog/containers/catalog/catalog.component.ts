@@ -1,36 +1,24 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { CatalogApi, CatalogController } from '../../services';
+import { Observable } from 'rxjs';
+import { Equipment } from '../../models/equipment';
+import { CatalogController } from '../../services';
 
 @Component({
   selector: 'lc-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CatalogController]
+  providers: [CatalogController],
 })
 export class CatalogComponent implements OnInit {
+  public catalog$ = this.controller.catalog$;
+  
+  constructor(private controller: CatalogController) {
 
-  constructor(
-    private controller: CatalogController
-  ) { }
+  }
 
   ngOnInit(): void {
-  }
-
-  get title() {
-    return this.controller.title;
-  }
-
-  get name() {
-    return this.controller.name;
-  }
-
-  get infoText() {
-    return this.controller.infoText;
-  }
-
-  get imgSrc() {
-    return this.controller.imgSrc;
+    this.controller.getCatalog();
   }
 
   public onCardInfo() {

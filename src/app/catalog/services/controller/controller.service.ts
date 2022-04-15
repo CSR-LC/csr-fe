@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { CatalogApi } from '..';
+import { Equipment } from '../../models/equipment';
+import { CatalogState, GetCatalog } from '../../store';
 
 @Injectable()
 export class ControllerService {
-
-  public title = "Каталог оборудования";
-
-  public name = 'Кошколовка';
-  public infoText = `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Aspernatur error harum in molestiae necessitatibus similique
-                      sit temporibus tenetur ullam veniam.`;
-  public imgSrc = './assets/img/test-img.jpg';
-
-
+  @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
+  
   constructor(
-    private api: CatalogApi
+    private api: CatalogApi,
+    private store: Store
   ) { }
+
+  public getCatalog() {
+    this.api.getCatalog().subscribe(catalog => {
+      this.store.dispatch(new GetCatalog(catalog));
+    });
+  }
+
 
   public onOrder() {
     this.api.order();

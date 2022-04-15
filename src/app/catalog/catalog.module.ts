@@ -9,6 +9,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 import { PreviewEquipmentCardComponent } from './components/preview-equipment-card/preview-equipment-card.component';
+import { NgxsModule } from '@ngxs/store';
+import { CatalogState } from './store';
 
 
 @NgModule({
@@ -20,6 +22,7 @@ import { PreviewEquipmentCardComponent } from './components/preview-equipment-ca
     MatButtonModule,
     MatInputModule,
     MatIconModule,
+    NgxsModule.forFeature([CatalogState])
   ],
   providers: [
     CatalogApi
