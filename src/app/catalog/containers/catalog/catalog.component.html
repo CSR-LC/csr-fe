@@ -8,13 +8,15 @@
   </form>
   
   <div class="catalog-list">
-    <lc-preview-equipment-card
-      [equipmentName]="name"
-      [equipmentInfo]="infoText"
-      [equipmentImg]="imgSrc"
+    <div *ngFor="let equipment of catalog$ | async">
+      <lc-preview-equipment-card
+      [equipmentName]="equipment.name"
+      [equipmentInfo]="equipment.info"
+      [equipmentImg]="equipment.imgSrc"
       (onInfo)="onCardInfo()"
       (onOrder)="onCardOrder()"
     >
     </lc-preview-equipment-card>
+    </div>
   </div>
 </section>
