@@ -5,20 +5,20 @@
             <h1 class="signInHeadText">Регистрация нового пользователя</h1>
         </div>
         <div class="signUpBody">
-            <form class="signUpForm" >
+            <form class="signUpForm" [formGroup]="SignUpForm" (ngSubmit)="submitForm()">
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Фамилия</label>
-                    <input class="signUpFormElemInput"  type="text" required name="login" formControlName="lastName"/>
+                    <input class="signUpFormElemInput"  type="text" required name="login" formControlName="surname"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Имя</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="Name"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Отчество (если имеется)</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="patronymic"/>
                 </div>
-                <div class="signUpFormElem">
+                <!-- <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Серия и номер документа, удостоверяющего личность</label>
                     <input class="signUpFormElemInput" type="text" required name="login" />
                 </div>
@@ -61,9 +61,9 @@
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Районы активной работы с животными  </label>
                     <input class="signUpFormElemInput" type="text" required name="login" />
-                </div>
+                </div> -->
                 <div class="signUpBtns">
-                    <button class="signUpFormBtn" type="button">Регистрация</button>
+                    <button class="signUpFormBtn" type="submit">Регистрация</button>
                     <button class="signUpFormBtn" type="button">Отмена</button>
                 </div>
             </form>

@@ -1,5 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormsModule, FormControl, FormGroup, ReactiveFormsModule, FormGroupDirective } from '@angular/forms';
+
+
+
+
 
 @Component({
   selector: 'lc-sign-up',
@@ -9,12 +13,24 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class SignUpComponent implements OnInit {
   
+  SignUpForm: FormGroup = new FormGroup({
+    surname: new FormControl('Ivanov'),
+    name: new FormControl('Ivan'),
+    patronymic: new FormControl('Ivanov'),
+  });
 
  
 
-  constructor() { }
+  submitForm() {
+    console.log(this.SignUpForm)
+  }
 
-  ngOnInit(): void {
+  constructor() { 
+  }
+    
+
+  ngOnInit() {
+    
   }
 
 }
