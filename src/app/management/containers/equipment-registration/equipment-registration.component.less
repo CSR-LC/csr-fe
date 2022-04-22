@@ -1,0 +1,40 @@
+:host {
+    display: block;
+    width: 60%;
+    padding: 16px 8px;
+}
+
+.registration {
+    &-form {
+        &--submitted .ng-invalid {
+            border: solid 1px red;
+        }
+
+        &-field {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+
+            &-required {
+                color: red;
+            }
+
+            &-input {
+                width: 30%;
+                margin-left: 8px;
+            }
+        }
+    }
+
+    &-warning {
+        padding-top: 16px;
+    }
+
+    &-controls {
+        padding-top: 24px;
+
+        &-button:not(:first-child) {
+            margin-left: 16px;
+        }
+    }
+}
