@@ -18,52 +18,45 @@
                     <label class="signUpFormElemHead">Отчество (если имеется)</label>
                     <input class="signUpFormElemInput" type="text" required name="login" formControlName="patronymic"/>
                 </div>
-                <!-- <div class="signUpFormElem">
+                <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Серия и номер документа, удостоверяющего личность</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="pasport"/>
+                    <!-- <div class="signUpFormElem" *ngIf="SignUpForm.invalid && SignUpForm" style="color: brown;">Должно быть число</div> -->
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Кем и когда выдан документ, удостоверяющий личность</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
-                </div>
-                <div class="signUpFormElem">
-                    <label class="signUpFormElemHead">Кем и когда выдан документ, удостоверяющий личность</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="pasportDate"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Контактный номер телефона</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="telNumber"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Адрес электронной почты</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="email"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead"> Статус пользователя</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="status"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead"> Название зоозащитной организации </label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="organization"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Сайт/аккаунт зоозащитной организации</label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="site"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Персональный аккаунт в социальных сетях </label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="accLink"/>
                 </div>
                 <div class="signUpFormElem">
                     <label class="signUpFormElemHead">Районы активной работы с животными  </label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
+                    <input class="signUpFormElemInput" type="text" required name="login" formControlName="location"/>
                 </div>
-                <div class="signUpFormElem">
-                    <label class="signUpFormElemHead">Районы активной работы с животными  </label>
-                    <input class="signUpFormElemInput" type="text" required name="login" />
-                </div> -->
                 <div class="signUpBtns">
-                    <button class="signUpFormBtn" type="submit">Регистрация</button>
+                    <button class="signUpFormBtn" [disabled]="SignUpForm.invalid" type="submit">Регистрация</button>
                     <button class="signUpFormBtn" type="button">Отмена</button>
                 </div>
             </form>
