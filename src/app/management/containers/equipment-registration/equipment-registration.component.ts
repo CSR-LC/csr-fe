@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { EquipmentManagement, Kind } from '../../models/management';
@@ -76,17 +76,17 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isFormSubmitted = true;
-    if (!this.equipmentRegistrationForm.errors) {
+    if (this.equipmentRegistrationForm.valid) {
+      const formValue = this.equipmentRegistrationForm.value;
       const equipment: EquipmentManagement = {
-        description: this.equipmentRegistrationForm.get('healthStatus')?.value,
-        kind: this.equipmentRegistrationForm.get('category')?.value,
-        location: -1,
-        name: '',
-        photo: '',
-        rate_day: -1,
-        rate_hour: -1,
-        sku: this.equipmentRegistrationForm.get('inventoryNumber')?.value,
-        status: -1,
+        category: formValue.category,
+        subCategory: formValue.subCategory,
+        compensationCost: formValue.compensationCost,
+        healthStatus: formValue.healthStatus,
+        inventoryNumber: formValue.inventoryNumber,
+        supplier: formValue.supplier,
+        receiptDate: formValue.receiptDate,
+        termsOfUse: formValue.termsOfUse,
       };
       this.controller.registerEquipment(equipment);
     }

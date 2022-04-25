@@ -6,13 +6,12 @@ export type Kind = {
 }
 
 export type EquipmentManagement = {
-    description: string,
-    kind: number,
-    location: number,
-    name: string,
-    photo: string,
-    rate_day: number,
-    rate_hour: number,
-    sku: string,
-    status: number,
+    category: string,
+    subCategory: string,
+    compensationCost: number,
+    healthStatus: string,
+    inventoryNumber: string,
+    supplier: string,
+    receiptDate: Date,
+    termsOfUse: string,
 }

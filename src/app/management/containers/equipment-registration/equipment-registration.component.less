@@ -6,8 +6,8 @@
 
 .registration {
     &-form {
-        &--submitted .ng-invalid {
-            border: solid 1px red;
+        &--submitted &-field-input.ng-invalid:not(.mat-form-field) {
+            border: solid 1px #ff0000;
         }
 
         &-field {
@@ -16,7 +16,7 @@
             margin-top: 16px;
 
             &-required {
-                color: red;
+                color: #ff0000;
             }
 
             &-input {
@@ -36,5 +36,11 @@
         &-button:not(:first-child) {
             margin-left: 16px;
         }
+    }
+}
+
+::ng-deep {
+    .registration-form--submitted .ng-invalid .mat-form-field-flex {
+        border: solid 1px #ff0000;
     }
 }
