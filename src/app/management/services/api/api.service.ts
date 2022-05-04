@@ -12,17 +12,11 @@ export class ApiService {
   ) { }
   
   getKinds(): Observable<Kind[]> {
-    //  return this.httpClient.get<Kind[]>("https://csr.golangforall.com/api/equipment/kinds");
-    return of([{
-      id: 1,
-      max_reservation_time: 12000000,
-      max_reservation_units: 10,
-      name: "Ловушки"
-    }]);
+     return this.httpClient.get<Kind[]>("/api/equipment/kinds");
   }
 
   registerEquipment(equipment: EquipmentManagement) {
     console.log(equipment);
-    // return this.httpClient.post<EquipmentManagement>("https://csr.golangforall.com/api/equipment/createnewequipment", equipment)
+    // return this.httpClient.post<EquipmentManagement>("/api/equipment", equipment);
   }
 }
