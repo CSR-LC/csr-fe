@@ -11,8 +11,8 @@
     <div *ngFor="let equipment of catalog$ | async">
       <lc-preview-equipment-card
       [equipmentName]="equipment.name"
-      [equipmentInfo]="equipment.info"
-      [equipmentImg]="equipment.imgSrc"
+      [equipmentInfo]="equipment.description"
+      [equipmentImg]="equipment.photo"
       (onInfo)="onCardInfo()"
       (onOrder)="onCardOrder()"
     >
