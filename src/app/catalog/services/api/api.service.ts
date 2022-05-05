@@ -19,17 +19,6 @@ export class ApiService {
  }
 
  public getCatalog(): Observable<Equipment[]> {
-   //  return this.httpClient.get<Equipment[]>("https://csr.golangforall.com/api/equipment");
-   return of([{
-      name: 'Кошколовка',
-      info: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-      Aspernatur error harum in molestiae necessitatibus similique
-      sit temporibus tenetur ullam veniam.`,
-      imgSrc: './assets/img/test-img.jpg'
-   }, {
-      name: 'Собакаловка',
-      info: '',
-      imgSrc: ''
-   }]);
+    return this.httpClient.get<Equipment[]>("/api/equipment");
  }
 }
