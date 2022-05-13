@@ -6,12 +6,23 @@ export type Kind = {
 }
 
 export type EquipmentManagement = {
+    name: string,
+    description: string,
+    nameSubstring: string,
     category: string,
     subCategory: string,
-    compensationCost: number,
-    healthStatus: string,
-    inventoryNumber: string,
+    // TODO: remove russian C in Cost
+    compensationСost: number,
+    condition: string,
+    inventoryNumber: number,
     supplier: string,
-    receiptDate: Date,
+    receiptDate: string,
     termsOfUse: string,
+    kind: number,
+    location: number,
+    maximumAmount: number,
+    maximumDays: number,
+    order: number,
+    status: number,
+    photo: string,
 }

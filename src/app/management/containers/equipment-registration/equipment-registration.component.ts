@@ -29,14 +29,17 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   }
 
   equipmentRegistrationForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    nameSubstring: new FormControl(''),
+    description: new FormControl('', Validators.required),
     category: new FormControl(-1, Validators.min(0)),
     subCategory: new FormControl(-1, Validators.min(0)),
     compensationCost: new FormControl(null, [
       Validators.required,
       Validators.max(999999999),
     ]),
-    healthStatus: new FormControl('', Validators.maxLength(999)),
-    inventoryNumber: new FormControl('', [
+    condition: new FormControl('', Validators.maxLength(999)),
+    inventoryNumber: new FormControl(null, [
       Validators.required,
       Validators.maxLength(49),
     ]),
@@ -48,6 +51,14 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     termsOfUse: new FormControl('', [
       Validators.required,
       Validators.maxLength(249),
+    ]),
+    maximumAmount: new FormControl(null, [
+      Validators.required,
+      Validators.min(1),
+    ]),
+    maximumDays: new FormControl(null, [
+      Validators.required,
+      Validators.min(1),
     ]),
   });
 
@@ -79,14 +90,24 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     if (this.equipmentRegistrationForm.valid) {
       const formValue = this.equipmentRegistrationForm.value;
       const equipment: EquipmentManagement = {
+        name: formValue.name,
         category: formValue.category,
         subCategory: formValue.subCategory,
-        compensationCost: formValue.compensationCost,
-        healthStatus: formValue.healthStatus,
+        description: formValue.description,
+        nameSubstring: formValue.nameSubstring,
+        compensationСost: formValue.compensationCost,
+        condition: formValue.condition,
         inventoryNumber: formValue.inventoryNumber,
         supplier: formValue.supplier,
         receiptDate: formValue.receiptDate,
         termsOfUse: formValue.termsOfUse,
+        maximumAmount: formValue.maximumAmount,
+        maximumDays: formValue.maximumDays,
+        kind: 1,
+        location: 1,
+        order: 1,
+        status: 1,
+        photo: '-',
       };
       this.controller.registerEquipment(equipment);
     }

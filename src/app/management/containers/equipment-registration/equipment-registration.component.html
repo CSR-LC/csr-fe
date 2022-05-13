@@ -3,6 +3,25 @@
       [ngClass]="{'registration-form--submitted': isFormSubmitted}">
   <span>* - обязательные поля</span>
   <div class="registration-form-field">
+    <label>Наименование <span class="registration-form-field-required">*</span></label>
+    <input class="registration-form-field-input" 
+           type="text" 
+           formControlName="name" />
+  </div>
+
+  <div class="registration-form-field">
+    <label>Подпись</label>
+    <input class="registration-form-field-input" 
+           type="text" 
+           formControlName="nameSubstring" />
+  </div>
+
+  <div class="registration-form-field">
+    <label>Описание <span class="registration-form-field-required">*</span></label>
+    <textarea class="registration-form-field-input" formControlName="description"></textarea>
+  </div>
+
+  <div class="registration-form-field">
     <label>Категория <span class="registration-form-field-required">*</span></label>
     <select class="registration-form-field-input"
             formControlName="category"
@@ -37,14 +56,14 @@
       <label>Состояние исправности</label>
       <input class="registration-form-field-input" 
              type="text" 
-             formControlName="healthStatus"
-             (keydown)="disableKeyboardInput($event, 'healthStatus')" />
+             formControlName="condition"
+             (keydown)="disableKeyboardInput($event, 'condition')" />
   </div>
 
   <div class="registration-form-field">
       <label>Инвентарный номер <span class="registration-form-field-required">*</span></label>
       <input class="registration-form-field-input"
-             type="text"
+             type="number"
              formControlName="inventoryNumber"
              (keydown)="disableKeyboardInput($event, 'inventoryNumber')" />
   </div>
@@ -74,6 +93,20 @@
              type="text" 
              formControlName="termsOfUse"
              (keydown)="disableKeyboardInput($event, 'termsOfUse')" />
+  </div>
+
+  <div class="registration-form-field">
+    <label>В руки, до (штук) <span class="registration-form-field-required">*</span></label>
+    <input class="registration-form-field-input" 
+           type="number" 
+           formControlName="maximumAmount"/>
+  </div>
+
+  <div class="registration-form-field">
+    <label>Срок, до (суток) <span class="registration-form-field-required">*</span></label>
+    <input class="registration-form-field-input" 
+           type="number" 
+           formControlName="maximumDays"/>
   </div>
 </form>
 <div *ngIf="isFormSubmitted && !equipmentRegistrationForm.valid"

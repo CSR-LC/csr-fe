@@ -16,7 +16,6 @@ export class ApiService {
   }
 
   registerEquipment(equipment: EquipmentManagement) {
-    console.log(equipment);
-    // return this.httpClient.post<EquipmentManagement>("/api/equipment", equipment);
+    return this.httpClient.post<EquipmentManagement>("/api/equipment", equipment);
   }
 }
