@@ -21,4 +21,8 @@ export class ApiService {
  public getCatalog(): Observable<Equipment[]> {
     return this.httpClient.get<Equipment[]>("/api/equipment");
  }
+
+  public searchEquipment(params: Partial<Equipment>): Observable<Equipment[]> {
+    return this.httpClient.post<Equipment[]>("/api/equipment/search", params);
+  }
 }

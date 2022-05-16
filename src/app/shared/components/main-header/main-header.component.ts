@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'lc-main-header',
@@ -6,12 +6,6 @@ import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./main-header.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainHeaderComponent implements OnInit {
-  @Input() pageTitle: string | undefined;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class MainHeaderComponent {
+  @Input() pageTitle!: string;
 }

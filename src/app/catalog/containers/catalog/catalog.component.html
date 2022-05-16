@@ -1,12 +1,5 @@
 <section class="catalog">
-  <form class="search-form">
-    <mat-form-field class="" appearance="fill">
-      <mat-label>Search</mat-label>
-      <input matInput placeholder="Search">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-  </form>
-  
+  <lc-catalog-search (onSearch)="onSearch($event)"></lc-catalog-search>
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">
       <lc-preview-equipment-card
