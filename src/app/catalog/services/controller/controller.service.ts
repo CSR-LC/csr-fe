@@ -28,4 +28,12 @@ export class ControllerService {
   public onInfo() {
     this.api.info();
   }
+
+  public searchEquipment(term: string): Observable<Equipment[]> {
+    const parametersEquipment:Partial<Equipment> = {
+      name_substring: term,
+    }
+
+    return  this.api.searchEquipment(parametersEquipment);
+  }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Equipment } from '../../models/equipment';
 import { CatalogController } from '../../services';
+import {MainPageHeaderService} from "../../../shared/services/main-page-header.service";
 
 @Component({
   selector: 'lc-catalog',
@@ -13,11 +12,12 @@ import { CatalogController } from '../../services';
 export class CatalogComponent implements OnInit {
   public catalog$ = this.controller.catalog$;
   
-  constructor(private controller: CatalogController) {
-
+  constructor(private controller: CatalogController, private mainPageHeaderService: MainPageHeaderService) {
   }
 
   ngOnInit(): void {
+    this.mainPageHeaderService.setPageTitle('Каталог');
+
     this.controller.getCatalog();
   }
 
@@ -27,5 +27,9 @@ export class CatalogComponent implements OnInit {
 
   public onCardOrder() {
     this.controller.onOrder();
+  }
+
+  public onSearch(term: string) {
+    this.catalog$ = this.controller.searchEquipment(term);
   }
 }

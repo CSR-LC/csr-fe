@@ -1,11 +1,19 @@
 export type Equipment = {
-    description: string;
-    kind: number;
-    location: number;
-    name: string;
-    photo: string;
-    rate_day: number;
-    rate_hour: number;
-    sku: string;
-    status: number;
+  category: string;
+  compensationСost: number;
+  condition: string;
+  description: string;
+  inventoryNumber: number;
+  id: number;
+  kind: number;
+  location: number;
+  maximumAmount: number;
+  maximumDays: number;
+  name: string;
+  name_substring: string;
+  order: number;
+  photo: string;
+  receiptDate: string;
+  status: number;
+  supplier: string;
 };

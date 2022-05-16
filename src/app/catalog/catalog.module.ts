@@ -11,10 +11,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { PreviewEquipmentCardComponent } from './components/preview-equipment-card/preview-equipment-card.component';
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
+import { CatalogSearchComponent } from './components/catalog-search/catalog-search.component';
 
 
 @NgModule({
-  declarations: [CatalogComponent, PreviewEquipmentCardComponent],
+  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent],
   imports: [
     CommonModule,
     CatalogRoutingModule,
@@ -28,4 +29,5 @@ import { CatalogState } from './store';
     CatalogApi
   ]
 })
+
 export class CatalogModule { }

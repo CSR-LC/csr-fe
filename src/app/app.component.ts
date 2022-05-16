@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {MainPageHeaderService} from "./shared/services/main-page-header.service";
 
 @Component({
   selector: 'lc-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'lc-fe';
+  title = this.mainPageHeaderService.getPageTitle();
+
+  constructor(private mainPageHeaderService: MainPageHeaderService) {}
 }
