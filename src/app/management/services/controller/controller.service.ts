@@ -6,9 +6,7 @@ import { EquipmentManagement, Kind } from '../../models/management';
 import { ApiService } from '../api/api.service';
 
 @Injectable()
-export class ControllerService implements OnDestroy {
-
-  private subscription = new Subscription();
+export class ControllerService {
 
   constructor(
     private readonly api: ApiService,
@@ -24,13 +22,9 @@ export class ControllerService implements OnDestroy {
   }
 
   registerEquipment(equipment: EquipmentManagement) {
-    this.subscription = this.api.registerEquipment(equipment).subscribe(() => {
+    this.api.registerEquipment(equipment).subscribe(() => {
       this.router.navigate(['/catalog']);
       console.log("Оборудование зарегистрировано успешно");
     });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
