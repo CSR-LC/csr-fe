@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./catalog/catalog.module').then(m => m.CatalogModule)
   },
   {
+    path: 'management',
+    loadChildren: () => import('./management/management.module').then(m => m.ManagementModule)
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   }

@@ -1,0 +1,46 @@
+:host {
+    display: block;
+    width: 60%;
+    padding: 16px 8px;
+}
+
+.registration {
+    &-form {
+        &--submitted &-field-input.ng-invalid:not(.mat-form-field) {
+            border: solid 1px #ff0000;
+        }
+
+        &-field {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+
+            &-required {
+                color: #ff0000;
+            }
+
+            &-input {
+                width: 30%;
+                margin-left: 8px;
+            }
+        }
+    }
+
+    &-warning {
+        padding-top: 16px;
+    }
+
+    &-controls {
+        padding-top: 24px;
+
+        &-button:not(:first-child) {
+            margin-left: 16px;
+        }
+    }
+}
+
+::ng-deep {
+    .registration-form--submitted .ng-invalid .mat-form-field-flex {
+        border: solid 1px #ff0000;
+    }
+}
