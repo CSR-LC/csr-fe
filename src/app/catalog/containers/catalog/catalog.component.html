@@ -3,11 +3,7 @@
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">
       <lc-preview-equipment-card
-      [equipmentName]="equipment.name"
-      [equipmentInfo]="equipment.description"
-      [equipmentImg]="equipment.photo"
-      (onInfo)="onCardInfo()"
-      (onOrder)="onCardOrder()"
+      [equipment]="equipment"
     >
     </lc-preview-equipment-card>
     </div>

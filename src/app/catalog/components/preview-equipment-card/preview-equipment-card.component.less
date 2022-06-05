@@ -1,38 +1,41 @@
+@import '../../../shared/styles/variables';
+
 :host {
   display: flex;
   height: 100%;
 }
 
 .equipment-card {
-  align-items: center;
-  border-radius: 8px;
-  border: 2px solid #000;
+  align-items: flex-start;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  padding: 20px;
   width: 100%;
-
   &__img {
-    border-radius: 8px 8px 0 0;
+    border-radius: 10px;
     display: block;
-    margin: 0;
+    min-height: 160px;
     width: 100%;
+    & .img {
+      border-radius: 10px;
+      display: block;
+      margin: 0;
+      width: 100%;
+    }
   }
   &__title {
-    font-size: 20px;
+    color: @color-title;
+    font-size: 14px;
     font-weight: bold;
+    line-height: 15px;
+    margin: 10px 5px 5px;
+    text-decoration: none;
   }
   &__info {
-    font-size: 16px;
-    line-height: 1.25;
+    color: @color-description-text;
     flex: 1 1 auto;
-  }
-  &__btns {
-    align-items: center;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    width: 100%;
+    font-size: 13px;
+    line-height: 15px;
+    margin: 0 5px 10px;
   }
 }

@@ -21,14 +21,6 @@ export class CatalogComponent implements OnInit {
     this.controller.getCatalog();
   }
 
-  public onCardInfo() {
-    this.controller.onInfo();
-  }
-
-  public onCardOrder() {
-    this.controller.onOrder();
-  }
-
   public onSearch(term: string) {
     this.catalog$ = this.controller.searchEquipment(term);
   }

@@ -5,24 +5,18 @@ import { CatalogRoutingModule } from './catalog-routing.module';
 import { CatalogApi } from './services';
 import { SharedModule } from "../shared/shared.module";
 import { CatalogComponent } from "./containers";
-import { MatButtonModule } from "@angular/material/button";
-import { MatInputModule } from "@angular/material/input";
-import { MatIconModule } from "@angular/material/icon";
-import { PreviewEquipmentCardComponent } from './components/preview-equipment-card/preview-equipment-card.component';
+import { PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent } from './components';
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
-import { CatalogSearchComponent } from './components/catalog-search/catalog-search.component';
-
+import { MaterialModule } from "../material/material.module";
 
 @NgModule({
-  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent],
+  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent],
   imports: [
     CommonModule,
     CatalogRoutingModule,
     SharedModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
+    MaterialModule,
     NgxsModule.forFeature([CatalogState])
   ],
   providers: [
