@@ -20,8 +20,8 @@ export class ControllerService {
     });
   }
 
-  public getEquipmentItemInfo(term: number): Observable<Equipment> {
-    return this.api.info(term);
+  public getEquipmentItemInfo(id: number): Observable<Equipment> {
+    return this.api.info(id);
   }
 
   public searchEquipment(term: string): Observable<Equipment[]> {
