@@ -7,6 +7,7 @@ export type Kind = {
 
 export type EquipmentManagement = {
     name: string,
+    title:string,
     description: string,
     nameSubstring: string,
     category: string,
