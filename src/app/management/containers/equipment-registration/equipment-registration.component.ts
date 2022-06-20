@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -10,10 +15,9 @@ import { ControllerService } from '../../services/controller/controller.service'
   templateUrl: './equipment-registration.component.html',
   styleUrls: ['./equipment-registration.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ControllerService]
+  providers: [ControllerService],
 })
 export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
-
   kinds$: Observable<Kind[]> = this.loadKinds();
 
   isFormSubmitted = false;
@@ -30,6 +34,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   equipmentRegistrationForm = new FormGroup({
     name: new FormControl('', Validators.required),
+    title: new FormControl('', [Validators.required, Validators.maxLength(49)]),
     nameSubstring: new FormControl(''),
     description: new FormControl('', Validators.required),
     category: new FormControl(-1, Validators.min(0)),
@@ -65,18 +70,21 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
     if (event.key === 'Backspace') return;
     const formField = this.equipmentRegistrationForm.get(formFieldName);
-    if (formField?.errors && (formField.errors['maxlength'] || formField.errors['max'])) {
+    if (
+      formField?.errors &&
+      (formField.errors['maxlength'] || formField.errors['max'])
+    ) {
       return false;
     }
     return true;
   }
 
   setSubcategoryDisabledState() {
-    const subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
+    const subCategoryControl =
+      this.equipmentRegistrationForm.get('subCategory');
     if (this.equipmentRegistrationForm.get('category')?.value === -1) {
       subCategoryControl?.disable();
-    }
-    else {
+    } else {
       subCategoryControl?.enable();
     }
   }
@@ -91,6 +99,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       const formValue = this.equipmentRegistrationForm.value;
       const equipment: EquipmentManagement = {
         name: formValue.name,
+        title:formValue.title,
         category: formValue.category,
         subCategory: formValue.subCategory,
         description: formValue.description,
