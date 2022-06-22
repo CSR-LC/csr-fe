@@ -1,1 +1,30 @@
-<h1>Hello</h1>
+<main class="sign-up">
+    <form [formGroup]="userRegistrationForm" 
+          class="sign-up-form" 
+          [ngClass]="{'sign-up-form--submitted': isFormSubmitted}">
+        <span>* - обязательные поля</span>
+        <mat-form-field appearance="fill" floatLabel="auto">
+            <mat-label>Адрес электронной почты: </mat-label>
+            <input matInput 
+                   formControlName="email"
+                   (keydown)="disableKeyboardInput($event, 'email')">
+        </mat-form-field>
+        <div *ngIf="isFormSubmitted && !userRegistrationForm.valid">
+            Необходимо заполнить обязательные поля
+        </div>
+        <div class="sign-up-controls">
+        <button 
+            type="reset"
+            class="sign-up-controls-button"
+            (click)="onCancel()"
+            [disabled]="isFormSubmitted && userRegistrationForm.valid"
+            mat-raised-button>Отмена</button>
+        <button
+            type="submit"
+            class="sign-up-controls-button"
+            (click)="onSubmit()"
+            [disabled]="isFormSubmitted && userRegistrationForm.valid"
+            mat-raised-button color="primary">Зарегистрироваться</button>
+        </div>
+    </form>
+</main>

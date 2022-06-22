@@ -1,0 +1,73 @@
+<main class="fill-profile">
+    <form [formGroup]="userInfoForm" class="fill-profile-form">
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Фамилия: </mat-label>
+            <input matInput 
+                   formControlName="surname"
+                   (keydown)="disableKeyboardInput($event, 'surname')" >
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Имя: </mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Отчество (если имеется): </mat-label>
+            <input matInput formControlName="patronymic">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Серия и номер документа, удостоверяющего личность: </mat-label>
+            <input matInput formControlName="documentNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Кем и когда выдан документ, удостоверяющий личность: </mat-label>
+            <input matInput formControlName="documentIssuingInfo">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Контактный номер телефона: </mat-label>
+            <input matInput formControlName="phoneNumber">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Адрес электронной почты: </mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Статус пользователя: </mat-label>
+            <mat-select formControlName="status"></mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Название зоозащитной организации: </mat-label>
+            <input matInput formControlName="organizationName">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Сайт/аккаунт зоозащитной организации: </mat-label>
+            <input matInput formControlName="organizationContact">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Персональный аккаунт в социальных сетях: </mat-label>
+            <input matInput formControlName="personalAccount">
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto" class="fill-profile-form-input">
+            <mat-label>Районы активной работы с животными: </mat-label>
+            <mat-select formControlName="workDistrict" multiple>
+                <mat-option *ngFor="let area of activeAreas | async" [value]="area.id">
+                    {{area.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="isFormSubmitted && !userInfoForm.valid">
+            Необходимо заполнить обязательные поля
+        </div>
+        <div class="fill-profile-form-controls">
+        <button 
+            type="reset"
+            class="fill-profile-form-controls-button"
+            (click)="onCancel()"
+            mat-raised-button>Отмена</button>
+        <button
+            type="submit"
+            class="fill-profile-form-controls-button"
+            (click)="onSubmit()"
+            mat-raised-button color="primary">Сохранить</button>
+        </div>
+    </form>
+</main>

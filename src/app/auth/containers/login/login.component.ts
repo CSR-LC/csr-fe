@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
 
   public onLogin() {
-    this.controller.onLogin();
+    this.controller.login();
   }
 
 }
