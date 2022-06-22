@@ -1,0 +1,61 @@
+@import '../../../shared/styles/variables';
+
+:host {
+  flex: 1 1 auto;
+}
+
+.equipment-item {
+  background: @color-bg-base;
+  border-radius: 30px;
+  height: 100%;
+  padding: 28px;
+  &__img {
+    border-radius: 10px;
+    display: block;
+    margin: 0;
+    max-width: 400px;
+    width: 100%;
+  }
+  &__title {
+    color: @color-title;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 28px 0;
+  }
+  &__description {
+    color: @color-description-text;
+    font-size: 16px;
+    line-height: 18px;
+    margin: 28px 0;
+  }
+}
+
+.equipment-info-list {
+  display: flex;
+  flex-flow: column nowrap;
+  &__item {
+    display: flex;
+    flex-flow: row nowrap;
+    &:not(:last-child) {
+      margin: 0 0 28px 0;
+    }
+  }
+}
+
+.info-item {
+  color: @color-description-text;
+  font-size: 13px;
+  line-height: 15px;
+  &:not(:last-child) {
+    margin-right: 28px;
+  }
+  &__title {
+    color: @color-title;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 16px;
+    margin: 0 10px 10px 0;
+  }
+}

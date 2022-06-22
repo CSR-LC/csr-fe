@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CatalogController} from "../../services";
+import {Equipment} from "../../models/equipment";
 
 @Component({
   selector: 'lc-preview-equipment-card',
@@ -9,24 +9,13 @@ import {CatalogController} from "../../services";
 })
 export class PreviewEquipmentCardComponent implements OnInit {
 
-  @Input() equipmentName: string | undefined;
-  @Input() equipmentInfo: string | undefined;
-  @Input() equipmentImg: string | undefined;
+  public defaultImage = "./assets/img/no-photo.png";
 
-  @Output('onInfo') onInfoEmit = new EventEmitter();
-  @Output('onOrder') onOrderEmit = new EventEmitter();
+  @Input() equipment!: Equipment;
 
   constructor(
   ) { }
 
   ngOnInit(): void {
-  }
-
-  public onOrder() {
-    this.onOrderEmit.emit();
-  }
-
-  public onInfo() {
-    this.onInfoEmit.emit();
   }
 }

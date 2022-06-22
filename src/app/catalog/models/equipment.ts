@@ -1,6 +1,6 @@
 export type Equipment = {
   category: string;
-  compensationСost: number;
+  compensationCost: number;
   condition: string;
   description: string;
   inventoryNumber: number;
@@ -16,4 +16,5 @@ export type Equipment = {
   receiptDate: string;
   status: number;
   supplier: string;
+  title: string;
 };
