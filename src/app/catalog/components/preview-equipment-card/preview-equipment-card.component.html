@@ -1,9 +1,9 @@
 <div class="equipment-card">
-  <img class="equipment-card__img" [src]="equipmentImg" alt="item img">
-  <h3 class="equipment-card__title">{{equipmentName}}</h3>
-  <p class="equipment-card__info">{{equipmentInfo}}</p>
-  <div class="equipment-card__btns">
-    <button (click)="onOrder()" mat-flat-button color="primary">Заказать</button>
-    <button  (click)="onInfo()" mat-flat-button color="accent">Подробнее</button>
-  </div>
+  <a class="equipment-card__img" routerLink="/catalog/{{equipment.id}}">
+    <img class="img" src="{{ equipment.photo || defaultImage}}" alt="equipment photo">
+  </a>
+  <a class="equipment-card__title" routerLink="/catalog/{{equipment.id}}">
+    {{equipment.name}}
+  </a>
+  <p class="equipment-card__info">{{equipment.description}}</p>
 </div>

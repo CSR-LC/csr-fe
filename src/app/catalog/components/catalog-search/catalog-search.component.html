@@ -1,8 +1,8 @@
 <form class="search-form">
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="outline">
     <mat-label>Поиск по каталогу</mat-label>
-    <input type="text" maxlength="100" #searchBox matInput (keydown.enter)="onSearch(searchBox.value); $event.preventDefault()" placeholder="Поиск по каталогу">
-    <button matSuffix type="button" mat-mini-fab (click)="onSearch(searchBox.value)">
+    <input matInput type="text" maxlength="100" #searchBox matInput (keydown.enter)="onSearch(searchBox.value); $event.preventDefault()" placeholder="Поиск по каталогу">
+    <button matSuffix type="button" mat-icon-button (click)="onSearch(searchBox.value)">
       <mat-icon>search</mat-icon>
     </button>
   </mat-form-field>

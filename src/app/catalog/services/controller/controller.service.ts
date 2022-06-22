@@ -20,13 +20,8 @@ export class ControllerService {
     });
   }
 
-
-  public onOrder() {
-    this.api.order();
-  }
-
-  public onInfo() {
-    this.api.info();
+  public getEquipmentItemInfo(id: number): Observable<Equipment> {
+    return this.api.info(id);
   }
 
   public searchEquipment(term: string): Observable<Equipment[]> {

@@ -1,3 +1,5 @@
+@import '../../../shared/styles/variables';
+
 :host {
   display: block;
   width: 100%;
@@ -5,16 +7,19 @@
 
 .main-header {
   align-items: center;
-  border-bottom: 1px solid #000;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  padding: 20px;
+  padding: 57px 28px 28px;
   
   &__title {
-    color: #000;
+    color: @color-title;
     flex: 1 1 auto;
-    font-size: 24px;
-    padding: 20px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
   }
 }
