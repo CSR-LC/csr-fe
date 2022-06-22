@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { ApiService } from '../../services/api/api.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EquipmentRegistrationComponent } from './equipment-registration.component';
 
 describe('EquipmentRegistrationComponent', () => {
@@ -8,9 +10,10 @@ describe('EquipmentRegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EquipmentRegistrationComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [EquipmentRegistrationComponent],
+      providers: [ApiService],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -20,6 +23,6 @@ describe('EquipmentRegistrationComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });
