@@ -13,11 +13,10 @@ export class CatalogComponent implements OnInit {
   public catalog$ = this.controller.catalog$;
   
   constructor(private controller: CatalogController, private mainPageHeaderService: MainPageHeaderService) {
+    mainPageHeaderService.setPageTitle('Каталог');
   }
 
   ngOnInit(): void {
-    this.mainPageHeaderService.setPageTitle('Каталог');
-
     this.controller.getCatalog();
   }
 

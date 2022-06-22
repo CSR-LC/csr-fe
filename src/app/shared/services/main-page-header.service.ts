@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MainPageHeaderService {
-  private mainPageTitle = new BehaviorSubject('Test');
+  private mainPageTitle = new BehaviorSubject('Лёнькин кот');
 
   getPageTitle() {
     return this.mainPageTitle.asObservable();

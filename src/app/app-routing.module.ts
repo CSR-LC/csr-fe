@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./management/management.module').then(m => m.ManagementModule)
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfile)
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   }

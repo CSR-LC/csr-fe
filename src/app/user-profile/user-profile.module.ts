@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { AuthRoutingModule } from './auth-routing.module';
-import { AuthApi } from './services';
-import {LoginComponent, SignUpComponent} from "./containers";
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { AuthRoutingModule } from './user-profile-routing.module';
+import { UserApi } from './services';
+import { FillProfileComponent } from './containers';
 import { MaterialModule } from '../material/material.module';
 
 @NgModule({
-  declarations: [LoginComponent, SignUpComponent],
+  declarations: [FillProfileComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -16,7 +16,7 @@ import { MaterialModule } from '../material/material.module';
     MaterialModule,
   ],
   providers: [
-    AuthApi
+    UserApi
   ]
 })
-export class AuthModule { }
+export class UserProfile { }
