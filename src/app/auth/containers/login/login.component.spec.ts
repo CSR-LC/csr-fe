@@ -1,4 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ApiService } from '../../services/api/api.service';
 
 import { LoginComponent } from './login.component';
 
@@ -8,9 +11,10 @@ describe('LoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule],
+      providers: [ApiService],
+      declarations: [LoginComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
