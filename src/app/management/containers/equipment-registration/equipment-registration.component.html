@@ -5,57 +5,86 @@
 >
   <span>* - обязательные поля</span>
   <div class="registration-form-field">
-    <label
-      >Наименование
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="name"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>>Наименование</mat-label>
+      <input
+        matInput
+        formControlName="name"
+      />
+    </mat-form-field>
+<!--    <label-->
+<!--      >Наименование-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="name"-->
+<!--    />-->
   </div>
   <div class="registration-form-field">
-    <label
-      >Название <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="title"
-    />
-  </div>
- 
-  <div class="registration-form-field">
-    <label>Подпись</label>
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="nameSubstring"
-    />
-  </div>
-
-  <div class="registration-form-field">
-    <label
-      >Описание <span class="registration-form-field-required">*</span></label
-    >
-    <textarea
-      class="registration-form-field-input"
-      formControlName="description"
-    ></textarea>
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Название</mat-label>
+      <input
+        matInput
+        formControlName="title"
+      >
+    </mat-form-field>
+<!--    <label-->
+<!--      >Название <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="title"-->
+<!--    />-->
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Категория <span class="registration-form-field-required">*</span></label
-    >
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Подпись</mat-label>
+      <input
+        matInput
+        formControlName="nameSubstring"
+      >
+    </mat-form-field>
+<!--    <label>Подпись</label>-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="nameSubstring"-->
+<!--    />-->
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Описание</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+
+<!--    <label-->
+<!--      >Описание <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <textarea-->
+<!--      class="registration-form-field-input"-->
+<!--      formControlName="description"-->
+<!--    ></textarea>-->
+  </div>
+
+  <div class="registration-form-field">
+    <label>
+      Категория <span class="registration-form-field-required">*</span>
+    </label>
     <select
       class="registration-form-field-input"
       formControlName="category"
       (change)="setSubcategoryDisabledState()"
     >
       <option [value]="-1" disabled selected>-</option>
-      <option *ngFor="let kind of kinds$ | async" [value]="kind.id">
+      <option *ngFor="let kind of equipmentKinds$ | async" [value]="kind.name">
         {{ kind.name }}
       </option>
     </select>
@@ -72,60 +101,128 @@
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Стоимость компенсации в случае утраты/порчи, руб.
-      <span class="registration-form-field-required">*</span></label
+    <label>
+      Животное <span class="registration-form-field-required">*</span>
+    </label>
+    <mat-select
+      multiple
+      formControlName="petKinds"
     >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="compensationCost"
-      (keydown)="disableKeyboardInput($event, 'compensationCost')"
-    />
+      <mat-option *ngFor="let kind of petKinds$ | async" [value]="kind.id">{{kind.name}}</mat-option>
+    </mat-select>
+<!--    <select-->
+<!--      multiple-->
+<!--      class="registration-form-field-input"-->
+<!--      formControlName="petKinds"-->
+<!--    >-->
+<!--      <option [value]="-1" disabled selected>-</option>-->
+<!--      <option *ngFor="let kind of petKinds$ | async" [value]="kind.id">-->
+<!--        {{ kind.name }}-->
+<!--      </option>-->
+<!--    </select>-->
   </div>
 
   <div class="registration-form-field">
-    <label>Состояние исправности</label>
-    <input
+    <label>
+      Рфзмер животного <span class="registration-form-field-required">*</span>
+    </label>
+    <select
       class="registration-form-field-input"
-      type="text"
-      formControlName="condition"
-      (keydown)="disableKeyboardInput($event, 'condition')"
-    />
+      formControlName="petSize"
+    >
+      <option [value]="-1" disabled selected>-</option>
+      <option *ngFor="let size of petSize$ | async" [value]="size.id">
+        {{ size.name }}
+      </option>
+    </select>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Инвентарный номер
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="inventoryNumber"
-      (keydown)="disableKeyboardInput($event, 'inventoryNumber')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Стоимость компенсации в случае утраты/порчи, руб.</mat-label>
+      <input
+        matInput
+        type="number"
+      >
+    </mat-form-field>
+<!--    <label-->
+<!--      >Стоимость компенсации в случае утраты/порчи, руб.-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="number"-->
+<!--      formControlName="compensationCost"-->
+<!--      (keydown)="disableKeyboardInput($event, 'compensationCost')"-->
+<!--    />-->
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Поставщик <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="supplier"
-      (keydown)="disableKeyboardInput($event, 'supplier')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Состояние исправности</mat-label>
+      <textarea
+        matInput
+        formControlName="condition"
+      ></textarea>
+    </mat-form-field>
+
+<!--    <label>Состояние исправности</label>-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="condition"-->
+<!--      (keydown)="disableKeyboardInput($event, 'condition')"-->
+<!--    />-->
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Дата поступления в фонд
-      <span class="registration-form-field-required">*</span></label
-    >
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Инвентарный номер</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="inventoryNumber"
+      >
+    </mat-form-field>
+
+<!--    <label-->
+<!--      >Инвентарный номер-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="number"-->
+<!--      formControlName="inventoryNumber"-->
+<!--      (keydown)="disableKeyboardInput($event, 'inventoryNumber')"-->
+<!--    />-->
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Поставщик</mat-label>
+      <input
+        matInput
+        formControlName="supplier"
+      >
+    </mat-form-field>
+<!--    <label-->
+<!--      >Поставщик <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="supplier"-->
+<!--      (keydown)="disableKeyboardInput($event, 'supplier')"-->
+<!--    />-->
+  </div>
+
+  <div class="registration-form-field">
+<!--    <label-->
+<!--      >Дата поступления в фонд-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
     <mat-form-field appearance="fill" class="registration-form-field-input">
-      <mat-label>Choose a date</mat-label>
+      <mat-label>Дата поступления в фонд</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="receiptDate" />
       <mat-hint>MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -134,39 +231,76 @@
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Ссылка на правила пользования
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="termsOfUse"
-      (keydown)="disableKeyboardInput($event, 'termsOfUse')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Ссылка на правила пользования</mat-label>
+      <input
+        matInput
+        formControlName="termsOfUse"
+      >
+    </mat-form-field>
+<!--    <label-->
+<!--      >Ссылка на правила пользования-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="text"-->
+<!--      formControlName="termsOfUse"-->
+<!--      (keydown)="disableKeyboardInput($event, 'termsOfUse')"-->
+<!--    />-->
   </div>
 
   <div class="registration-form-field">
-    <label
-      >В руки, до (штук)
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="maximumAmount"
-    />
+    <mat-form-field>
+      <mat-label>В руки, до (штук)</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="maximumAmount"
+      >
+    </mat-form-field>
+
+<!--    <label>-->
+<!--      В руки, до (штук)-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="number"-->
+<!--      formControlName="maximumAmount"-->
+<!--    />-->
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Срок, до (суток)
+    <mat-form-field>
+      <mat-label>Срок, до (суток)</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="maximumDays"
+      >
+    </mat-form-field>
+<!--    <label-->
+<!--      >Срок, до (суток)-->
+<!--      <span class="registration-form-field-required">*</span></label-->
+<!--    >-->
+<!--    <input-->
+<!--      class="registration-form-field-input"-->
+<!--      type="number"-->
+<!--      formControlName="maximumDays"-->
+<!--    />-->
+  </div>
+<!--  <input type="file" name="photo" (change)="addPhoto($event)"/>-->
+  <div class="registration-form-field">
+    <label>
+      Фото оборудования
       <span class="registration-form-field-required">*</span></label
     >
     <input
       class="registration-form-field-input"
-      type="number"
-      formControlName="maximumDays"
+      type="file"
+      formControlName="photoID"
+      (change)="addPhoto($event)"
     />
   </div>
 </form>
@@ -177,11 +311,11 @@
   Необходимо заполнить обязательные поля
 </div>
 <div class="registration-controls">
-  <button 
+  <button
       class="registration-controls-button"
       (click)="onCancel()"
       mat-raised-button>Отмена</button>
-  <button 
+  <button
       class="registration-controls-button"
       (click)="onSubmit()"
       mat-raised-button color="primary">Зарегистрировать</button>

@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { EquipmentManagement, Kind } from '../../models/management';
+import { Observable } from 'rxjs';
+import {BaseKind, EquipmentKind, EquipmentManagement, PetSize} from '../../models/management';
 
 import { ApiService } from '../api/api.service';
+import {UploadPhotoResponse} from "@app/management/types";
 
 @Injectable()
 export class ControllerService {
@@ -13,8 +14,16 @@ export class ControllerService {
     private readonly router: Router
   ) { }
 
-  getKinds(): Observable<Kind[]> {
-    return this.api.getKinds();
+  getEquipmentKinds(): Observable<EquipmentKind[]> {
+    return this.api.getEquipmentKinds();
+  }
+
+  getPetKinds(): Observable<BaseKind[]> {
+    return this.api.getPetKinds();
+  }
+
+  getPetSizes(): Observable<PetSize[]> {
+    return this.api.getPetSizes();
   }
 
   cancel() {
@@ -26,5 +35,11 @@ export class ControllerService {
       this.router.navigate(['/catalog']);
       console.log("Оборудование зарегистрировано успешно");
     });
+  }
+
+  uploadPhoto(file: File): Observable<UploadPhotoResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.api.uploadPhoto(formData)
   }
 }
