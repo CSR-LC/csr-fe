@@ -6,6 +6,7 @@ import {AuthController} from '../../services/index';
 import {OnSubmitStateMatcher} from '../../../shared/error-matcher/on-submit.error-matcher';
 import {NewUserInfo, SuccessSignup, UserType} from "../../models";
 import {Router} from "@angular/router";
+import {ValidationService} from "../../../shared/services/validation/validation.service";
 
 @Component({
   selector: 'lc-sign-up',
@@ -33,16 +34,14 @@ export class SignUpComponent {
       '',
       [ Validators.required, Validators.maxLength(49), Validators.minLength(6) ]
     ],
-    confirmPassword: [
-      '',
-      [ Validators.required, Validators.maxLength(49), Validators.minLength(6) ]
-    ],
+    confirmPassword: [ '' ],
   });
 
   constructor(
     private readonly controller: AuthController,
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
+    private readonly validationService: ValidationService,
   ) {}
 
   get formValue() {
@@ -50,7 +49,7 @@ export class SignUpComponent {
   }
 
   ngOnInit(): void {
-    this.userRegistrationForm.valueChanges.subscribe(res => console.log(res));
+    this.setConfirmPasswordValidation();
   }
 
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
@@ -68,6 +67,7 @@ export class SignUpComponent {
 
   onSubmit() {
     this.isFormSubmitted = true;
+    this.validationService.emitSubmit();
 
     if (
       !this.userRegistrationForm.valid
@@ -94,5 +94,20 @@ export class SignUpComponent {
       name: formValue.login,
       type: UserType.person,
     };
+  }
+
+  private setConfirmPasswordValidation(): void {
+    const control = this.userRegistrationForm.controls['confirmPassword'];
+    const compareControl = this.userRegistrationForm.controls['password'];
+
+    control?.setValidators([
+      Validators.required,
+      Validators.maxLength(49),
+      Validators.minLength(6),
+      this.validationService.compare(
+        { message: 'Значения не совпадают' },
+        compareControl
+      )
+    ])
   }
 }

@@ -12,6 +12,7 @@
         matInput
         formControlName="login"
         (keydown)="disableKeyboardInput($event, 'email')"
+        lcValidationErrors
       >
     </mat-form-field>
 
@@ -20,7 +21,9 @@
       <input
         matInput
         formControlName="email"
+        maxlength="49"
         (keydown)="disableKeyboardInput($event, 'email')"
+        lcValidationErrors
       >
     </mat-form-field>
 
@@ -30,7 +33,9 @@
         type="password"
         matInput
         formControlName="password"
+        maxlength="49"
         (keydown)="disableKeyboardInput($event, 'password')"
+        lcValidationErrors
       >
     </mat-form-field>
 
@@ -40,13 +45,11 @@
         type="password"
         matInput
         formControlName="confirmPassword"
+        maxlength="49"
         (keydown)="disableKeyboardInput($event, 'password')"
+        lcValidationErrors
       >
     </mat-form-field>
-
-    <div *ngIf="isFormSubmitted && !userRegistrationForm.valid">
-        Необходимо заполнить обязательные поля
-    </div>
 
     <button
       type="submit"

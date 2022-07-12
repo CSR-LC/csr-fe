@@ -8,15 +8,19 @@
       <mat-label>Логин </mat-label>
       <input
         matInput
+        maxlength="49"
         formControlName="login"
+        lcValidationErrors
       >
     </mat-form-field>
     <mat-form-field appearance="fill" floatLabel="auto">
       <mat-label>Пароль </mat-label>
       <input
         type="password"
+        maxlength="49"
         matInput
         formControlName="password"
+        lcValidationErrors
       >
     </mat-form-field>
 
