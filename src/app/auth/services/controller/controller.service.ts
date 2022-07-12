@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { ApiService } from "./../api/api.service";
+import { ApiService } from "../api/api.service";
+import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
 
 @Injectable()
 export class ControllerService {
@@ -16,13 +17,11 @@ export class ControllerService {
     this.router.navigate(['/auth/login']);
   }
 
-  signUp(email: string) {
-    this.api.signUp({email: email}).subscribe((user) => {
-      console.log(`Уважаемый пользователь! Благодарим за регистрацию! Данные учетной записи отправлены на адрес электронной почты ${user.email}`)
-    });
+  signUp(personalData: NewUserInfo): Observable<SignupResponse> {
+    return this.api.signUp(personalData);
   }
 
-  login() {
-    this.api.login();
+  login(credentials: LoginInformation): Observable<Tokens> {
+    return this.api.login(credentials);
   }
 }
