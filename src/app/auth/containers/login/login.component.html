@@ -1,2 +1,33 @@
-<p>login works!</p>
-<button (click)="onLogin()">Click Me</button>
+<main class="login">
+  <form
+    [formGroup]="loginForm"
+    class="login-form"
+  >
+    <span>* - обязательные поля</span>
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Логин </mat-label>
+      <input
+        matInput
+        formControlName="login"
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Пароль </mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+      >
+    </mat-form-field>
+
+    <div class="login-controls">
+      <button
+        type="submit"
+        class="sign-up-controls-button"
+        (click)="onLogin()"
+        mat-raised-button color="primary"
+      >Войти</button>
+      <a routerLink="/auth/sign-up">Зарегистрироваться</a>
+    </div>
+  </form>
+</main>

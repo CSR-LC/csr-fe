@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ApiService {
 
   constructor(
     private httpClient: HttpClient
-  ) { }
+  ) {}
 
-  public login() {
-    alert('LOGIN');
+  public login(credentials: LoginInformation): Observable<Tokens> {
+    return this.httpClient.post<Tokens>('/api/v1/login', credentials);
   }
 
-  public signUp(signUpInfo: {email: string}) {
-    // TODO: uncomment http request once BE is updated to get only email as request body
-    return of({
-      id: 1,
-      ...signUpInfo,
-    })
-    // return this.httpClient.post('/api/v1/users', signUpInfo);
+  public signUp(signUpInfo: NewUserInfo): Observable<SignupResponse> {
+    return this.httpClient.post<SignupResponse>('/api/v1/users', signUpInfo);
   }
 }
