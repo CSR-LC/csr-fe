@@ -1,7 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthController } from '../../services';
 import {FormBuilder, Validators} from "@angular/forms";
-import {LoginInformation} from "../../models";
+import {LoginInformation, Tokens} from "../../models";
+import {Store, Select} from "@ngxs/store";
+import {AuthState, Login} from "../../store";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'lc-login',
@@ -16,10 +19,17 @@ export class LoginComponent {
     password: ['', [ Validators.required ]],
   });
 
+  @Select(AuthState.isAuthenticated) auth$!: Observable<AuthState>;
+
   constructor(
     private controller: AuthController,
     private readonly formBuilder: FormBuilder,
+    private readonly store: Store,
   ) { }
+
+  ngOnInit(): void {
+    this.auth$.subscribe(res => console.log(res,'<<<'))
+  }
 
   onLogin() {
     if (!this.loginForm.valid) return;
@@ -30,7 +40,7 @@ export class LoginComponent {
       password,
     };
 
-    // TODO: unsubscribe
-    this.controller.login(credentials).subscribe(res => console.log(res));
+
+    this.store.dispatch(new Login(credentials));
   }
 }

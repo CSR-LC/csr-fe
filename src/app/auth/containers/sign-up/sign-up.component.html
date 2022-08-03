@@ -5,6 +5,16 @@
     [ngClass]="{'sign-up-form--submitted': isFormSubmitted}"
   >
     <span>* - обязательные поля</span>
+
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Логин</mat-label>
+      <input
+        matInput
+        formControlName="login"
+        (keydown)="disableKeyboardInput($event, 'email')"
+      >
+    </mat-form-field>
+
     <mat-form-field appearance="fill" floatLabel="auto">
       <mat-label>Электроная почта</mat-label>
       <input

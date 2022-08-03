@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
 import {Observable} from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiService {
 
   constructor(

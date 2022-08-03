@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from "./shared/shared.module";
+import {AuthState} from "./auth/store";
+import {AuthGuard} from "./shared/guards/auth.guard";
 
 @NgModule({
   declarations: [
@@ -16,14 +18,14 @@ import { SharedModule } from "./shared/shared.module";
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production
     }),
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ AuthGuard ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
