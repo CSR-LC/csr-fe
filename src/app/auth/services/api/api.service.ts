@@ -3,18 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
 import {Observable} from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiService {
 
   constructor(
-    private httpClient: HttpClient
+    private http: HttpClient
   ) {}
 
-  public login(credentials: LoginInformation): Observable<Tokens> {
-    return this.httpClient.post<Tokens>('/api/v1/login', credentials);
+  login(credentials: LoginInformation): Observable<Tokens> {
+    return this.http.post<Tokens>('/api/v1/login', credentials);
   }
 
-  public signUp(signUpInfo: NewUserInfo): Observable<SignupResponse> {
-    return this.httpClient.post<SignupResponse>('/api/v1/users', signUpInfo);
+  signUp(signUpInfo: NewUserInfo): Observable<SignupResponse> {
+    return this.http.post<SignupResponse>('/api/v1/users', signUpInfo);
+  }
+
+  refreshToken(refreshToken: string): Observable<Tokens> {
+    const payLoad = { refreshToken };
+    return this.http.post<Tokens>('/api//v1/refresh', payLoad);
   }
 }

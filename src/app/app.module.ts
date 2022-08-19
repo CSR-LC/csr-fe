@@ -7,7 +7,10 @@ import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from "./shared/shared.module";
+import { SharedModule } from "@shared/shared.module";
+import { AuthState } from "./auth/store";
+import { interceptors } from "@shared/interceptors/intercetors";
+import { guards } from "@shared/guards/guerds";
 
 @NgModule({
   declarations: [
@@ -16,14 +19,17 @@ import { SharedModule } from "./shared/shared.module";
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgxsModule.forRoot([], {
+    NgxsModule.forRoot([AuthState], {
       developmentMode: !environment.production
     }),
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    ...guards,
+    ...interceptors
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

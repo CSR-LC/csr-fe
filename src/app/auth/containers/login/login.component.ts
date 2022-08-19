@@ -1,7 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthController } from '../../services';
-import {FormBuilder, Validators} from "@angular/forms";
-import {LoginInformation} from "../../models";
+import { FormBuilder, Validators } from "@angular/forms";
+import { LoginInformation } from "../../models";
+import {take} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'lc-login',
@@ -18,7 +20,8 @@ export class LoginComponent {
 
   constructor(
     private controller: AuthController,
-    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly formBuilder: FormBuilder
   ) { }
 
   onLogin() {
@@ -29,8 +32,10 @@ export class LoginComponent {
       login,
       password,
     };
-
-    // TODO: unsubscribe
-    this.controller.login(credentials).subscribe(res => console.log(res));
+    this.controller.login(credentials).pipe(
+      take(1)
+    ).subscribe(res => {
+      if (res) this.router.navigate(['/'])
+    });
   }
 }
