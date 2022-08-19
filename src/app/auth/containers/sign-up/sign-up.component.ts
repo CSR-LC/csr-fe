@@ -21,6 +21,10 @@ export class SignUpComponent {
   isFormSubmitted = false;
 
   userRegistrationForm = this.formBuilder.group({
+    login: [
+      '',
+      [ Validators.maxLength(49), Validators.required ]
+    ],
     email: [
       '',
       [ Validators.maxLength(49), Validators.email, Validators.required ]
@@ -82,10 +86,12 @@ export class SignUpComponent {
 
   private getNewUserInfo(): NewUserInfo {
     // TODO: correct the value when back remove required fields
+    const formValue = this.formValue;
     return {
-      email: this.formValue.email,
-      password: this.formValue.password,
-      name: this.formValue.email,
+      login: formValue.login,
+      email: formValue.email,
+      password: formValue.password,
+      name: formValue.login,
       type: UserType.person,
     };
   }
