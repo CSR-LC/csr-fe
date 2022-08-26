@@ -1,0 +1,7 @@
+<div>
+    <mat-checkbox
+        [checked]="isCheckedValue"
+        (change)="onChange($event.checked)"
+    ></mat-checkbox>
+    <a mat-button (click)="onClick()">{{text}}</a>
+</div>

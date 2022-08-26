@@ -44,6 +44,11 @@
       >
     </mat-form-field>
 
+    <lc-consent   
+      formControlName="consent"
+      [text]="consentText"
+    ></lc-consent>
+
     <div *ngIf="isFormSubmitted && !userRegistrationForm.valid">
         Необходимо заполнить обязательные поля
     </div>

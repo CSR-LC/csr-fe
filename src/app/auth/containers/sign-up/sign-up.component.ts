@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 
@@ -18,6 +18,7 @@ import {Router} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent {
+  consentText:  string = 'Я даю согласие на обработку персональных данных';
   isFormSubmitted = false;
 
   userRegistrationForm = this.formBuilder.group({
@@ -37,12 +38,17 @@ export class SignUpComponent {
       '',
       [ Validators.required, Validators.maxLength(49), Validators.minLength(6) ]
     ],
+    consent: [
+      '',
+      [ Validators.requiredTrue ]
+    ]
   });
 
   constructor(
     private readonly controller: AuthController,
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   get formValue() {
@@ -67,21 +73,27 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-
     if (
       !this.userRegistrationForm.valid
       || this.formValue.password !== this.formValue.confirmPassword
     ) return;
 
-    const personalData: NewUserInfo = this.getNewUserInfo();
+    this.isFormSubmitted = true;
 
+    const personalData: NewUserInfo = this.getNewUserInfo();
+    
     // TODO: unsubscribe
-    this.controller.signUp(personalData).subscribe((res) => {
+    this.controller.signUp(personalData).pipe().subscribe(
+      (res) => {
+      this.isFormSubmitted = false;
       if ((res.data as SuccessSignup).login) {
         this.router.navigate(['/auth/login']);
       }
-    });
+    }, 
+    () => {
+      this.isFormSubmitted = false;
+      this.cdr.markForCheck();
+    });    
   }
 
   private getNewUserInfo(): NewUserInfo {
