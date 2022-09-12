@@ -6,6 +6,7 @@ import { AuthApi } from './services';
 import {LoginComponent, SignUpComponent} from "./containers";
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [LoginComponent, SignUpComponent],
@@ -14,6 +15,7 @@ import { MaterialModule } from '../material/material.module';
     AuthRoutingModule,
     ReactiveFormsModule,
     MaterialModule,
+    SharedModule,
   ],
   providers: [
     AuthApi
