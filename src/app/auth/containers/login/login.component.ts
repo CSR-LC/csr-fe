@@ -2,9 +2,10 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthController } from '../../services';
 import { FormBuilder, Validators } from "@angular/forms";
 import { LoginInformation } from "../../models";
-import {take} from "rxjs";
 import {Router} from "@angular/router";
+import {UntilDestroy, untilDestroyed} from "@shared/until-destroy/until-destroy";
 
+@UntilDestroy
 @Component({
   selector: 'lc-login',
   templateUrl: './login.component.html',
@@ -32,8 +33,9 @@ export class LoginComponent {
       login,
       password,
     };
+
     this.controller.login(credentials).pipe(
-      take(1)
+      untilDestroyed(this)
     ).subscribe(res => {
       if (res) this.router.navigate(['/'])
     });
