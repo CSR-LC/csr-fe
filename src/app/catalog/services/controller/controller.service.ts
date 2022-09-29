@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
@@ -29,6 +29,14 @@ export class ControllerService {
       name_substring: term,
     }
 
-    return  this.api.searchEquipment(parametersEquipment);
+    return  this.api.searchEquipment(parametersEquipment).pipe(
+      map(res => res.items)
+    );
+  }
+
+  getPhotoById(photoId: string): Observable<Blob> {
+    return this.api.getPhotoById(photoId).pipe(
+      map(res => new Blob([res], { type: "image/jpeg" }))
+    );
   }
 }

@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CatalogController} from "../../services";
 import {ActivatedRoute} from "@angular/router";
 import {first, Observable} from "rxjs";
 import {Equipment} from "../../models/equipment";
-import {MainPageHeaderService} from "../../../shared/services/main-page-header.service";
+import {MainPageHeaderService} from "@shared/services/main-page-header.service";
 
 @Component({
   selector: 'lc-equipment-item',
@@ -12,21 +12,40 @@ import {MainPageHeaderService} from "../../../shared/services/main-page-header.s
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CatalogController],
 })
-
-
 export class EquipmentItemComponent implements OnInit {
-  public catalog$ = this.controller.catalog$;
+  @ViewChild('image') image?: ElementRef;
 
-  public defaultImage = "./assets/img/no-photo.png";
-
+  catalog$ = this.controller.catalog$;
   equipment!: Observable<Equipment>;
 
-  constructor(private controller: CatalogController, private route: ActivatedRoute, private mainPageHeaderService: MainPageHeaderService) { }
+  readonly defaultImage = "./assets/img/no-photo.png";
+
+  constructor(
+    private controller: CatalogController,
+    private route: ActivatedRoute,
+    private mainPageHeaderService: MainPageHeaderService
+  ) {}
 
   ngOnInit(): void {
     this.controller.getCatalog();
     this.equipment = this.controller.getEquipmentItemInfo(this.route.snapshot.params['id']);
 
-    this.equipment.pipe(first()).subscribe(item => this.mainPageHeaderService.setPageTitle(item.name));
+    this.equipment.pipe(
+      first()
+    ).subscribe(item => {
+      this.mainPageHeaderService.setPageTitle(item.name)
+      this.setPhoto(item)
+    });
+  }
+
+  private setPhoto(equipment: Equipment): void {
+    this.controller.getPhotoById(equipment.photoID).subscribe(res => {
+      const urlCreator = window.URL || window.webkitURL;
+      const url = urlCreator.createObjectURL(res);
+
+      if (!this.image) return;
+
+      this.image.nativeElement.src = url;
+    })
   }
 }

@@ -1,5 +1,5 @@
 <section class="equipment-item" >
-  <img class="equipment-item__img" src="{{ (equipment | async)?.photo || defaultImage}}" alt="equipment photo">
+  <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo">
   <h2 class="equipment-item__title">{{(equipment | async)?.title}}</h2>
   <div class="equipment-item__description">
     {{(equipment | async)?.description}}
