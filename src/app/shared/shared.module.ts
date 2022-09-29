@@ -4,20 +4,25 @@ import { MainHeaderComponent } from "./components/main-header/main-header.compon
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { RouterModule } from "@angular/router";
 import { ValidationErrorsDirective } from './directives/validation-errors/validation-errors.directive';
+import {BlockUiComponent} from "@shared/components/block-ui/block-ui.component";
+import {MaterialModule} from "@app/material/material.module";
 
 @NgModule({
   declarations: [
+    BlockUiComponent,
     MainHeaderComponent,
     PageNotFoundComponent,
     ValidationErrorsDirective,
   ],
   exports: [
     MainHeaderComponent,
-    ValidationErrorsDirective
+    ValidationErrorsDirective,
+    BlockUiComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    MaterialModule,
   ]
 })
 export class SharedModule {}

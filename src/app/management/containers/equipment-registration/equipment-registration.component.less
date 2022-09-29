@@ -1,46 +1,52 @@
 :host {
     display: block;
-    width: 60%;
-    padding: 16px 8px;
 }
 
 .registration {
     &-form {
-        &--submitted &-field-input.ng-invalid:not(.mat-form-field) {
-            border: solid 1px #ff0000;
-        }
+      display: flex;
+      flex-direction: column;
+      max-width: 844px;
+      margin: auto;
+      padding-right: 25px;
+      padding-left: 25px;
 
         &-field {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
+          margin-top: 16px;
 
-            &-required {
-                color: #ff0000;
-            }
-
-            &-input {
-                width: 30%;
-                margin-left: 8px;
-            }
+          mat-form-field {
+            width: 100%;
+          }
         }
+
+      .photo-field {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+
+        .registration-controls-button {
+          width: 200px;
+          height: 40px;
+          margin-right: 20px;
+        }
+      }
     }
 
-    &-warning {
-        padding-top: 16px;
-    }
+    &-actions {
+      display: flex;
+      padding-top: 24px;
+      padding-bottom: 24px;
 
-    &-controls {
-        padding-top: 24px;
+      button {
+        flex-basis: calc(50% - 8px);
 
-        &-button:not(:first-child) {
-            margin-left: 16px;
+        &:first-of-type {
+          margin-right: 16px;
         }
+      }
     }
 }
 
-::ng-deep {
-    .registration-form--submitted .ng-invalid .mat-form-field-flex {
-        border: solid 1px #ff0000;
-    }
+.hidden {
+  display: none;
 }

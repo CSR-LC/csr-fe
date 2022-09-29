@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Dictionary, ErrorOptions } from "../../types";
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {Observable, Subject} from "rxjs";
 
 @Injectable({
@@ -39,6 +39,19 @@ export class ValidationService {
         ? null
         : { compare: { message: errorOptions.message }}
     }
+  }
+
+  validateForm(form: FormGroup): void {
+    form.updateValueAndValidity();
+
+    Object.values(form.controls).forEach(control => {
+      control.updateValueAndValidity();
+      if ((control as FormGroup).controls) {
+        this.validateForm(control as FormGroup);
+      }
+    });
+
+    this.emitSubmit();
   }
 
   private areValuesComparable(value: any, compareValue: any): boolean {

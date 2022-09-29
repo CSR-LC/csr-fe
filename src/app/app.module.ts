@@ -11,6 +11,7 @@ import { SharedModule } from "@shared/shared.module";
 import { AuthState } from "./auth/store";
 import { interceptors } from "@shared/interceptors/intercetors";
 import { guards } from "@shared/guards/guerds";
+import {MaterialModule} from "@app/material/material.module";
 
 @NgModule({
   declarations: [
