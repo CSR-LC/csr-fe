@@ -4,185 +4,263 @@
   [ngClass]="{ 'registration-form--submitted': isFormSubmitted }"
 >
   <span>* - обязательные поля</span>
+
   <div class="registration-form-field">
-    <label
-      >Наименование
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="name"
-    />
-  </div>
-  <div class="registration-form-field">
-    <label
-      >Название <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="title"
-    />
-  </div>
- 
-  <div class="registration-form-field">
-    <label>Подпись</label>
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="nameSubstring"
-    />
+    <mat-form-field>
+      <mat-label>Категория</mat-label>
+      <mat-select
+        formControlName="category"
+        lcValidationErrors
+        (valueChange)="setSubcategoryDisabledState($event)"
+      >
+        <mat-option
+          *ngFor="let option of equipmentCategories$ | async"
+          [value]="option.id"
+        >{{ option.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Описание <span class="registration-form-field-required">*</span></label
-    >
-    <textarea
-      class="registration-form-field-input"
-      formControlName="description"
-    ></textarea>
+    <mat-form-field>
+      <mat-label>Подкатегория</mat-label>
+      <mat-select
+        formControlName="subCategory"
+        lcValidationErrors
+      >
+        <mat-option
+          *ngFor="let option of subcategoryOptions"
+          [value]="option.id"
+        >{{ option.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Категория <span class="registration-form-field-required">*</span></label
-    >
-    <select
-      class="registration-form-field-input"
-      formControlName="category"
-      (change)="setSubcategoryDisabledState()"
-    >
-      <option [value]="-1" disabled selected>-</option>
-      <option *ngFor="let kind of kinds$ | async" [value]="kind.id">
-        {{ kind.name }}
-      </option>
-    </select>
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Стоимость компенсации в случае утраты/порчи, руб.</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="compensationСost"
+        lcValidationErrors
+      >
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Подкатегория
-      <span class="registration-form-field-required">*</span></label
-    >
-    <select class="registration-form-field-input" formControlName="subCategory">
-      <option [value]="0" selected>-</option>
-    </select>
+    <mat-form-field appearance="fill">
+      <mat-label>Технические Ососбенности</mat-label>
+      <mat-select
+        formControlName="technicalIssues"
+        (valueChange)="setConditionState($event)"
+        lcValidationErrors
+      >
+        <mat-option
+          *ngFor="let item of technicalIssuesOptions"
+          [value]="item"
+        >{{ item }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Стоимость компенсации в случае утраты/порчи, руб.
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="compensationCost"
-      (keydown)="disableKeyboardInput($event, 'compensationCost')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Состояние исправности</mat-label>
+      <textarea
+        matInput
+        [maxlength]="1000"
+        formControlName="condition"
+      ></textarea>
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label>Состояние исправности</label>
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="condition"
-      (keydown)="disableKeyboardInput($event, 'condition')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Инвентарный номер</mat-label>
+      <input
+        matInput
+        type="number"
+        [max]="maxInventoryNumberValue"
+        formControlName="inventoryNumber"
+        lcValidationErrors
+      >
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Инвентарный номер
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="inventoryNumber"
-      (keydown)="disableKeyboardInput($event, 'inventoryNumber')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Поставщик</mat-label>
+      <input
+        matInput
+        formControlName="supplier"
+        lcValidationErrors
+      >
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Поставщик <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="supplier"
-      (keydown)="disableKeyboardInput($event, 'supplier')"
-    />
-  </div>
-
-  <div class="registration-form-field">
-    <label
-      >Дата поступления в фонд
-      <span class="registration-form-field-required">*</span></label
-    >
     <mat-form-field appearance="fill" class="registration-form-field-input">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="receiptDate" />
-      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-label>Дата поступления в фонд</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="receiptDate"
+        lcValidationErrors
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Ссылка на правила пользования
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="text"
-      formControlName="termsOfUse"
-      (keydown)="disableKeyboardInput($event, 'termsOfUse')"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Ссылка на правила пользования</mat-label>
+      <input
+        matInput
+        type="url"
+        formControlName="termsOfUse"
+        lcValidationErrors
+      >
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >В руки, до (штук)
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="maximumAmount"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Наименование</mat-label>
+      <input
+        matInput
+        formControlName="name"
+        lcValidationErrors
+      />
+    </mat-form-field>
   </div>
 
   <div class="registration-form-field">
-    <label
-      >Срок, до (суток)
-      <span class="registration-form-field-required">*</span></label
-    >
-    <input
-      class="registration-form-field-input"
-      type="number"
-      formControlName="maximumDays"
-    />
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Название</mat-label>
+      <input
+        matInput
+        formControlName="title"
+        lcValidationErrors
+      >
+    </mat-form-field>
   </div>
-</form>
-<div
-  *ngIf="isFormSubmitted && !equipmentRegistrationForm.valid"
-  class="registration-warning"
->
-  Необходимо заполнить обязательные поля
-</div>
-<div class="registration-controls">
-  <button 
+
+  <div class="registration-form-field">
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Подпись</mat-label>
+      <input
+        matInput
+        formControlName="nameSubstring"
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Описание</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        lcValidationErrors
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field appearance="fill" floatLabel="auto">
+      <mat-label>Животное</mat-label>
+      <mat-select
+        formControlName="petKinds"
+        multiple
+        lcValidationErrors
+      >
+        <mat-option
+          *ngFor="let kind of petKinds$ | async"
+          [value]="kind.id"
+        >
+          {{ kind.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field appearance="fill">
+      <mat-label>Рaзмер животного</mat-label>
+      <mat-select
+        formControlName="petSize"
+        lcValidationErrors
+      >
+        <mat-option
+          *ngFor="let size of petSize$ | async"
+          [value]="size.id"
+        >{{ size.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field>
+      <mat-label>В руки, до (штук)</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="maximumAmount"
+        lcValidationErrors
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field">
+    <mat-form-field>
+      <mat-label>Срок, до (суток)</mat-label>
+      <input
+        matInput
+        type="number"
+        formControlName="maximumDays"
+        lcValidationErrors
+      >
+    </mat-form-field>
+  </div>
+
+  <div class="registration-form-field photo-field">
+    <button
+      type="button"
       class="registration-controls-button"
-      (click)="onCancel()"
-      mat-raised-button>Отмена</button>
-  <button 
+      (click)="choosePhoto()"
+      mat-raised-button>прикрепить фото</button>
+    <mat-form-field>
+      <mat-label>Фото оборудования</mat-label>
+      <input
+        matInput
+        formControlName="photoID"
+        type="text"
+        (keydown)="preventDefault($event)"
+      />
+    </mat-form-field>
+
+  </div>
+
+  <div class="hidden" >
+    <input
+      #photoInput
+      class="registration-form-field-input"
+      type="file"
+
+      (change)="addPhoto($event)"
+    />
+  </div>
+
+  <div class="registration-actions">
+    <button
       class="registration-controls-button"
       (click)="onSubmit()"
       mat-raised-button color="primary">Зарегистрировать</button>
-</div>
+    <button
+      class="registration-controls-button"
+      (click)="onCancel()"
+      mat-raised-button>Отмена</button>
+  </div>
+</form>

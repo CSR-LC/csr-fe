@@ -8,15 +8,15 @@ import { CatalogState, GetCatalog } from '../../store';
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
-  
+
   constructor(
     private api: CatalogApi,
     private store: Store
   ) { }
 
   public getCatalog() {
-    this.api.getCatalog().subscribe(catalog => {
-      this.store.dispatch(new GetCatalog(catalog));
+    this.api.getCatalog().subscribe(res => {
+      this.store.dispatch(new GetCatalog(res.items));
     });
   }
 

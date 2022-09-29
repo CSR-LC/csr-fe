@@ -1,14 +1,20 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import {map, Observable, switchMap} from 'rxjs';
 
-import { EquipmentManagement, Kind } from '../../models/management';
-import { ControllerService } from '../../services/controller/controller.service';
+import {BaseKind, EquipmentKind, PetSize} from '../../models/management';
+import {ControllerService} from '../../services/controller/controller.service';
+import {EquipmentSubCategory} from "@app/management/types/equipment-sub-category";
+import {TechnicalIssues} from "@app/management/types";
+import { NewEquipment } from "@app/management/models/equipment";
 
 @Component({
   selector: 'lc-equipment',
@@ -18,54 +24,70 @@ import { ControllerService } from '../../services/controller/controller.service'
   providers: [ControllerService],
 })
 export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
-  kinds$: Observable<Kind[]> = this.loadKinds();
+  @ViewChild('photoInput') photoInput?: ElementRef;
+
+  equipmentCategories$: Observable<EquipmentKind[]> = this.getEquipmentCategories();
+  petKinds$: Observable<BaseKind[]> = this.getPetKinds();
+  petSize$: Observable<PetSize[]> = this.getPetSize();
+  subcategoryOptions: EquipmentSubCategory[] = [];
+  technicalIssuesOptions = [ TechnicalIssues.is, TechnicalIssues.not ];
+
+  readonly maxInventoryNumberValue = 99999999999999999999999999999999999999999999999999;
+  private file?: File;
+  private subCategoryControl?: AbstractControl | null;
+  private conditionControl?: AbstractControl | null;
+  private photoIdControl?: AbstractControl | null;
+  private readonly maxCompensationCost = 9999999999;
 
   isFormSubmitted = false;
 
-  constructor(private readonly controller: ControllerService) {}
+  equipmentRegistrationForm = this.formBuilder.group({
+    category: [ null, Validators.required ],
+    subCategory: [
+      { value: null, disabled: true },
+      Validators.min(0)
+    ],
+    // keep russian C in Cost it demands back
+    compensationСost: [ null, [ Validators.required, Validators.max(this.maxCompensationCost) ]],
+    condition: [
+      { value: null, disabled: true },
+      Validators.maxLength(1000)
+    ],
+    description: [ '', Validators.required ],
+    inventoryNumber: [ null, [ Validators.required, Validators.max(this.maxInventoryNumberValue) ]],
+    // temporary is not used. there is no control on ui
+    location: [1, Validators.required],
+    maximumAmount:  [ null, [ Validators.required, Validators.min(1) ]],
+    maximumDays: [ null, [ Validators.required, Validators.min(1) ]],
+    name: [ '', Validators.required ],
+    nameSubstring: [ '' ],
+    petKinds: [ [null], Validators.required ],
+    petSize: [ null, Validators.required ],
+    photoID: [ null, Validators.required ],
+    receiptDate: [ '', Validators.required ],
+    // unnecessary  remove when the changed
+    status: [ 1, Validators.required],  // specify int
+    supplier: [ '', [ Validators.required, Validators.maxLength(50) ]],
+    technicalIssues: [null, [ Validators.required ]],
+    termsOfUse: [ '', [ Validators.required, Validators.maxLength(249) ]],
+    title: [ '', [ Validators.required, Validators.maxLength(49) ]],
+  });
+
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    private readonly formBuilder: FormBuilder,
+    private readonly controller: ControllerService,
+  ) {}
 
   ngOnInit() {
-    this.setSubcategoryDisabledState();
+    this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
+    this.conditionControl = this.equipmentRegistrationForm.get('condition');
+    this.photoIdControl = this.equipmentRegistrationForm.get('photoID');
   }
 
   ngOnDestroy() {
     this.equipmentRegistrationForm.reset();
   }
-
-  equipmentRegistrationForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    title: new FormControl('', [Validators.required, Validators.maxLength(49)]),
-    nameSubstring: new FormControl(''),
-    description: new FormControl('', Validators.required),
-    category: new FormControl(-1, Validators.min(0)),
-    subCategory: new FormControl(-1, Validators.min(0)),
-    compensationCost: new FormControl(null, [
-      Validators.required,
-      Validators.max(999999999),
-    ]),
-    condition: new FormControl('', Validators.maxLength(999)),
-    inventoryNumber: new FormControl(null, [
-      Validators.required,
-      Validators.maxLength(49),
-    ]),
-    supplier: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(49),
-    ]),
-    receiptDate: new FormControl('', Validators.required),
-    termsOfUse: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(249),
-    ]),
-    maximumAmount: new FormControl(null, [
-      Validators.required,
-      Validators.min(1),
-    ]),
-    maximumDays: new FormControl(null, [
-      Validators.required,
-      Validators.min(1),
-    ]),
-  });
 
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
     if (event.key === 'Backspace') return;
@@ -79,14 +101,21 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  setSubcategoryDisabledState() {
-    const subCategoryControl =
-      this.equipmentRegistrationForm.get('subCategory');
-    if (this.equipmentRegistrationForm.get('category')?.value === -1) {
-      subCategoryControl?.disable();
-    } else {
-      subCategoryControl?.enable();
-    }
+  setSubcategoryDisabledState(categoryId: number) {
+    this.controller.getEquipmentSubCategoryById(categoryId).subscribe((subcategories) => {
+      this.setControlState(
+        !!subcategories.length,
+        this.subCategoryControl
+      );
+      this.subcategoryOptions = subcategories;
+    });
+  }
+
+  setConditionState(value: string) {
+    this.setControlState(
+      value === TechnicalIssues.is,
+      this.conditionControl
+    );
   }
 
   onCancel() {
@@ -94,35 +123,64 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    if (this.equipmentRegistrationForm.valid) {
-      const formValue = this.equipmentRegistrationForm.value;
-      const equipment: EquipmentManagement = {
-        name: formValue.name,
-        title:formValue.title,
-        category: formValue.category,
-        subCategory: formValue.subCategory,
-        description: formValue.description,
-        nameSubstring: formValue.nameSubstring,
-        compensationСost: formValue.compensationCost,
-        condition: formValue.condition,
-        inventoryNumber: formValue.inventoryNumber,
-        supplier: formValue.supplier,
-        receiptDate: formValue.receiptDate,
-        termsOfUse: formValue.termsOfUse,
-        maximumAmount: formValue.maximumAmount,
-        maximumDays: formValue.maximumDays,
-        kind: 1,
-        location: 1,
-        order: 1,
-        status: 1,
-        photo: '-',
-      };
-      this.controller.registerEquipment(equipment);
+    this.controller.validateForm(this.equipmentRegistrationForm);
+
+    if (!this.file || !this.equipmentRegistrationForm.valid) return;
+
+    this.controller.manageBlockUi(true);
+
+    this.controller.uploadPhoto(this.file).pipe(
+      switchMap((res) => {
+        const equipment = new NewEquipment(this.equipmentRegistrationForm.value);
+        equipment.photoID = res.data.id;
+        return this.controller.registerEquipment(equipment);
+      })
+    ).subscribe(() => {
+      this.controller.manageBlockUi(false);
+    })
+  }
+
+  choosePhoto() {
+    this.photoInput?.nativeElement.click();
+  }
+
+  addPhoto(event: Event) {
+    let target = event.target as HTMLInputElement;
+    this.file = target?.files?.length
+      ? target.files[0]
+      : undefined;
+
+    if (this.file) {
+      this.photoIdControl?.setValue(this.file.name);
     }
   }
 
-  private loadKinds(): Observable<Kind[]> {
-    return this.controller.getKinds();
+  preventDefault(event: Event) {
+    event.preventDefault();
+  }
+
+  private setControlState(enabled: boolean, control?: AbstractControl | null) {
+    if (enabled) {
+      control?.enable();
+    } else {
+      control?.disable();
+      control?.setValue(null);
+    }
+
+    control?.setValidators(enabled ? Validators.required : null);
+  }
+
+  private getEquipmentCategories(): Observable<EquipmentKind[]> {
+    return this.controller.getEquipmentCategories().pipe(
+      map(res => res.items)
+    );
+  }
+
+  private getPetKinds(): Observable<BaseKind[]> {
+    return this.controller.getPetKinds();
+  }
+
+  private getPetSize(): Observable<PetSize[]> {
+    return this.controller.getPetSizes();
   }
 }
