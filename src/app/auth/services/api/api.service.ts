@@ -22,6 +22,11 @@ export class ApiService {
 
   refreshToken(refreshToken: string): Observable<Tokens> {
     const payLoad = { refreshToken };
-    return this.http.post<Tokens>('/api//v1/refresh', payLoad);
+    return this.http.post<Tokens>('/api/v1/refresh', payLoad);
+  }
+
+  resetPassword(email: string) {
+    const data = {data: { email }}
+    return this.http.post<any>('/api/password_reset/', data);
   }
 }

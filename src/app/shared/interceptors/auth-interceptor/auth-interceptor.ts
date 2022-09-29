@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((response: HttpErrorResponse) => {
         const err = response.error;
         // TODO: fix when back stop sending 500 response
-        if (err.code === 401 || err?.code === 500 && err.message === 'Token is expired' ) {
+        if (err?.code === 401 || err?.code === 500 && err?.message === 'Token is expired' ) {
           return this.handle401Error(request, next);
         }
         return throwError(response);
@@ -48,7 +48,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.refreshToken$.pipe(
       filter(token => token),
       take(1),
-      switchMap((token) => {
+      switchMap(() => {
         return next.handle(this.addTokenHeader(request))
       })
     );

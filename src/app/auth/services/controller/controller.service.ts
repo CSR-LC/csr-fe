@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {filter, Observable, switchMap} from 'rxjs';
 
 import { ApiService } from "../api/api.service";
-import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
+import {LoginInformation, NewUserInfo, SignupResponse} from "../../models";
 import {Store} from "@ngxs/store";
 import {AuthService} from "@shared/services/auth-service/auth-service.service";
 import {AuthStore} from "@app/auth/store";
+import {MatDialog} from "@angular/material/dialog";
+import {PasswordResetComponent} from "@app/auth/components/password-reset/password-reset.component";
 
 @Injectable()
 export class ControllerService {
@@ -16,6 +18,7 @@ export class ControllerService {
     private readonly router: Router,
     private readonly store: Store,
     private readonly authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   cancel() {
@@ -28,5 +31,20 @@ export class ControllerService {
 
   login(credentials: LoginInformation): Observable<AuthStore> {
     return this.authService.login(credentials);
+  }
+
+  openResetPasswordModal(email?: string){
+    this.dialog
+      .open(PasswordResetComponent, {
+        width: '100vw',
+        maxWidth: '100vw',
+        data: email,
+        position: { bottom:'0' },
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(email => this.api.resetPassword(email))
+      );
   }
 }

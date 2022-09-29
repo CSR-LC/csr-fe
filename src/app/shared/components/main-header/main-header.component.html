@@ -1,9 +1,8 @@
-<section class="main-header">
+<section class="main-header" *ngIf="isAuthenticated$ | async">
   <a routerLink="/catalog">
     <img src="assets/img/icons/icon-home.svg" alt="home page"/>
   </a>
   <h1 class="main-header__title">{{pageTitle}}</h1>
-  <a routerLink="/management/equipment-registration">equipment registration</a>
   <a routerLink="/auth/login">
     <img src="assets/img/icons/icon-avatar.svg" alt="avatar"/>
   </a>
