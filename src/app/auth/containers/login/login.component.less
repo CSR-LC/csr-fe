@@ -1,3 +1,5 @@
+@import 'src/app/shared/styles/variables';
+
 :host {
   display: block;
 }
@@ -8,11 +10,14 @@
   justify-content: center;
   align-items: center;
   padding: 30px 20px;
+  max-width: 844px;
+  margin: auto;
 
   &-form {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    width: 100%;
   }
 
   &-controls {
@@ -25,4 +30,20 @@
       margin-left: 16px;
     }
   }
+}
+
+.input-password {
+  position: relative;
+}
+
+.reset {
+  cursor: pointer;
+  font-weight: 400;
+  color: @color-title-lite;
+  position:  absolute;
+  bottom: 50%;
+  left: 82%;
+  background-color: inherit;
+  border: 0;
+  text-decoration: underline;
 }

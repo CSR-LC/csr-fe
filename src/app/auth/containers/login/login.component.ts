@@ -44,4 +44,8 @@ export class LoginComponent {
       if (res) this.router.navigate(['/'])
     });
   }
+
+  onOpenResetPassword() {
+    this.controller.openResetPasswordModal(this.loginForm.value.login);
+  }
 }

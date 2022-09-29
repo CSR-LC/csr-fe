@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/shared/styles/variables';
 
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
 }
@@ -8,12 +12,20 @@ html, body {
 body {
   background: @color-bg-main;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-style: normal;
   margin: 0;
 }
 
-* {
-  box-sizing: border-box;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+  color: @color-title;
 }
+
+p {
+  font-weight: 400;
+  color: @color-title-lite;
+}
+
 
 .mat-form-field-subscript-wrapper {
   transform: translateY(0%)

@@ -15,6 +15,7 @@ export class AuthService {
     '/api/v1/login',
     '/api/v1/refresh',
     '/api/v1/users',
+    '/api/password_reset/'
   ]
 
   constructor(
@@ -51,7 +52,7 @@ export class AuthService {
 
   getTokens(): Tokens | null {
     let tokens = this.store.selectSnapshot(AuthState.tokens);
-    return tokens ? tokens : this.getTokensFromLocalStorage();;
+    return tokens ? tokens : this.getTokensFromLocalStorage();
   }
 
   getTokensFromLocalStorage(): Tokens | null {
