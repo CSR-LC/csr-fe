@@ -1,6 +1,6 @@
 <div class="equipment-card">
   <a class="equipment-card__img" routerLink="/catalog/{{equipment.id}}">
-    <img class="img" src="{{ equipment.photo || defaultImage}}" alt="equipment photo">
+    <img #image [src]="defaultImage" class="img"  alt="equipment photo">
   </a>
   <a class="equipment-card__title" routerLink="/catalog/{{equipment.id}}">
     {{equipment.name}}
