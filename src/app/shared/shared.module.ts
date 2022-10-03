@@ -6,15 +6,18 @@ import { RouterModule } from "@angular/router";
 import { ValidationErrorsDirective } from './directives/validation-errors/validation-errors.directive';
 import {BlockUiComponent} from "@shared/components/block-ui/block-ui.component";
 import {MaterialModule} from "@app/material/material.module";
+import {HideTextDirective} from "@shared/directives/hide-text/hide-text.directive";
 
 @NgModule({
   declarations: [
     BlockUiComponent,
+    HideTextDirective,
     MainHeaderComponent,
     PageNotFoundComponent,
     ValidationErrorsDirective,
   ],
   exports: [
+    HideTextDirective,
     MainHeaderComponent,
     ValidationErrorsDirective,
     BlockUiComponent
