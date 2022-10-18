@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import {map, Observable, switchMap} from 'rxjs';
+import {map, Observable, of, switchMap} from 'rxjs';
 
 import {BaseKind, EquipmentKind, PetSize} from '../../models/management';
 import {ControllerService} from '../../services/controller/controller.service';
@@ -47,8 +47,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       { value: null, disabled: true },
       Validators.min(0)
     ],
-    // keep russian C in Cost it demands back
-    compensationСost: [ null, [ Validators.required, Validators.max(this.maxCompensationCost) ]],
+    compensationCost: [ null, [ Validators.required, Validators.max(this.maxCompensationCost) ]],
     condition: [
       { value: null, disabled: true },
       Validators.maxLength(1000)
@@ -102,7 +101,9 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   }
 
   setSubcategoryDisabledState(categoryId: number) {
-    this.controller.getEquipmentSubCategoryById(categoryId).subscribe((subcategories) => {
+    this.controller.getEquipmentSubCategoryById(
+      categoryId
+    ).subscribe((subcategories) => {
       this.setControlState(
         !!subcategories.length,
         this.subCategoryControl
@@ -137,7 +138,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       })
     ).subscribe(() => {
       this.controller.manageBlockUi(false);
-    })
+    });
   }
 
   choosePhoto() {

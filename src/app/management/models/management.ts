@@ -17,7 +17,7 @@ export interface PetSize extends BaseKind {
 export type EquipmentOptions = {
   category: number;
   subCategory: number | null;
-  compensationСost: number;
+  compensationCost: number;
   condition: string | null;
   description: string;
   inventoryNumber: number;

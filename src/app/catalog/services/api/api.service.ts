@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
@@ -16,7 +16,12 @@ export class ApiService {
  }
 
  getCatalog(): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.get<BaseItemsResponse<Equipment>>("/api/equipment");
+    // TODO: remove prams, when pagination is ready
+    const params = new HttpParams().set('limit', 1000);
+    return this.httpClient.get<BaseItemsResponse<Equipment>>(
+      "/api/equipment",
+      { params }
+    );
  }
 
   searchEquipment(params: Partial<Equipment>): Observable<BaseItemsResponse<Equipment>> {

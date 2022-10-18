@@ -45,6 +45,6 @@ export class ControllerService {
       .pipe(
         filter(Boolean),
         switchMap(email => this.api.resetPassword(email))
-      );
+      ).subscribe();
   }
 }

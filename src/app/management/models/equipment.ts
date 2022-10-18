@@ -5,7 +5,7 @@ import  { EquipmentOptions } from "@app/management/models/management";
 export class NewEquipment {
   category: number;
   subCategory?: number;
-  compensationСost: number;
+  compensationCost: number;
   condition?: string;
   description: string;
   inventoryNumber: number;
@@ -26,7 +26,7 @@ export class NewEquipment {
 
   constructor(equipment: EquipmentOptions) {
     this.category = equipment.category;
-    this.compensationСost = equipment.compensationСost;
+    this.compensationCost = equipment.compensationCost;
     this.description = equipment.description;
     this.inventoryNumber = equipment.inventoryNumber;
     this.location = equipment.location;
@@ -57,11 +57,11 @@ export class NewEquipment {
   }
 
   private getDate(date: Date): string {
-    let day = this.addZero(date.getDate());
+    const day = this.addZero(date.getDate());
     const month = this.addZero(date.getMonth() + 1);
-    let year = date.getFullYear();
+    const year = date.getFullYear();
 
-    return  `${day}.${month}.${year}`
+    return `${day}.${month}.${year}`
   }
 
   private addZero(num: number): string {

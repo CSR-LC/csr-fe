@@ -26,7 +26,7 @@ export class ApiService {
   }
 
   resetPassword(email: string) {
-    const data = {data: { email }}
+    const data = {data: { login: email }}
     return this.http.post<any>('/api/password_reset/', data);
   }
 }
