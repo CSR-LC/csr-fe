@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CatalogController} from "../../services";
 import {ActivatedRoute} from "@angular/router";
 import {first, Observable} from "rxjs";
@@ -16,25 +16,27 @@ export class EquipmentItemComponent implements OnInit {
   @ViewChild('image') image?: ElementRef;
 
   catalog$ = this.controller.catalog$;
-  equipment!: Observable<Equipment>;
+  equipment?: Equipment;
 
   readonly defaultImage = "./assets/img/no-photo.png";
 
   constructor(
-    private controller: CatalogController,
-    private route: ActivatedRoute,
-    private mainPageHeaderService: MainPageHeaderService
+    private readonly controller: CatalogController,
+    private readonly route: ActivatedRoute,
+    private readonly cdr: ChangeDetectorRef,
+    private readonly mainPageHeaderService: MainPageHeaderService
   ) {}
 
   ngOnInit(): void {
     this.controller.getCatalog();
-    this.equipment = this.controller.getEquipmentItemInfo(this.route.snapshot.params['id']);
 
-    this.equipment.pipe(
-      first()
+    this.controller.getEquipmentItemInfo(
+      this.route.snapshot.params['id']
     ).subscribe(item => {
-      this.mainPageHeaderService.setPageTitle(item.name)
-      this.setPhoto(item)
+      this.mainPageHeaderService.setPageTitle(item.name);
+      this.equipment = item;
+      this.setPhoto(item);
+      this.cdr.markForCheck();
     });
   }
 

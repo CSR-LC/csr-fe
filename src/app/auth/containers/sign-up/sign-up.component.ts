@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
-import {AuthController} from '../../services/index';
-import {OnSubmitStateMatcher} from '../../../shared/error-matcher/on-submit.error-matcher';
-import {NewUserInfo, SuccessSignup, UserType} from "../../models";
-import {Router} from "@angular/router";
-import {ValidationService} from "../../../shared/services/validation/validation.service";
+import { AuthController } from '../../services/index';
+import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
+import { NewUserInfo, UserType } from "../../models";
+import { Router } from "@angular/router";
+import { ValidationService } from "@shared/services/validation/validation.service";
+import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
+import { switchMap, take } from "rxjs";
 
 @Component({
   selector: 'lc-sign-up',
@@ -19,13 +21,7 @@ import {ValidationService} from "../../../shared/services/validation/validation.
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent {
-  isFormSubmitted = false;
-
   userRegistrationForm = this.formBuilder.group({
-    login: [
-      '',
-      [ Validators.maxLength(49), Validators.required ]
-    ],
     email: [
       '',
       [ Validators.maxLength(49), Validators.email, Validators.required ]
@@ -42,6 +38,7 @@ export class SignUpComponent {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly validationService: ValidationService,
+    private readonly blockUiService: BlockUiService,
   ) {}
 
   get formValue() {
@@ -66,7 +63,6 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
     this.validationService.emitSubmit();
 
     if (
@@ -74,24 +70,35 @@ export class SignUpComponent {
       || this.formValue.password !== this.formValue.confirmPassword
     ) return;
 
+    this.blockUiService.block();
     const personalData: NewUserInfo = this.getNewUserInfo();
 
-    // TODO: unsubscribe
-    this.controller.signUp(personalData).subscribe((res) => {
-      if ((res.data as SuccessSignup).login) {
-        this.router.navigate(['/auth/login']);
+    this.controller.signUp(personalData).pipe(
+      switchMap(res => {
+        return this.controller.login({
+          login: this.formValue.email,
+          password: this.formValue.password,
+        });
+      }),
+      take(1)
+    ).subscribe((res) => {
+      this.router.navigate(['/']);
+      this.blockUiService.unBlock();
+    },
+      () => {
+        this.blockUiService.unBlock();
       }
-    });
+    );
   }
 
   private getNewUserInfo(): NewUserInfo {
     // TODO: correct the value when back remove required fields
     const formValue = this.formValue;
     return {
-      login: formValue.login,
+      login: formValue.email,
       email: formValue.email,
       password: formValue.password,
-      name: formValue.login,
+      name: formValue.email,
       type: UserType.person,
     };
   }

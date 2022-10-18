@@ -1,8 +1,8 @@
 <section class="equipment-item" >
   <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo">
-  <h2 class="equipment-item__title">{{(equipment | async)?.title}}</h2>
+  <h2 class="equipment-item__title">{{ equipment?.title }}</h2>
   <div class="equipment-item__description">
-    {{(equipment | async)?.description}}
+    {{ equipment?.description }}
   </div>
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
@@ -16,7 +16,7 @@
           matTooltipPosition="right">
           <mat-icon>help_outline</mat-icon>
         </button>
-        <div>До {{(equipment | async)?.maximumDays}} суток</div>
+        <div>До {{ equipment?.maximumDays}} суток</div>
       </div>
       <div class="info-item">
         <h3 class="info-item__title">В руки</h3>
@@ -28,7 +28,7 @@
           matTooltipPosition="right">
           <mat-icon>help_outline</mat-icon>
         </button>
-        <div>До {{(equipment | async)?.maximumAmount}} шт.</div>
+        <div>До {{ equipment?.maximumAmount}} шт.</div>
       </div>
       <div  class="info-item">
         <h3 class="info-item__title">Компенсация</h3>
@@ -40,13 +40,13 @@
           matTooltipPosition="right">
           <mat-icon>help_outline</mat-icon>
         </button>
-        <div>{{(equipment | async)?.compensationCost}} &#8381;</div>
+        <div>{{ equipment?.compensationCost}} &#8381;</div>
       </div>
     </div>
     <div class="equipment-info-list__item">
       <div class="info-item">
         <h3 class="info-item__title">Состояние</h3>
-        <div>{{(equipment | async)?.condition}}</div>
+        <div>{{ equipment?.condition}}</div>
       </div>
     </div>
   </div>

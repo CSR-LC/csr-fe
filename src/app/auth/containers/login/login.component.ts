@@ -4,7 +4,8 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { LoginInformation } from "../../models";
 import { Router } from "@angular/router";
 import { ValidationService } from "@shared/services/validation/validation.service";
-import {UntilDestroy, untilDestroyed} from "@shared/until-destroy/until-destroy";
+import { UntilDestroy, untilDestroyed } from "@shared/until-destroy/until-destroy";
+import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
 
 @UntilDestroy
 @Component({
@@ -25,12 +26,15 @@ export class LoginComponent {
     private readonly router: Router,
     private readonly formBuilder: FormBuilder,
     private readonly validationService: ValidationService,
-  ) { }
+    private readonly blockUiService: BlockUiService,
+  ) {}
 
   onLogin() {
     this.validationService.emitSubmit();
 
     if (!this.loginForm.valid) return;
+
+    this.blockUiService.block();
 
     const { login, password } = this.loginForm.value;
     const credentials: LoginInformation = {
@@ -41,11 +45,20 @@ export class LoginComponent {
     this.controller.login(credentials).pipe(
       untilDestroyed(this)
     ).subscribe(res => {
-      if (res) this.router.navigate(['/'])
-    });
+      if (res) {
+        this.router.navigate(['/']);
+      }
+      this.blockUiService.unBlock();
+    },
+      () => {
+        this.blockUiService.unBlock();
+      }
+    );
   }
 
-  onOpenResetPassword() {
+  onOpenResetPassword(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
     this.controller.openResetPasswordModal(this.loginForm.value.login);
   }
 }

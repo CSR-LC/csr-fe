@@ -2,22 +2,9 @@
   <form
     [formGroup]="userRegistrationForm"
     class="sign-up-form"
-    [ngClass]="{'sign-up-form--submitted': isFormSubmitted}"
   >
-    <span>* - обязательные поля</span>
-
     <mat-form-field appearance="fill" floatLabel="auto">
-      <mat-label>Логин</mat-label>
-      <input
-        matInput
-        formControlName="login"
-        (keydown)="disableKeyboardInput($event, 'email')"
-        lcValidationErrors
-      >
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" floatLabel="auto">
-      <mat-label>Электроная почта</mat-label>
+      <mat-label>Эл. почта</mat-label>
       <input
         matInput
         formControlName="email"
@@ -28,7 +15,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" floatLabel="auto">
-      <mat-label>Пароль </mat-label>
+      <mat-label>Пароль</mat-label>
       <input
         type="password"
         matInput
@@ -41,7 +28,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" floatLabel="auto">
-      <mat-label>Подтвердите пароль </mat-label>
+      <mat-label>Пароль еще раз</mat-label>
       <input
         type="password"
         matInput
@@ -57,10 +44,9 @@
       type="submit"
       class="sign-up-controls-button"
       (click)="onSubmit()"
-      [disabled]="isFormSubmitted && userRegistrationForm.valid"
       mat-raised-button color="primary"
     >
-      Зарегистрироваться
+      Продолжить
     </button>
   </form>
 </main>
