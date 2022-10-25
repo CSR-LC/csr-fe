@@ -3,7 +3,7 @@
     [formGroup]="loginForm"
     class="login-form"
   >
-    <mat-form-field appearance="fill" floatLabel="auto">
+    <mat-form-field floatLabel="auto">
       <mat-label>Эл. почта </mat-label>
       <input
         matInput
@@ -13,7 +13,7 @@
       >
 
     </mat-form-field>
-    <mat-form-field appearance="fill" floatLabel="auto">
+    <mat-form-field floatLabel="auto">
       <mat-label>Пароль</mat-label>
       <input
         class="input-password"
@@ -34,7 +34,6 @@
         (click)="onLogin()"
         mat-raised-button color="primary"
       >Продолжить</button>
-      <a routerLink="/auth/sign-up">Зарегистрироваться</a>
     </div>
   </form>
 </main>

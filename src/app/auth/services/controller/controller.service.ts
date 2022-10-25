@@ -22,7 +22,7 @@ export class ControllerService {
   ) { }
 
   cancel() {
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/auth']);
   }
 
   signUp(personalData: NewUserInfo): Observable<SignupResponse> {

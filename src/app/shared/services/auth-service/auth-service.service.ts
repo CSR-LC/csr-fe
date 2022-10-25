@@ -75,6 +75,6 @@ export class AuthService {
   }
 
   navigateToLogin() {
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/auth']);
   }
 }

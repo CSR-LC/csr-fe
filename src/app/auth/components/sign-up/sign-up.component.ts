@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-import { AuthController } from '../../services/index';
+import { AuthController } from '../../services';
 import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
 import { NewUserInfo, UserType } from "../../models";
 import { Router } from "@angular/router";
@@ -58,10 +58,6 @@ export class SignUpComponent {
     return true;
   }
 
-  onCancel() {
-    this.controller.cancel();
-  }
-
   onSubmit() {
     this.validationService.emitSubmit();
 
@@ -74,14 +70,14 @@ export class SignUpComponent {
     const personalData: NewUserInfo = this.getNewUserInfo();
 
     this.controller.signUp(personalData).pipe(
-      switchMap(res => {
+      switchMap(() => {
         return this.controller.login({
           login: this.formValue.email,
           password: this.formValue.password,
         });
       }),
       take(1)
-    ).subscribe((res) => {
+    ).subscribe(() => {
       this.router.navigate(['/']);
       this.blockUiService.unBlock();
     },
