@@ -20,6 +20,6 @@ export class AuthGuard implements CanActivate {
 
     const tokens = this.authService.getTokens();
 
-    return !!tokens || this.router.parseUrl("/auth/login");
+    return !!tokens || this.router.parseUrl("/auth");
   }
 }
