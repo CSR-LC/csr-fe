@@ -11,7 +11,7 @@ import {Equipment} from "../../models/equipment";
 @Component({
   selector: 'lc-preview-equipment-card',
   templateUrl: './preview-equipment-card.component.html',
-  styleUrls: ['./preview-equipment-card.component.less'],
+  styleUrls: ['./preview-equipment-card.component.scss'],
   providers: [ CatalogController ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

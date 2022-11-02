@@ -5,7 +5,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 @Component({
   selector: 'lc-password-reset',
   templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.less'],
+  styleUrls: ['./password-reset.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordResetComponent {

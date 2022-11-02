@@ -11,7 +11,7 @@ import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
 @Component({
   selector: 'lc-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.less'],
+  styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AuthController]
 })
@@ -20,6 +20,8 @@ export class LoginComponent {
     login: ['', [ Validators.required ]],
     password: ['', [ Validators.required ]],
   });
+
+  readonly formName = 'login_form';
 
   constructor(
     private readonly controller: AuthController,
@@ -30,7 +32,7 @@ export class LoginComponent {
   ) {}
 
   onLogin() {
-    this.validationService.emitSubmit();
+    this.validationService.emitSubmit(this.formName);
 
     if (!this.loginForm.valid) return;
 

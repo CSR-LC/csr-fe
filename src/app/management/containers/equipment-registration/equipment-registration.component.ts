@@ -19,7 +19,7 @@ import { NewEquipment } from "@app/management/models/equipment";
 @Component({
   selector: 'lc-equipment',
   templateUrl: './equipment-registration.component.html',
-  styleUrls: ['./equipment-registration.component.less'],
+  styleUrls: ['./equipment-registration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ControllerService],
 })

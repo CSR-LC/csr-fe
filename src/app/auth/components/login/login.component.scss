@@ -1,4 +1,4 @@
-@import '../../../shared/styles/variables';
+@import "/src/app/shared/styles/variables";
 
 :host {
   display: block;
@@ -42,7 +42,7 @@
 .reset {
   cursor: pointer;
   font-weight: 400;
-  color: @color-title-lite;
+  color: $color-title-lite;
   position:  absolute;
   bottom: 15px;
   right: 30px;

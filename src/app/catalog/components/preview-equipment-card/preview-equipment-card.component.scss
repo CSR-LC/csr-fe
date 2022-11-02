@@ -1,4 +1,4 @@
-@import '../../../shared/styles/variables';
+@import "/src/app/shared/styles/variables";
 
 :host {
   display: flex;
@@ -24,7 +24,7 @@
     }
   }
   &__title {
-    color: @color-title;
+    color: $color-title;
     font-size: 14px;
     font-weight: bold;
     line-height: 15px;
@@ -32,7 +32,7 @@
     text-decoration: none;
   }
   &__info {
-    color: @color-description-text;
+    color: $color-description-text;
     flex: 1 1 auto;
     font-size: 13px;
     line-height: 15px;

@@ -9,7 +9,7 @@
         matInput
         maxlength="49"
         formControlName="login"
-        lcValidationErrors
+        [lcValidationErrors]="formName"
       >
 
     </mat-form-field>
@@ -21,7 +21,7 @@
         maxlength="49"
         matInput
         formControlName="password"
-        lcValidationErrors
+        [lcValidationErrors]="formName"
         lcHideText
       >
       <button class="reset" (click)="onOpenResetPassword($event)">восстановить</button>

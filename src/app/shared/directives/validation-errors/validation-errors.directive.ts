@@ -1,4 +1,4 @@
-import {Directive, ElementRef, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2} from '@angular/core';
 import {AbstractControl, NgControl, ValidationErrors} from "@angular/forms";
 import {ValidationService} from "../../services/validation/validation.service";
 import {merge, Subject, takeUntil} from "rxjs";
@@ -9,6 +9,8 @@ import {UntilDestroy, untilDestroyed} from "@shared/until-destroy/until-destroy"
   selector: '[lcValidationErrors]'
 })
 export class ValidationErrorsDirective implements OnInit, OnDestroy{
+  @Input() lcValidationErrors?: string;
+
   private errorsElement?: Element;
   private readonly destroy$ = new Subject();
 
@@ -20,12 +22,17 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy{
   ) {}
 
   ngOnInit(): void {
-    merge(
-      this.control.statusChanges,
-      this.validationService.getSubmitObservable()
-    ).pipe(
+    this.validationService.getSubmitObservable().pipe(
       untilDestroyed(this)
-    ).subscribe(() => {
+    ).subscribe((formName) => {
+      this.removeErrors();
+      if (!this.lcValidationErrors) this.createErrors()
+      if (formName && this.lcValidationErrors && formName as string === this.lcValidationErrors) this.createErrors()
+    });
+
+    this.control.statusChanges.pipe(
+      untilDestroyed(this)
+    ).subscribe((res) => {
       this.removeErrors();
       if (this.control.errors) this.createErrors();
     });
