@@ -7,7 +7,7 @@ import {Observable, Subject} from "rxjs";
   providedIn: 'root'
 })
 export class ValidationService {
-  private readonly submit$ = new Subject();
+  private readonly submit$ = new Subject<string | undefined>();
 
   private readonly errorMessages: Dictionary<string> = {
     required: 'Обязательное поле',
@@ -16,12 +16,12 @@ export class ValidationService {
     email: 'Значение должно быть типа: example@mail.com',
   }
 
-  getSubmitObservable(): Observable<unknown> {
-    return this.submit$ as Observable<unknown>
+  getSubmitObservable(): Observable<string | undefined> {
+    return this.submit$ as Observable<string | undefined>
   }
 
-  emitSubmit(): void {
-    this.submit$.next(undefined);
+  emitSubmit(formName?: string): void {
+    this.submit$.next(formName);
   }
 
   getErrorTextByKey(key: string): string | undefined {

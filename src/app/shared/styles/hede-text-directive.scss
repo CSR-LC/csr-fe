@@ -1,4 +1,4 @@
-@import './variables';
+@import 'variables.scss';
 
 .hide-text-icon {
   position: absolute;
@@ -7,7 +7,7 @@
   height: 13px;
   width: 16px;
   cursor: pointer;
-  background-color: @color-eye-icon;
+  background-color: $color-eye-icon;
   background-position: center;
   background-repeat: no-repeat;
 }

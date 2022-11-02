@@ -7,7 +7,7 @@ import {BlockUi} from "@shared/constants";
 @Component({
   selector: 'lc-block-ui',
   templateUrl: './block-ui.component.html',
-  styleUrls: ['./block-ui.component.less']
+  styleUrls: ['./block-ui.component.scss']
 })
 export class BlockUiComponent implements OnInit {
   blocked = false;

@@ -10,7 +10,7 @@
         formControlName="email"
         maxlength="49"
         (keydown)="disableKeyboardInput($event, 'email')"
-        lcValidationErrors
+        [lcValidationErrors]="formName"
       >
     </mat-form-field>
 
@@ -22,7 +22,7 @@
         formControlName="password"
         maxlength="49"
         (keydown)="disableKeyboardInput($event, 'password')"
-        lcValidationErrors
+        [lcValidationErrors]="formName"
         lcHideText
       >
     </mat-form-field>
@@ -35,7 +35,7 @@
         formControlName="confirmPassword"
         maxlength="49"
         (keydown)="disableKeyboardInput($event, 'password')"
-        lcValidationErrors
+        [lcValidationErrors]="formName"
         lcHideText
       >
     </mat-form-field>

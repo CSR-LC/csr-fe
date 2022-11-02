@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'lc-main-header',
   templateUrl: './main-header.component.html',
-  styleUrls: ['./main-header.component.less'],
+  styleUrls: ['./main-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainHeaderComponent {

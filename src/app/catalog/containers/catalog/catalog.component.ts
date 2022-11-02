@@ -5,7 +5,7 @@ import {MainPageHeaderService} from "@shared/services/main-page-header.service";
 @Component({
   selector: 'lc-catalog',
   templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.less'],
+  styleUrls: ['./catalog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ CatalogController ],
 })

@@ -13,7 +13,7 @@ import { switchMap, take } from "rxjs";
 @Component({
   selector: 'lc-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.less'],
+  styleUrls: ['./sign-up.component.scss'],
   providers: [
     AuthController,
     { provide: ErrorStateMatcher, useClass: OnSubmitStateMatcher },
@@ -32,6 +32,8 @@ export class SignUpComponent {
     ],
     confirmPassword: [ '' ],
   });
+
+  readonly formName = 'user_registration_form';
 
   constructor(
     private readonly controller: AuthController,
@@ -59,7 +61,7 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    this.validationService.emitSubmit();
+    this.validationService.emitSubmit(this.formName);
 
     if (
       !this.userRegistrationForm.valid

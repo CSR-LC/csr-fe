@@ -1,4 +1,4 @@
-@import '../../../shared/styles/variables';
+@import "/src/app/shared/styles/variables";
 
 :host {
   display: block;
@@ -13,7 +13,7 @@
   padding: 15px 28px 28px;
 
   &__title {
-    color: @color-title;
+    color: $color-title;
     flex: 1 1 auto;
     font-size: 18px;
     font-weight: bold;

@@ -12,7 +12,7 @@ html, body {
 
 body {
   position: relative;
-  background: @color-bg-main;
+  background: $color-bg-main;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-style: normal;
   margin: 0;
@@ -20,12 +20,12 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 900;
-  color: @color-title;
+  color: $color-title;
 }
 
 p {
   font-weight: 400;
-  color: @color-title-lite;
+  color: $color-title-lite;
 }
 
 .mat-form-field-subscript-wrapper {

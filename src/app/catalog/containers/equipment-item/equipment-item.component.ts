@@ -8,7 +8,7 @@ import {MainPageHeaderService} from "@shared/services/main-page-header.service";
 @Component({
   selector: 'lc-equipment-item',
   templateUrl: './equipment-item.component.html',
-  styleUrls: ['./equipment-item.component.less'],
+  styleUrls: ['./equipment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CatalogController],
 })

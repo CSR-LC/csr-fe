@@ -1,11 +1,11 @@
-@import '../../../shared/styles/variables';
+@import '../../../shared/styles/variables.scss';
 
 :host {
   flex: 1 1 auto;
 }
 
 .equipment-item {
-  background: @color-bg-base;
+  background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
   padding: 28px;
@@ -17,14 +17,14 @@
     width: 100%;
   }
   &__title {
-    color: @color-title;
+    color: $color-title;
     font-size: 18px;
     font-weight: bold;
     line-height: 20px;
     margin: 28px 0;
   }
   &__description {
-    color: @color-description-text;
+    color: $color-description-text;
     font-size: 16px;
     line-height: 18px;
     margin: 28px 0;
@@ -44,14 +44,14 @@
 }
 
 .info-item {
-  color: @color-description-text;
+  color: $color-description-text;
   font-size: 13px;
   line-height: 15px;
   &:not(:last-child) {
     margin-right: 28px;
   }
   &__title {
-    color: @color-title;
+    color: $color-title;
     display: inline-block;
     font-size: 15px;
     font-weight: bold;
