@@ -1,0 +1,65 @@
+@use '@angular/material' as mat;
+
+$lc-primary-palette: (
+  50: #F2F7F9,
+  100: #EAF0F1,
+  200: #CFDBE6,
+  300: #A5C4D5,
+  400: #87AFBC,
+  500: #4D8F9E,
+  600: #005F75,
+  700: #2C5667,
+  800: #2C5667,
+  900: #16323E,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(white, 0.87),
+    600: rgba(white, 0.87),
+    700: rgba(white, 0.87),
+    800: rgba(white, 0.87),
+    900: rgba(white, 0.87),
+  )
+);
+
+$lc-warn-palette: (
+  50: #FFEDEA,
+  100: #FFDAD6,
+  200: #FFB4AB,
+  300: #FF897D,
+  400: #FF5449,
+  500: #DE3730,
+  600: #BA1A1A,
+  700: #93000A,
+  800: #690005,
+  900: #410002,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(white, 0.87),
+    700: rgba(white, 0.87),
+    800: rgba(white, 0.87),
+    900: rgba(white, 0.87),
+  )
+);
+
+$lc-primary: mat.define-palette($lc-primary-palette, 600);
+$lc-warn: mat.define-palette($lc-warn-palette, 500);
+
+$lc-theme: mat.define-light-theme((
+  color: (
+    primary: $lc-primary,
+    accent: $lc-primary,
+    warn: $lc-warn
+  )
+));
+
+@include mat.core-theme($lc-theme);
+@include mat.all-component-themes($lc-theme);
