@@ -62,12 +62,11 @@ export class AuthService {
 
   checkTokens() {
     if (this.store.selectSnapshot(AuthState.tokens)) return;
+
     const tokens = this.getTokensFromLocalStorage();
     if (tokens) {
       this.saveTokens(tokens);
-      return;
     }
-    this.navigateToLogin();
   }
 
   saveTokens(tokens: Tokens): Observable<any> {
