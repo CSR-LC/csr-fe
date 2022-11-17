@@ -14,9 +14,8 @@ jobs:
         run: |
           sudo apt update -y
           sudo apt install nodejs
-          sudo npm install -g npm@9.1.2
-#          sudo ng update
           sudo npm update
+          sudo npm install -g npm@9.1.2
           sudo npm install -g @angular/cli
           sudo ng build
 
