@@ -16,3 +16,4 @@ jobs:
           folder: build # The folder the action should deploy
           repository-name: CSR-LC/csr-lc.github.io
           branch: main
+          ssh-key: ${{ secrets.DEPLOY_PAGES_KEY }}
