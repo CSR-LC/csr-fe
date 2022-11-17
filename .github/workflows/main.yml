@@ -20,8 +20,13 @@ jobs:
           sudo ng build
 
 
-
-        # Specify runner + deployment step
+      - name: deploy
+        permissions:
+          pages: write      # to deploy to Pages
+          id-token: write
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
