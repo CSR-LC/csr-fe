@@ -19,10 +19,8 @@ jobs:
           sudo npm install -g @angular/cli
           sudo ng build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist/lc-fe # The folder the action should deploy
-          repository-name: CSR-LC/csr-lc.github.io
-          branch: main
-          ssh-key: ${{ secrets.DEPLOY_PAGES_KEY }}
+      - runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v1
