@@ -19,8 +19,8 @@ jobs:
           sudo npm install -g @angular/cli
           sudo ng build
 
-      - runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
         steps:
-            - name: Deploy to GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v1
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v1
