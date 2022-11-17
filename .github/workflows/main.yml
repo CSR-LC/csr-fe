@@ -31,7 +31,7 @@ jobs:
 
         # Specify runner + deployment step
       - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v1
+        id: deployment
+        uses: actions/deploy-pages@v1
 
 
