@@ -1,10 +1,15 @@
 name: Build and Deploy
 on: [push]
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -21,13 +26,7 @@ jobs:
 
 
       - name: deploy
-        permissions:
-          pages: write      # to deploy to Pages
-          id-token: write
-        environment:
-          name: github-pages
-          url: ${{ steps.deployment.outputs.page_url }}
         id: deployment
-        uses: actions/deploy-pages@v1
+
 
 
