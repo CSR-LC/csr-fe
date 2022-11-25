@@ -27,6 +27,13 @@
       <button class="reset" (click)="onOpenResetPassword($event)">восстановить</button>
     </mat-form-field>
 
+    <mat-slide-toggle
+      [checked]="beOnline"
+      (change)="onChangeBeOnline($event.checked)"
+    >
+      Запомнить меня
+    </mat-slide-toggle>
+
     <div class="login-controls">
       <button
         type="submit"

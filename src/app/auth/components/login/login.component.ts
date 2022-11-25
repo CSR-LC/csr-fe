@@ -22,6 +22,7 @@ export class LoginComponent {
   });
 
   readonly formName = 'login_form';
+  readonly beOnline = this.controller.beOnline;
 
   constructor(
     private readonly controller: AuthController,
@@ -64,5 +65,9 @@ export class LoginComponent {
     event.stopPropagation();
     event.preventDefault();
     this.controller.openResetPasswordModal(this.loginForm.value.login);
+  }
+
+  onChangeBeOnline(checked: boolean) {
+    this.controller.setBeOnline(checked);
   }
 }

@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter, Observable, switchMap } from 'rxjs';
 
-import { ApiService } from '../api/api.service';
-import { LoginInformation, NewUserInfo, SignupResponse } from '../../models';
-import { Store } from '@ngxs/store';
-import { AuthService } from '@shared/services/auth-service/auth-service.service';
-import { AuthStore } from '@app/auth/store';
-import { MatDialog } from '@angular/material/dialog';
-import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
+import { ApiService } from "../api/api.service";
+import {LoginInformation, NewUserInfo, SignupResponse} from "../../models";
+import {Store} from "@ngxs/store";
+import {AuthService} from "@shared/services/auth-service/auth-service.service";
+import {AuthState, AuthStore, BeOnlineAction} from "@app/auth/store";
+import {MatDialog} from "@angular/material/dialog";
+import {PasswordResetComponent} from "@app/auth/components/password-reset/password-reset.component";
 
 @Injectable()
 export class ControllerService {
+  beOnline = this.store.selectSnapshot(AuthState.getBeOnline);
+
   constructor(
     private readonly api: ApiService,
     private readonly router: Router,
@@ -46,5 +48,9 @@ export class ControllerService {
         switchMap((email) => this.api.resetPassword(email)),
       )
       .subscribe();
+  }
+
+  setBeOnline(beOnline: boolean) {
+    this.store.dispatch(new BeOnlineAction(beOnline))
   }
 }
