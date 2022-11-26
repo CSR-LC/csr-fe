@@ -8,7 +8,8 @@ import { NewUserInfo, UserType } from "../../models";
 import { Router } from "@angular/router";
 import { ValidationService } from "@shared/services/validation/validation.service";
 import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
-import { switchMap, take } from "rxjs";
+import {catchError, finalize, switchMap, take, throwError} from "rxjs";
+import {NotificationsService} from "@shared/services/notifications/notifications.service";
 
 @Component({
   selector: 'lc-sign-up',
@@ -41,6 +42,7 @@ export class SignUpComponent {
     private readonly router: Router,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   get formValue() {
@@ -78,15 +80,13 @@ export class SignUpComponent {
           password: this.formValue.password,
         });
       }),
+      catchError(error => {
+        this.notificationsService.openError(error.message)
+        return throwError(error)
+      }),
+      finalize(() => this.blockUiService.unBlock()),
       take(1)
-    ).subscribe(() => {
-      this.router.navigate(['/']);
-      this.blockUiService.unBlock();
-    },
-      () => {
-        this.blockUiService.unBlock();
-      }
-    );
+    ).subscribe(() => this.router.navigate(['/']));
   }
 
   private getNewUserInfo(): NewUserInfo {

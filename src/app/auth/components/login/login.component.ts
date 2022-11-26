@@ -6,6 +6,9 @@ import { Router } from "@angular/router";
 import { ValidationService } from "@shared/services/validation/validation.service";
 import { UntilDestroy, untilDestroyed } from "@shared/until-destroy/until-destroy";
 import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
+import {NotificationsService} from "@shared/services/notifications/notifications.service";
+import {catchError, finalize, throwError} from "rxjs";
+import {NotificationMessages} from "@shared/constants/notification.enum";
 
 @UntilDestroy
 @Component({
@@ -29,6 +32,7 @@ export class LoginComponent {
     private readonly formBuilder: FormBuilder,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   onLogin() {
@@ -45,17 +49,19 @@ export class LoginComponent {
     };
 
     this.controller.login(credentials).pipe(
-      untilDestroyed(this)
-    ).subscribe(res => {
-      if (res) {
-        this.router.navigate(['/']);
-      }
-      this.blockUiService.unBlock();
-    },
-      () => {
-        this.blockUiService.unBlock();
-      }
-    );
+      untilDestroyed(this),
+      catchError(error => {
+        this.notificationsService.openError(error.message)
+        return throwError(error)
+      }),
+      finalize(() => this.blockUiService.unBlock())
+    ).subscribe(
+      res => {
+        if (res) {
+          this.notificationsService.openSuccess(NotificationMessages.Authorized)
+          this.router.navigate(['/']);
+        }
+      });
   }
 
   onOpenResetPassword(event: MouseEvent) {

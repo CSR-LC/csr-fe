@@ -1,0 +1,22 @@
+<ng-container *ngIf="data.type === notificationTypes.Error">
+  <div class="wrapper error">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ data.message }}</span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.type === notificationTypes.Warning">
+  <div class="wrapper warning">
+    <mat-icon color="warn">warning</mat-icon>
+    <span>{{ data.message }}</span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.type === notificationTypes.Success">
+  <div class="wrapper success">
+    <mat-icon color="accent">check_circle</mat-icon>
+    <span>{{ data.message }}</span>
+  </div>
+</ng-container>
+
+

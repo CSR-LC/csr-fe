@@ -32,3 +32,8 @@ p {
 .mat-form-field-subscript-wrapper {
   transform: translateY(0%)
 }
+
+snack-bar-container.mat-snack-bar-container {
+  padding: 0;
+  min-height: 0;
+}

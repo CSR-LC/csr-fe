@@ -20,7 +20,6 @@ export class BlockUiComponent implements OnInit {
     this.blockUiService.stream.pipe(
       untilDestroyed(this)
     ).subscribe((value) => {
-      console.log(value);
       this.blocked = value === BlockUi.block
     });
   }

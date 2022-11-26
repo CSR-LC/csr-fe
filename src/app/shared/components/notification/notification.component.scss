@@ -1,0 +1,30 @@
+@import "src/app/shared/styles/variables";
+
+:host {
+  display: block;
+
+  .wrapper {
+    min-height: 45px;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  mat-icon {
+    margin-right: 8px;
+  }
+
+  .error {
+    background-color: #ffcad1;
+  }
+
+  .warning {
+    background-color: #ffecbe;
+  }
+
+  .success {
+    background-color: #e5ffc8;
+    color: $color-title;
+  }
+}

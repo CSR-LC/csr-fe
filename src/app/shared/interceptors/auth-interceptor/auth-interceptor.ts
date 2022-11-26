@@ -8,6 +8,7 @@ import {
 } from "@angular/common/http";
 import {BehaviorSubject, catchError, EMPTY, filter, Observable, switchMap, take, tap, throwError} from "rxjs";
 import { AuthService } from "../../services/auth-service/auth-service.service";
+import {NotificationsService} from "@shared/services/notifications/notifications.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -15,7 +16,8 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshToken$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly notificationsService: NotificationsService
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
