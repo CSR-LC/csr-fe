@@ -8,9 +8,8 @@ describe('CatalogSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatalogSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [CatalogSearchComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('CatalogSearchComponent', () => {
     fixture.detectChanges();
   });
 
-/*   it('should create', () => {
+  /*   it('should create', () => {
     expect(component).toBeTruthy();
   }); */
 });

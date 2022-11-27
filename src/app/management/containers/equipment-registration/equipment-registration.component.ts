@@ -7,14 +7,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
-import {map, Observable, of, switchMap} from 'rxjs';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { map, Observable, of, switchMap } from 'rxjs';
 
-import {BaseKind, EquipmentKind, PetSize} from '../../models/management';
-import {ControllerService} from '../../services/controller/controller.service';
-import {EquipmentSubCategory} from "@app/management/types/equipment-sub-category";
-import {TechnicalIssues} from "@app/management/types";
-import { NewEquipment } from "@app/management/models/equipment";
+import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
+import { ControllerService } from '../../services/controller/controller.service';
+import { EquipmentSubCategory } from '@app/management/types/equipment-sub-category';
+import { TechnicalIssues } from '@app/management/types';
+import { NewEquipment } from '@app/management/models/equipment';
 
 @Component({
   selector: 'lc-equipment',
@@ -30,7 +30,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   petKinds$: Observable<BaseKind[]> = this.getPetKinds();
   petSize$: Observable<PetSize[]> = this.getPetSize();
   subcategoryOptions: EquipmentSubCategory[] = [];
-  technicalIssuesOptions = [ TechnicalIssues.is, TechnicalIssues.not ];
+  technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
 
   readonly maxInventoryNumberValue = 99999999999999999999999999999999999999999999999999;
   private file?: File;
@@ -42,34 +42,28 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   isFormSubmitted = false;
 
   equipmentRegistrationForm = this.formBuilder.group({
-    category: [ null, Validators.required ],
-    subCategory: [
-      { value: null, disabled: true },
-      Validators.min(0)
-    ],
-    compensationCost: [ null, [ Validators.required, Validators.max(this.maxCompensationCost) ]],
-    condition: [
-      { value: null, disabled: true },
-      Validators.maxLength(1000)
-    ],
-    description: [ '', Validators.required ],
-    inventoryNumber: [ null, [ Validators.required, Validators.max(this.maxInventoryNumberValue) ]],
+    category: [null, Validators.required],
+    subCategory: [{ value: null, disabled: true }, Validators.min(0)],
+    compensationCost: [null, [Validators.required, Validators.max(this.maxCompensationCost)]],
+    condition: [{ value: null, disabled: true }, Validators.maxLength(1000)],
+    description: ['', Validators.required],
+    inventoryNumber: [null, [Validators.required, Validators.max(this.maxInventoryNumberValue)]],
     // temporary is not used. there is no control on ui
     location: [1, Validators.required],
-    maximumAmount:  [ null, [ Validators.required, Validators.min(1) ]],
-    maximumDays: [ null, [ Validators.required, Validators.min(1) ]],
-    name: [ '', Validators.required ],
-    nameSubstring: [ '' ],
-    petKinds: [ [null], Validators.required ],
-    petSize: [ null, Validators.required ],
-    photoID: [ null, Validators.required ],
-    receiptDate: [ '', Validators.required ],
+    maximumAmount: [null, [Validators.required, Validators.min(1)]],
+    maximumDays: [null, [Validators.required, Validators.min(1)]],
+    name: ['', Validators.required],
+    nameSubstring: [''],
+    petKinds: [[null], Validators.required],
+    petSize: [null, Validators.required],
+    photoID: [null, Validators.required],
+    receiptDate: ['', Validators.required],
     // unnecessary  remove when the changed
-    status: [ 1, Validators.required],  // specify int
-    supplier: [ '', [ Validators.required, Validators.maxLength(50) ]],
-    technicalIssues: [null, [ Validators.required ]],
-    termsOfUse: [ '', [ Validators.required, Validators.maxLength(249) ]],
-    title: [ '', [ Validators.required, Validators.maxLength(49) ]],
+    status: [1, Validators.required], // specify int
+    supplier: ['', [Validators.required, Validators.maxLength(50)]],
+    technicalIssues: [null, [Validators.required]],
+    termsOfUse: ['', [Validators.required, Validators.maxLength(249)]],
+    title: ['', [Validators.required, Validators.maxLength(49)]],
   });
 
   constructor(
@@ -82,7 +76,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
     this.conditionControl = this.equipmentRegistrationForm.get('condition');
     this.photoIdControl = this.equipmentRegistrationForm.get('photoID');
-    const a = 4
+    const a = 4;
   }
 
   ngOnDestroy() {
@@ -92,32 +86,21 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
     if (event.key === 'Backspace') return;
     const formField = this.equipmentRegistrationForm.get(formFieldName);
-    if (
-      formField?.errors &&
-      (formField.errors['maxlength'] || formField.errors['max'])
-    ) {
+    if (formField?.errors && (formField.errors['maxlength'] || formField.errors['max'])) {
       return false;
     }
     return true;
   }
 
   setSubcategoryDisabledState(categoryId: number) {
-    this.controller.getEquipmentSubCategoryById(
-      categoryId
-    ).subscribe((subcategories) => {
-      this.setControlState(
-        !!subcategories.length,
-        this.subCategoryControl
-      );
+    this.controller.getEquipmentSubCategoryById(categoryId).subscribe((subcategories) => {
+      this.setControlState(!!subcategories.length, this.subCategoryControl);
       this.subcategoryOptions = subcategories;
     });
   }
 
   setConditionState(value: string) {
-    this.setControlState(
-      value === TechnicalIssues.is,
-      this.conditionControl
-    );
+    this.setControlState(value === TechnicalIssues.is, this.conditionControl);
   }
 
   onCancel() {
@@ -131,15 +114,18 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
     this.controller.manageBlockUi(true);
 
-    this.controller.uploadPhoto(this.file).pipe(
-      switchMap((res) => {
-        const equipment = new NewEquipment(this.equipmentRegistrationForm.value);
-        equipment.photoID = res.data.id;
-        return this.controller.registerEquipment(equipment);
-      })
-    ).subscribe(() => {
-      this.controller.manageBlockUi(false);
-    });
+    this.controller
+      .uploadPhoto(this.file)
+      .pipe(
+        switchMap((res) => {
+          const equipment = new NewEquipment(this.equipmentRegistrationForm.value);
+          equipment.photoID = res.data.id;
+          return this.controller.registerEquipment(equipment);
+        }),
+      )
+      .subscribe(() => {
+        this.controller.manageBlockUi(false);
+      });
   }
 
   choosePhoto() {
@@ -148,9 +134,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   addPhoto(event: Event) {
     let target = event.target as HTMLInputElement;
-    this.file = target?.files?.length
-      ? target.files[0]
-      : undefined;
+    this.file = target?.files?.length ? target.files[0] : undefined;
 
     if (this.file) {
       this.photoIdControl?.setValue(this.file.name);
@@ -173,9 +157,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   }
 
   private getEquipmentCategories(): Observable<EquipmentKind[]> {
-    return this.controller.getEquipmentCategories().pipe(
-      map(res => res.items)
-    );
+    return this.controller.getEquipmentCategories().pipe(map((res) => res.items));
   }
 
   private getPetKinds(): Observable<BaseKind[]> {

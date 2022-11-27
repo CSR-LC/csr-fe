@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from "rxjs";
-import {BlockUi} from "@shared/constants";
+import { Observable, Subject } from 'rxjs';
+import { BlockUi } from '@shared/constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BlockUiService {
   private readonly blockUi$ = new Subject<BlockUi>();
 
   get stream(): Observable<BlockUi> {
-    return this.blockUi$ as Observable<BlockUi>
+    return this.blockUi$ as Observable<BlockUi>;
   }
 
   block(): void {

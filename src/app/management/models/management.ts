@@ -1,13 +1,13 @@
-import {TechnicalIssues} from "@app/management/types";
+import { TechnicalIssues } from '@app/management/types';
 
 export interface BaseKind {
-  id: number,
-  name: string,
+  id: number;
+  name: string;
 }
 
 export interface EquipmentKind extends BaseKind {
-    max_reservation_time: number,
-    max_reservation_units: number,
+  max_reservation_time: number;
+  max_reservation_units: number;
 }
 
 export interface PetSize extends BaseKind {
@@ -22,7 +22,7 @@ export type EquipmentOptions = {
   description: string;
   inventoryNumber: number;
   location: number;
-  maximumAmount:  number;
+  maximumAmount: number;
   maximumDays: number;
   name: string;
   nameSubstring: string | null;
@@ -35,30 +35,30 @@ export type EquipmentOptions = {
   technicalIssues: TechnicalIssues;
   termsOfUse: string;
   title: string;
-}
+};
 
 export type EquipmentManagement = {
-  name: string,
-  title:string,
-  description: string,
-  nameSubstring: string,
-  category: string,
-  subCategory: string,
+  name: string;
+  title: string;
+  description: string;
+  nameSubstring: string;
+  category: string;
+  subCategory: string;
   // TODO: remove russian C in Cost
-  compensationСost: number,
-  condition: string,
-  inventoryNumber: number,
-  supplier: string,
-  receiptDate: string,
-  termsOfUse: string,
-  kind: number,
-  location: number,
-  maximumAmount: number,
-  maximumDays: number,
-  order: number,
-  status: number,
-  photo: string,
-  petSize: number,
-  photoID: string,
-  petKinds: number[],
-}
+  compensationСost: number;
+  condition: string;
+  inventoryNumber: number;
+  supplier: string;
+  receiptDate: string;
+  termsOfUse: string;
+  kind: number;
+  location: number;
+  maximumAmount: number;
+  maximumDays: number;
+  order: number;
+  status: number;
+  photo: string;
+  petSize: number;
+  photoID: string;
+  petKinds: number[];
+};

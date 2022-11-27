@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {LoginInformation, NewUserInfo, SignupResponse, Tokens} from "../../models";
-import {Observable} from "rxjs";
+import { LoginInformation, NewUserInfo, SignupResponse, Tokens } from '../../models';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
-  constructor(
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   login(credentials: LoginInformation): Observable<Tokens> {
     return this.http.post<Tokens>('/api/v1/login', credentials);
@@ -26,7 +23,7 @@ export class ApiService {
   }
 
   resetPassword(email: string) {
-    const data = {data: { login: email }}
+    const data = { data: { login: email } };
     return this.http.post<any>('/api/password_reset/', data);
   }
 }

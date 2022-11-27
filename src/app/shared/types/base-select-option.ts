@@ -1,4 +1,4 @@
 export interface BaseSelectOption {
-  id: string,
-  value: string,
+  id: string;
+  value: string;
 }

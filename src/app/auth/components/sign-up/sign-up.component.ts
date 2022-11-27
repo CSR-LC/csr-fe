@@ -1,36 +1,27 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 import { AuthController } from '../../services';
 import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
-import { NewUserInfo, UserType } from "../../models";
-import { Router } from "@angular/router";
-import { ValidationService } from "@shared/services/validation/validation.service";
-import { BlockUiService } from "@shared/services/block-ui/block-ui.service";
-import { switchMap, take } from "rxjs";
+import { NewUserInfo, UserType } from '../../models';
+import { Router } from '@angular/router';
+import { ValidationService } from '@shared/services/validation/validation.service';
+import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
+import { switchMap, take } from 'rxjs';
 
 @Component({
   selector: 'lc-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
-  providers: [
-    AuthController,
-    { provide: ErrorStateMatcher, useClass: OnSubmitStateMatcher },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [AuthController, { provide: ErrorStateMatcher, useClass: OnSubmitStateMatcher }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
   userRegistrationForm = this.formBuilder.group({
-    email: [
-      '',
-      [ Validators.maxLength(49), Validators.email, Validators.required ]
-    ],
-    password: [
-      '',
-      [ Validators.required, Validators.maxLength(49), Validators.minLength(6) ]
-    ],
-    confirmPassword: [ '' ],
+    email: ['', [Validators.maxLength(49), Validators.email, Validators.required]],
+    password: ['', [Validators.required, Validators.maxLength(49), Validators.minLength(6)]],
+    confirmPassword: [''],
   });
 
   readonly formName = 'user_registration_form';
@@ -63,30 +54,31 @@ export class SignUpComponent {
   onSubmit() {
     this.validationService.emitSubmit(this.formName);
 
-    if (
-      !this.userRegistrationForm.valid
-      || this.formValue.password !== this.formValue.confirmPassword
-    ) return;
+    if (!this.userRegistrationForm.valid || this.formValue.password !== this.formValue.confirmPassword) return;
 
     this.blockUiService.block();
     const personalData: NewUserInfo = this.getNewUserInfo();
 
-    this.controller.signUp(personalData).pipe(
-      switchMap(() => {
-        return this.controller.login({
-          login: this.formValue.email,
-          password: this.formValue.password,
-        });
-      }),
-      take(1)
-    ).subscribe(() => {
-      this.router.navigate(['/']);
-      this.blockUiService.unBlock();
-    },
-      () => {
-        this.blockUiService.unBlock();
-      }
-    );
+    this.controller
+      .signUp(personalData)
+      .pipe(
+        switchMap(() => {
+          return this.controller.login({
+            login: this.formValue.email,
+            password: this.formValue.password,
+          });
+        }),
+        take(1),
+      )
+      .subscribe(
+        () => {
+          this.router.navigate(['/']);
+          this.blockUiService.unBlock();
+        },
+        () => {
+          this.blockUiService.unBlock();
+        },
+      );
   }
 
   private getNewUserInfo(): NewUserInfo {
@@ -109,10 +101,7 @@ export class SignUpComponent {
       Validators.required,
       Validators.maxLength(49),
       Validators.minLength(6),
-      this.validationService.compare(
-        { message: 'Значения не совпадают' },
-        compareControl
-      )
-    ])
+      this.validationService.compare({ message: 'Значения не совпадают' }, compareControl),
+    ]);
   }
 }
