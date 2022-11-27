@@ -82,6 +82,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
     this.conditionControl = this.equipmentRegistrationForm.get('condition');
     this.photoIdControl = this.equipmentRegistrationForm.get('photoID');
+    const a = 4
   }
 
   ngOnDestroy() {
