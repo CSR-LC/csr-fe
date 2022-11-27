@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prepare": "husky install",
-    "lint": "ng lint"
+    "lint": "ng lint --fix",
+    "prettify": "prettier --write \"*.{js,ts,md,html,scss,css}\""
   },
   "private": true,
   "dependencies": {
@@ -63,7 +64,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,ts,md,html,scss,css}": "prittier --write",
+    "*.{js,ts,md,html,scss,css}": "prittier --write",
     "*.{js,ts}": [
       "eslint --fix"
     ]
