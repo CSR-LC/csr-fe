@@ -1,19 +1,19 @@
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Injectable } from "@angular/core";
 import { Tokens } from "../models";
-import {BeOnlineAction, ClearLoginData, Login, Logout, TokensAction} from "./actions";
+import {rememberMeAction, ClearLoginData, Login, Logout, TokensAction} from "./actions";
 import { AuthApi } from '../services';
 import { tap } from 'rxjs';
 import { LocalStorageKey } from '@shared/constants';
 
 export type AuthStore = {
   tokens: Tokens | null;
-  beOnline: boolean;
+  rememberMe: boolean;
 }
 
 const defaults : AuthStore = {
   tokens: null,
-  beOnline: true
+  rememberMe: true
 }
 
 @State<AuthStore>({
@@ -33,8 +33,8 @@ export class AuthState {
   }
 
   @Selector([AuthState])
-  static getBeOnline(state: AuthStore): boolean {
-    return state.beOnline;
+  static getRememberMe(state: AuthStore): boolean {
+    return state.rememberMe;
   }
 
   constructor(
@@ -60,8 +60,8 @@ export class AuthState {
 
   @Action(ClearLoginData)
   clearLoginData(ctx: StateContext<AuthStore>) {
-    const { beOnline } = ctx.getState();
-    if(!beOnline) {
+    const { rememberMe } = ctx.getState();
+    if(!rememberMe) {
       localStorage.clear();
       ctx.patchState({
         ...defaults
@@ -80,13 +80,13 @@ export class AuthState {
     });
   }
 
-  @Action(BeOnlineAction)
-  beOnline(ctx: StateContext<AuthStore>, action: BeOnlineAction) {
+  @Action(rememberMeAction)
+  rememberMe(ctx: StateContext<AuthStore>, action: rememberMeAction) {
     const state = ctx.getState();
-    const beOnline = action.beOnline;
+    const rememberMe = action.rememberMe;
     ctx.patchState({
       ...state,
-      beOnline,
+      rememberMe,
     })
   }
 }

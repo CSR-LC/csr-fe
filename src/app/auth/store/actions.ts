@@ -18,9 +18,9 @@ export class TokensAction {
   constructor(public tokens: Tokens) {}
 }
 
-export class BeOnlineAction {
-  static readonly type = '[Auth] BeOnlineAction';
+export class rememberMeAction {
+  static readonly type = '[Auth] rememberMeAction';
   constructor(
-    public beOnline: boolean
+    public rememberMe: boolean
   ) {}
 }

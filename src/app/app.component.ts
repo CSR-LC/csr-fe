@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
 
   @HostListener("window:beforeunload", ["$event"])
   clearLocalStorage() {
-    this.store.dispatch(new ClearLoginData())
+    this.store.dispatch(new ClearLoginData)
   }
 
   ngOnInit() {
