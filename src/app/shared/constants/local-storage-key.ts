@@ -1,3 +1,3 @@
 export enum LocalStorageKey {
-  tokens = 'tokens'
+  tokens = 'tokens',
 }

@@ -1,7 +1,7 @@
 export enum NotificationTypes {
   Warning = 'warning',
   Error = 'error',
-  Success = 'success'
+  Success = 'success',
 }
 
 export enum NotificationMessages {
@@ -10,5 +10,5 @@ export enum NotificationMessages {
   //warning
 
   //success
-  Authorized= 'Авторизация прошла упешно.'
+  Authorized = 'Авторизация прошла упешно.',
 }
