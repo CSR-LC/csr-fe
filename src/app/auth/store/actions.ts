@@ -10,7 +10,7 @@ export class Logout {
 }
 
 export class ClearLoginData {
-  static readonly type = '[Auth] ClearLoginData'
+  static readonly type = '[Auth] ClearLoginData';
 }
 
 export class TokensAction {
@@ -20,7 +20,5 @@ export class TokensAction {
 
 export class rememberMeAction {
   static readonly type = '[Auth] rememberMeAction';
-  constructor(
-    public rememberMe: boolean
-  ) {}
+  constructor(public rememberMe: boolean) {}
 }

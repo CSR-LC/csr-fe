@@ -1,8 +1,8 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {Store} from "@ngxs/store";
-import {ClearLoginData} from "@app/auth/store";
-import {MainPageHeaderService} from "@shared/services/main-page-header.service";
-import {AuthService} from "@shared/services/auth-service/auth-service.service";
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { ClearLoginData } from '@app/auth/store';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { AuthService } from '@shared/services/auth-service/auth-service.service';
 
 @Component({
   selector: 'lc-root',
@@ -18,9 +18,9 @@ export class AppComponent implements OnInit {
     private readonly store: Store,
   ) {}
 
-  @HostListener("window:beforeunload", ["$event"])
+  @HostListener('window:beforeunload', ['$event'])
   clearLocalStorage() {
-    this.store.dispatch(new ClearLoginData)
+    this.store.dispatch(new ClearLoginData());
   }
 
   ngOnInit() {

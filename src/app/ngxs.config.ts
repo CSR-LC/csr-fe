@@ -1,5 +1,5 @@
-import {NgxsModuleOptions} from "@ngxs/store";
-import {environment} from "@src/environments/environment";
+import { NgxsModuleOptions } from '@ngxs/store';
+import { environment } from '@src/environments/environment';
 
 export const ngxsConfig: NgxsModuleOptions = {
   developmentMode: !environment.production,
