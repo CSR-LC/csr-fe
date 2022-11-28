@@ -4,27 +4,28 @@
   display: block;
 
   .wrapper {
+
     min-height: 45px;
-    padding: 16px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
+    width: 390px;
+    padding: 18px 26px;
+    border-radius: 16px;
+    background-color: #323232;
+    text-align: center;
   }
 
-  mat-icon {
-    margin-right: 8px;
+  .title {
+    font-weight: 500;
   }
 
   .error {
-    background-color: #ffcad1;
+    color: $notification-error-color;
   }
 
   .warning {
-    background-color: #ffecbe;
+    color: $notification-warning-color;
   }
 
   .success {
-    background-color: #e5ffc8;
     color: $color-title;
   }
 }

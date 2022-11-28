@@ -2,6 +2,7 @@
 @import './app/shared/styles/variables';
 @import "app/shared/styles/hede-text-directive";
 @import "app/shared/styles/material_theme";
+@import "app/shared/styles/notification";
 
 * {
   box-sizing: border-box;
@@ -29,11 +30,3 @@ p {
   color: $color-title-lite;
 }
 
-.mat-form-field-subscript-wrapper {
-  transform: translateY(0%)
-}
-
-snack-bar-container.mat-snack-bar-container {
-  padding: 0;
-  min-height: 0;
-}
