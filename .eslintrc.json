@@ -37,7 +37,28 @@
             "style": "kebab-case"
           }
         ],
-        "no-console": "error"
+        //Possible Problems
+        "getter-return": "error",
+        "no-const-assign": "error",
+        "no-debugger": "error",
+        "no-dupe-keys": "error",
+        "no-duplicate-case": "error",
+        "no-duplicate-imports": "warn",
+        "no-fallthrough": "error",
+        "no-setter-return": "error",
+        "no-console": "error",
+        "no-sparse-arrays": "error",
+        //Suggestions
+        "valid-typeof": "warn",
+        "no-delete-var": "error",
+        "no-lone-blocks": "error",
+        "no-multi-str": "error",
+        "no-nested-ternary": "error",
+        //Layout & Formatting
+        "arrow-parens": "error",
+        "block-spacing": "error",
+        "func-call-spacing": "error",
+        "implicit-arrow-linebreak": "error"
       }
     },
     {
