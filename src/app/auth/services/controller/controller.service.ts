@@ -6,12 +6,14 @@ import { ApiService } from '../api/api.service';
 import { LoginInformation, NewUserInfo, SignupResponse } from '../../models';
 import { Store } from '@ngxs/store';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
-import { AuthStore } from '@app/auth/store';
+import { AuthState, AuthStore, rememberMeAction } from '@app/auth/store';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
 
 @Injectable()
 export class ControllerService {
+  rememberMe = this.store.selectSnapshot(AuthState.getRememberMe);
+
   constructor(
     private readonly api: ApiService,
     private readonly router: Router,
@@ -46,5 +48,9 @@ export class ControllerService {
         switchMap((email) => this.api.resetPassword(email)),
       )
       .subscribe();
+  }
+
+  setRememberMe(rememberMe: boolean) {
+    this.store.dispatch(new rememberMeAction(rememberMe));
   }
 }

@@ -22,6 +22,7 @@ export class LoginComponent {
   });
 
   readonly formName = 'login_form';
+  readonly rememberMe = this.controller.rememberMe;
 
   constructor(
     private readonly controller: AuthController,
@@ -64,5 +65,9 @@ export class LoginComponent {
     event.stopPropagation();
     event.preventDefault();
     this.controller.openResetPasswordModal(this.loginForm.value.login);
+  }
+
+  onChangeRememberMe(checked: boolean) {
+    this.controller.setRememberMe(checked);
   }
 }
