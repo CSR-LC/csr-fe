@@ -1,4 +1,4 @@
-@import '../../../shared/styles/variables.scss';
+@import "../../../shared/styles/variables.scss";
 
 :host {
   flex: 1 1 auto;
@@ -44,6 +44,9 @@
 }
 
 .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: $color-description-text;
   font-size: 13px;
   line-height: 15px;
@@ -57,5 +60,43 @@
     font-weight: bold;
     line-height: 16px;
     margin: 0 10px 10px 0;
+  }
+}
+
+.equipment-rent {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  max-width: 350px;
+  color: $color-title;
+
+  &__days {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  &__calendar {
+    background-color: $color-title;
+    color: $color-bg-base;
+    width: 163px;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+
+  &__increase-decrease {
+    background-color: $color-bg-base;
+    color: $color-title;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    border: 2px solid #cfdbe6;
+    border-radius: 10px;
+  }
+
+  &__increase-decrease:disabled {
+    color: #cfdbe6;
   }
 }

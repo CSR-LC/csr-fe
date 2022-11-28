@@ -1,5 +1,10 @@
-<section class="equipment-item" >
-  <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo">
+<section class="equipment-item">
+  <img
+    #image
+    class="equipment-item__img"
+    [src]="defaultImage"
+    alt="equipment photo"
+  />
   <h2 class="equipment-item__title">{{ equipment?.title }}</h2>
   <div class="equipment-item__description">
     {{ equipment?.description }}
@@ -7,47 +12,175 @@
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
       <div class="info-item">
-        <h3 class="info-item__title">Срок</h3>
-        <button
+        <!-- <h3 class="info-item__title">Срок</h3> -->
+        <div
           mat-icon-button
           (click)="tooltip.show()"
-          mat-raised-button #tooltip="matTooltip"
+          mat-raised-button
+          #tooltip="matTooltip"
           matTooltip="Максимальный срок использования оборудования, дней"
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>До {{ equipment?.maximumDays}} суток</div>
+          matTooltipPosition="right"
+        >
+          <mat-icon
+            ><svg
+              width="23"
+              height="23"
+              viewBox="0 0 23 23"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.03056 2.50378V6.29165H5.81844M1.0835 11.5C1.0835 17.2529 5.74719 21.9166 11.5002 21.9166C17.2531 21.9166 21.9168 17.2529 21.9168 11.5C21.9168 5.74701 17.2531 1.08331 11.5002 1.08331C7.64495 1.08331 4.27886 3.17764 2.47765 6.29066M11.5028 5.24998L11.5021 11.5046L15.9185 15.9209"
+                stroke="#4D8F9E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </mat-icon>
+        </div>
+        <div>{{ equipment?.maximumDays }} суток</div>
       </div>
       <div class="info-item">
-        <h3 class="info-item__title">В руки</h3>
-        <button
+        <!-- <h3 class="info-item__title">В руки</h3> -->
+        <div
           mat-icon-button
           (click)="tooltip1.show()"
-          mat-raised-button #tooltip1="matTooltip"
+          mat-raised-button
+          #tooltip1="matTooltip"
           matTooltip="Максимальное количество единиц в руки"
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>До {{ equipment?.maximumAmount}} шт.</div>
+          matTooltipPosition="right"
+        >
+          <mat-icon
+            ><svg
+              width="23"
+              height="21"
+              viewBox="0 0 23 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.2502 7.375C12.2502 6.96079 11.9144 6.625 11.5002 6.625C11.086 6.625 10.7502 6.96079 10.7502 7.375H12.2502ZM10.7502 10.5C10.7502 10.9142 11.086 11.25 11.5002 11.25C11.9144 11.25 12.2502 10.9142 12.2502 10.5H10.7502ZM18.5002 7.375C18.5002 6.96079 18.1644 6.625 17.7502 6.625C17.336 6.625 17.0002 6.96079 17.0002 7.375H18.5002ZM17.0002 10.5C17.0002 10.9142 17.336 11.25 17.7502 11.25C18.1644 11.25 18.5002 10.9142 18.5002 10.5H17.0002ZM17.0002 4.25C17.0002 4.66421 17.336 5 17.7502 5C18.1644 5 18.5002 4.66421 18.5002 4.25H17.0002ZM17.7502 1.125H18.5002C18.5002 0.710786 18.1644 0.375 17.7502 0.375V1.125ZM11.5002 1.125V0.375C11.086 0.375 10.7502 0.710786 10.7502 1.125L11.5002 1.125ZM10.7502 4.25C10.7502 4.66421 11.086 5 11.5002 5C11.9144 5 12.2502 4.66421 12.2502 4.25H10.7502ZM21.9168 17.5C22.331 17.5 22.6668 17.1642 22.6668 16.75C22.6668 16.3358 22.331 16 21.9168 16V17.5ZM1.0835 1.9375C0.669283 1.9375 0.333496 2.27329 0.333496 2.6875C0.333496 3.10171 0.669283 3.4375 1.0835 3.4375V1.9375ZM7.3335 16.75V16C6.91928 16 6.5835 16.3358 6.5835 16.75H7.3335ZM10.4585 16.75H11.2085C11.2085 16.3358 10.8727 16 10.4585 16V16.75ZM16.7085 16.75V16C16.2943 16 15.9585 16.3358 15.9585 16.75H16.7085ZM19.8335 16.75H20.5835C20.5835 16.3358 20.2477 16 19.8335 16V16.75ZM8.896 5H20.3543V3.5H8.896V5ZM20.3543 5C20.8031 5 21.1668 5.36377 21.1668 5.8125H22.6668C22.6668 4.53534 21.6315 3.5 20.3543 3.5V5ZM21.1668 5.8125V12.0625H22.6668V5.8125H21.1668ZM21.1668 12.0625C21.1668 12.5112 20.8031 12.875 20.3543 12.875V14.375C21.6315 14.375 22.6668 13.3397 22.6668 12.0625H21.1668ZM20.3543 12.875H8.896V14.375H20.3543V12.875ZM8.896 12.875C8.44727 12.875 8.0835 12.5112 8.0835 12.0625H6.5835C6.5835 13.3397 7.61884 14.375 8.896 14.375V12.875ZM8.0835 12.0625V5.8125H6.5835V12.0625H8.0835ZM8.0835 5.8125C8.0835 5.36377 8.44727 5 8.896 5V3.5C7.61884 3.5 6.5835 4.53534 6.5835 5.8125H8.0835ZM10.7502 7.375V10.5H12.2502V7.375H10.7502ZM17.0002 7.375V10.5H18.5002V7.375H17.0002ZM18.5002 4.25V1.125H17.0002V4.25H18.5002ZM17.7502 0.375H11.5002V1.875H17.7502V0.375ZM10.7502 1.125V4.25H12.2502V1.125H10.7502ZM21.9168 16H5.25016V17.5H21.9168V16ZM5.25016 16C5.08906 16 4.9585 15.8694 4.9585 15.7083H3.4585C3.4585 16.6979 4.26064 17.5 5.25016 17.5V16ZM4.9585 15.7083V3.72917H3.4585V15.7083H4.9585ZM4.9585 3.72917C4.9585 2.73966 4.15634 1.9375 3.16683 1.9375V3.4375C3.32791 3.4375 3.4585 3.56808 3.4585 3.72917H4.9585ZM3.16683 1.9375H1.0835V3.4375H3.16683V1.9375ZM8.896 19.125C8.44724 19.125 8.0835 18.7613 8.0835 18.3125H6.5835C6.5835 19.5897 7.61881 20.625 8.896 20.625V19.125ZM8.0835 18.3125V16.75H6.5835V18.3125H8.0835ZM7.3335 17.5H10.4585V16H7.3335V17.5ZM9.7085 16.75V18.3125H11.2085V16.75H9.7085ZM9.7085 18.3125C9.7085 18.7613 9.34475 19.125 8.896 19.125V20.625C10.1732 20.625 11.2085 19.5897 11.2085 18.3125H9.7085ZM18.271 19.125C17.8222 19.125 17.4585 18.7613 17.4585 18.3125H15.9585C15.9585 19.5897 16.9938 20.625 18.271 20.625V19.125ZM17.4585 18.3125V16.75H15.9585V18.3125H17.4585ZM16.7085 17.5H19.8335V16H16.7085V17.5ZM19.0835 16.75V18.3125H20.5835V16.75H19.0835ZM19.0835 18.3125C19.0835 18.7613 18.7198 19.125 18.271 19.125V20.625C19.5482 20.625 20.5835 19.5897 20.5835 18.3125H19.0835Z"
+                fill="#4D8F9E"
+              />
+            </svg>
+          </mat-icon>
+        </div>
+        <div>{{ equipment?.maximumAmount }} шт.</div>
       </div>
-      <div  class="info-item">
-        <h3 class="info-item__title">Компенсация</h3>
-        <button
+      <div class="info-item">
+        <!-- <h3 class="info-item__title">Компенсация</h3> -->
+        <div
           mat-icon-button
           (click)="tooltip2.show()"
-          mat-raised-button #tooltip2="matTooltip"
+          mat-raised-button
+          #tooltip2="matTooltip"
           matTooltip="Стоимость компенсации в случае утраты/порчи, руб."
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>{{ equipment?.compensationCost}} &#8381;</div>
+          matTooltipPosition="right"
+        >
+          <mat-icon
+            ><svg
+              width="24"
+              height="20"
+              viewBox="0 0 24 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.0002 13.1459L10.4377 10.5417L14.0835 7.41669L9.396 4.81252L9.91683 1.79138C9.13553 1.39198 8.25037 1.16669 7.31266 1.16669C4.14853 1.16669 1.5835 3.73174 1.5835 6.89585C1.5835 12.625 8.35433 17.8334 12.0002 18.875C15.646 17.8334 22.4168 12.625 22.4168 6.89585C22.4168 3.73174 19.8518 1.16669 16.6877 1.16669C15.75 1.16669 14.8648 1.39198 14.0835 1.79138"
+                stroke="#4D8F9E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </mat-icon>
+        </div>
+        <div>{{ equipment?.compensationCost }} &#8381;</div>
       </div>
+
+      <div
+        class="info-item"
+        *ngIf="equipment?.technicalIssues === 'есть'; else new"
+      >
+        <!-- <h3 class="info-item__title">Компенсация</h3> -->
+        <div
+          mat-icon-button
+          (click)="tooltip2.show()"
+          mat-raised-button
+          #tooltip2="matTooltip"
+          matTooltip="{{ equipment?.condition }}"
+          matTooltipPosition="right"
+        >
+          <mat-icon
+            ><svg
+              width="23"
+              height="18"
+              viewBox="0 0 23 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.32324 3.68777L10.5808 1.72003C10.851 1.66259 11.133 1.71485 11.3647 1.86532L15.5829 4.60464C15.8146 4.75511 16.0966 4.80735 16.3668 4.74995L18.492 4.29818C19.0547 4.1786 19.6079 4.53782 19.7275 5.10053L20.0523 6.62891C20.172 7.19162 19.8128 7.74474 19.25 7.86438L15.5965 8.64094C15.3262 8.69839 15.0442 8.64615 14.8125 8.49568L10.5944 5.75636C10.3626 5.60589 10.0807 5.5536 9.81046 5.61105L8.19463 5.95448M21.6764 14.2705L12.4189 16.2383C12.1486 16.2957 11.8667 16.2434 11.635 16.093L7.41682 13.3537C7.1851 13.2032 6.90312 13.1509 6.63291 13.2084L4.50765 13.6601C3.94494 13.7797 3.3918 13.4205 3.27219 12.8578L2.94733 11.3294C2.82772 10.7667 3.18693 10.2135 3.74966 10.0939L7.40322 9.31735C7.67348 9.2599 7.95546 9.31214 8.18713 9.46261L12.4053 12.2019C12.637 12.3524 12.919 12.4047 13.1892 12.3472L14.805 12.0038"
+                stroke="#4D8F9E"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </mat-icon>
+        </div>
+        <div>Б/у</div>
+      </div>
+      <ng-template #new>
+        <div class="info-item">
+          <div>
+            <mat-icon
+              ><svg
+                width="24"
+                height="20"
+                viewBox="0 0 24 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22.4168 6.37502L18.2502 1.16669H5.75016L1.5835 6.37502M22.4168 6.37502L12.0002 18.875M22.4168 6.37502H1.5835M22.4168 6.37502L20.3335 3.77085M12.0002 18.875L1.5835 6.37502M12.0002 18.875L7.8335 6.37502M12.0002 18.875L16.1668 6.37502M1.5835 6.37502L3.66683 3.77085"
+                  stroke="#4D8F9E"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </mat-icon>
+          </div>
+          <div>Новое</div>
+        </div>
+      </ng-template>
     </div>
-    <div class="equipment-info-list__item">
+    <!-- <div class="equipment-info-list__item">
       <div class="info-item">
         <h3 class="info-item__title">Состояние</h3>
         <div>{{ equipment?.condition}}</div>
       </div>
+    </div> -->
+  </div>
+  <div class="equipment-rent">
+    <div class="equipment-rent__days">
+      <button
+        class="equipment-rent__increase-decrease"
+        (click)="decrease()"
+        [disabled]="cannotDecrease"
+      >
+        -
+      </button>
+      <span>{{ counter }}</span>
+      <button
+        class="equipment-rent__increase-decrease"
+        (click)="increase()"
+        [disabled]="cannotIncrease"
+      >
+        +
+      </button>
     </div>
+    <button class="equipment-rent__calendar">выберите дату</button>
   </div>
 </section>
