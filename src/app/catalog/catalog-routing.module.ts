@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CatalogComponent } from './containers';
-import {EquipmentItemComponent} from "./containers/equipment-item/equipment-item.component";
+import { EquipmentItemComponent } from './containers/equipment-item/equipment-item.component';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: ':id',
     component: EquipmentItemComponent,
-  }
+  },
 ];
 
 @NgModule({

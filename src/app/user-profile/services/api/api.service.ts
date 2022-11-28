@@ -6,10 +6,7 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class ApiService {
-
-  constructor(
-    private httpClient: HttpClient
-  ) { }
+  constructor(private httpClient: HttpClient) {}
 
   public updateUserInfo(user: User): Observable<User> {
     // TODO: uncomment http request once BE implements the logic
@@ -20,4 +17,4 @@ export class ApiService {
   public getWorkArias(): Observable<ActiveArea[]> {
     return this.httpClient.get<ActiveArea[]>('/api/v1/active_areas');
   }
- }
+}

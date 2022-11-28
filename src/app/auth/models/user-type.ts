@@ -1,4 +1,4 @@
 export enum UserType {
   person = 'person',
-  organisation = 'organisation'
+  organisation = 'organisation',
 }

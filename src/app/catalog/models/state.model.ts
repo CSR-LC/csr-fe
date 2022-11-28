@@ -1,5 +1,5 @@
-import { Equipment } from "./equipment";
+import { Equipment } from './equipment';
 
 export type Catalog = {
-    equipments: Equipment[];
-}
+  equipments: Equipment[];
+};

@@ -10,11 +10,8 @@ import { UserController } from '../../services';
   selector: 'lc-fill-profile',
   templateUrl: './fill-profile.component.html',
   styleUrls: ['./fill-profile.component.less'],
-  providers: [
-    UserController,
-    {provide: ErrorStateMatcher, useClass: OnSubmitStateMatcher},
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [UserController, { provide: ErrorStateMatcher, useClass: OnSubmitStateMatcher }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FillProfileComponent {
   isFormSubmitted = false;
@@ -24,48 +21,21 @@ export class FillProfileComponent {
   constructor(private readonly controller: UserController) {}
 
   userInfoForm = new FormGroup({
-    surname: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(49),
-      Validators.pattern(/^[-а-яА-ЯёЁ]+$/)
-    ]),
-    name: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(49),
-      Validators.pattern(/^[-а-яА-ЯёЁ]+$/)
-    ]),
-    patronymic: new FormControl('', [
-      Validators.maxLength(49),
-      Validators.pattern(/^[-а-яА-ЯёЁ]+$/)
-    ]),
-    documentNumber: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(49),
-    ]),
+    surname: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
+    name: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
+    patronymic: new FormControl('', [Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
+    documentNumber: new FormControl('', [Validators.required, Validators.maxLength(49)]),
     documentIssuingInfo: new FormControl('', [
       Validators.required,
       Validators.maxLength(149),
-      Validators.pattern(/^[-а-яА-ЯёЁ]+$/)
+      Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
     ]),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(24),
-    ]),
-    email: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(49),
-      Validators.email,
-    ]),
+    phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(24)]),
+    email: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.email]),
     status: new FormControl(''),
-    organizationName: new FormControl('', [
-      Validators.maxLength(149),
-    ]),
-    organizationContact: new FormControl('', [
-      Validators.maxLength(149),
-    ]),
-    personalAccount: new FormControl('', [
-      Validators.maxLength(149),
-    ]),
+    organizationName: new FormControl('', [Validators.maxLength(149)]),
+    organizationContact: new FormControl('', [Validators.maxLength(149)]),
+    personalAccount: new FormControl('', [Validators.maxLength(149)]),
     workDistrict: new FormControl(''),
   });
 

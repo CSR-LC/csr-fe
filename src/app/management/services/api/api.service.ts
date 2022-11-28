@@ -1,23 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map, Observable, of} from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
-import {BaseKind, EquipmentKind, EquipmentManagement, PetSize} from '../../models/management';
-import {UploadPhotoResponse} from "@app/management/types";
-import {BaseItemsResponse} from "@shared/types";
-import {EquipmentSubCategory} from "@app/management/types/equipment-sub-category";
-import {NewEquipment} from "@app/management/models/equipment";
-import {Equipment} from "@app/catalog/models/equipment";
+import { BaseKind, EquipmentKind, EquipmentManagement, PetSize } from '../../models/management';
+import { UploadPhotoResponse } from '@app/management/types';
+import { BaseItemsResponse } from '@shared/types';
+import { EquipmentSubCategory } from '@app/management/types/equipment-sub-category';
+import { NewEquipment } from '@app/management/models/equipment';
+import { Equipment } from '@app/catalog/models/equipment';
 
 @Injectable()
 export class ApiService {
-
-  constructor(
-      private httpClient: HttpClient
-  ) { }
+  constructor(private httpClient: HttpClient) {}
 
   getEquipmentCategories(): Observable<BaseItemsResponse<EquipmentKind>> {
-     return this.httpClient.get<BaseItemsResponse<EquipmentKind>>("/api/equipment/categories");
+    return this.httpClient.get<BaseItemsResponse<EquipmentKind>>('/api/equipment/categories');
   }
 
   getEquipmentSubCategoryById(id: number): Observable<EquipmentSubCategory[]> {
@@ -25,7 +22,7 @@ export class ApiService {
   }
 
   registerEquipment(equipment: NewEquipment): Observable<Equipment> {
-    return this.httpClient.post<Equipment>("/api/equipment", equipment);
+    return this.httpClient.post<Equipment>('/api/equipment', equipment);
   }
 
   getPetKinds(): Observable<BaseKind[]> {
@@ -37,7 +34,7 @@ export class ApiService {
   }
 
   uploadPhoto(formData: FormData): Observable<UploadPhotoResponse> {
-    return this.httpClient.post<UploadPhotoResponse>('api/equipment/photos', formData)
+    return this.httpClient.post<UploadPhotoResponse>('api/equipment/photos', formData);
   }
 
   getEquipmentStatuses(): Observable<BaseKind[]> {
