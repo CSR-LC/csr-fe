@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CatalogRoutingModule } from './catalog-routing.module';
 import { CatalogApi } from './services';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { CatalogComponent, EquipmentItemComponent } from './containers';
 import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './components';
 import { NgxsModule } from '@ngxs/store';

@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { AbstractControl, NgControl, ValidationErrors } from '@angular/forms';
 import { ValidationService } from '../../services/validation/validation.service';
-import { merge, Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 
 @UntilDestroy
@@ -32,7 +32,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
           this.createErrors();
       });
 
-    this.control.statusChanges.pipe(untilDestroyed(this)).subscribe((res) => {
+    this.control.statusChanges.pipe(untilDestroyed(this)).subscribe(() => {
       this.removeErrors();
       if (this.control.errors) this.createErrors();
     });

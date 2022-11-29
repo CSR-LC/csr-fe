@@ -1,4 +1,3 @@
-import { Validators } from '@angular/forms';
 import { TechnicalIssues } from '@app/management/types';
 import { EquipmentOptions } from '@app/management/models/management';
 

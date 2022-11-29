@@ -7,6 +7,8 @@ import { ValidationErrorsDirective } from './directives/validation-errors/valida
 import { BlockUiComponent } from '@shared/components/block-ui/block-ui.component';
 import { MaterialModule } from '@app/material/material.module';
 import { HideTextDirective } from '@shared/directives/hide-text/hide-text.directive';
+import { NotificationComponent } from './components/notification/notification.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -15,8 +17,9 @@ import { HideTextDirective } from '@shared/directives/hide-text/hide-text.direct
     MainHeaderComponent,
     PageNotFoundComponent,
     ValidationErrorsDirective,
+    NotificationComponent,
   ],
-  exports: [HideTextDirective, MainHeaderComponent, ValidationErrorsDirective, BlockUiComponent],
-  imports: [CommonModule, RouterModule, MaterialModule],
+  exports: [HideTextDirective, MainHeaderComponent, ValidationErrorsDirective, BlockUiComponent, MatSnackBarModule],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule],
 })
 export class SharedModule {}

@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
 import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 import { ControllerService } from '../../services/controller/controller.service';
@@ -76,7 +76,6 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
     this.conditionControl = this.equipmentRegistrationForm.get('condition');
     this.photoIdControl = this.equipmentRegistrationForm.get('photoID');
-    const a = 4;
   }
 
   ngOnDestroy() {
@@ -86,10 +85,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
     if (event.key === 'Backspace') return;
     const formField = this.equipmentRegistrationForm.get(formFieldName);
-    if (formField?.errors && (formField.errors['maxlength'] || formField.errors['max'])) {
-      return false;
-    }
-    return true;
+    return !(formField?.errors && (formField.errors['maxlength'] || formField.errors['max']));
   }
 
   setSubcategoryDisabledState(categoryId: number) {

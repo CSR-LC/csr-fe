@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { BaseKind, EquipmentKind, EquipmentManagement, PetSize } from '../../models/management';
+import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 import { UploadPhotoResponse } from '@app/management/types';
 import { BaseItemsResponse } from '@shared/types';
 import { EquipmentSubCategory } from '@app/management/types/equipment-sub-category';

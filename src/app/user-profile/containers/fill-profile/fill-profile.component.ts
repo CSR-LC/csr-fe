@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-import { OnSubmitStateMatcher } from '../../../shared/error-matcher/on-submit.error-matcher';
+import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
 import { User } from '../../models/user';
 import { UserController } from '../../services';
 
@@ -42,10 +42,7 @@ export class FillProfileComponent {
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
     if (event.key === 'Backspace') return;
     const formField = this.userInfoForm.get(formFieldName);
-    if (formField?.errors && (formField.errors['maxlength'] || formField.errors['max'])) {
-      return false;
-    }
-    return true;
+    return !(formField?.errors && (formField.errors['maxlength'] || formField.errors['max']));
   }
 
   onCancel() {

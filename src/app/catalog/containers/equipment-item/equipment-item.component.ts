@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
-import { first, Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { BaseKind, EquipmentKind, EquipmentManagement, PetSize } from '../../models/management';
+import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 
 import { ApiService } from '../api/api.service';
 import { UploadPhotoResponse } from '@app/management/types';
