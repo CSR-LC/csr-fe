@@ -52,12 +52,12 @@ export class LoginComponent {
     this.controller
       .login(credentials)
       .pipe(
-        untilDestroyed(this),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
         }),
         finalize(() => this.blockUiService.unBlock()),
+        untilDestroyed(this),
       )
       .subscribe((res) => {
         if (res) {
