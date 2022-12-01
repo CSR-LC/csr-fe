@@ -20,9 +20,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     NgxsModule.forRoot([AuthState], ngxsConfig),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    AppRoutingModule,
+
     BrowserAnimationsModule,
     SharedModule,
+    AppRoutingModule,
   ],
   providers: [...guards, ...interceptors],
   bootstrap: [AppComponent],

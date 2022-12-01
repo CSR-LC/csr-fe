@@ -1,6 +1,6 @@
 {
     "/api/*": {
-      "target": "https://csr.golangforall.com",
+      "target": "https://stage.csr.golangforall.com",
       "secure": true,
       "changeOrigin": true,
       "logLevel": "debug"
