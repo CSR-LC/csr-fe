@@ -8,13 +8,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, Subscription, switchMap, tap } from 'rxjs';
 
 import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 import { ControllerService } from '../../services/controller/controller.service';
 import { EquipmentSubCategory } from '@app/management/types/equipment-sub-category';
 import { TechnicalIssues } from '@app/management/types';
 import { NewEquipment } from '@app/management/models/equipment';
+import { NotificationsService } from '@shared/services/notifications/notifications.service';
+import { NotificationMessages } from '@shared/constants/notification.enum';
 
 @Component({
   selector: 'lc-equipment',
@@ -38,6 +40,9 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private readonly maxCompensationCost = 9999999999;
+  private inventoryNumberControl?: AbstractControl | null;
+  private inventoryNumbers: number[] = [];
+  private inventoryNumbersSubscription$!: Subscription;
 
   isFormSubmitted = false;
 
@@ -70,16 +75,20 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     private readonly cdr: ChangeDetectorRef,
     private readonly formBuilder: FormBuilder,
     private readonly controller: ControllerService,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   ngOnInit() {
     this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
     this.conditionControl = this.equipmentRegistrationForm.get('condition');
     this.photoIdControl = this.equipmentRegistrationForm.get('photoID');
+    this.inventoryNumberControl = this.equipmentRegistrationForm.get('inventoryNumber');
+    this.getEquipmentInventoryNumbers();
   }
 
   ngOnDestroy() {
     this.equipmentRegistrationForm.reset();
+    this.inventoryNumbersSubscription$.unsubscribe();
   }
 
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
@@ -106,7 +115,17 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.controller.validateForm(this.equipmentRegistrationForm);
 
-    if (!this.file || !this.equipmentRegistrationForm.valid) return;
+    if (!this.file || !this.equipmentRegistrationForm.valid) {
+      this.notificationsService.openError(NotificationMessages.EquipmentFormInvalid);
+      return;
+    }
+
+    const newInvNumber = this.equipmentRegistrationForm.value.inventoryNumber;
+    if (this.inventoryNumbers.includes(newInvNumber)) {
+      this.inventoryNumberControl?.setErrors({ incorrectInventoryNumber: true });
+      this.notificationsService.openError(NotificationMessages.InventoryNumberExistst);
+      return;
+    }
 
     this.controller.manageBlockUi(true);
 
@@ -121,6 +140,8 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.controller.manageBlockUi(false);
+        this.notificationsService.openSuccess(NotificationMessages.EquipmentFormSubmitSuccess);
+        this.inventoryNumbers.push(newInvNumber);
       });
   }
 
@@ -162,5 +183,15 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   private getPetSize(): Observable<PetSize[]> {
     return this.controller.getPetSizes();
+  }
+
+  private getEquipmentInventoryNumbers() {
+    this.inventoryNumbersSubscription$ = this.controller
+      .getAllEquipment()
+      .pipe(
+        map((res) => res.items.map((item) => item.inventoryNumber)),
+        tap((arr) => (this.inventoryNumbers = arr)),
+      )
+      .subscribe();
   }
 }

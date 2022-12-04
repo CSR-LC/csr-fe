@@ -11,7 +11,6 @@ export class NotificationsService {
   private readonly config: MatSnackBarConfig = {
     verticalPosition: 'top',
     horizontalPosition: 'center',
-    duration: 5000,
   };
 
   constructor(private notification: MatSnackBar) {}
@@ -34,6 +33,7 @@ export class NotificationsService {
         type: NotificationTypes.Warning,
         message,
       },
+      duration: 5000,
     };
     this.notification.openFromComponent(NotificationComponent, config);
   }
@@ -45,6 +45,7 @@ export class NotificationsService {
         type: NotificationTypes.Success,
         message,
       },
+      duration: 5000,
     };
     this.notification.openFromComponent(NotificationComponent, config);
   }
