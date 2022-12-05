@@ -7,7 +7,7 @@ import { TokensGuard } from '@shared/guards/tokens.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'catalog',
+    redirectTo: 'categories',
     pathMatch: 'full',
   },
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'catalog',
+    path: 'categories',
     canActivate: [AuthGuard],
     loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
   },

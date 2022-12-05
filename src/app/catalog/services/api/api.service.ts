@@ -30,6 +30,7 @@ export class ApiService {
   }
 
   getCategories(): Observable<BaseItemsResponse<Category>> {
+    // TODO: remove params, when pagination is ready
     const params = new HttpParams().set('limit', 1000);
     return this.httpClient.get<BaseItemsResponse<Category>>(`/api/equipment/categories`, { params });
   }

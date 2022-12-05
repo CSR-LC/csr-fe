@@ -3,7 +3,7 @@ import { Category } from '@app/catalog/models/categories';
 import { GetCategories } from '@app/catalog/store/actions-categories';
 import { CategoriesState } from '@app/catalog/store/state-categories';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
@@ -39,9 +39,6 @@ export class ControllerService {
   }
 
   public getCategories() {
-    this.api
-      .getCategories()
-      .pipe(tap((res) => this.store.dispatch(new GetCategories(res.items))))
-      .subscribe();
+    this.api.getCategories().subscribe((res) => this.store.dispatch(new GetCategories(res.items)));
   }
 }
