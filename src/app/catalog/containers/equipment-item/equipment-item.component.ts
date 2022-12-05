@@ -32,7 +32,7 @@ export class EquipmentItemComponent implements OnInit {
     private readonly controller: CatalogController,
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
-    private readonly mainPageHeaderService: MainPageHeaderService
+    private readonly mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   ngOnInit(): void {

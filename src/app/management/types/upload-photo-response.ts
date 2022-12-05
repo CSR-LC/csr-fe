@@ -4,5 +4,5 @@ export type UploadPhotoResponse = {
     fileName: string;
     id: string;
     url: string;
-  }
-}
+  };
+};

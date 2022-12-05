@@ -9,14 +9,7 @@ import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   declarations: [FillProfileComponent],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    ReactiveFormsModule,
-    MaterialModule,
-  ],
-  providers: [
-    UserApi
-  ]
+  imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, MaterialModule],
+  providers: [UserApi],
 })
-export class UserProfile { }
+export class UserProfile {}

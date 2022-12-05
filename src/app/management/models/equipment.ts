@@ -1,6 +1,5 @@
-import {Validators} from "@angular/forms";
-import {TechnicalIssues} from "@app/management/types";
-import  { EquipmentOptions } from "@app/management/models/management";
+import { TechnicalIssues } from '@app/management/types';
+import { EquipmentOptions } from '@app/management/models/management';
 
 export class NewEquipment {
   category: number;
@@ -10,7 +9,7 @@ export class NewEquipment {
   description: string;
   inventoryNumber: number;
   location: number;
-  maximumAmount:  number;
+  maximumAmount: number;
   maximumDays: number;
   name: string;
   nameSubstring?: string;
@@ -61,10 +60,10 @@ export class NewEquipment {
     const month = this.addZero(date.getMonth() + 1);
     const year = date.getFullYear();
 
-    return `${day}.${month}.${year}`
+    return `${day}.${month}.${year}`;
   }
 
   private addZero(num: number): string {
-    return num < 10 ? `0${num}` : `${num}`
+    return num < 10 ? `0${num}` : `${num}`;
   }
 }

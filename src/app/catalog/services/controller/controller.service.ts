@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import {map, Observable} from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
@@ -9,13 +9,10 @@ import { CatalogState, GetCatalog } from '../../store';
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
 
-  constructor(
-    private api: CatalogApi,
-    private store: Store
-  ) { }
+  constructor(private api: CatalogApi, private store: Store) {}
 
   public getCatalog() {
-    this.api.getCatalog().subscribe(res => {
+    this.api.getCatalog().subscribe((res) => {
       this.store.dispatch(new GetCatalog(res.items));
     });
   }
@@ -25,18 +22,14 @@ export class ControllerService {
   }
 
   public searchEquipment(term: string): Observable<Equipment[]> {
-    const parametersEquipment:Partial<Equipment> = {
+    const parametersEquipment: Partial<Equipment> = {
       name_substring: term,
-    }
+    };
 
-    return  this.api.searchEquipment(parametersEquipment).pipe(
-      map(res => res.items)
-    );
+    return this.api.searchEquipment(parametersEquipment).pipe(map((res) => res.items));
   }
 
   getPhotoById(photoId: string): Observable<Blob> {
-    return this.api.getPhotoById(photoId).pipe(
-      map(res => new Blob([res], { type: "image/jpeg" }))
-    );
+    return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
   }
 }

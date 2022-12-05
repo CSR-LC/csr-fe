@@ -1,9 +1,8 @@
-import {Injectable} from "@angular/core";
-import {CanActivate, Router, UrlTree} from "@angular/router";
-import {AuthState} from "@app/auth/store";
-import {Store} from "@ngxs/store";
-import {AuthService} from "@shared/services/auth-service/auth-service.service";
-
+import { Injectable } from '@angular/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { AuthState } from '@app/auth/store';
+import { Store } from '@ngxs/store';
+import { AuthService } from '@shared/services/auth-service/auth-service.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,6 +19,6 @@ export class AuthGuard implements CanActivate {
 
     const tokens = this.authService.getTokens();
 
-    return !!tokens || this.router.parseUrl("/auth");
+    return !!tokens || this.router.parseUrl('/auth');
   }
 }

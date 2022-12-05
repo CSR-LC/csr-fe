@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {Select} from "@ngxs/store";
-import {AuthState} from "@app/auth/store";
-import {Observable} from "rxjs";
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Select } from '@ngxs/store';
+import { AuthState } from '@app/auth/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'lc-main-header',

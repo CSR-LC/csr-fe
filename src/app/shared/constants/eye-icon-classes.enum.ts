@@ -1,4 +1,4 @@
 export enum EyeIconClasses {
   open = 'eye-open',
-  closed = 'eye-closed'
+  closed = 'eye-closed',
 }
