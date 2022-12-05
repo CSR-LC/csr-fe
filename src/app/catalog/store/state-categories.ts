@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { EquipmentCategories } from '../models';
+import { Categories } from '../models';
 import { GetCategories } from './actions-categories';
 
-@State<EquipmentCategories>({
+@State<Categories>({
   name: 'categories',
   defaults: {
     categories: [],
@@ -13,12 +13,12 @@ import { GetCategories } from './actions-categories';
 export class CategoriesState {
   constructor() {}
   @Selector()
-  static categories(state: EquipmentCategories) {
-    return { ...state.categories };
+  static categories(state: Categories) {
+    return [...state.categories];
   }
 
   @Action(GetCategories)
-  public getCatalogAction(ctx: StateContext<EquipmentCategories>, action: GetCategories) {
+  public getCatalogAction(ctx: StateContext<Categories>, action: GetCategories) {
     ctx.setState({ categories: action.categories });
   }
 }

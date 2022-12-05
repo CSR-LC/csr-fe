@@ -1,0 +1,22 @@
+@import '../../../shared/styles/variables.scss';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.categories {
+  background: $color-bg-base;
+  border-radius: 30px;
+  height: 100%;
+  padding: 25px;
+}
+
+.categories-list {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}

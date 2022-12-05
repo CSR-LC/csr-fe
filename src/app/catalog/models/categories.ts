@@ -1,4 +1,4 @@
-export interface Categories {
+export interface Category {
   has_subcategory: boolean;
   id: number;
   max_reservation_time: number;

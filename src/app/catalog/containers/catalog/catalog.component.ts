@@ -18,7 +18,6 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.controller.getCatalog();
-    this.controller.getCategories();
   }
 
   public onSearch(term: string) {

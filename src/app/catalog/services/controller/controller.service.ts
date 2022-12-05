@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Categories } from '@app/catalog/models/categories';
+import { Category } from '@app/catalog/models/categories';
 import { GetCategories } from '@app/catalog/store/actions-categories';
 import { CategoriesState } from '@app/catalog/store/state-categories';
 import { Select, Store } from '@ngxs/store';
@@ -11,7 +11,7 @@ import { CatalogState, GetCatalog } from '../../store';
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
-  @Select(CategoriesState.categories) categories$!: Observable<Categories[]>;
+  @Select(CategoriesState.categories) categories$!: Observable<Category[]>;
   apiSearch: any;
 
   constructor(private api: CatalogApi, private store: Store) {}

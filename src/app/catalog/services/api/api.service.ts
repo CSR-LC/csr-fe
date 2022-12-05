@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
-import { Categories } from '@app/catalog/models/categories';
+import { Category } from '@app/catalog/models/categories';
 
 @Injectable()
 export class ApiService {
@@ -29,8 +29,8 @@ export class ApiService {
     });
   }
 
-  getCategories(): Observable<BaseItemsResponse<Categories>> {
+  getCategories(): Observable<BaseItemsResponse<Category>> {
     const params = new HttpParams().set('limit', 1000);
-    return this.httpClient.get<BaseItemsResponse<Categories>>(`/api/equipment/categories`, { params });
+    return this.httpClient.get<BaseItemsResponse<Category>>(`/api/equipment/categories`, { params });
   }
 }
