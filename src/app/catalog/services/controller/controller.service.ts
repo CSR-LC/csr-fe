@@ -44,15 +44,4 @@ export class ControllerService {
       .pipe(tap((res) => this.store.dispatch(new GetCategories(res.items))))
       .subscribe();
   }
-
-  // getCategories() {
-  //   this.api
-  //     .getCatalog()
-  //     .pipe(
-  //       mergeMap((catalog) => {
-  //         return forkJoin(catalog.items.map((item) => this.api.getCategories(item.category)));
-  //       }),
-  //     )
-  //     .subscribe(console.log);
-  // }
 }
