@@ -1,4 +1,4 @@
-import { Category } from '../models/categories';
+import { Category } from '../models';
 
 export class GetCategories {
   static readonly type = '[Categories] Get';
