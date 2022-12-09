@@ -6,6 +6,11 @@ import { CategoriesComponent } from './containers/categories/categories.componen
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'categories',
+    pathMatch: 'full',
+  },
+  {
+    path: 'categories',
     component: CategoriesComponent,
   },
   {
