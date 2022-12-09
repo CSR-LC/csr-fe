@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Category } from '@app/catalog/models/categories';
-import { GetCategories } from '@app/catalog/store/actions-categories';
-import { CategoriesState } from '@app/catalog/store/state-categories';
+import { Category } from '@app/catalog/models';
+import { CategoriesState, GetCategories } from '@app/catalog/store';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';

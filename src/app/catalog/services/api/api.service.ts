@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
-import { Category } from '@app/catalog/models/categories';
+import { Category } from '@app/catalog/models';
 
 @Injectable()
 export class ApiService {
