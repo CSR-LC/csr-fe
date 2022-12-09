@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
 import { CategoriesState } from './store/state-categories';
-import { CategoryItemComponent } from './containers/category-item/category-item.component';
+import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
 
 @NgModule({
