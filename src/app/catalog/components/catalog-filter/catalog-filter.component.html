@@ -1,0 +1,65 @@
+<div class="catalog-filter">
+  <div class="catalog-filter__header">
+    <h2 class="catalog-filter__title">Фильтр</h2>
+    <div (click)="onClose()">
+      <img src="assets/img/icons/icon-close.svg" alt="icon-close" />
+    </div>
+  </div>
+  <div class="catalog-filter__checkbox">
+    <h3 class="catalog-filter__subtitle">Животное</h3>
+    <mat-checkbox id="1" checked="{{ data.checkboxCat }}" (change)="onChange($event)">Кошка</mat-checkbox>
+    <mat-checkbox id="2" checked="{{ data.checkboxDog }}" (change)="onChange($event)">Собака</mat-checkbox>
+    <mat-checkbox id="3" checked="{{ data.checkboxBird }}" (change)="onChange($event)">Птица</mat-checkbox>
+  </div>
+  <div>
+    <h3 class="catalog-filter__subtitle">Размер</h3>
+    <div class="catalog-filter__size">
+      <button id="4" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size160x170" class="catalog-filter__btn">
+        160x170
+      </button>
+      <button id="5" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size60x120" class="catalog-filter__btn">
+        60x120
+      </button>
+      <button id="6" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size60x50" class="catalog-filter__btn">
+        60x50
+      </button>
+      <button id="7" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size60x70" class="catalog-filter__btn">
+        60x70
+      </button>
+      <button id="8" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size60x60" class="catalog-filter__btn">
+        60x60
+      </button>
+      <button id="9" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.size50x50" class="catalog-filter__btn">
+        50x50
+      </button>
+    </div>
+  </div>
+  <div class="catalog-filter__wrapper">
+    <mat-slide-toggle
+      id="10"
+      checked="{{ data.slideIdealCondition }}"
+      (change)="onChange($event)"
+      class="catalog-filter__slide"
+      >В идеальном состоянии</mat-slide-toggle
+    >
+  </div>
+  <div>
+    <h3 class="catalog-filter__subtitle">Сортировка</h3>
+    <div class="catalog-filter__sort">
+      <button id="11" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.sortByAlphabet" class="catalog-filter__btn">
+        <img src="assets/img/icons/icon-sort_byalphabet.svg" alt="icon-sort_byalphabet" /> По алфавиту
+      </button>
+      <button id="12" (click)="onClick($event)" [class.catalog-filter__btn-clicked]="data.sortBySize" class="catalog-filter__btn">
+        <img src="assets/img/icons/icon-sort_bysize.svg" alt="icon-sort_bysize" /> По размеру
+      </button>
+    </div>
+  </div>
+  <div class="catalog-filter__wrapper">
+    <ng-container *ngIf="data.counter == 0; else find">
+      <button (click)="onClose()" class="catalog-filter__big-button">Закрыть</button>
+    </ng-container>
+  </div>
+  <ng-template #find>
+    <button class="catalog-filter__big-button">Показать N товаров</button>
+  </ng-template>
+</div>

@@ -1,5 +1,12 @@
 <section class="catalog">
+  <div class="catalog-search">
+    <div class="catalog-search__width">
   <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
+</div>
+<div>
+  <lc-filter-icon></lc-filter-icon>
+  </div>
+</div>
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">
       <lc-preview-equipment-card

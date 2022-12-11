@@ -18,3 +18,15 @@
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
+
+.catalog-search {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  &__width{
+    width: 90%;
+  }
+}
+
+

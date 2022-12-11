@@ -1,0 +1,10 @@
+<div class="filter-icon">
+  <ng-container *ngIf="data.counter == 0; else matBadge">
+    <div><img src="assets/img/icons/icon-filter.svg" (click)="onOpenFilter()" alt="filter_icon" /></div>
+  </ng-container>
+</div>
+<ng-template #matBadge>
+  <div matBadge="{{ data.counter }}">
+    <img src="assets/img/icons/icon-filter.svg" (click)="onOpenFilter()" class="svgfix" alt="filter_icon" />
+  </div>
+</ng-template>

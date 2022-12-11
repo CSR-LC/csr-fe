@@ -9,9 +9,11 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
+import { FilterIconComponent } from './components/filter-icon/filter-icon.component';
+import { CatalogFilterComponent } from './components/catalog-filter/catalog-filter.component';
 
 @NgModule({
-  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent],
+  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent, FilterIconComponent, CatalogFilterComponent],
   imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
   providers: [CatalogApi],
 })
