@@ -1,14 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
-import { first, Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
@@ -38,14 +30,12 @@ export class EquipmentItemComponent implements OnInit {
   ngOnInit(): void {
     this.controller.getCatalog();
 
-    this.controller
-      .getEquipmentItemInfo(this.route.snapshot.params['id'])
-      .subscribe((item) => {
-        this.mainPageHeaderService.setPageTitle(item.name);
-        this.equipment = item;
-        this.setPhoto(item);
-        this.cdr.markForCheck();
-      });
+    this.controller.getEquipmentItemInfo(this.route.snapshot.params['id']).subscribe((item) => {
+      this.mainPageHeaderService.setPageTitle(item.name);
+      this.equipment = item;
+      this.setPhoto(item);
+      this.cdr.markForCheck();
+    });
   }
 
   private setPhoto(equipment: Equipment): void {
@@ -57,21 +47,5 @@ export class EquipmentItemComponent implements OnInit {
 
       this.image.nativeElement.src = url;
     });
-  }
-
-  get cannotDecrease(): boolean {
-    return this.counter <= 0;
-  }
-
-  get cannotIncrease(): boolean {
-    return this.counter === this.equipment?.maximumDays;
-  }
-
-  public increase(): void {
-    this.counter++;
-  }
-
-  public decrease(): void {
-    this.counter--;
   }
 }

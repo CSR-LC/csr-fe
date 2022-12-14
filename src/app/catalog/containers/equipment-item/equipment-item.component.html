@@ -1,110 +1,49 @@
 <section class="equipment-item">
-  <img
-    #image
-    class="equipment-item__img"
-    [src]="defaultImage"
-    alt="equipment photo"
-  />
   <h2 class="equipment-item__title">{{ equipment?.title }}</h2>
-  <div class="equipment-item__description">
-    {{ equipment?.description }}
-  </div>
+  <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo" />
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
       <div class="info-item">
-        <div
-          mat-icon-button
-          (click)="tooltip.show()"
-          mat-raised-button
-          #tooltip="matTooltip"
-          matTooltip="Максимальный срок использования оборудования, дней"
-          matTooltipPosition="right"
-        >
-          <mat-icon style="-webkit-text-fill-color: #4d8f9e">history </mat-icon>
+        <p class="info-item__description">
+          {{ equipment?.description }}
+        </p>
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
+          <div>
+            <p>Максимальный срок использования</p>
+            <p class="info-item__condition">{{ equipment?.maximumDays }} суток</p>
+          </div>
         </div>
-        <div>{{ equipment?.maximumDays }} суток</div>
       </div>
       <div class="info-item">
-        <div
-          mat-icon-button
-          (click)="tooltip1.show()"
-          mat-raised-button
-          #tooltip1="matTooltip"
-          matTooltip="Максимальное количество единиц в руки"
-          matTooltipPosition="right"
-        >
-          <mat-icon>
-            <img src="assets/img/icons/icon-inHand.svg" alt="in hand" />
-          </mat-icon>
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-compensation.svg" alt="compensation" /></div>
+          <div>
+            <p>Плата за порчу оборудования</p>
+            <p class="info-item__condition">{{ equipment?.compensationCost }} &#8381;</p>
+          </div>
         </div>
-        <div>{{ equipment?.maximumAmount }} шт.</div>
       </div>
-      <div class="info-item">
-        <div
-          mat-icon-button
-          (click)="tooltip2.show()"
-          mat-raised-button
-          #tooltip2="matTooltip"
-          matTooltip="Стоимость компенсации в случае утраты/порчи, руб."
-          matTooltipPosition="right"
-        >
-          <mat-icon
-            ><img
-              src="assets/img/icons/icon-compensation.svg"
-              alt="compensation"
-            />
-          </mat-icon>
+      <div class="info-item" *ngIf="equipment?.technicalIssues === 'есть'; else new">
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
+          <div>
+            <p class="info-item__used">Б/у состояние</p>
+            <p class="info-item__condition">{{ equipment?.condition }}</p>
+          </div>
         </div>
-        <div>{{ equipment?.compensationCost }} &#8381;</div>
-      </div>
-      <div
-        class="info-item"
-        *ngIf="equipment?.technicalIssues === 'есть'; else new"
-      >
-        <div
-          mat-icon-button
-          (click)="tooltip2.show()"
-          mat-raised-button
-          #tooltip2="matTooltip"
-          matTooltip="{{ equipment?.condition }}"
-          matTooltipPosition="right"
-        >
-          <mat-icon>
-            <img src="assets/img/icons/icon-used.svg" alt="used" />
-          </mat-icon>
-        </div>
-        <div>Б/у</div>
       </div>
       <ng-template #new>
         <div class="info-item">
-          <div>
-            <mat-icon
-              ><img src="assets/img/icons/icon-new.svg" alt="new" />
-            </mat-icon>
+          <div class="info-item__wrapper">
+            <div><img src="assets/img/icons/icon-new.svg" alt="new" /></div>
+            <div>Новое</div>
           </div>
-          <div>Новое</div>
         </div>
       </ng-template>
     </div>
   </div>
-  <div class="equipment-rent">
-    <div class="equipment-rent__days">
-      <button
-        class="equipment-rent__increase-decrease"
-        (click)="decrease()"
-        [disabled]="cannotDecrease"
-      >
-        -
-      </button>
-      <span>{{ counter }}</span>
-      <button
-        class="equipment-rent__increase-decrease"
-        (click)="increase()"
-        [disabled]="cannotIncrease"
-      >
-        +
-      </button>
-    </div>
-    <button class="equipment-rent__calendar">выберите дату</button>
+  <div>
+    <button class="equipment-item__calendar">выберите даты аренды</button>
   </div>
 </section>

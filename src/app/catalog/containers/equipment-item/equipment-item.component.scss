@@ -1,7 +1,12 @@
-@import "../../../shared/styles/variables.scss";
+@import '../../../shared/styles/variables.scss';
 
 :host {
   flex: 1 1 auto;
+}
+
+p {
+  padding: 0;
+  margin: 0;
 }
 
 .equipment-item {
@@ -23,36 +28,36 @@
     line-height: 20px;
     margin: 28px 0;
   }
-  &__description {
-    color: $color-description-text;
-    font-size: 16px;
-    line-height: 18px;
-    margin: 28px 0;
+
+  &__calendar {
+    background-color: $color-title;
+    color: $color-bg-base;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 30px;
+    width: 342px;
   }
 }
 
 .equipment-info-list {
   display: flex;
-  flex-flow: column nowrap;
+  overflow-y: auto;
+  height: 175px;
   &__item {
     display: flex;
-    flex-flow: row nowrap;
-    &:not(:last-child) {
-      margin: 0 0 28px 0;
-    }
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
   color: $color-description-text;
   font-size: 13px;
-  line-height: 15px;
-  &:not(:last-child) {
-    margin-right: 28px;
-  }
   &__title {
     color: $color-title;
     display: inline-block;
@@ -61,42 +66,24 @@
     line-height: 16px;
     margin: 0 10px 10px 0;
   }
-}
 
-.equipment-rent {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
-  max-width: 350px;
-  color: $color-title;
+  &__description {
+    color: $color-description-text;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
 
-  &__days {
+  &__wrapper {
     display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  &__calendar {
-    background-color: $color-title;
-    color: $color-bg-base;
-    width: 163px;
-    height: 40px;
-    padding: 0 16px;
-    border-radius: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    gap: 5px;
   }
 
-  &__increase-decrease {
-    background-color: $color-bg-base;
-    color: $color-title;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-    border: 2px solid #cfdbe6;
-    border-radius: 10px;
+  &__condition {
+    color: $color-description-text;
   }
 
-  &__increase-decrease:disabled {
-    color: #cfdbe6;
+  &__used {
+    color: #f20e37;
   }
 }
+
