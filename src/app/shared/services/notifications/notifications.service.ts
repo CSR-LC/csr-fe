@@ -12,6 +12,7 @@ export class NotificationsService {
     verticalPosition: 'top',
     horizontalPosition: 'center',
   };
+  private readonly durationTime = 5000;
 
   constructor(private notification: MatSnackBar) {}
 
@@ -33,7 +34,7 @@ export class NotificationsService {
         type: NotificationTypes.Warning,
         message,
       },
-      duration: 5000,
+      duration: this.durationTime,
     };
     this.notification.openFromComponent(NotificationComponent, config);
   }
@@ -45,7 +46,7 @@ export class NotificationsService {
         type: NotificationTypes.Success,
         message,
       },
-      duration: 5000,
+      duration: this.durationTime,
     };
     this.notification.openFromComponent(NotificationComponent, config);
   }

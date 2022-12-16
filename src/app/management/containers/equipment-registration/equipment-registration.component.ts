@@ -43,7 +43,6 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   private readonly maxCompensationCost = 9999999999;
   private inventoryNumberControl?: AbstractControl | null;
   private inventoryNumbers: number[] = [];
-  private inventoryNumbersSubscription$!: Subscription;
 
   isFormSubmitted = false;
 
@@ -89,7 +88,6 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.equipmentRegistrationForm.reset();
-    this.inventoryNumbersSubscription$.unsubscribe();
   }
 
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {
@@ -116,7 +114,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.controller.validateForm(this.equipmentRegistrationForm);
 
-    if (!this.file || !this.equipmentRegistrationForm.valid) {
+    if (!this.file || this.equipmentRegistrationForm.invalid) {
       this.notificationsService.openError(NotificationError.EquipmentFormInvalid);
       return;
     }
@@ -187,12 +185,9 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
   }
 
   private getEquipmentInventoryNumbers() {
-    this.inventoryNumbersSubscription$ = this.controller
+    this.controller
       .getAllEquipment()
-      .pipe(
-        map((res) => res.items.map((item) => item.inventoryNumber)),
-        tap((arr) => (this.inventoryNumbers = arr)),
-      )
-      .subscribe();
+      .pipe(map((res) => res.items.map((item) => item.inventoryNumber)))
+      .subscribe((arr) => (this.inventoryNumbers = arr));
   }
 }
