@@ -141,7 +141,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.controller.manageBlockUi(false);
-        this.notificationsService.openSuccess(NotificationSuccess.EquipmentFormSubmitSuccess);
+        this.notificationsService.openSuccess(NotificationSuccess.EquipmentAdded);
         this.inventoryNumbers.push(newInvNumber);
       });
   }
