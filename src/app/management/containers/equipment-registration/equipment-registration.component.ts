@@ -16,7 +16,8 @@ import { EquipmentSubCategory } from '@app/management/types/equipment-sub-catego
 import { TechnicalIssues } from '@app/management/types';
 import { NewEquipment } from '@app/management/models/equipment';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
-import { NotificationMessages } from '@shared/constants/notification.enum';
+import { NotificationError } from '@shared/constants/notification-error.enum';
+import { NotificationSuccess } from '@shared/constants/notification-success.enum';
 
 @Component({
   selector: 'lc-equipment',
@@ -116,14 +117,14 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
     this.controller.validateForm(this.equipmentRegistrationForm);
 
     if (!this.file || !this.equipmentRegistrationForm.valid) {
-      this.notificationsService.openError(NotificationMessages.EquipmentFormInvalid);
+      this.notificationsService.openError(NotificationError.EquipmentFormInvalid);
       return;
     }
 
     const newInvNumber = this.equipmentRegistrationForm.value.inventoryNumber;
     if (this.inventoryNumbers.includes(newInvNumber)) {
       this.inventoryNumberControl?.setErrors({ incorrectInventoryNumber: true });
-      this.notificationsService.openError(NotificationMessages.InventoryNumberExistst);
+      this.notificationsService.openError(NotificationError.InventoryNumberExistst);
       return;
     }
 
@@ -140,7 +141,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.controller.manageBlockUi(false);
-        this.notificationsService.openSuccess(NotificationMessages.EquipmentFormSubmitSuccess);
+        this.notificationsService.openSuccess(NotificationSuccess.EquipmentFormSubmitSuccess);
         this.inventoryNumbers.push(newInvNumber);
       });
   }
