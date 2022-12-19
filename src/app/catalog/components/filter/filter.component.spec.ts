@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilterIconComponent } from './filter-icon.component';
+import { FilterComponent } from './filter.component';
 
 describe('FilterIconComponent', () => {
-  let component: FilterIconComponent;
-  let fixture: ComponentFixture<FilterIconComponent>;
+  let component: FilterComponent;
+  let fixture: ComponentFixture<FilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FilterIconComponent ]
-    })
-    .compileComponents();
+      declarations: [FilterComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterIconComponent);
+    fixture = TestBed.createComponent(FilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CatalogFilterComponent } from './catalog-filter.component';
+import { FilterModuleComponent } from './filter-module.component';
 
 describe('CatalogFilterComponent', () => {
-  let component: CatalogFilterComponent;
-  let fixture: ComponentFixture<CatalogFilterComponent>;
+  let component: FilterModuleComponent;
+  let fixture: ComponentFixture<FilterModuleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatalogFilterComponent ]
-    })
-    .compileComponents();
+      declarations: [FilterModuleComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CatalogFilterComponent);
+    fixture = TestBed.createComponent(FilterModuleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

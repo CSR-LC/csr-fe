@@ -9,12 +9,28 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
-import { FilterIconComponent } from './components/filter-icon/filter-icon.component';
-import { CatalogFilterComponent } from './components/catalog-filter/catalog-filter.component';
+import { FilterComponent } from './components/filter/filter.component';
+import { FilterModuleComponent } from './components/filter-module/filter-module.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent, FilterIconComponent, CatalogFilterComponent],
-  imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
+  declarations: [
+    CatalogComponent,
+    PreviewEquipmentCardComponent,
+    CatalogSearchComponent,
+    EquipmentItemComponent,
+    FilterComponent,
+    FilterModuleComponent,
+  ],
+  imports: [
+    CommonModule,
+    CatalogRoutingModule,
+    SharedModule,
+    MaterialModule,
+    NgxsModule.forFeature([CatalogState]),
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [CatalogApi],
 })
 export class CatalogModule {}

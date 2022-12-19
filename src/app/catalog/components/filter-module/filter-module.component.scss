@@ -1,6 +1,6 @@
 @import '../../../shared/styles/variables.scss';
 
-.catalog-filter {
+.filter-module {
   &__header {
     display: flex;
     justify-content: space-between;
@@ -79,7 +79,7 @@
     justify-content: center;
   }
 
-  &__big-button {
+  &__btn {
     height: 55px;
     width: 270px;
     padding: 0px 16px 0px 16px;
@@ -107,6 +107,16 @@
 
 mat-checkbox {
   color: $color-description-text;
+}
+
+mat-chip {
+  color: #005f75 !important;
+  font-size: 10px !important;
+  border: 2px solid #cfdbe5;
+}
+
+.mat-chip-selected {
+  color: white !important;
 }
 
 ::ng-deep .mat-checkbox-checked {
