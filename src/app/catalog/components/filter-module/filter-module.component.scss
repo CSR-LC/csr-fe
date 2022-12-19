@@ -29,28 +29,6 @@
     gap: 10px;
   }
 
-  &__btn {
-    padding: 6px 12px;
-    height: 32px;
-    left: 243px;
-    top: 0px;
-    border: 2px solid #cfdbe5;
-    border-radius: 16px;
-    background-color: $color-bg-base;
-    color: $color-title;
-    font-size: 14px;
-  }
-
-  &__btn-clicked {
-    border: none;
-    color: white;
-    background-color: #005f75;
-  }
-
-  &__btn-clicked img {
-    background-color: white;
-  }
-
   &__subtitle {
     margin-top: 20px;
     margin-bottom: 5px;
