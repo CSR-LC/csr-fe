@@ -44,7 +44,16 @@ export class FilterModuleComponent implements OnInit {
     chip.toggleSelected();
   }
 
+  filtersCounter() {
+    const petKindArray = Object.values(this.filterForm.value['petKind']);
+    const sizeArray = Object.values(this.filterForm.value['size']);
+    const conditionArray = [this.filterForm.value['condition']];
+    const mergeArray = [...petKindArray, ...sizeArray, ...conditionArray];
+    return mergeArray.filter((item) => item === true).length;
+  }
+
   closeModule() {
+    this.counter = this.filtersCounter();
     this.matDialogRef.close(this.counter);
   }
 }
