@@ -5,3 +5,7 @@ export type Category = {
   max_reservation_units: number;
   name: string;
 };
+
+export type CategoryId = {
+  data: Category;
+};

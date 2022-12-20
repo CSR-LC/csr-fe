@@ -1,0 +1,11 @@
+<section class="category-equipment">
+  <div class="category-equipment-list">
+    <div *ngFor="let item of categories$ | async"
+      class="category-equipment-item"
+      (click)="updateParamsCategory(item.id, item.name)"
+      [class.active]="categoryId === item.id"
+    >
+      <lc-category-equipment-item [item]="item"></lc-category-equipment-item>
+    </div>
+  </div>
+</section>

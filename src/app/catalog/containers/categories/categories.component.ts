@@ -20,7 +20,7 @@ export class CategoriesComponent implements OnInit {
     mainPageHeaderService.setPageTitle('Категории оборудования');
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.controller.getCategories();
   }
 }

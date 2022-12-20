@@ -8,7 +8,7 @@
   background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
-  &__img {
+  &-img {
     border-radius: 10px;
     display: block;
     margin: 0;
@@ -17,7 +17,7 @@
     background: #F7F7F7;
     cursor: pointer;
   }
-  &__title {
+  &-title {
     color: $color-title;
     font-size: 14px;
     font-weight: 700;

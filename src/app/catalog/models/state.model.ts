@@ -1,4 +1,4 @@
-import { Category } from './categories';
+import { Category } from './category';
 import { Equipment } from './equipment';
 
 export type Catalog = {

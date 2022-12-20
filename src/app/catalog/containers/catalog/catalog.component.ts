@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CatalogController } from '../../services';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'lc-catalog',
@@ -10,17 +11,24 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
   providers: [CatalogController],
 })
 export class CatalogComponent implements OnInit {
-  public catalog$ = this.controller.catalog$;
+  catalog$ = this.controller.catalog$;
+  categoryId: string = this.route.snapshot.params['categoryId'];
 
-  constructor(private controller: CatalogController, private mainPageHeaderService: MainPageHeaderService) {
+  constructor(
+    private controller: CatalogController,
+    private mainPageHeaderService: MainPageHeaderService,
+    private route: ActivatedRoute,
+  ) {
     mainPageHeaderService.setPageTitle('Каталог');
   }
 
-  ngOnInit(): void {
-    this.controller.getCatalog();
+  ngOnInit() {
+    this.route.params.subscribe((param) => {
+      param['categoryId'] ? this.controller.getEquipmentByCategory(param['categoryId']) : this.controller.getCatalog();
+    });
   }
 
-  public onSearch(term: string) {
+  onSearch(term: string) {
     this.catalog$ = this.controller.searchEquipment(term);
   }
 }

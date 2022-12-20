@@ -9,9 +9,11 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
-import { CategoriesState } from './store/state-categories';
+import { CategoriesState } from './store/categories.state';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
+import { CategoryEquipmentComponent } from './containers/category-equipment/category-equipment.component';
+import { CategoryEquipmentItemComponent } from './components/category-equipment-item/category-equipment-item.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { CategoriesComponent } from './containers/categories/categories.componen
     EquipmentItemComponent,
     CategoriesComponent,
     CategoryItemComponent,
+    CategoryEquipmentComponent,
+    CategoryEquipmentItemComponent,
   ],
   imports: [
     CommonModule,

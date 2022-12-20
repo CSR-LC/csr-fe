@@ -6,19 +6,23 @@ import { CategoriesComponent } from './containers/categories/categories.componen
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'categories',
-    pathMatch: 'full',
-  },
-  {
-    path: 'categories',
-    component: CategoriesComponent,
-  },
-  {
-    path: 'catalog',
     component: CatalogComponent,
   },
   {
-    path: ':id',
+    path: 'categories',
+    children: [
+      {
+        path: '',
+        component: CategoriesComponent,
+      },
+      {
+        path: ':categoryId',
+        component: CatalogComponent,
+      },
+    ],
+  },
+  {
+    path: 'equipment/:id',
     component: EquipmentItemComponent,
   },
 ];

@@ -1,0 +1,44 @@
+@import '/src/app/shared/styles/variables';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+}
+
+.category-equipment {
+  display: flex;
+  height: 100%;
+  margin: 25px 0px 25px 25px;
+  padding-right: 25px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.category-equipment-list {
+  display: flex;
+  gap: 10px;
+  margin: 0 auto;
+  scroll-snap-align: start;
+}
+
+.category-equipment-item {
+  background: $color-eye-icon;
+  border-radius: 6px;
+}
+
+.category-equipment-item.active {
+  background: $color-title;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: rgba(255, 255, 255, 0.0);
+}
+
+@media (max-width: 890px) {
+  .category-equipment {
+    margin-bottom: 10px;
+  }
+}

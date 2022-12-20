@@ -1,2 +1,2 @@
 export * from './state.model';
-export * from './categories';
+export * from './category';

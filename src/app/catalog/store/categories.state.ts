@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Categories } from '../models';
-import { GetCategories } from './actions-categories';
+import { GetCategories } from './categories.actions';
 
 @State<Categories>({
   name: 'categories',
@@ -18,7 +18,7 @@ export class CategoriesState {
   }
 
   @Action(GetCategories)
-  public getCatalogAction(ctx: StateContext<Categories>, action: GetCategories) {
+  getCatalogAction(ctx: StateContext<Categories>, action: GetCategories) {
     ctx.setState({ categories: action.categories });
   }
 }
