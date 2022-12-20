@@ -21,5 +21,8 @@
     margin: 0;
     padding: 20px;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }

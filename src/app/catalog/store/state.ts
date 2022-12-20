@@ -11,14 +11,13 @@ import { Catalog } from '../models';
 })
 @Injectable()
 export class CatalogState {
-  constructor() {}
   @Selector()
   static catalog(state: Catalog) {
     return state.equipments;
   }
 
   @Action(GetCatalog)
-  public getCatalogAction(ctx: StateContext<Catalog>, action: GetCatalog) {
+  getCatalogAction(ctx: StateContext<Catalog>, action: GetCatalog) {
     ctx.setState({ equipments: action.catalog });
   }
 }
