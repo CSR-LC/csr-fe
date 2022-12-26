@@ -1,0 +1,32 @@
+<div class="filter-modal" [formGroup]="filterGroup">
+  <div class="filter-modal__header">
+    <h2 class="filter-modal__title">Фильтр</h2>
+    <div (click)="closeModal()">
+      <img src="assets/img/icons/icon-close.svg" alt="icon-close" />
+    </div>
+  </div>
+  <h3 class="filter-modal__subtitle">Животное</h3>
+  <div class="filter-modal__checkbox" formArrayName="petKinds">
+    <mat-checkbox [formControlName]="0">Кошка</mat-checkbox>
+    <mat-checkbox [formControlName]="1">Собака</mat-checkbox>
+    <mat-checkbox [formControlName]="2">Другие</mat-checkbox>
+    </div>
+  <div >
+    <h3 class="filter-modal__subtitle">Размер</h3>
+    <div class="filter-modal__size">
+    <mat-chip-list selectable multiple>
+        <mat-chip data-size="1" #small="matChip" (click)="changeSelectedValue($event, small)" [selected]="data.petSizes[0]===1">маленькие - 51-76 см</mat-chip>
+        <mat-chip data-size="2" #medium="matChip" (click)="changeSelectedValue($event, medium)" [selected]="data.petSizes[1]===2">средние - 76-91 см</mat-chip>
+        <mat-chip data-size="3" #large="matChip" (click)="changeSelectedValue($event, large)" [selected]="data.petSizes[2]===3">большие - 91-120 см</mat-chip>
+        <mat-chip data-size="4" #universal="matChip" (click)="changeSelectedValue($event, universal)" [selected]="data.petSizes[3]===4">универсальный</mat-chip>
+      </mat-chip-list>
+  </div>
+  <div>
+    <h3 class="filter-modal__subtitle">Техническое состояние</h3>
+    <mat-slide-toggle formControlName="technicalIssues" #slide class="filter-modal__slide-toggle">
+      <span *ngIf="slide.checked">Полностью исправное</span>
+      <span *ngIf="!slide.checked">С техническими особенностями</span>
+    </mat-slide-toggle>
+  </div>
+  <button (click)="closeModal()" class="filter-modal__btn">Закрыть</button>
+</div>

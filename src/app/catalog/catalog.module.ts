@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
 import { FilterComponent } from './components/filter/filter.component';
-import { FilterModuleComponent } from './components/filter-module/filter-module.component';
+import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CatalogSearchComponent,
     EquipmentItemComponent,
     FilterComponent,
-    FilterModuleComponent,
+    FilterModalComponent,
   ],
   imports: [
     CommonModule,
