@@ -1,69 +1,109 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
-import { Filter } from '@app/catalog/models/filter';
+import { map } from 'rxjs/operators';
+import { BaseKind, FilterData, FilterValue, PetSize } from '@app/catalog/models/filter';
+import { ControllerService } from '../../services/controller/controller.service';
+import { Dictionary } from '@app/shared/types';
 
 @Component({
   selector: 'lc-filter-modal',
   templateUrl: './filter-modal.component.html',
   styleUrls: ['./filter-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ControllerService],
 })
 export class FilterModalComponent implements OnInit {
-  filterGroup!: FormGroup;
-  subscription!: Subscription;
-
-  petKinds = [1, 2, 3];
-  petSizes = [1, 2, 3, 4];
+  filterGroup = this.fb.group({
+    petKinds: this.fb.group({}),
+    petSize: this.fb.group({}),
+    technicalIssues: this.fb.control(this.data.filterValue.technicalIssues),
+  });
+  filterValue?: FilterValue;
+  petKinds: BaseKind[] = [];
+  petSizes: PetSize[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Filter,
+    @Inject(MAT_DIALOG_DATA) public data: FilterData,
     private matDialogRef: MatDialogRef<FilterModalComponent>,
     private fb: FormBuilder,
+    private readonly controller: ControllerService,
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    this.filterGroup = this.fb.group({
-      petKinds: this.fb.array(this.data.petKinds),
-      petSizes: this.fb.array(this.data.petSizes),
-      technicalIssues: this.fb.control(this.data.technicalIssues),
-    });
+    this.filterValue = this.data.filterValue;
+    this.getPetKinds();
+    this.getPetSizes();
+  }
 
-    const checkboxControl = this.filterGroup.controls['petKinds'];
-    this.subscription = checkboxControl.valueChanges.subscribe(() => {
-      checkboxControl.setValue(
-        checkboxControl.value.map((value: number | boolean, i: number) => (value ? this.petKinds[i] : false)),
-        { emitEvent: false },
-      );
+  createPetKindsControls(petKinds: BaseKind[]) {
+    const petKindsGroup = this.filterGroup.get('petKinds') as FormGroup;
+    petKinds.forEach((item) => {
+      const value = this.filterValue?.petKinds.includes(item.id);
+      const control = new FormControl(value);
+      petKindsGroup.setControl(String(item.id), control);
+    });
+  }
+
+  createPetSizeControls(petSize: PetSize[]) {
+    const petSizeGroup = this.filterGroup.get('petSize') as FormGroup;
+    petSize.forEach((item) => {
+      const value = this.filterValue?.petSize.includes(item.id);
+      const control = new FormControl(value);
+      petSizeGroup.setControl(String(item.id), control);
     });
   }
 
   changeSelectedValue(event: MouseEvent, chip: MatChip) {
     const size = Number((<HTMLInputElement>event.target).getAttribute('data-size'));
-    const control = this.filterGroup.get(`petSizes.${size - 1}`);
+    const control = this.filterGroup.get(`petSize.${size}`);
     if (!control) return;
-    let value = control.value;
-    if (value === false) value = size;
-    else value = false;
-    control.setValue(value);
+    const value = control.value;
+    control.setValue(!value);
     chip.toggleSelected();
   }
 
-  filtersCounter() {
-    const petKindsArr = this.filterGroup.controls['petKinds'].value;
-    const petSizesArr = this.filterGroup.controls['petSizes'].value;
-    const technicalIssuesArr = [this.filterGroup.controls['technicalIssues'].value];
-    const mergeArray = [...petKindsArr, ...petSizesArr, ...technicalIssuesArr];
-    return 8 - mergeArray.filter((item) => item === false).length;
+  closeModal() {
+    const formValue = this.filterGroup.value;
+    const response = {
+      ...formValue,
+      petKinds: this.getSelectedValues(formValue.petKinds),
+      petSize: this.getSelectedValues(formValue.petSize),
+    };
+    this.matDialogRef.close(response);
   }
 
-  closeModal() {
-    this.data.petKinds = this.filterGroup.controls['petKinds'].value;
-    this.data.petSizes = this.filterGroup.controls['petSizes'].value;
-    this.data.technicalIssues = this.filterGroup.controls['technicalIssues'].value;
-    this.data.counter = this.filtersCounter();
-    this.matDialogRef.close(this.data);
+  private getSelectedValues(value: Dictionary<boolean>): number[] {
+    return Object.keys(value)
+      .filter((key) => value[key])
+      .map(Number);
+  }
+
+  private getPetKinds() {
+    this.controller
+      .getPetKinds()
+      .pipe(map((res) => res.sort(this.filterItems)))
+      .subscribe((res) => {
+        this.petKinds = res;
+        this.createPetKindsControls(res);
+        this.cd.markForCheck();
+      });
+  }
+
+  private getPetSizes() {
+    this.controller
+      .getPetSizes()
+      .pipe(map((res) => res.sort(this.filterItems)))
+      .subscribe((res) => {
+        this.petSizes = res;
+        this.createPetSizeControls(res);
+        this.cd.markForCheck();
+      });
+  }
+
+  private filterItems(a: { id: number }, b: { id: number }): number {
+    return a.id - b.id;
   }
 }

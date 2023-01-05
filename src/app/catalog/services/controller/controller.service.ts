@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
+import { BaseKind, PetSize } from '@app/catalog/models/filter';
 
 @Injectable()
 export class ControllerService {
@@ -31,5 +32,13 @@ export class ControllerService {
 
   getPhotoById(photoId: string): Observable<Blob> {
     return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
+  }
+
+  getPetKinds(): Observable<BaseKind[]> {
+    return this.api.getPetKinds();
+  }
+
+  getPetSizes(): Observable<PetSize[]> {
+    return this.api.getPetSizes();
   }
 }

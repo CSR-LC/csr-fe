@@ -1,8 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterModalComponent } from '../filter-modal/filter-modal.component';
 import { CatalogController } from '../../services';
-import { Filter } from '@app/catalog/models/filter';
+import { FilterValue, FilterData } from '@app/catalog/models/filter';
 
 @Component({
   selector: 'lc-filter',
@@ -11,28 +11,37 @@ import { Filter } from '@app/catalog/models/filter';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent implements OnInit {
-  public data!: Filter;
+  filterValue: FilterValue = {
+    petKinds: [],
+    petSize: [],
+    technicalIssues: false,
+  };
+  filterData!: FilterData;
+  selectedFilters!: number;
 
   constructor(private matDialog: MatDialog, private controller: CatalogController, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.data = {
-      petKinds: [false, false, false],
-      petSizes: [false, false, false, false],
-      technicalIssues: false,
-      counter: 0,
-    };
+    this.filterData = { filterValue: this.filterValue };
   }
 
   openModal() {
     let dialogRef = this.matDialog.open(FilterModalComponent, {
-      data: this.data,
+      data: this.filterData,
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.data = result;
-      this.cd.detectChanges();
+      this.filterData.filterValue = result;
+      this.filtersCounter();
+      this.cd.markForCheck();
     });
+  }
+
+  filtersCounter() {
+    this.selectedFilters = 0;
+    if (this.filterData.filterValue['petKinds'].length > 0) this.selectedFilters++;
+    if (this.filterData.filterValue['petSize'].length > 0) this.selectedFilters++;
+    if (this.filterData.filterValue['technicalIssues'] === true) this.selectedFilters++;
   }
 }

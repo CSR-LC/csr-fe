@@ -1,6 +1,19 @@
-export type Filter = {
-  petKinds: Array<number | boolean>;
-  petSizes: Array<number | boolean>;
+export type FilterValue = {
+  petKinds: number[];
+  petSize: number[];
   technicalIssues: boolean;
-  counter: number;
 };
+
+export type FilterData = {
+  filterValue: FilterValue;
+};
+
+export interface BaseKind {
+  id: number;
+  name: string;
+}
+
+export interface PetSize extends BaseKind {
+  size: string;
+  is_universal: boolean;
+}
