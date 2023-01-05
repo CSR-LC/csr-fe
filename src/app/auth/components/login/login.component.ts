@@ -8,7 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { catchError, finalize, throwError } from 'rxjs';
-import { NotificationMessages } from '@shared/constants/notification.enum';
+import { NotificationSuccess } from '@shared/constants/notification-success.enum';
 
 @UntilDestroy
 @Component({
@@ -61,7 +61,7 @@ export class LoginComponent {
       )
       .subscribe((res) => {
         if (res) {
-          this.notificationsService.openSuccess(NotificationMessages.Authorized);
+          this.notificationsService.openSuccess(NotificationSuccess.Authorized);
           this.router.navigate(['/']);
         }
       });

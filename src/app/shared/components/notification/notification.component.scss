@@ -1,10 +1,9 @@
-@import "src/app/shared/styles/variables";
+@import 'src/app/shared/styles/variables';
 
 :host {
   display: block;
 
   .wrapper {
-
     min-height: 45px;
     width: 390px;
     padding: 18px 26px;
@@ -27,5 +26,20 @@
 
   .success {
     color: $color-title;
+  }
+
+  .close_btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: -18px;
+    padding: 0;
+    color: $color-bg-base;
+    background-color: #323232;
+    border: none;
+    cursor: pointer;
   }
 }
