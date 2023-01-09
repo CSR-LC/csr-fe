@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GetCategories } from '@app/catalog/store';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
@@ -8,6 +9,7 @@ import { CatalogState, GetCatalog } from '../../store';
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
+  apiSearch: any;
 
   constructor(private api: CatalogApi, private store: Store) {}
 
@@ -31,5 +33,9 @@ export class ControllerService {
 
   getPhotoById(photoId: string): Observable<Blob> {
     return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
+  }
+
+  public getCategories() {
+    this.api.getCategories().subscribe((res) => this.store.dispatch(new GetCategories(res.items)));
   }
 }

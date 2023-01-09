@@ -9,10 +9,26 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
+import { CategoriesState } from './store/state-categories';
+import { CategoryItemComponent } from './components/category-item/category-item.component';
+import { CategoriesComponent } from './containers/categories/categories.component';
 
 @NgModule({
-  declarations: [CatalogComponent, PreviewEquipmentCardComponent, CatalogSearchComponent, EquipmentItemComponent],
-  imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
+  declarations: [
+    CatalogComponent,
+    PreviewEquipmentCardComponent,
+    CatalogSearchComponent,
+    EquipmentItemComponent,
+    CategoriesComponent,
+    CategoryItemComponent,
+  ],
+  imports: [
+    CommonModule,
+    CatalogRoutingModule,
+    SharedModule,
+    MaterialModule,
+    NgxsModule.forFeature([CatalogState, CategoriesState]),
+  ],
   providers: [CatalogApi],
 })
 export class CatalogModule {}

@@ -1,11 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CatalogComponent } from './containers';
-import { EquipmentItemComponent } from '@app/catalog/containers';
+import { CatalogComponent, EquipmentItemComponent } from '@app/catalog/containers';
+import { CategoriesComponent } from './containers/categories/categories.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'categories',
+    pathMatch: 'full',
+  },
+  {
+    path: 'categories',
+    component: CategoriesComponent,
+  },
+  {
+    path: 'catalog',
     component: CatalogComponent,
   },
   {
