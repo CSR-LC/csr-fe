@@ -4,6 +4,11 @@
   flex: 1 1 auto;
 }
 
+p {
+  padding: 0;
+  margin: 0;
+}
+
 .equipment-item {
   background: $color-bg-base;
   border-radius: 30px;
@@ -23,33 +28,36 @@
     line-height: 20px;
     margin: 28px 0;
   }
-  &__description {
-    color: $color-description-text;
-    font-size: 16px;
-    line-height: 18px;
-    margin: 28px 0;
+
+  &__calendar {
+    background-color: $color-title;
+    color: $color-bg-base;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 30px;
+    width: 342px;
   }
 }
 
 .equipment-info-list {
   display: flex;
-  flex-flow: column nowrap;
+  overflow-y: auto;
+  height: 175px;
   &__item {
     display: flex;
-    flex-flow: row nowrap;
-    &:not(:last-child) {
-      margin: 0 0 28px 0;
-    }
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
 .info-item {
+  display: flex;
+  flex-direction: column;
   color: $color-description-text;
   font-size: 13px;
-  line-height: 15px;
-  &:not(:last-child) {
-    margin-right: 28px;
-  }
   &__title {
     color: $color-title;
     display: inline-block;
@@ -58,4 +66,24 @@
     line-height: 16px;
     margin: 0 10px 10px 0;
   }
+
+  &__description {
+    color: $color-description-text;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__condition {
+    color: $color-description-text;
+  }
+
+  &__used {
+    color: #f20e37;
+  }
 }
+

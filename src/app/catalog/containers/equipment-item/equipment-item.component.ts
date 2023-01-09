@@ -16,6 +16,7 @@ export class EquipmentItemComponent implements OnInit {
 
   catalog$ = this.controller.catalog$;
   equipment?: Equipment;
+  counter: number = 0;
 
   readonly defaultImage = './assets/img/no-photo.png';
 
