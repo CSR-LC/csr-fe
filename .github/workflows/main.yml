@@ -1,9 +1,10 @@
 name: Build and Deploy
-on: [push]
+on:
+ [push]
 permissions:
   contents: write
 jobs:
-  build-and-deploy:
+  build:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
@@ -17,12 +18,15 @@ jobs:
           sudo npm update
           sudo npm install -g npm@9.1.2
           sudo npm install -g @angular/cli
-          sudo ng build
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist/lc-fe  # The folder the action should deploy
-          repository-name: CSR-LC/csr-lc.github.io
-          branch: main
-          ssh-key: ${{ secrets.DEPLOY_PAGES_KEY }}
+          if: ${{ github.GITHUB_REF_NAME == 'master' }}sudo ng build
+  deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist/lc-fe  # The folder the action should deploy
+        repository-name: CSR-LC/csr-lc.github.io
+        branch: main
+        ssh-key: ${{ secrets.DEPLOY_PAGES_KEY }}
