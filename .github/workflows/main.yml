@@ -26,7 +26,7 @@ jobs:
          path: dist/lc-fe
          retention-days: 5
   deploy:
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
     environment: 
       stage
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
