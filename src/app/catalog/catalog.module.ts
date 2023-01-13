@@ -9,11 +9,11 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
-import { CategoriesState } from './store/categories.state';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
-import { CategoryEquipmentComponent } from './containers/category-equipment/category-equipment.component';
-import { CategoryEquipmentItemComponent } from './components/category-equipment-item/category-equipment-item.component';
+import { CategorySetComponent } from './containers/category-set/category-set.component';
+import { CategoryTabComponent } from './components/category-tab/category-tab.component';
+import { RouterLinkPathPipe } from './pipes/router-link-path/router-link-path.pipe';
 
 @NgModule({
   declarations: [
@@ -23,16 +23,11 @@ import { CategoryEquipmentItemComponent } from './components/category-equipment-
     EquipmentItemComponent,
     CategoriesComponent,
     CategoryItemComponent,
-    CategoryEquipmentComponent,
-    CategoryEquipmentItemComponent,
+    CategorySetComponent,
+    CategoryTabComponent,
+    RouterLinkPathPipe,
   ],
-  imports: [
-    CommonModule,
-    CatalogRoutingModule,
-    SharedModule,
-    MaterialModule,
-    NgxsModule.forFeature([CatalogState, CategoriesState]),
-  ],
+  imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
   providers: [CatalogApi],
 })
 export class CatalogModule {}

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CategoryEquipmentComponent } from './category-equipment.component';
+import { CategorySetComponent } from './category-set.component';
 
-describe('CategoryEquipmentComponent', () => {
-  let component: CategoryEquipmentComponent;
-  let fixture: ComponentFixture<CategoryEquipmentComponent>;
+describe('CategorySetComponent', () => {
+  let component: CategorySetComponent;
+  let fixture: ComponentFixture<CategorySetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CategoryEquipmentComponent],
+      declarations: [CategorySetComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CategoryEquipmentComponent);
+    fixture = TestBed.createComponent(CategorySetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

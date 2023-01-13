@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
-import { Category, CategoryId } from '@app/catalog/models';
+import { Category, EquipmentFilter } from '@app/catalog/models';
 
 @Injectable()
 export class ApiService {
@@ -29,13 +29,13 @@ export class ApiService {
     });
   }
 
-  getCategories(): Observable<BaseItemsResponse<Category>> {
+  getCategoriesContainEquipment(): Observable<BaseItemsResponse<Category>> {
     // TODO: remove params, when pagination is ready
-    const params = new HttpParams().set('limit', 1000);
+    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
     return this.httpClient.get<BaseItemsResponse<Category>>(`/api/equipment/categories`, { params });
   }
 
-  getCategoryById(categoryId: string): Observable<CategoryId> {
-    return this.httpClient.get<CategoryId>(`/api/equipment/categories/${categoryId}`);
+  filterEquipmentByCategory(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
+    return this.httpClient.post<BaseItemsResponse<Equipment>>(`/api/equipment/search`, payload);
   }
 }

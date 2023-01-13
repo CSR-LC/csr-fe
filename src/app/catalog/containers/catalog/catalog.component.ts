@@ -12,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CatalogComponent implements OnInit {
   catalog$ = this.controller.catalog$;
-  categoryId: string = this.route.snapshot.params['categoryId'];
 
   constructor(
     private controller: CatalogController,
@@ -24,7 +23,9 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((param) => {
-      param['categoryId'] ? this.controller.getEquipmentByCategory(param['categoryId']) : this.controller.getCatalog();
+      param['categoryId']
+        ? this.controller.filterEquipmentByCategory(Number(param['categoryId']))
+        : this.controller.getCatalog();
     });
   }
 
