@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'routerLinkPath',
+  name: 'categoryPath',
 })
-export class RouterLinkPathPipe implements PipeTransform {
+export class CategoryPathPipe implements PipeTransform {
   transform(path: string, categoryId: number | undefined): string {
     return categoryId ? `${path}/categories/${categoryId}` : `${path}`;
   }

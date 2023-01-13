@@ -13,7 +13,7 @@ import { CategoryItemComponent } from './components/category-item/category-item.
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategorySetComponent } from './containers/category-set/category-set.component';
 import { CategoryTabComponent } from './components/category-tab/category-tab.component';
-import { RouterLinkPathPipe } from './pipes/router-link-path/router-link-path.pipe';
+import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { RouterLinkPathPipe } from './pipes/router-link-path/router-link-path.pi
     CategoryItemComponent,
     CategorySetComponent,
     CategoryTabComponent,
-    RouterLinkPathPipe,
+    CategoryPathPipe,
   ],
   imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
   providers: [CatalogApi],
