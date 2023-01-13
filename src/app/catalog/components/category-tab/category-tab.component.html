@@ -1,2 +1,1 @@
-<button class="category-equipment-button" routerLink="{{ '/catalog' | categoryPath: item?.id }}"
->{{ item?.name }}</button>
+<a class="category-equipment-button" routerLink="{{ item | categoryPath }}">{{ item?.name }}</a>

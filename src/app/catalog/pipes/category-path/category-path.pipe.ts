@@ -1,10 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Category } from '@app/catalog/models';
 
 @Pipe({
   name: 'categoryPath',
 })
 export class CategoryPathPipe implements PipeTransform {
-  transform(path: string, categoryId: number | undefined): string {
-    return categoryId ? `${path}/categories/${categoryId}` : `${path}`;
+  transform(category: Category | undefined): string {
+    return category?.id ? `/catalog/categories/${category.id}` : '/catalog';
   }
 }

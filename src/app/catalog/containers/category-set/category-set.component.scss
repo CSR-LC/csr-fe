@@ -13,10 +13,12 @@
   padding: 25px 25px 25px 25px;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
+
   &-list {
     display: flex;
     gap: 10px;
   }
+  
   &-item {
     background: $color-eye-icon;
     border-radius: 6px;

@@ -9,7 +9,6 @@ import { CatalogState, GetCatalog } from '../../store';
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
-  apiSearch: any;
 
   constructor(private api: CatalogApi, private store: Store) {}
 

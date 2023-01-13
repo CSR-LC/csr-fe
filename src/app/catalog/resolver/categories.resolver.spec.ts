@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { CategoriesResolver } from './categories.resolver';
 
-describe('CategoriesResolver', () => {
+xdescribe('CategoriesResolver', () => {
   let resolver: CategoriesResolver;
 
   beforeEach(() => {

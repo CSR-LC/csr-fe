@@ -52,7 +52,7 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
         return el.nativeElement.classList.contains('active');
       },
     );
-    const activeCategoryX: number = activeCategory.nativeElement.getBoundingClientRect().x;
+    const activeCategoryX = activeCategory.nativeElement.getBoundingClientRect().x;
 
     this.scroll(activeCategoryX);
   }

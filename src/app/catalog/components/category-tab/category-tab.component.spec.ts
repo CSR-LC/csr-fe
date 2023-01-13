@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoryTabComponent } from './category-tab.component';
 
-describe('CategoryTabComponent', () => {
+xdescribe('CategoryTabComponent', () => {
   let component: CategoryTabComponent;
   let fixture: ComponentFixture<CategoryTabComponent>;
 

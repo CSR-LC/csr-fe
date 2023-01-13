@@ -8,6 +8,7 @@
   background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
+
   &-img {
     border-radius: 10px;
     display: block;
@@ -17,6 +18,7 @@
     background: #F7F7F7;
     cursor: pointer;
   }
+  
   &-title {
     color: $color-title;
     font-size: 14px;
