@@ -90,6 +90,7 @@ export class FilterModalComponent implements OnInit {
         this.createPetKindsControls(res);
         this.cd.markForCheck();
       });
+    this.createPetKindsControls(this.petKinds);
   }
 
   private getPetSizes() {
@@ -101,9 +102,25 @@ export class FilterModalComponent implements OnInit {
         this.createPetSizeControls(res);
         this.cd.markForCheck();
       });
+    this.createPetSizeControls(this.petSizes);
   }
 
   private filterItems(a: { id: number }, b: { id: number }): number {
     return a.id - b.id;
+  }
+
+  resetFilter() {
+    const petKindsGroup = this.filterGroup.get('petKinds') as FormGroup;
+    Object.keys(petKindsGroup.value).forEach((key) => {
+      const control = this.filterGroup.get(`petKinds.${key}`);
+      control?.setValue(false);
+    });
+    const petSizeGroup = this.filterGroup.get('petSize') as FormGroup;
+    Object.keys(petSizeGroup.value).forEach((key) => {
+      const control = this.filterGroup.get(`petSize.${key}`);
+      control?.setValue(false);
+    });
+    this.filterGroup.get('technicalIssues')?.setValue(false);
+    this.filterValue = undefined;
   }
 }

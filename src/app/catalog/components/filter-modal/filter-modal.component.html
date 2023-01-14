@@ -23,15 +23,20 @@
         #size="matChip"
         (click)="changeSelectedValue($event, size)"
         [selected]="filterValue?.petSize?.includes(petSize.id)"
-      >{{petSize.name}} - {{petSize.size}}</mat-chip>
+      >{{petSize.name}} ({{petSize.size}})</mat-chip>
     </mat-chip-list>
   </div>
   <div>
     <h3 class="filter-modal__subtitle">Техническое состояние</h3>
     <mat-slide-toggle formControlName="technicalIssues" #slide class="filter-modal__slide-toggle">
-      <span *ngIf="slide.checked">Полностью исправное</span>
-      <span *ngIf="!slide.checked">С техническими особенностями</span>
+      <span>В идеальном состоянии</span>
     </mat-slide-toggle>
+  </div>
+  <div class="filter-modal__reset">
+    <div class="filter-modal__reset_btn" (click)="resetFilter()">
+      <img src="assets/img/icons/icon-reset.svg" alt="icon-reset" />
+      <span>Очистить фильтры</span>
+    </div>
   </div>
   <button (click)="closeModal()" class="filter-modal__btn">Закрыть</button>
 </div>
