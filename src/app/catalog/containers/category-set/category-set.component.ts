@@ -9,7 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { categoryContainsAllEquipment } from '@app/catalog/constants/category-contains-all-equipment';
+import { categoryContainsAllEquipment } from '@app/catalog/constants';
 import { Category } from '@app/catalog/models';
 
 @Component({
@@ -34,7 +34,7 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
       this.selectedCategoryId = 0;
     }
 
-    this.categories = [...categoryContainsAllEquipment, ...this.route.snapshot.data['activeCategories']];
+    this.categories = [categoryContainsAllEquipment, ...this.route.snapshot.data['activeCategories']];
   }
 
   ngAfterViewInit() {
