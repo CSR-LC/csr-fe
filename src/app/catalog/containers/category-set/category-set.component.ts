@@ -9,6 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { categoryContainsAllEquipment } from '@app/catalog/constants/category-contains-all-equipment';
 import { Category } from '@app/catalog/models';
 
 @Component({
@@ -21,18 +22,10 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
   @ViewChild('listCategories') listCategories?: ElementRef<HTMLDivElement>;
   @ViewChildren('categoryElement') categoriesElements?: QueryList<ElementRef<HTMLDivElement>>;
 
-  categories: Category[] = [
-    {
-      has_subcategory: false,
-      id: 0,
-      max_reservation_time: 0,
-      max_reservation_units: 0,
-      name: 'Все',
-    },
-  ];
+  categories: Category[] = [];
   selectedCategoryId: number = Number(this.route.snapshot.params['categoryId']);
 
-  private marginLeft = 25;
+  readonly marginLeft = 25;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -41,7 +34,7 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
       this.selectedCategoryId = 0;
     }
 
-    this.categories = this.categories.concat(this.route.snapshot.data['activeCategories']);
+    this.categories = [...categoryContainsAllEquipment, ...this.route.snapshot.data['activeCategories']];
   }
 
   ngAfterViewInit() {
