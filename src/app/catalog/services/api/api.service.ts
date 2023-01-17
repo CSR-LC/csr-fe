@@ -23,7 +23,7 @@ export class ApiService {
   }
 
   getPhotoById(photoId: string): Observable<ArrayBuffer> {
-    return this.httpClient.get(`api/equipment/photos/${photoId}`, {
+    return this.httpClient.get(`/api/equipment/photos/${photoId}`, {
       responseType: 'arraybuffer',
     });
   }
