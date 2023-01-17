@@ -1,7 +1,12 @@
-@import '../../../shared/styles/variables.scss';
+@import "./src/app/shared/styles/variables";
 
 :host {
   flex: 1 1 auto;
+  position: absolute;
+  top: 103px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 p {
@@ -10,13 +15,15 @@ p {
 }
 
 .equipment-item {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
   background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
   width: 100%;
+
   &__img {
     border-radius: 10px;
     display: block;
@@ -44,23 +51,22 @@ p {
     margin: 20px 0;
     width: 300px;
   }
+
+  .actions {
+    position: absolute;
+    bottom: 0;
+  }
 }
 
 .equipment-info-list {
   display: flex;
   overflow-y: auto;
-  height: 270px;
   width: 300px;
+
   &__item {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-}
-
-@media (min-width: 900px){
-  .equipment-info-list{
-    height: 100px;
   }
 }
 
@@ -69,6 +75,7 @@ p {
   flex-direction: column;
   color: $color-description-text;
   font-size: 13px;
+
   &__title {
     color: $color-title;
     display: inline-block;
@@ -79,9 +86,10 @@ p {
   }
 
   &__description {
+    flex-grow: 3;
     color: $color-description-text;
     font-size: 14px;
-    text-align:justify;
+    text-align: justify;
     margin-bottom: 15px;
   }
 
