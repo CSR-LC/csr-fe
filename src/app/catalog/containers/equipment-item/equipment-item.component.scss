@@ -10,26 +10,30 @@ p {
 }
 
 .equipment-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
   background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
-  padding: 28px;
+  width: 100%;
   &__img {
     border-radius: 10px;
     display: block;
     margin: 0;
-    max-width: 400px;
-    width: 100%;
+    width: 300px;
+    height: 300px;
   }
+
   &__title {
     color: $color-title;
     font-size: 18px;
     font-weight: bold;
     line-height: 20px;
-    margin: 28px 0;
+    margin: 15px 0;
   }
 
-  &__calendar {
+  &__calendar-btn {
     background-color: $color-title;
     color: $color-bg-base;
     height: 56px;
@@ -37,19 +41,26 @@ p {
     border-radius: 10px;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    margin-top: 30px;
-    width: 342px;
+    margin: 20px 0;
+    width: 300px;
   }
 }
 
 .equipment-info-list {
   display: flex;
   overflow-y: auto;
-  height: 175px;
+  height: 270px;
+  width: 300px;
   &__item {
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+@media (min-width: 900px){
+  .equipment-info-list{
+    height: 100px;
   }
 }
 
@@ -70,6 +81,7 @@ p {
   &__description {
     color: $color-description-text;
     font-size: 14px;
+    text-align:justify;
     margin-bottom: 15px;
   }
 
