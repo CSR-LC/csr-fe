@@ -62,6 +62,7 @@ p {
   display: flex;
   overflow-y: auto;
   width: 300px;
+  margin-bottom: 90px;
 
   &__item {
     display: flex;
@@ -106,4 +107,3 @@ p {
     color: #f20e37;
   }
 }
-
