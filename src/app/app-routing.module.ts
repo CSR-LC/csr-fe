@@ -7,7 +7,7 @@ import { TokensGuard } from '@shared/guards/tokens.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'catalog',
+    redirectTo: 'catalog/categories',
     pathMatch: 'full',
   },
   {

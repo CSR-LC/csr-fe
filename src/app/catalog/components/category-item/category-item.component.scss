@@ -1,0 +1,37 @@
+@import '/src/app/shared/styles/variables';
+
+:host {
+  flex: 1 1 auto;
+}
+
+.category-item {
+  background: $color-bg-base;
+  border-radius: 30px;
+  height: 100%;
+
+  &-link {
+    text-decoration: none;
+  }
+
+  &-img {
+    border-radius: 10px;
+    display: block;
+    margin: 0;
+    height: 165px;
+    width: 100%;
+    background: #F7F7F7;
+    cursor: pointer;
+  }
+
+  &-title {
+    color: $color-title;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    letter-spacing: 0.25px;
+    margin: 12px 5px 25px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+}
