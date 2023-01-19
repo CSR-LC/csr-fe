@@ -11,7 +11,7 @@
           <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
           <div>
             <p>Максимальный срок использования</p>
-            <p class="info-item__condition">{{ equipment?.maximumDays | days }}</p>
+            <p class="info-item__condition">{{ dayCases | numberDeclension: equipment?.maximumDays }}</p>
           </div>
         </div>
       </div>
