@@ -1,15 +1,35 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CatalogComponent } from './containers';
-import { EquipmentItemComponent } from '@app/catalog/containers';
+import { CatalogComponent, EquipmentItemComponent } from '@app/catalog/containers';
+import { CategoriesComponent } from './containers/categories/categories.component';
+import { CategoriesResolver } from './resolver/categories.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: CatalogComponent,
+    resolve: {
+      activeCategories: CategoriesResolver,
+    },
   },
   {
-    path: ':id',
+    path: 'categories',
+    resolve: {
+      activeCategories: CategoriesResolver,
+    },
+    children: [
+      {
+        path: '',
+        component: CategoriesComponent,
+      },
+      {
+        path: ':categoryId',
+        component: CatalogComponent,
+      },
+    ],
+  },
+  {
+    path: 'equipment/:id',
     component: EquipmentItemComponent,
   },
 ];
@@ -17,5 +37,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  providers: [CategoriesResolver],
 })
 export class CatalogRoutingModule {}

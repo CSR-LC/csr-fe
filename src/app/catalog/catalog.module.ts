@@ -12,6 +12,11 @@ import { MaterialModule } from '../material/material.module';
 import { FilterComponent } from './components/filter/filter.component';
 import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoryItemComponent } from './components/category-item/category-item.component';
+import { CategoriesComponent } from './containers/categories/categories.component';
+import { CategorySetComponent } from './containers/category-set/category-set.component';
+import { CategoryTabComponent } from './components/category-tab/category-tab.component';
+import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +24,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PreviewEquipmentCardComponent,
     CatalogSearchComponent,
     EquipmentItemComponent,
+    CategoriesComponent,
+    CategoryItemComponent,
+    CategorySetComponent,
+    CategoryTabComponent,
+    CategoryPathPipe,
     FilterComponent,
     FilterModalComponent,
   ],
