@@ -10,21 +10,21 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
   info(id: number): Observable<Equipment> {
-    return this.httpClient.get<Equipment>(`/api/equipment/${id}`);
+    return this.httpClient.get<Equipment>(`equipment/${id}`);
   }
 
   getCatalog(): Observable<BaseItemsResponse<Equipment>> {
     // TODO: remove prams, when pagination is ready
     const params = new HttpParams().set('limit', 1000);
-    return this.httpClient.get<BaseItemsResponse<Equipment>>('/api/equipment', { params });
+    return this.httpClient.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
 
   searchEquipment(params: Partial<Equipment>): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.post<BaseItemsResponse<Equipment>>('/api/equipment/search', params);
+    return this.httpClient.post<BaseItemsResponse<Equipment>>('equipment/search', params);
   }
 
   getPhotoById(photoId: string): Observable<ArrayBuffer> {
-    return this.httpClient.get(`/api/equipment/photos/${photoId}`, {
+    return this.httpClient.get(`equipment/photos/${photoId}`, {
       responseType: 'arraybuffer',
     });
   }
@@ -32,10 +32,10 @@ export class ApiService {
   getCategoriesContainEquipment(): Observable<BaseItemsResponse<Category>> {
     // TODO: remove params, when pagination is ready
     const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
-    return this.httpClient.get<BaseItemsResponse<Category>>(`/api/equipment/categories`, { params });
+    return this.httpClient.get<BaseItemsResponse<Category>>(`equipment/categories`, { params });
   }
 
   filterEquipmentByCategory(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.post<BaseItemsResponse<Equipment>>(`/api/equipment/search`, payload);
+    return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload);
   }
 }
