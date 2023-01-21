@@ -18,7 +18,7 @@ export class ApiService {
   }
 
   getEquipmentSubCategoryById(id: number): Observable<EquipmentSubCategory[]> {
-    return this.httpClient.get<EquipmentSubCategory[]>(`api/equipment/categories/${id}/subcategories`);
+    return this.httpClient.get<EquipmentSubCategory[]>(`/api/equipment/categories/${id}/subcategories`);
   }
 
   registerEquipment(equipment: NewEquipment): Observable<Equipment> {
@@ -26,18 +26,18 @@ export class ApiService {
   }
 
   getPetKinds(): Observable<BaseKind[]> {
-    return this.httpClient.get<BaseKind[]>('api/pet_kind');
+    return this.httpClient.get<BaseKind[]>('/api/pet_kind');
   }
 
   getPetSizes(): Observable<PetSize[]> {
-    return this.httpClient.get<PetSize[]>('api/pet_size');
+    return this.httpClient.get<PetSize[]>('/api/pet_size');
   }
 
   uploadPhoto(formData: FormData): Observable<UploadPhotoResponse> {
-    return this.httpClient.post<UploadPhotoResponse>('api/equipment/photos', formData);
+    return this.httpClient.post<UploadPhotoResponse>('/api/equipment/photos', formData);
   }
 
   getEquipmentStatuses(): Observable<BaseKind[]> {
-    return this.httpClient.get<BaseKind[]>('api//equipment/statuses');
+    return this.httpClient.get<BaseKind[]>('/api/equipment/statuses');
   }
 }

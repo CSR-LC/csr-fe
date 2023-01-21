@@ -19,7 +19,7 @@ export class NewEquipment {
   receiptDate: string;
   status: number;
   supplier: string;
-  technicalIssues: TechnicalIssues;
+  technicalIssues: boolean;
   termsOfUse: string;
   title: string;
 
@@ -38,7 +38,7 @@ export class NewEquipment {
     this.receiptDate = this.getDate(equipment.receiptDate);
     this.status = equipment.status;
     this.supplier = equipment.supplier;
-    this.technicalIssues = equipment.technicalIssues;
+    this.technicalIssues = equipment.technicalIssues === TechnicalIssues.is;
     this.termsOfUse = equipment.termsOfUse;
     this.title = equipment.title;
 
