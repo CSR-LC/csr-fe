@@ -1,53 +1,49 @@
-<section class="equipment-item" >
-  <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo">
+<section class="equipment-item">
   <h2 class="equipment-item__title">{{ equipment?.title }}</h2>
-  <div class="equipment-item__description">
-    {{ equipment?.description }}
-  </div>
+  <img #image class="equipment-item__img" [src]="defaultImage" alt="equipment photo" />
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
       <div class="info-item">
-        <h3 class="info-item__title">Срок</h3>
-        <button
-          mat-icon-button
-          (click)="tooltip.show()"
-          mat-raised-button #tooltip="matTooltip"
-          matTooltip="Максимальный срок использования оборудования, дней"
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>До {{ equipment?.maximumDays}} суток</div>
+        <p class="info-item__description">
+          {{ equipment?.description }}
+        </p>
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
+          <div>
+            <p>Максимальный срок использования</p>
+            <p class="info-item__condition">{{ equipment?.maximumDays | days }}</p>
+          </div>
+        </div>
       </div>
       <div class="info-item">
-        <h3 class="info-item__title">В руки</h3>
-        <button
-          mat-icon-button
-          (click)="tooltip1.show()"
-          mat-raised-button #tooltip1="matTooltip"
-          matTooltip="Максимальное количество единиц в руки"
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>До {{ equipment?.maximumAmount}} шт.</div>
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-compensation.svg" alt="compensation" /></div>
+          <div>
+            <p>Плата за порчу оборудования</p>
+            <p class="info-item__condition">{{ equipment?.compensationCost }} &#8381;</p>
+          </div>
+        </div>
       </div>
-      <div  class="info-item">
-        <h3 class="info-item__title">Компенсация</h3>
-        <button
-          mat-icon-button
-          (click)="tooltip2.show()"
-          mat-raised-button #tooltip2="matTooltip"
-          matTooltip="Стоимость компенсации в случае утраты/порчи, руб."
-          matTooltipPosition="right">
-          <mat-icon>help_outline</mat-icon>
-        </button>
-        <div>{{ equipment?.compensationCost}} &#8381;</div>
+      <div class="info-item" *ngIf="equipment?.technicalIssues === 'есть'; else new">
+        <div class="info-item__wrapper">
+          <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
+          <div>
+            <p class="info-item__used">Б/у состояние</p>
+            <p class="info-item__condition">{{ equipment?.condition }}</p>
+          </div>
+        </div>
       </div>
+      <ng-template #new>
+        <div class="info-item">
+          <div class="info-item__wrapper">
+            <div><img src="assets/img/icons/icon-new.svg" alt="new" /></div>
+            <div>Новое</div>
+          </div>
+        </div>
+      </ng-template>
     </div>
-    <div class="equipment-info-list__item">
-      <div class="info-item">
-        <h3 class="info-item__title">Состояние</h3>
-        <div>{{ equipment?.condition}}</div>
-      </div>
-    </div>
+  </div>
+  <div class="actions">
+    <button class="equipment-item__calendar-btn">Выберите период заявки</button>
   </div>
 </section>

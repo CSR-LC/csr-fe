@@ -9,9 +9,11 @@ import { MaterialModule } from '@app/material/material.module';
 import { HideTextDirective } from '@shared/directives/hide-text/hide-text.directive';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DaysPipe } from '@shared/pipes/days/days.pipe';
 
 @NgModule({
   declarations: [
+    DaysPipe,
     BlockUiComponent,
     HideTextDirective,
     MainHeaderComponent,
@@ -19,7 +21,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ValidationErrorsDirective,
     NotificationComponent,
   ],
-  exports: [HideTextDirective, MainHeaderComponent, ValidationErrorsDirective, BlockUiComponent, MatSnackBarModule],
+  exports: [
+    DaysPipe,
+    HideTextDirective,
+    MainHeaderComponent,
+    ValidationErrorsDirective,
+    BlockUiComponent,
+    MatSnackBarModule,
+  ],
   imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule],
 })
 export class SharedModule {}

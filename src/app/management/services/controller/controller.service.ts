@@ -66,4 +66,8 @@ export class ControllerService {
     }
     this.blockUiService.unBlock();
   }
+
+  getAllEquipment(): Observable<BaseItemsResponse<NewEquipment>> {
+    return this.api.getAllEquipment();
+  }
 }

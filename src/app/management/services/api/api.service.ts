@@ -40,4 +40,8 @@ export class ApiService {
   getEquipmentStatuses(): Observable<BaseKind[]> {
     return this.httpClient.get<BaseKind[]>('/api/equipment/statuses');
   }
+
+  getAllEquipment(): Observable<BaseItemsResponse<NewEquipment>> {
+    return this.httpClient.get<BaseItemsResponse<NewEquipment>>('/api/equipment?limit=9999');
+  }
 }
