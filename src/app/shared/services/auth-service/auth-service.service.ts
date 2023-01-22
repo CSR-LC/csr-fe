@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly freeEndpoints = ['/api/v1/login', '/api/v1/refresh', '/api/v1/users', '/api/password_reset/'];
+  private readonly freeEndpoints = ['v1/login', 'v1/refresh', 'v1/users', 'password_reset'];
 
   constructor(private readonly store: Store, private readonly router: Router, private readonly authApi: AuthApi) {}
 

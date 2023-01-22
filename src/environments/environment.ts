@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://stage.csr.golangforall.com/api/',
 };
 
 /*
