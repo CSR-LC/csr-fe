@@ -5,12 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './containers/admin/admin.component';
 
 @NgModule({
-  declarations: [
-    AdminComponent
-  ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule
-  ]
+  declarations: [AdminComponent],
+  imports: [CommonModule, AdminRoutingModule],
 })
-export class AdminModule { }
+export class AdminModule {}
