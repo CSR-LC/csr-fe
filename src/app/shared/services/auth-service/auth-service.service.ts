@@ -1,35 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Store } from "@ngxs/store";
-import { AuthState, AuthStore, Login, Logout, TokensAction } from "@app/auth/store";
-import { LoginInformation, Tokens } from "@app/auth/models";
-import { Router } from "@angular/router";
-import { LocalStorageKey } from "../../constants";
+import { Store } from '@ngxs/store';
+import { AuthState, AuthStore, Login, Logout, TokensAction } from '@app/auth/store';
+import { LoginInformation, Tokens } from '@app/auth/models';
+import { Router } from '@angular/router';
+import { LocalStorageKey } from '../../constants';
 import { AuthApi } from '@app/auth/services';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private readonly freeEndpoints = [
-    '/api/v1/login',
-    '/api/v1/refresh',
-    '/api/v1/users',
-    '/api/password_reset/'
-  ]
+  private readonly freeEndpoints = ['v1/login', 'v1/refresh', 'v1/users', 'password_reset'];
 
-  constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly authApi: AuthApi
-  ) {}
+  constructor(private readonly store: Store, private readonly router: Router, private readonly authApi: AuthApi) {}
 
   login(credentials: LoginInformation): Observable<AuthStore> {
     return this.store.dispatch(new Login(credentials));
   }
 
   logout(): Observable<unknown> {
-    return this.store.dispatch(new Logout);
+    return this.store.dispatch(new Logout());
   }
 
   isRequestNeedsTokens(url: string): boolean {
@@ -62,12 +53,11 @@ export class AuthService {
 
   checkTokens() {
     if (this.store.selectSnapshot(AuthState.tokens)) return;
+
     const tokens = this.getTokensFromLocalStorage();
     if (tokens) {
       this.saveTokens(tokens);
-      return;
     }
-    this.navigateToLogin();
   }
 
   saveTokens(tokens: Tokens): Observable<any> {

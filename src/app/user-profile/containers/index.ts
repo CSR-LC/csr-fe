@@ -1,1 +1,1 @@
-export * from "./fill-profile/fill-profile.component";
+export * from './fill-profile/fill-profile.component';

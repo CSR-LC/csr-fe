@@ -1,55 +1,82 @@
-@import '../../../shared/styles/variables.scss';
+@import "./src/app/shared/styles/variables";
 
 :host {
   flex: 1 1 auto;
+  position: absolute;
+  top: 103px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0;
 }
 
 .equipment-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: $color-bg-base;
   border-radius: 30px;
   height: 100%;
-  padding: 28px;
+  width: 100%;
+
   &__img {
     border-radius: 10px;
     display: block;
     margin: 0;
-    max-width: 400px;
-    width: 100%;
+    width: 300px;
+    height: 300px;
   }
+
   &__title {
     color: $color-title;
     font-size: 18px;
     font-weight: bold;
     line-height: 20px;
-    margin: 28px 0;
+    margin: 15px 0;
   }
-  &__description {
-    color: $color-description-text;
-    font-size: 16px;
-    line-height: 18px;
-    margin: 28px 0;
+
+  &__calendar-btn {
+    background-color: $color-title;
+    color: $color-bg-base;
+    height: 56px;
+    padding: 0 16px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 20px 0;
+    width: 300px;
+  }
+
+  .actions {
+    position: absolute;
+    bottom: 0;
   }
 }
 
 .equipment-info-list {
   display: flex;
-  flex-flow: column nowrap;
+  overflow-y: auto;
+  width: 300px;
+  margin-bottom: 90px;
+
   &__item {
     display: flex;
-    flex-flow: row nowrap;
-    &:not(:last-child) {
-      margin: 0 0 28px 0;
-    }
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
 .info-item {
+  display: flex;
+  flex-direction: column;
   color: $color-description-text;
   font-size: 13px;
-  line-height: 15px;
-  &:not(:last-child) {
-    margin-right: 28px;
-  }
+
   &__title {
     color: $color-title;
     display: inline-block;
@@ -57,5 +84,26 @@
     font-weight: bold;
     line-height: 16px;
     margin: 0 10px 10px 0;
+  }
+
+  &__description {
+    flex-grow: 3;
+    color: $color-description-text;
+    font-size: 14px;
+    text-align: justify;
+    margin-bottom: 15px;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 5px;
+  }
+
+  &__condition {
+    color: $color-description-text;
+  }
+
+  &__used {
+    color: #f20e37;
   }
 }

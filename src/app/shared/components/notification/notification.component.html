@@ -1,0 +1,11 @@
+<div class="wrapper">
+  <ng-container [ngSwitch]="data.type">
+    <div *ngSwitchCase="notificationTypes.Error" class="title error">Ошибка</div>
+    <div *ngSwitchCase="notificationTypes.Warning" class="title warning">Внимание!</div>
+    <div *ngSwitchCase="notificationTypes.Success" class="title success">Успех</div>
+  </ng-container>
+  <span>{{ data.message }}</span>
+  <button class="close_btn" *ngIf="isCloseBtnVisible" (click)="dismiss()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

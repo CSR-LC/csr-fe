@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import {BaseKind, EquipmentKind, EquipmentManagement, PetSize} from '../../models/management';
+import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 
 import { ApiService } from '../api/api.service';
-import {UploadPhotoResponse} from "@app/management/types";
-import {BaseItemsResponse} from "@shared/types";
-import {EquipmentSubCategory} from "@app/management/types/equipment-sub-category";
-import {Equipment} from "@app/catalog/models/equipment";
-import {NewEquipment} from "@app/management/models/equipment";
-import {ValidationService} from "@shared/services/validation/validation.service";
-import {FormGroup} from "@angular/forms";
-import {BlockUiService} from "@shared/services/block-ui/block-ui.service";
+import { UploadPhotoResponse } from '@app/management/types';
+import { BaseItemsResponse } from '@shared/types';
+import { EquipmentSubCategory } from '@app/management/types/equipment-sub-category';
+import { Equipment } from '@app/catalog/models/equipment';
+import { NewEquipment } from '@app/management/models/equipment';
+import { ValidationService } from '@shared/services/validation/validation.service';
+import { FormGroup } from '@angular/forms';
+import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 
 @Injectable()
 export class ControllerService {
-
   constructor(
     private readonly api: ApiService,
     private readonly router: Router,
@@ -50,7 +49,7 @@ export class ControllerService {
   uploadPhoto(file: File): Observable<UploadPhotoResponse> {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    return this.api.uploadPhoto(formData)
+    return this.api.uploadPhoto(formData);
   }
 
   getEquipmentStatuses(): Observable<BaseKind[]> {
@@ -66,5 +65,9 @@ export class ControllerService {
       return this.blockUiService.block();
     }
     this.blockUiService.unBlock();
+  }
+
+  getAllEquipment(): Observable<BaseItemsResponse<NewEquipment>> {
+    return this.api.getAllEquipment();
   }
 }

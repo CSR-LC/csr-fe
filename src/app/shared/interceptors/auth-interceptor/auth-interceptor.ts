@@ -1,22 +1,14 @@
-import {Injectable} from "@angular/core";
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-} from "@angular/common/http";
-import {BehaviorSubject, catchError, EMPTY, filter, Observable, switchMap, take, tap, throwError} from "rxjs";
-import { AuthService } from "../../services/auth-service/auth-service.service";
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { BehaviorSubject, catchError, EMPTY, filter, Observable, switchMap, take, tap, throwError } from 'rxjs';
+import { AuthService } from '../../services/auth-service/auth-service.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshToken$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.authService.isRequestNeedsTokens(request.url)) {
@@ -26,11 +18,11 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((response: HttpErrorResponse) => {
         const err = response.error;
         // TODO: fix when back stop sending 500 response
-        if (err?.code === 401 || err?.code === 500 && err?.message === 'Token is expired' ) {
+        if (err?.code === 401 || (err?.code === 500 && err?.message === 'Token is expired')) {
           return this.handle401Error(request, next);
         }
         return throwError(response);
-      })
+      }),
     );
   }
 
@@ -46,11 +38,11 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return this.refreshToken$.pipe(
-      filter(token => token),
+      filter((token) => token),
       take(1),
       switchMap(() => {
-        return next.handle(this.addTokenHeader(request))
-      })
+        return next.handle(this.addTokenHeader(request));
+      }),
     );
   }
 
@@ -66,13 +58,13 @@ export class AuthInterceptor implements HttpInterceptor {
       }),
       tap(() => {
         this.refreshToken$.next(true);
-        this.isRefreshing = false
+        this.isRefreshing = false;
       }),
       catchError((err) => {
         this.isRefreshing = false;
         this.authService.logout();
         return throwError(err);
-      })
+      }),
     );
   }
 
@@ -84,8 +76,8 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     return request.clone({
       setHeaders: {
-        Authorization: accessToken
-      }
-    })
+        Authorization: accessToken,
+      },
+    });
   }
 }

@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {CatalogController} from "../../services";
-import {ActivatedRoute} from "@angular/router";
-import {first, Observable} from "rxjs";
-import {Equipment} from "../../models/equipment";
-import {MainPageHeaderService} from "@shared/services/main-page-header.service";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CatalogController } from '../../services';
+import { ActivatedRoute } from '@angular/router';
+import { Equipment } from '../../models/equipment';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
 @Component({
   selector: 'lc-equipment-item',
@@ -15,24 +14,22 @@ import {MainPageHeaderService} from "@shared/services/main-page-header.service";
 export class EquipmentItemComponent implements OnInit {
   @ViewChild('image') image?: ElementRef;
 
-  catalog$ = this.controller.catalog$;
   equipment?: Equipment;
+  counter: number = 0;
 
-  readonly defaultImage = "./assets/img/no-photo.png";
+  readonly defaultImage = './assets/img/no-photo.png';
 
   constructor(
     private readonly controller: CatalogController,
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
-    private readonly mainPageHeaderService: MainPageHeaderService
+    private readonly mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   ngOnInit(): void {
     this.controller.getCatalog();
 
-    this.controller.getEquipmentItemInfo(
-      this.route.snapshot.params['id']
-    ).subscribe(item => {
+    this.controller.getEquipmentItemInfo(this.route.snapshot.params['id']).subscribe((item) => {
       this.mainPageHeaderService.setPageTitle(item.name);
       this.equipment = item;
       this.setPhoto(item);
@@ -41,13 +38,13 @@ export class EquipmentItemComponent implements OnInit {
   }
 
   private setPhoto(equipment: Equipment): void {
-    this.controller.getPhotoById(equipment.photoID).subscribe(res => {
+    this.controller.getPhotoById(equipment.photoID).subscribe((res) => {
       const urlCreator = window.URL || window.webkitURL;
       const url = urlCreator.createObjectURL(res);
 
       if (!this.image) return;
 
       this.image.nativeElement.src = url;
-    })
+    });
   }
 }

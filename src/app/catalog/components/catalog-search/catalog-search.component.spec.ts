@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CatalogSearchComponent } from './catalog-search.component';
+import { CatalogSearchComponent } from '@app/catalog/components';
 
 describe('CatalogSearchComponent', () => {
   let component: CatalogSearchComponent;
@@ -8,9 +8,8 @@ describe('CatalogSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatalogSearchComponent ]
-    })
-    .compileComponents();
+      declarations: [CatalogSearchComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('CatalogSearchComponent', () => {
     fixture.detectChanges();
   });
 
-/*   it('should create', () => {
+  /*   it('should create', () => {
     expect(component).toBeTruthy();
   }); */
 });

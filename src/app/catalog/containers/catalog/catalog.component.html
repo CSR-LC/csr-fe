@@ -1,5 +1,6 @@
+<lc-category-set></lc-category-set>
 <section class="catalog">
-  <lc-catalog-search (onSearch)="onSearch($event)"></lc-catalog-search>
+  <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">
       <lc-preview-equipment-card
