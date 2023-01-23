@@ -49,6 +49,6 @@ export class ApiService {
   }
 
   filterEquipmentBySelectedFields(filterValue: FilterValue): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.post<BaseItemsResponse<Equipment>>(`/api/equipment/search`, filterValue);
+    return this.httpClient.post<BaseItemsResponse<Equipment>>(`/equipment/search`, filterValue);
   }
 }
