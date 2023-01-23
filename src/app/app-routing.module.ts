@@ -8,7 +8,7 @@ import { AdminGuard } from '@shared/guards/admin.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'catalog',
+    redirectTo: 'catalog/categories',
     pathMatch: 'full',
   },
   {

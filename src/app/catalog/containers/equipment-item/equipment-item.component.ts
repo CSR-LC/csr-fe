@@ -14,8 +14,8 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 export class EquipmentItemComponent implements OnInit {
   @ViewChild('image') image?: ElementRef;
 
-  catalog$ = this.controller.catalog$;
   equipment?: Equipment;
+  counter: number = 0;
 
   readonly defaultImage = './assets/img/no-photo.png';
 

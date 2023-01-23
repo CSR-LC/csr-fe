@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { EquipmentFilter } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
@@ -11,17 +12,17 @@ export class ControllerService {
 
   constructor(private api: CatalogApi, private store: Store) {}
 
-  public getCatalog() {
+  getCatalog() {
     this.api.getCatalog().subscribe((res) => {
       this.store.dispatch(new GetCatalog(res.items));
     });
   }
 
-  public getEquipmentItemInfo(id: number): Observable<Equipment> {
+  getEquipmentItemInfo(id: number): Observable<Equipment> {
     return this.api.info(id);
   }
 
-  public searchEquipment(term: string): Observable<Equipment[]> {
+  searchEquipment(term: string): Observable<Equipment[]> {
     const parametersEquipment: Partial<Equipment> = {
       name_substring: term,
     };
@@ -31,5 +32,13 @@ export class ControllerService {
 
   getPhotoById(photoId: string): Observable<Blob> {
     return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
+  }
+
+  filterEquipmentByCategory(categoryId: number) {
+    const equipmentFilter: EquipmentFilter = { category: categoryId };
+
+    this.api.filterEquipmentByCategory(equipmentFilter).subscribe((res) => {
+      this.store.dispatch(new GetCatalog(res.items));
+    });
   }
 }

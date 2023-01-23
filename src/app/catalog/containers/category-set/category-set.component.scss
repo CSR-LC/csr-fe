@@ -1,0 +1,40 @@
+@import '/src/app/shared/styles/variables';
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+}
+
+.category-equipment {
+  display: flex;
+  height: 100%;
+  padding: 25px 25px 25px 25px;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+
+  &-list {
+    display: flex;
+    gap: 10px;
+  }
+  
+  &-item {
+    background: $color-eye-icon;
+    border-radius: 6px;
+  }
+}
+
+.active {
+  background: $color-title;
+}
+
+::-webkit-scrollbar {
+  height: 0px;
+}
+
+@media (min-width: 890px) {
+  .category-equipment-list {
+    flex-wrap: wrap;
+  }
+}
