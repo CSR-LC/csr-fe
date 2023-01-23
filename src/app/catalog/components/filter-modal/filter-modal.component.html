@@ -6,37 +6,45 @@
     </div>
   </div>
   <div>
-  <h3 class="filter-modal__subtitle">Животное</h3>
-  <div class="filter-modal__checkbox" formGroupName="petKinds">
-    <mat-checkbox
-      *ngFor="let petKind of petKinds" 
-      [formControlName]="petKind.id"
-    >{{petKind.name}}</mat-checkbox>
-  </div>
-  <div >
-    <h3 class="filter-modal__subtitle">Размер</h3>
-    <div class="filter-modal__size">
-    <mat-chip-list selectable multiple ngFor="let petSize of petSizes">
-      <mat-chip
-        *ngFor="let petSize of petSizes"
-        [attr.data-size]="petSize.id"
-        #size="matChip"
-        (click)="changeSelectedValue($event, size)"
-        [selected]="filterValue?.petSize?.includes(petSize.id)"
-      >{{petSize.name}} ({{petSize.size}})</mat-chip>
-    </mat-chip-list>
-  </div>
-  <div>
-    <h3 class="filter-modal__subtitle">Техническое состояние</h3>
-    <mat-slide-toggle formControlName="technicalIssues" #slide class="filter-modal__slide-toggle">
-      <span>В идеальном состоянии</span>
-    </mat-slide-toggle>
-  </div>
-  <div class="filter-modal__reset">
-    <div class="filter-modal__reset_btn" (click)="resetFilter()">
-      <img src="assets/img/icons/icon-reset.svg" alt="icon-reset" />
-      <span>Очистить фильтры</span>
+    <h3 class="filter-modal__subtitle">Животное</h3>
+    <div class="filter-modal__checkbox" formGroupName="petKinds">
+      <mat-checkbox *ngFor="let petKind of petKinds" [formControlName]="petKind.id">{{ petKind.name }}</mat-checkbox>
+    </div>
+    <div>
+      <h3 class="filter-modal__subtitle">Размер</h3>
+      <div class="filter-modal__size">
+        <mat-chip-list selectable multiple ngFor="let petSize of petSizes">
+          <mat-chip
+            *ngFor="let petSize of petSizes"
+            [attr.data-size]="petSize.id"
+            #size="matChip"
+            (click)="changeSelectedValue($event, size)"
+            [selected]="filterValue?.petSize?.includes(petSize.id)"
+            >{{ petSize.name | titlecase }} ({{ petSize.size }})</mat-chip
+          >
+        </mat-chip-list>
+      </div>
+      <div>
+        <h3 class="filter-modal__subtitle">Техническое состояние</h3>
+        <div class="filter-modal__center">
+          <mat-slide-toggle formControlName="technicalIssues" #slide class="filter-modal__slide-toggle">
+            <span>В идеальном состоянии</span>
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div class="filter-modal__center">
+        <div
+          *ngIf="selectedPetKinds.includes(true) || selectedPetSize.includes(true) || selectedTechnicalIssues === true"
+          class="filter-modal__reset-btn"
+          (click)="resetFilter()"
+        >
+          <img src="assets/img/icons/icon-reset.svg" alt="icon-reset" />
+          <span>Очистить фильтры</span>
+        </div>
+      </div>
+      <div class="filter-modal__center">
+        <button (click)="closeModal()" class="filter-modal__btn">Закрыть</button>
+      </div>
     </div>
   </div>
-  <button (click)="closeModal()" class="filter-modal__btn">Закрыть</button>
 </div>

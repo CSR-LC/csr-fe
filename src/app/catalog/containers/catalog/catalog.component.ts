@@ -1,9 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, AfterViewInit } from '@angular/core';
 import { CatalogController } from '../../services';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { CategoryId } from '@app/catalog/models';
+import { FilterValue } from '@app/catalog/models/filter';
+
 @UntilDestroy
 @Component({
   selector: 'lc-catalog',
@@ -14,6 +16,13 @@ import { CategoryId } from '@app/catalog/models';
 })
 export class CatalogComponent implements OnInit {
   catalog$ = this.controller.catalog$;
+  filterValue: FilterValue = {
+    petKinds: [],
+    petSize: [],
+    technicalIssues: false,
+  };
+
+  selectedFilters: number = 0;
 
   constructor(
     private controller: CatalogController,
@@ -29,6 +38,10 @@ export class CatalogComponent implements OnInit {
         this.controller.filterEquipmentByCategory(Number((<CategoryId>param)['categoryId']));
       } else {
         this.controller.getCatalog();
+      }
+
+      if (this.selectedFilters > 0) {
+        this.controller.filterEquipmentBySelectedFields(this.filterValue);
       }
     });
   }

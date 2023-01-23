@@ -1,12 +1,10 @@
+<lc-filter></lc-filter>
 <lc-category-set></lc-category-set>
 <section class="catalog">
   <div class="catalog-search">
     <div class="catalog-search__width">
   <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
 </div>
-<div>
-  <lc-filter></lc-filter>
-  </div>
 </div>
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">

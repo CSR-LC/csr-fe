@@ -23,6 +23,9 @@ export class FilterModalComponent implements OnInit {
   filterValue?: FilterValue;
   petKinds: BaseKind[] = [];
   petSizes: PetSize[] = [];
+  selectedPetKinds: boolean[] = [];
+  selectedPetSize: boolean[] = [];
+  selectedTechnicalIssues: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: FilterData,
@@ -36,6 +39,18 @@ export class FilterModalComponent implements OnInit {
     this.filterValue = this.data.filterValue;
     this.getPetKinds();
     this.getPetSizes();
+
+    this.filterGroup.get('petKinds')!.valueChanges.subscribe((value) => {
+      this.selectedPetKinds = Object.values(value);
+    });
+
+    this.filterGroup.get('petSize')!.valueChanges.subscribe((value) => {
+      this.selectedPetSize = Object.values(value);
+    });
+
+    this.filterGroup.get('technicalIssues')!.valueChanges.subscribe((value) => {
+      this.selectedTechnicalIssues = value;
+    });
   }
 
   createPetKindsControls(petKinds: BaseKind[]) {

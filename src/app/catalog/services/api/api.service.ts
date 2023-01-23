@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
-import { BaseKind, PetSize } from '@app/catalog/models/filter';
+import { BaseKind, FilterValue, PetSize } from '@app/catalog/models/filter';
 import { Category, EquipmentFilter } from '@app/catalog/models';
 
 @Injectable()
@@ -46,5 +46,9 @@ export class ApiService {
 
   filterEquipmentByCategory(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
     return this.httpClient.post<BaseItemsResponse<Equipment>>(`/api/equipment/search`, payload);
+  }
+
+  filterEquipmentBySelectedFields(filterValue: FilterValue): Observable<BaseItemsResponse<Equipment>> {
+    return this.httpClient.post<BaseItemsResponse<Equipment>>(`/api/equipment/search`, filterValue);
   }
 }

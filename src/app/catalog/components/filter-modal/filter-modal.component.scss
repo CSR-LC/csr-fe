@@ -73,21 +73,21 @@
     text-transform: uppercase;
   }
 
-  &__reset{
+  &__center{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100px;
-   
-    &_btn{
-      display: flex;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1.25px;
-      gap: 8px;
-      font-weight: 500;
-      color: $color-title;
-    }
+  }
+
+  &__reset-btn{
+    display: flex;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+    gap: 8px;
+    font-weight: 500;
+    color: $color-title;
   }
 }
 
