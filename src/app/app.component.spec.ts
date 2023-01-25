@@ -4,10 +4,18 @@ import { AppComponent } from './app.component';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
 import { Store } from '@ngxs/store';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BlockUiStubComponent, MainHeaderStubComponent } from '@tests/shared/components';
+import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
+
+const titleValue = 'test title value';
+const pageTitle$ = of(titleValue);
 
 function mockMainPageHeaderService() {
-  return jasmine.createSpyObj('MainPageHeaderService', ['getPageTitle']);
+  return jasmine.createSpyObj('MainPageHeaderService', {
+    getPageTitle: pageTitle$,
+  });
 }
 
 function mockAuthService() {
@@ -25,11 +33,12 @@ describe('AppComponent', () => {
 
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
+  let element: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [AppComponent],
+      declarations: [AppComponent, BlockUiStubComponent, MainHeaderStubComponent],
       providers: [
         {
           provide: MainPageHeaderService,
@@ -44,7 +53,6 @@ describe('AppComponent', () => {
           useValue: mockAuthService(),
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     store = TestBed.inject(Store) as typeof store;
@@ -53,6 +61,7 @@ describe('AppComponent', () => {
 
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    element = fixture.debugElement;
     fixture.detectChanges();
   });
 
@@ -66,5 +75,15 @@ describe('AppComponent', () => {
 
   it('should get page title', () => {
     expect(mainPageHeaderService.getPageTitle).toHaveBeenCalled();
+  });
+
+  it('should get page title observable', () => {
+    expect(component.title).toBe(pageTitle$);
+  });
+
+  it('should set header', () => {
+    const header = element.query(By.css('lc-main-header'));
+
+    expect(header.componentInstance.pageTitle).toBe(titleValue);
   });
 });

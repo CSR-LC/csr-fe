@@ -40,11 +40,12 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     if (!this.categoriesElements) return;
 
-    const activeCategory: ElementRef<HTMLDivElement> = this.categoriesElements['_results'].find(
-      (el: ElementRef<HTMLDivElement>) => {
-        return el.nativeElement.classList.contains('active');
-      },
-    );
+    const activeCategory = this.categoriesElements.find((el: ElementRef<HTMLDivElement>) => {
+      return el.nativeElement.classList.contains('active');
+    });
+
+    if (!activeCategory) return;
+
     const activeCategoryX = activeCategory.nativeElement.getBoundingClientRect().x;
 
     this.scroll(activeCategoryX);
