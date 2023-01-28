@@ -34,6 +34,6 @@ export class ApiService {
       surname,
       phone: phoneNumber,
     };
-    return this.http.patch<any>('/api/v1/users/me', data);
+    return this.http.patch<any>('v1/users/me', data);
   }
 }

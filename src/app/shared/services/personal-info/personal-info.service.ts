@@ -25,7 +25,7 @@ export class PersonalInfoService {
       source,
     };
 
-    this.dialog
+    return this.dialog
       .open(PersonalInfoModalComponent, {
         height: '100vh',
         width: '100vw',
@@ -41,7 +41,6 @@ export class PersonalInfoService {
           this.notificationsService.openError(error.message);
           return throwError(error);
         }),
-      )
-      .subscribe();
+      );
   }
 }
