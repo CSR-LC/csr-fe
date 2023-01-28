@@ -10,6 +10,8 @@ import { HideTextDirective } from '@shared/directives/hide-text/hide-text.direct
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DaysPipe } from '@shared/pipes/days/days.pipe';
+import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { DaysPipe } from '@shared/pipes/days/days.pipe';
     PageNotFoundComponent,
     ValidationErrorsDirective,
     NotificationComponent,
+    PersonalInfoModalComponent,
   ],
   exports: [
     DaysPipe,
@@ -29,6 +32,6 @@ import { DaysPipe } from '@shared/pipes/days/days.pipe';
     BlockUiComponent,
     MatSnackBarModule,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, FormsModule],
 })
 export class SharedModule {}

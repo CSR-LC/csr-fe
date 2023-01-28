@@ -1,0 +1,56 @@
+@import 'src/app/shared/styles/variables';
+
+:host {
+  max-width: 390px;
+  margin: 0 auto;
+  display: block;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 0 0;
+}
+
+.message-container {
+  min-height: 53px;
+  padding-top: 12px;
+}
+
+.message-text {
+  max-width: 295px;
+  margin: 0 auto;
+  font-weight: 700;
+  font-size: 20px;
+  color: $color-title;
+  letter-spacing: 0.25px;
+}
+
+form {
+  padding-top: 55px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.offer {
+  color: $color-title;
+  text-align: center;
+  margin: 10px 0;
+  letter-spacing: 0.25px;
+  & a {
+    text-decoration: underline;
+    cursor: pointer;
+    color: $color-title;
+  }
+}
+
+.btn {
+  width: 100%;
+  margin-top: 10px;
+  &-cancel {
+    background-color: #a9a9a9;
+  }
+}

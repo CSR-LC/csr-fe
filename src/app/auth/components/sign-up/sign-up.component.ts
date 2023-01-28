@@ -10,6 +10,8 @@ import { ValidationService } from '@shared/services/validation/validation.servic
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, take, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
+import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
+import { PersonalInfo } from '@shared/constants/personal-info.enum';
 
 @Component({
   selector: 'lc-sign-up',
@@ -34,6 +36,7 @@ export class SignUpComponent implements OnInit {
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
     private readonly notificationsService: NotificationsService,
+    private readonly personalInfoService: PersonalInfoService,
   ) {}
 
   get formValue() {
@@ -74,7 +77,10 @@ export class SignUpComponent implements OnInit {
         finalize(() => this.blockUiService.unBlock()),
         take(1),
       )
-      .subscribe(() => this.router.navigate(['/']));
+      .subscribe(() => {
+        this.personalInfoService.openPersonalInfoModal(PersonalInfo.RegistrationPage);
+        this.router.navigate(['/']);
+      });
   }
 
   private getNewUserInfo(): NewUserInfo {
