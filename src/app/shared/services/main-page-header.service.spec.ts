@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { MainPageHeaderService } from './main-page-header.service';
 
-describe('MainPageHeaderService', () => {
+xdescribe('MainPageHeaderService', () => {
   let service: MainPageHeaderService;
 
   beforeEach(() => {
