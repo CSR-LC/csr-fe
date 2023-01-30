@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="info-item" *ngIf="equipment?.technicalIssues === 'есть'; else new">
+      <div class="info-item" *ngIf="equipment?.technicalIssues === false; else new">
         <div class="info-item__wrapper">
           <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
           <div>
