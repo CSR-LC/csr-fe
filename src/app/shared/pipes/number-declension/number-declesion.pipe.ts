@@ -10,18 +10,14 @@ export class NumberDeclensionPipe implements PipeTransform {
 
     const helperNumber = value > 19 ? this.getLastNumber(value) : value;
 
-    return this.getValue(cases, helperNumber);
+    if (helperNumber === 0) return `${value} ${cases.empty || cases.genitivePlural}`;
+    if (helperNumber === 1) return `${value} ${cases.nominativeSingular}`;
+    if (helperNumber >= 2 && helperNumber <= 4) return `${value} ${cases.genitiveSingular}`;
+    return `${value} ${cases.genitivePlural}`;
   }
 
   private getLastNumber(num: number): number {
     const str = String(num);
     return Number(str.charAt(str.length - 1));
-  }
-
-  private getValue(cases: NumberCases, value: number): string {
-    if (value === 0) return `${value} ${cases.empty || cases.genitivePlural}`;
-    if (value === 1) return `${value} ${cases.nominativeSingular}`;
-    if (value > 1 && value < 5) return `${value} ${cases.genitiveSingular}`;
-    return `${value} ${cases.genitivePlural}`;
   }
 }
