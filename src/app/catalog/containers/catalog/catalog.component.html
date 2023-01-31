@@ -1,17 +1,17 @@
-<lc-filter></lc-filter>
+<lc-filter
+  (outFilterValue)="receiveFilterValue($event)"
+  (outSelectedFilters)="receiveSelectedFilters($event)"
+></lc-filter>
 <lc-category-set></lc-category-set>
 <section class="catalog">
   <div class="catalog-search">
     <div class="catalog-search__width">
-  <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
-</div>
-</div>
+      <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
+    </div>
+  </div>
   <div class="catalog-list">
     <div *ngFor="let equipment of catalog$ | async">
-      <lc-preview-equipment-card
-      [equipment]="equipment"
-    >
-    </lc-preview-equipment-card>
+      <lc-preview-equipment-card [equipment]="equipment"> </lc-preview-equipment-card>
     </div>
   </div>
 </section>

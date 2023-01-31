@@ -20,7 +20,7 @@
             #size="matChip"
             (click)="changeSelectedValue($event, size)"
             [selected]="filterValue?.petSize?.includes(petSize.id)"
-            >{{ petSize.name | titlecase }} ({{ petSize.size }})</mat-chip
+            >{{ petSize.name | titlecase }} {{ petSize.size | size }}</mat-chip
           >
         </mat-chip-list>
       </div>
@@ -34,7 +34,11 @@
       </div>
       <div class="filter-modal__center">
         <div
-          *ngIf="selectedPetKinds.includes(true) || selectedPetSize.includes(true) || selectedTechnicalIssues === true"
+          *ngIf="
+            selectedPetKinds.includes(true) ||
+            selectedPetSize.includes(true) ||
+            this.filterGroup.get('technicalIssues')?.value === true
+          "
           class="filter-modal__reset-btn"
           (click)="resetFilter()"
         >

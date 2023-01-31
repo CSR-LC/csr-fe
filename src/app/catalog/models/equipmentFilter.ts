@@ -1,3 +1,6 @@
 export type EquipmentFilter = {
-  category: number;
+  category?: number;
+  petKinds?: number[];
+  petSize?: number[];
+  technicalIssues?: boolean;
 };

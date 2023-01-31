@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
@@ -25,7 +25,6 @@ export class FilterModalComponent implements OnInit {
   petSizes: PetSize[] = [];
   selectedPetKinds: boolean[] = [];
   selectedPetSize: boolean[] = [];
-  selectedTechnicalIssues: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: FilterData,
@@ -47,10 +46,7 @@ export class FilterModalComponent implements OnInit {
     this.filterGroup.get('petSize')!.valueChanges.subscribe((value) => {
       this.selectedPetSize = Object.values(value);
     });
-
-    this.filterGroup.get('technicalIssues')!.valueChanges.subscribe((value) => {
-      this.selectedTechnicalIssues = value;
-    });
+    this.cd.markForCheck();
   }
 
   createPetKindsControls(petKinds: BaseKind[]) {
@@ -125,17 +121,13 @@ export class FilterModalComponent implements OnInit {
   }
 
   resetFilter() {
-    const petKindsGroup = this.filterGroup.get('petKinds') as FormGroup;
-    Object.keys(petKindsGroup.value).forEach((key) => {
-      const control = this.filterGroup.get(`petKinds.${key}`);
-      control?.setValue(false);
-    });
-    const petSizeGroup = this.filterGroup.get('petSize') as FormGroup;
-    Object.keys(petSizeGroup.value).forEach((key) => {
-      const control = this.filterGroup.get(`petSize.${key}`);
-      control?.setValue(false);
-    });
+    this.getPetKinds();
+    this.getPetSizes();
     this.filterGroup.get('technicalIssues')?.setValue(false);
-    this.filterValue = undefined;
+    this.filterValue = {
+      petKinds: [],
+      petSize: [],
+      technicalIssues: false,
+    };
   }
 }

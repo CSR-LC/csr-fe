@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterModalComponent } from '../filter-modal/filter-modal.component';
 import { CatalogController } from '../../services';
 import { FilterValue, FilterData } from '@app/catalog/models/filter';
+import { EquipmentFilter } from '@app/catalog/models/equipmentFilter';
 
 @Component({
   selector: 'lc-filter',
@@ -11,6 +12,12 @@ import { FilterValue, FilterData } from '@app/catalog/models/filter';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent implements OnInit {
+  @Output()
+  outFilterValue = new EventEmitter<EquipmentFilter>();
+
+  @Output()
+  outSelectedFilters = new EventEmitter<number>();
+
   filterValue: FilterValue = {
     petKinds: [],
     petSize: [],
@@ -34,7 +41,8 @@ export class FilterComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.filterData.filterValue = result;
       this.filtersCounter();
-      this.cd.markForCheck();
+      this.outFilterValue.emit(this.filterData.filterValue);
+      this.outSelectedFilters.emit(this.selectedFilters);
     });
   }
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EquipmentFilter } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
-import { BaseKind, FilterValue, PetSize } from '@app/catalog/models/filter';
+import { BaseKind, PetSize } from '@app/catalog/models/filter';
 
 @Injectable()
 export class ControllerService {
@@ -43,16 +43,8 @@ export class ControllerService {
     return this.api.getPetSizes();
   }
 
-  filterEquipmentByCategory(categoryId: number) {
-    const equipmentFilter: EquipmentFilter = { category: categoryId };
-
-    this.api.filterEquipmentByCategory(equipmentFilter).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
-  }
-
-  filterEquipmentBySelectedFields(filterValue: FilterValue) {
-    this.api.filterEquipmentBySelectedFields(filterValue).subscribe((res) => {
+  filterEquipment(filterValue: EquipmentFilter) {
+    this.api.filterEquipment(filterValue).subscribe((res) => {
       this.store.dispatch(new GetCatalog(res.items));
     });
   }
