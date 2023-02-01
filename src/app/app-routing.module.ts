@@ -3,13 +3,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
-import { AdminGuard } from '@shared/guards/admin.guard';
+import { AdminResolver } from './admin/resolvers/admin.resolver';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'catalog/categories',
     pathMatch: 'full',
+    // resolve: {
+    //   user: AdminResolver,
+    // }
   },
   {
     path: 'auth',
@@ -33,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    canActivate: [AuthGuard, AdminGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
@@ -45,5 +48,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [AdminResolver],
 })
 export class AppRoutingModule {}

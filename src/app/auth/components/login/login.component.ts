@@ -55,8 +55,8 @@ export class LoginComponent {
         switchMap(() => {
           return this.controller.getCurrentUser();
         }),
-        tap((res) => {
-          this.controller.setUser(res);
+        switchMap((res) => {
+          return this.controller.setUser(res);
         }),
         catchError((error) => {
           this.notificationsService.openError(error.message);

@@ -59,6 +59,6 @@ export class ControllerService {
   }
 
   setUser(user: User) {
-    this.store.dispatch(new UserAction(user));
+    return this.store.dispatch(new UserAction(user));
   }
 }

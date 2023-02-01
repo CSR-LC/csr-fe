@@ -28,6 +28,6 @@ export class ApiService {
   }
 
   getCurrentUser() {
-    return this.http.get<User>('/api/v1/users/me');
+    return this.http.get<User>('v1/users/me');
   }
 }

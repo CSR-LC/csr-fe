@@ -1,4 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { User } from '@app/auth/models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'lc-admin',
@@ -6,4 +8,13 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./admin.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminComponent {}
+export class AdminComponent {
+  user: User | null = null;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = this.route.snapshot.data['user'];
+  }
+
+}
