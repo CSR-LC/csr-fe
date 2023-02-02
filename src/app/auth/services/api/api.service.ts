@@ -27,7 +27,7 @@ export class ApiService {
     return this.http.post<any>('password_reset', data);
   }
 
-  getCurrentUser() {
+  getCurrentUser(): Observable<User> {
     return this.http.get<User>('v1/users/me');
   }
 }

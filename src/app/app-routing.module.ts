@@ -7,37 +7,37 @@ import { AdminResolver } from './admin/resolvers/admin.resolver';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'catalog/categories',
-    pathMatch: 'full',
-    // resolve: {
-    //   user: AdminResolver,
-    // }
-  },
-  {
     path: 'auth',
+    pathMatch: 'full',
     canActivate: [TokensGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'catalog',
+    path: '',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
-  },
-  {
-    path: 'management',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
-  },
-  {
-    path: 'profile',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
-  },
-  {
-    path: 'admin',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'catalog/categories',
+      },
+      {
+        path: 'catalog',
+        loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
+      },
+      {
+        path: 'management',
+        loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+      },
+    ],
   },
   {
     path: '**',

@@ -9,7 +9,8 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: AdminComponent,
-    // canActivate: [AdminGuard],
+    canActivate: [AdminGuard],
+    // do not need this
     // resolve: {
     //   user: AdminResolver,
     // }
