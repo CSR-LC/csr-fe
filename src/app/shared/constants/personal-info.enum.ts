@@ -1,4 +1,4 @@
-export enum PersonalInfo {
+export enum OpenedFrom {
   RegistrationPage = 'registrationPage',
   OrderPage = 'orderPage',
 }

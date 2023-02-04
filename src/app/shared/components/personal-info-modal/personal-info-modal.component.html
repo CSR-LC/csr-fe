@@ -3,13 +3,13 @@
 </div>
 
 <div class="message-container">
-  <p class="message-text" *ngIf="data.source === openedFrom.OrderPage">
+  <p class="message-text" *ngIf="source === openedFrom.OrderPage">
     Для отправки заявки укажите Ваши персональные данные
   </p>
 </div>
 
 <mat-tab-group mat-align-tabs="center">
-  <mat-tab label="{{ 'укажите ваши персональные данные' | uppercase }}">
+  <mat-tab label="УКАЖИТЕ ВАШИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ">
     <form #personalInfoForm="ngForm">
       <mat-form-field floatLabel="auto">
         <mat-label>Имя</mat-label>
@@ -20,7 +20,7 @@
           minlength="2"
           maxlength="49"
           required
-          [(ngModel)]="data.name"
+          [(ngModel)]="contacts.name"
           lcValidationErrors
         />
       </mat-form-field>
@@ -34,7 +34,7 @@
           minlength="2"
           maxlength="49"
           required
-          [(ngModel)]="data.surname"
+          [(ngModel)]="contacts.surname"
           lcValidationErrors
         />
       </mat-form-field>
@@ -43,13 +43,13 @@
         <mat-label>Телефон</mat-label>
         <input
           type="tel"
-          name="phoneNumber"
+          name="phone"
           matInput
-          minlength="9"
-          maxlength="20"
+          minlength="11"
+          maxlength="11"
           required
-          pattern="[0-9]+"
-          [(ngModel)]="data.phoneNumber"
+          [(ngModel)]="contacts.phone"
+          lcPhoneValidator
           lcValidationErrors
         />
       </mat-form-field>
@@ -63,28 +63,13 @@
         class="btn"
         mat-raised-button
         color="primary"
-        [mat-dialog-close]="data"
+        [mat-dialog-close]="contacts"
         [disabled]="personalInfoForm.invalid"
       >
-        {{ 'отправить' | uppercase }}
+        ОТПРАВИТЬ
       </button>
-      <button
-        class="btn btn-cancel"
-        mat-raised-button
-        color="primary"
-        [mat-dialog-close]="false"
-        *ngIf="data.source === openedFrom.RegistrationPage"
-      >
-        {{ 'пропустить' | uppercase }}
-      </button>
-      <button
-        class="btn btn-cancel"
-        mat-raised-button
-        color="primary"
-        [mat-dialog-close]="false"
-        *ngIf="data.source === openedFrom.OrderPage"
-      >
-        {{ 'отменить' | uppercase }}
+      <button class="btn btn-cancel" mat-raised-button color="primary" [mat-dialog-close]="false">
+        {{ source === openedFrom.RegistrationPage ? 'ПРОПУСТИТЬ' : 'ОТМЕНИТЬ' }}
       </button>
     </form>
   </mat-tab>

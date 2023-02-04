@@ -14,7 +14,6 @@ export class ValidationService {
     maxlength: 'Слишком большое знанеие, уменьшите количество символов',
     minlength: 'Слишком короткое значение, добавтесимволы',
     email: 'Значение должно быть типа: example@mail.com',
-    pattern: 'Номер телефона должен состоять исключительно из цифр',
   };
 
   getSubmitObservable(): Observable<string | undefined> {

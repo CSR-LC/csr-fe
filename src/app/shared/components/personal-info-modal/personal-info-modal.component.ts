@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PersonalInfo } from '@app/shared/constants/personal-info.enum';
+import { OpenedFrom } from '@app/shared/constants/personal-info.enum';
 import { UserPersonalInfo } from '@shared/constants/personal-info';
 
 @Component({
@@ -10,7 +10,12 @@ import { UserPersonalInfo } from '@shared/constants/personal-info';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalInfoModalComponent {
-  readonly openedFrom = PersonalInfo;
+  readonly openedFrom = OpenedFrom;
+  contacts: UserPersonalInfo = {
+    name: '',
+    surname: '',
+    phone: '',
+  };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: UserPersonalInfo) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public source: OpenedFrom) {}
 }

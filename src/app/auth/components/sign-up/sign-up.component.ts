@@ -8,12 +8,10 @@ import { NewUserInfo, UserType } from '../../models';
 import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
-import { catchError, finalize, switchMap, tap, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
-import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
-import { PersonalInfo } from '@shared/constants/personal-info.enum';
+import { OpenedFrom } from '@shared/constants/personal-info.enum';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
-import { NotificationSuccess } from '@shared/constants/notification-success.enum';
 
 @UntilDestroy
 @Component({
@@ -39,7 +37,6 @@ export class SignUpComponent implements OnInit {
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
     private readonly notificationsService: NotificationsService,
-    private readonly personalInfoService: PersonalInfoService,
   ) {}
 
   get formValue() {
@@ -73,11 +70,7 @@ export class SignUpComponent implements OnInit {
             password: this.formValue.password,
           });
         }),
-        switchMap(() => this.personalInfoService.openPersonalInfoModal(PersonalInfo.RegistrationPage)),
-        tap(() => {
-          this.notificationsService.openSuccess(NotificationSuccess.ContactInfoAdded);
-          this.router.navigate(['/']);
-        }),
+        switchMap(() => this.controller.openPersonalInfoModal(OpenedFrom.RegistrationPage)),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
@@ -85,7 +78,7 @@ export class SignUpComponent implements OnInit {
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )
-      .subscribe();
+      .subscribe(() => this.router.navigate(['/']));
   }
 
   private getNewUserInfo(): NewUserInfo {

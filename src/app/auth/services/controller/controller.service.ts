@@ -9,6 +9,8 @@ import { AuthService } from '@shared/services/auth-service/auth-service.service'
 import { AuthState, AuthStore, rememberMeAction } from '@app/auth/store';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
+import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
+import { OpenedFrom } from '@shared/constants/personal-info.enum';
 
 @Injectable()
 export class ControllerService {
@@ -20,6 +22,7 @@ export class ControllerService {
     private readonly store: Store,
     private readonly authService: AuthService,
     private dialog: MatDialog,
+    private readonly personalInfoService: PersonalInfoService,
   ) {}
 
   cancel() {
@@ -52,5 +55,9 @@ export class ControllerService {
 
   setRememberMe(rememberMe: boolean) {
     this.store.dispatch(new rememberMeAction(rememberMe));
+  }
+
+  openPersonalInfoModal(source: OpenedFrom) {
+    return this.personalInfoService.openPersonalInfoModal(source);
   }
 }

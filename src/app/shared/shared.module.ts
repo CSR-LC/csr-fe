@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
 import { FormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
+import { PhoneValidatorDirective } from './directives/phone-validator/phone-validator.directive';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-dec
     ValidationErrorsDirective,
     NotificationComponent,
     PersonalInfoModalComponent,
+    PhoneValidatorDirective,
   ],
   exports: [
     NumberDeclensionPipe,

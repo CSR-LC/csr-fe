@@ -28,12 +28,7 @@ export class ApiService {
     return this.http.post<any>('password_reset', data);
   }
 
-  addContactInfo({ name, surname, phoneNumber }: UserPersonalInfo) {
-    const data = {
-      name,
-      surname,
-      phone: phoneNumber,
-    };
-    return this.http.patch<any>('v1/users/me', data);
+  addContactInfo(data: UserPersonalInfo) {
+    return this.http.patch<void>('v1/users/me', data);
   }
 }
