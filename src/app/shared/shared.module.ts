@@ -9,13 +9,13 @@ import { MaterialModule } from '@app/material/material.module';
 import { HideTextDirective } from '@shared/directives/hide-text/hide-text.directive';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { DaysPipe } from '@shared/pipes/days/days.pipe';
 import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
 import { FormsModule } from '@angular/forms';
+import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 
 @NgModule({
   declarations: [
-    DaysPipe,
+    NumberDeclensionPipe,
     BlockUiComponent,
     HideTextDirective,
     MainHeaderComponent,
@@ -25,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     PersonalInfoModalComponent,
   ],
   exports: [
-    DaysPipe,
+    NumberDeclensionPipe,
     HideTextDirective,
     MainHeaderComponent,
     ValidationErrorsDirective,

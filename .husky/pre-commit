@@ -3,4 +3,5 @@
 
 npm run lint
 git add .
+npm run test-headless
 npm run build

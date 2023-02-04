@@ -3,6 +3,7 @@ import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { Equipment } from '../../models/equipment';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { dayCases } from '@shared/constants/day-cases';
 
 @Component({
   selector: 'lc-equipment-item',
@@ -16,6 +17,7 @@ export class EquipmentItemComponent implements OnInit {
 
   equipment?: Equipment;
   counter: number = 0;
+  dayCases = dayCases;
 
   readonly defaultImage = './assets/img/no-photo.png';
 
