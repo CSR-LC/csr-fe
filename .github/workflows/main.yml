@@ -27,6 +27,8 @@ jobs:
           sudo apt install nodejs
           sudo npm update
           sudo npm install --only=dev
+          sudo npm install -g npm@9.1.2
+          sudo npm install -g @angular/cli
           sudo ng build
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
