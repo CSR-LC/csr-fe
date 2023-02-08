@@ -11,6 +11,11 @@ import { NotificationComponent } from './components/notification/notification.co
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DaysPipe } from '@shared/pipes/days/days.pipe';
 import { SizePipe } from './pipes/size.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterComponent } from './components/filter/filter.component';
+import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
+import { CatalogApi } from './services';
+import { PetKindsResolver } from './resolver/pet-kinds.resolver';
 
 @NgModule({
   declarations: [
@@ -22,6 +27,8 @@ import { SizePipe } from './pipes/size.pipe';
     ValidationErrorsDirective,
     NotificationComponent,
     SizePipe,
+    FilterComponent,
+    FilterModalComponent,
   ],
   exports: [
     DaysPipe,
@@ -32,6 +39,9 @@ import { SizePipe } from './pipes/size.pipe';
     MatSnackBarModule,
     SizePipe,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule,FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [CatalogApi, PetKindsResolver],
 })
 export class SharedModule {}

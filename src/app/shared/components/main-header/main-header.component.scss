@@ -11,6 +11,7 @@
   flex-flow: row nowrap;
   justify-content: space-between;
   padding: 15px 28px 28px;
+  gap: 15px;
 
   &__title {
     color: $color-title;

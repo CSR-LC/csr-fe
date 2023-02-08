@@ -48,4 +48,8 @@ export class ControllerService {
       this.store.dispatch(new GetCatalog(res.items));
     });
   }
+
+  // filterEquipmentCount(filterValue: EquipmentFilter) {
+  //   return this.api.filterEquipment(filterValue).pipe(map((res) => res.items));
+  // }
 }

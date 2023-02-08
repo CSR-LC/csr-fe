@@ -6,6 +6,6 @@ import { Category } from '@app/catalog/models';
 })
 export class CategoryPathPipe implements PipeTransform {
   transform(category: Category | undefined): string {
-    return category?.id ? `/catalog/categories/${category.id}` : '/catalog/categories/all';
+    return category?.id ? `/catalog/categories/${category.id}` : '/catalog';
   }
 }

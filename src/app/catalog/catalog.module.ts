@@ -9,14 +9,15 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
-import { FilterComponent } from './components/filter/filter.component';
-import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
+// import { FilterComponent } from './components/filter/filter.component';
+// import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategorySetComponent } from './containers/category-set/category-set.component';
 import { CategoryTabComponent } from './components/category-tab/category-tab.component';
 import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
+import { PetKindsResolver } from '@app/shared/resolver/pet-kinds.resolver';
 
 @NgModule({
   declarations: [
@@ -29,8 +30,8 @@ import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
     CategorySetComponent,
     CategoryTabComponent,
     CategoryPathPipe,
-    FilterComponent,
-    FilterModalComponent,
+    // FilterComponent,
+    // FilterModalComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +42,6 @@ import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [CatalogApi],
+  providers: [CatalogApi, PetKindsResolver],
 })
 export class CatalogModule {}

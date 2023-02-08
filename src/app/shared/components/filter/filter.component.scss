@@ -1,0 +1,9 @@
+.filter {
+  display: flex;
+  justify-content: end;
+  margin-right: 28px;
+}
+
+:host ::ng-deep .mat-badge-content {
+  left: 8px !important;
+}
