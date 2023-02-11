@@ -10,60 +10,32 @@
 
 <mat-tab-group mat-align-tabs="center">
   <mat-tab label="УКАЖИТЕ ВАШИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ">
-    <form #personalInfoForm="ngForm">
+    <form [formGroup]="personalInfoForm">
       <mat-form-field floatLabel="auto">
         <mat-label>Имя</mat-label>
-        <input
-          type="text"
-          name="name"
-          matInput
-          minlength="2"
-          maxlength="49"
-          required
-          [(ngModel)]="contacts.name"
-          lcValidationErrors
-        />
+        <input type="text" matInput formControlName="name" lcValidationErrors />
       </mat-form-field>
 
       <mat-form-field floatLabel="auto">
         <mat-label>Фамилия</mat-label>
-        <input
-          type="text"
-          name="surname"
-          matInput
-          minlength="2"
-          maxlength="49"
-          required
-          [(ngModel)]="contacts.surname"
-          lcValidationErrors
-        />
+        <input type="text" matInput formControlName="surname" lcValidationErrors />
       </mat-form-field>
 
       <mat-form-field floatLabel="auto">
         <mat-label>Телефон</mat-label>
-        <input
-          type="tel"
-          name="phone"
-          matInput
-          minlength="11"
-          maxlength="11"
-          required
-          [(ngModel)]="contacts.phone"
-          lcPhoneValidator
-          lcValidationErrors
-        />
+        <input type="tel" matInput formControlName="phone" lcValidationErrors />
       </mat-form-field>
 
       <div class="offer">
         Нажимая «Продолжить» вы даете
-        <a routerLink="public-offer" target="_blank">согласие на обработку персональных данных</a>
+        <a routerLink="/public-offer" target="_blank">согласие на обработку персональных данных</a>
       </div>
 
       <button
         class="btn"
         mat-raised-button
         color="primary"
-        [mat-dialog-close]="contacts"
+        [mat-dialog-close]="personalInfoForm.value"
         [disabled]="personalInfoForm.invalid"
       >
         ОТПРАВИТЬ

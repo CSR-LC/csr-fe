@@ -39,6 +39,14 @@ export class ValidationService {
     };
   }
 
+  pattern(errorOptions: ErrorOptions, pattern: RegExp): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = pattern.test(control.value);
+
+      return isValid ? null : { pattern: { message: errorOptions.message } };
+    };
+  }
+
   validateForm(form: FormGroup): void {
     form.updateValueAndValidity();
 

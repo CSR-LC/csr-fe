@@ -57,7 +57,7 @@ export class ControllerService {
     this.store.dispatch(new rememberMeAction(rememberMe));
   }
 
-  openPersonalInfoModal(source: OpenedFrom) {
+  openPersonalInfoModal(source: OpenedFrom): Observable<void> {
     return this.personalInfoService.openPersonalInfoModal(source);
   }
 }
