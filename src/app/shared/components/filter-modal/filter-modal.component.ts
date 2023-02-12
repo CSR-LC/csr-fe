@@ -1,15 +1,18 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map } from 'rxjs/operators';
-import { BaseKind, FilterData, FilterValue, PetSize } from '@app/catalog/models/filter';
-import { ControllerService } from '../../services/controller/controller.service';
-import { Dictionary } from '@app/shared/types';
+import { map, take } from 'rxjs/operators';
+import { ControllerService } from '@app/shared/services/controller/controller.service';
+import { Dictionary, BaseKind, FilterData, FilterValue, PetSize, EquipmentFilter } from '@app/shared/types';
+import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
+import { ApiService } from '@app/shared/services/api/api.service';
+import { DataService } from '@app/shared/services/data/data.service';
+import { CategoryId } from '@app/catalog/models';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '@app/shared/services/api/api.service';
 
+@UntilDestroy
 @Component({
   selector: 'lc-filter-modal',
   templateUrl: './filter-modal.component.html',
@@ -17,7 +20,7 @@ import { ApiService } from '@app/shared/services/api/api.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ControllerService],
 })
-export class FilterModalComponent implements OnInit {
+export class FilterModalComponent implements OnInit, OnDestroy {
   filterGroup = this.fb.group({
     petKinds: this.fb.group({}),
     petSize: this.fb.group({}),
@@ -28,12 +31,9 @@ export class FilterModalComponent implements OnInit {
   petSizes: PetSize[] = [];
   selectedPetKinds: boolean[] = [];
   selectedPetSize: boolean[] = [];
-  private petKindesSubscription!: Subscription;
-  private petSizeSubscription!: Subscription;
-
-  // catalog$ = this.controller.catalog$;
-  count:number = 0;
-  // response:any;
+  count: number = 0;
+  routeParam!: CategoryId;
+  subscription!: Subscription;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: FilterData,
@@ -41,46 +41,58 @@ export class FilterModalComponent implements OnInit {
     private fb: FormBuilder,
     private controller: ControllerService,
     private cd: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private api: ApiService
+    private api: ApiService,
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    console.log(this.route)
     this.filterValue = this.data.filterValue;
     this.getPetKinds();
     this.getPetSizes();
 
-    this.petKindesSubscription = this.filterGroup.get('petKinds')!.valueChanges.subscribe((value) => {
-      this.selectedPetKinds = Object.values(value);
-    });
-    this.petSizeSubscription = this.filterGroup.get('petSize')!.valueChanges.subscribe((value) => {
-      this.selectedPetSize = Object.values(value);
-    });
+    this.filterGroup
+      .get('petKinds')!
+      .valueChanges.pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        if (value != null && typeof value === 'object') {
+          this.selectedPetKinds = Object.values(value);
+        }
+      });
 
-    // this.filterGroup.valueChanges.subscribe((value)=>{
-    //   const formValue = this.filterGroup.value;
-    //   if (formValue['technicalIssues'] === true) {
-    //   this.response = {
-    //     ...formValue,
-    //     petKinds: this.getSelectedValues(formValue.petKinds),
-    //     petSize: this.getSelectedValues(formValue.petSize),
-    //   };}
-    //   else {
-    //     this.response = {
-    //       petKinds: this.getSelectedValues(formValue.petKinds),
-    //       petSize: this.getSelectedValues(formValue.petSize),
-    //     };
-    //   }
-    //   this.catalog$ = this.controller.filterEquipmentCount(this.response)
-    //   this.catalog$.subscribe((res=>{
-    //     this.count = res.length}))
-    // })
+    this.filterGroup
+      .get('petSize')!
+      .valueChanges.pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        if (value != null && typeof value === 'object') {
+          this.selectedPetKinds = Object.values(value);
+        }
+      });
+
+    this.filterGroup.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.dataService.routeParam$.pipe(take(1)).subscribe((param) => (this.routeParam = param));
+      const formValue = this.filterGroup.value;
+      let response: EquipmentFilter;
+      response = {
+        petKinds: this.getSelectedValues(formValue.petKinds),
+        petSize: this.getSelectedValues(formValue.petSize),
+      };
+      if (formValue['technicalIssues'] === true) {
+        response.technicalIssues = true;
+      }
+      if (this.routeParam['categoryId']) {
+        response.category = +this.routeParam['categoryId'];
+      }
+      this.subscription = this.api.filterEquipment(response).subscribe((res) => {
+        this.count = res.total;
+        this.cd.markForCheck();
+      });
+    });
     this.cd.markForCheck();
   }
 
   createPetKindsControls(petKinds: BaseKind[]) {
-    const petKindsGroup = this.filterGroup.get('petKinds') as FormGroup | null ;
+    const petKindsGroup = this.filterGroup.get('petKinds') as FormGroup | null;
     petKinds.forEach((item) => {
       const value = this.filterValue?.petKinds.includes(item.id);
       const control = new FormControl(value);
@@ -123,24 +135,16 @@ export class FilterModalComponent implements OnInit {
   }
 
   private getPetKinds() {
-    console.log("init")
-    let petKinds = this.route.data.subscribe(data=>{
-      console.log('afterinit ')
-      this.petKinds = data['petKinds'];
-      console.log(this.petKinds)
-      this.route.snapshot.data['petKinds']
-    })
-    console.log(petKinds)
-
-    // this.controller
-    //   .getPetKinds()
-    //   .pipe(map((res) => res.sort(this.filterItems)))
-    //   .subscribe((res) => {
-    //     this.petKinds = res;
-    //     this.createPetKindsControls(res);
-    //     this.cd.markForCheck();
-    //   });
-    // this.createPetKindsControls(this.petKinds);
+    // console.log(this.activatedRoute.snapshot.data['petKinds'])
+    this.controller
+      .getPetKinds()
+      .pipe(map((res) => res.sort(this.filterItems)))
+      .subscribe((res) => {
+        this.petKinds = res;
+        this.createPetKindsControls(res);
+        this.cd.markForCheck();
+      });
+    this.createPetKindsControls(this.petKinds);
   }
 
   private getPetSizes() {
@@ -169,9 +173,8 @@ export class FilterModalComponent implements OnInit {
       technicalIssues: false,
     };
   }
-  
+
   ngOnDestroy() {
-    this.petKindesSubscription.unsubscribe();
-    this.petSizeSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

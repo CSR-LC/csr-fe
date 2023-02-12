@@ -39,9 +39,7 @@ import { PetKindsResolver } from './resolver/pet-kinds.resolver';
     MatSnackBarModule,
     SizePipe,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule,FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, FormsModule, ReactiveFormsModule],
   providers: [CatalogApi, PetKindsResolver],
 })
 export class SharedModule {}

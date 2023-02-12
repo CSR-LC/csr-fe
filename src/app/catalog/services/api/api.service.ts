@@ -2,9 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
-import { BaseItemsResponse } from '@shared/types';
-import { BaseKind, FilterValue, PetSize } from '@app/catalog/models/filter';
-import { Category, EquipmentFilter } from '@app/catalog/models';
+import { BaseItemsResponse, EquipmentFilter } from '@shared/types';
+import { Category } from '@app/catalog/models';
 
 @Injectable()
 export class ApiService {
@@ -28,14 +27,6 @@ export class ApiService {
     return this.httpClient.get(`equipment/photos/${photoId}`, {
       responseType: 'arraybuffer',
     });
-  }
-
-  getPetKinds(): Observable<BaseKind[]> {
-    return this.httpClient.get<BaseKind[]>('/pet_kind');
-  }
-
-  getPetSizes(): Observable<PetSize[]> {
-    return this.httpClient.get<PetSize[]>('/pet_size');
   }
 
   getCategoriesContainEquipment(): Observable<BaseItemsResponse<Category>> {

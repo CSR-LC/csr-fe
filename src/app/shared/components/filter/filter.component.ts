@@ -1,9 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FilterModalComponent } from '../filter-modal/filter-modal.component';
-import { CatalogController } from '../../services';
-import { FilterValue, FilterData } from '@app/catalog/models/filter';
-import { EquipmentFilter } from '@app/catalog/models/equipmentFilter';
+import { FilterData, FilterValue, EquipmentFilter } from '@app/shared/types';
+import { DataService } from '@app/shared/services/data/data.service';
 
 @Component({
   selector: 'lc-filter',
@@ -12,12 +11,6 @@ import { EquipmentFilter } from '@app/catalog/models/equipmentFilter';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent implements OnInit {
-  @Output()
-  outFilterValue = new EventEmitter<EquipmentFilter>();
-
-  @Output()
-  outSelectedFilters = new EventEmitter<number>();
-
   filterValue: FilterValue = {
     petKinds: [],
     petSize: [],
@@ -26,7 +19,7 @@ export class FilterComponent implements OnInit {
   filterData!: FilterData;
   selectedFilters!: number;
 
-  constructor(private matDialog: MatDialog, private controller: CatalogController, private cd: ChangeDetectorRef) {}
+  constructor(private matDialog: MatDialog, private cd: ChangeDetectorRef, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.filterData = { filterValue: this.filterValue };
@@ -41,8 +34,7 @@ export class FilterComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.filterData.filterValue = result;
       this.filtersCounter();
-      this.outFilterValue.emit(this.filterData.filterValue);
-      this.outSelectedFilters.emit(this.selectedFilters);
+      this.dataService.updateData(result, this.selectedFilters);
       this.cd.markForCheck();
     });
   }

@@ -3,7 +3,10 @@ import { CatalogController } from '../../services';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
-import { CategoryId, EquipmentFilter } from '@app/catalog/models';
+import { CategoryId } from '@app/catalog/models';
+import { EquipmentFilter } from '@app/shared/types';
+import { DataService } from '@app/shared/services/data/data.service';
+import { switchMap } from 'rxjs';
 
 @UntilDestroy
 @Component({
@@ -15,8 +18,8 @@ import { CategoryId, EquipmentFilter } from '@app/catalog/models';
 })
 export class CatalogComponent implements OnInit {
   catalog$ = this.controller.catalog$;
-  filterValue?: EquipmentFilter;
-  selectedFilters: number = 0;
+  filterValue!: EquipmentFilter;
+  selectedFilters!: number;
 
   constructor(
     private controller: CatalogController,
@@ -24,39 +27,48 @@ export class CatalogComponent implements OnInit {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private router: Router,
+    private dataService: DataService,
   ) {
-    mainPageHeaderService.setPageTitle('Каталог');
+    this.mainPageHeaderService.setPageTitle('Каталог');
   }
 
   ngOnInit() {
-    this.route.params.pipe(untilDestroyed(this)).subscribe((param) => {
-      if ((<CategoryId>param)['categoryId']) {
-        if (this.selectedFilters > 0) {
-          const filterValue = { category: Number((<CategoryId>param)['categoryId']), ...this.filterValue };
-          this.controller.filterEquipment(filterValue);
-        } else {
-          const filterValue = { category: Number((<CategoryId>param)['categoryId']) };
-          this.controller.filterEquipment(filterValue);
+    this.dataService.data$
+      .pipe(
+        switchMap((data) => {
+          this.filterValue = data;
+          return this.dataService.count$;
+        }),
+        switchMap((count) => {
+          this.selectedFilters = count;
+          return this.route.params;
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe((param) => {
+        this.dataService.shareRouteParam(param);
+        if (this.filterValue?.technicalIssues === false) {
+          this.filterValue = { petKinds: this.filterValue.petKinds, petSize: this.filterValue.petSize };
         }
-      } else {
-        this.controller.getCatalog();
-      }
-    });
+        if ((<CategoryId>param)['categoryId']) {
+          if (this.selectedFilters > 0) {
+            const filterValue = { category: Number((<CategoryId>param)['categoryId']), ...this.filterValue };
+            this.controller.filterEquipment(filterValue);
+          } else {
+            const filterValue = { category: Number((<CategoryId>param)['categoryId']) };
+            this.controller.filterEquipment(filterValue);
+          }
+        } else {
+          if (this.selectedFilters === 0) this.controller.getCatalog();
+          else {
+            this.controller.filterEquipment(this.filterValue);
+          }
+        }
+        this.cd.detectChanges();
+      });
   }
 
   onSearch(term: string) {
     this.catalog$ = this.controller.searchEquipment(term);
-  }
-
-  receiveFilterValue(filterValue: EquipmentFilter) {
-    this.filterValue = filterValue;
-    const currentUrl = this.router.url;
-    this.router.navigate(['/catalog/categories/fake']).then(() => {
-      this.router.navigate([currentUrl]);
-    });
-  }
-
-  receiveSelectedFilters(selectedFilters: number) {
-    this.selectedFilters = selectedFilters;
   }
 }

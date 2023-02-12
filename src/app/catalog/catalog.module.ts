@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CatalogRoutingModule } from './catalog-routing.module';
 import { CatalogApi } from './services';
 import { SharedModule } from '@shared/shared.module';
@@ -9,8 +8,6 @@ import { PreviewEquipmentCardComponent, CatalogSearchComponent } from './compone
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { MaterialModule } from '../material/material.module';
-// import { FilterComponent } from './components/filter/filter.component';
-// import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
@@ -30,8 +27,6 @@ import { PetKindsResolver } from '@app/shared/resolver/pet-kinds.resolver';
     CategorySetComponent,
     CategoryTabComponent,
     CategoryPathPipe,
-    // FilterComponent,
-    // FilterModalComponent,
   ],
   imports: [
     CommonModule,
