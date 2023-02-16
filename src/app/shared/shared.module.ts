@@ -10,9 +10,8 @@ import { HideTextDirective } from '@shared/directives/hide-text/hide-text.direct
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
-import { PhoneValidatorDirective } from './directives/phone-validator/phone-validator.directive';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { PhoneValidatorDirective } from './directives/phone-validator/phone-vali
     ValidationErrorsDirective,
     NotificationComponent,
     PersonalInfoModalComponent,
-    PhoneValidatorDirective,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -34,6 +32,6 @@ import { PhoneValidatorDirective } from './directives/phone-validator/phone-vali
     BlockUiComponent,
     MatSnackBarModule,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, FormsModule],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule],
 })
 export class SharedModule {}

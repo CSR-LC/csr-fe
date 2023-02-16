@@ -28,7 +28,7 @@ export class ApiService {
     return this.http.post<any>('password_reset', data);
   }
 
-  addContactInfo(data: UserPersonalInfo) {
+  addContactInfo(data: UserPersonalInfo): Observable<void> {
     return this.http.patch<void>('v1/users/me', data);
   }
 }

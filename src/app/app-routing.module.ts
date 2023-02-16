@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
+import { PublicOfferComponent } from '@app/auth/components/public-offer/public-offer.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
     path: 'profile',
     canActivate: [AuthGuard],
     loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+  },
+  {
+    path: 'public-offer',
+    component: PublicOfferComponent,
   },
   {
     path: '**',

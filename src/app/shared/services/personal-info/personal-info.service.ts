@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { OpenedFrom } from '@shared/constants/personal-info.enum';
 import { PersonalInfoModalComponent } from '@shared/components/personal-info-modal/personal-info-modal.component';
-import { of, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { ApiService } from '@app/auth/services/api/api.service';
 import { UserPersonalInfo } from '@app/shared/constants/personal-info';
 
@@ -12,7 +12,7 @@ import { UserPersonalInfo } from '@app/shared/constants/personal-info';
 export class PersonalInfoService {
   constructor(private readonly dialog: MatDialog, private readonly api: ApiService) {}
 
-  openPersonalInfoModal(source: OpenedFrom) {
+  openPersonalInfoModal(source: OpenedFrom): Observable<void> {
     return this.dialog
       .open(PersonalInfoModalComponent, {
         height: '100vh',
@@ -27,7 +27,7 @@ export class PersonalInfoService {
           if (contactInfo) {
             return this.api.addContactInfo(contactInfo);
           } else {
-            return of('');
+            return of(undefined);
           }
         }),
       );
