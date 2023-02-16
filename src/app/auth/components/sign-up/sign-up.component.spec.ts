@@ -7,6 +7,7 @@ import { ValidationService } from '@app/shared/services/validation/validation.se
 import { of } from 'rxjs';
 
 import { SignUpComponent } from './sign-up.component';
+import { FormBuilder } from '@angular/forms';
 
 const controllerMock = jasmine.createSpyObj('AuthController', {
   signUp: of({ id: 1, login: 'userLogin' }),
@@ -55,8 +56,16 @@ xdescribe('SignUpComponent', () => {
           provide: NotificationsService,
           useValue: notificationsServiceMock,
         },
+        FormBuilder,
       ],
-    }).compileComponents();
+    });
+    TestBed.overrideComponent(SignUpComponent, {
+      set: {
+        providers: [{ provide: AuthController, useValue: controllerMock }],
+      },
+    });
+
+    await TestBed.compileComponents();
   });
 
   beforeEach(() => {
