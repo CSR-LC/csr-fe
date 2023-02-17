@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
-import { AdminResolver } from './admin/resolvers/admin.resolver';
 
 const routes: Routes = [
   {
@@ -33,10 +32,6 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
       },
-      {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-      },
     ],
   },
   {
@@ -48,6 +43,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AdminResolver],
 })
 export class AppRoutingModule {}
