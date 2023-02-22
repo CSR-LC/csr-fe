@@ -9,11 +9,11 @@ import { MaterialModule } from '@app/material/material.module';
 import { HideTextDirective } from '@shared/directives/hide-text/hide-text.directive';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { DaysPipe } from '@shared/pipes/days/days.pipe';
+import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 
 @NgModule({
   declarations: [
-    DaysPipe,
+    NumberDeclensionPipe,
     BlockUiComponent,
     HideTextDirective,
     MainHeaderComponent,
@@ -22,7 +22,7 @@ import { DaysPipe } from '@shared/pipes/days/days.pipe';
     NotificationComponent,
   ],
   exports: [
-    DaysPipe,
+    NumberDeclensionPipe,
     HideTextDirective,
     MainHeaderComponent,
     ValidationErrorsDirective,

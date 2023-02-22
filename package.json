@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test-headless": "ng test --browsers ChromeHeadless --watch false",
     "prepare": "husky install",
     "lint": "ng lint --fix",
     "prettify": "prettier --write \"*.{js,ts,md,html,scss,css}\""
