@@ -11,7 +11,7 @@
           <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
           <div>
             <p>Максимальный срок использования</p>
-            <p class="info-item__condition">{{ equipment?.maximumDays | days }}</p>
+            <p class="info-item__condition">{{ dayCases | numberDeclension: equipment?.maximumDays }}</p>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="info-item" *ngIf="equipment?.technicalIssues === 'есть'; else new">
+      <div class="info-item" *ngIf="equipment?.technicalIssues === false; else new">
         <div class="info-item__wrapper">
           <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
           <div>

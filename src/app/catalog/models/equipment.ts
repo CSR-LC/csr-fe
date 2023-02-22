@@ -18,5 +18,5 @@ export type Equipment = {
   status: number;
   supplier: string;
   title: string;
-  technicalIssues: string;
+  technicalIssues: boolean;
 };

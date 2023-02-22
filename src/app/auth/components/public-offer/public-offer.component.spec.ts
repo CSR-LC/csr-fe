@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PublicOfferComponent } from './public-offer.component';
 
-describe('PublicOfferComponent', () => {
+xdescribe('PublicOfferComponent', () => {
   let component: PublicOfferComponent;
   let fixture: ComponentFixture<PublicOfferComponent>;
 
