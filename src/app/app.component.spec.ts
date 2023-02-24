@@ -69,10 +69,6 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check tokens', () => {
-    expect(authService.checkTokens).toHaveBeenCalled();
-  });
-
   it('should get page title', () => {
     expect(mainPageHeaderService.getPageTitle).toHaveBeenCalled();
   });

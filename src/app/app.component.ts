@@ -16,8 +16,5 @@ export class AppComponent {
     this.store.dispatch(new ClearLoginData());
   }
 
-  constructor(
-    private readonly mainPageHeaderService: MainPageHeaderService,
-    private readonly store: Store,
-  ) {}
+  constructor(private readonly mainPageHeaderService: MainPageHeaderService, private readonly store: Store) {}
 }
