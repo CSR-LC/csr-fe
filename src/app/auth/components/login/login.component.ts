@@ -7,7 +7,7 @@ import { ValidationService } from '@shared/services/validation/validation.servic
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
-import { catchError, finalize, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, throwError, tap } from 'rxjs';
 import { NotificationSuccess } from '@shared/constants/notification-success.enum';
 
 @UntilDestroy
@@ -52,6 +52,12 @@ export class LoginComponent {
     this.controller
       .login(credentials)
       .pipe(
+        switchMap(() => {
+          return this.controller.getCurrentUser();
+        }),
+        switchMap((res) => {
+          return this.controller.setUser(res);
+        }),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
