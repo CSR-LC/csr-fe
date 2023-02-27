@@ -49,11 +49,6 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshToken(refreshToken: string): Observable<any> {
     return this.authService.refreshToken(refreshToken).pipe(
       switchMap((tokens) => {
-        // TODO: remove this when back will send two tokens
-        const refreshToken = this.authService.getRefreshToken();
-        if (refreshToken) {
-          tokens.refreshToken = refreshToken;
-        }
         return this.authService.saveTokens(tokens);
       }),
       tap(() => {

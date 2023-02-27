@@ -7,29 +7,33 @@ import { PetKindsResolver } from './shared/resolver/pet-kinds.resolver';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'catalog/categories',
-    pathMatch: 'full',
-  },
-  {
     path: 'auth',
+    pathMatch: 'full',
     canActivate: [TokensGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'catalog',
+    path: '',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
-  },
-  {
-    path: 'management',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
-  },
-  {
-    path: 'profile',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'catalog/categories',
+      },
+      {
+        path: 'catalog',
+        loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
+      },
+      {
+        path: 'management',
+        loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+      },
+    ],
   },
   {
     path: '**',
