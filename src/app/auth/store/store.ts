@@ -1,7 +1,7 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { Tokens } from '../models';
-import { rememberMeAction, ClearLoginData, Login, Logout, TokensAction } from './actions';
+import { Tokens, User } from '../models';
+import { rememberMeAction, ClearLoginData, Login, Logout, TokensAction, UserAction } from './actions';
 import { AuthApi } from '../services';
 import { tap } from 'rxjs';
 import { LocalStorageKey } from '@shared/constants';
@@ -9,11 +9,13 @@ import { LocalStorageKey } from '@shared/constants';
 export type AuthStore = {
   tokens: Tokens | null;
   rememberMe: boolean;
+  user: User | null;
 };
 
 const defaults: AuthStore = {
   tokens: null,
   rememberMe: true,
+  user: null,
 };
 
 @State<AuthStore>({
@@ -24,8 +26,16 @@ const defaults: AuthStore = {
 })
 @Injectable()
 export class AuthState {
+  @Selector() static state(state: AuthStore) {
+    return state;
+  }
+
   @Selector() static tokens(state: AuthStore) {
     return state.tokens;
+  }
+
+  @Selector() static user(state: AuthStore) {
+    return state.user;
   }
 
   @Selector()
@@ -86,6 +96,16 @@ export class AuthState {
     ctx.patchState({
       ...state,
       rememberMe,
+    });
+  }
+
+  @Action(UserAction)
+  user(ctx: StateContext<AuthStore>, action: UserAction) {
+    const state = ctx.getState();
+    const user = action.user;
+    ctx.patchState({
+      ...state,
+      user,
     });
   }
 }

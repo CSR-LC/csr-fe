@@ -1,4 +1,4 @@
-import { LoginInformation, Tokens } from '../models';
+import { LoginInformation, Tokens, User } from '../models';
 
 export class Login {
   static readonly type = '[Auth] Login';
@@ -21,4 +21,9 @@ export class TokensAction {
 export class rememberMeAction {
   static readonly type = '[Auth] rememberMeAction';
   constructor(public rememberMe: boolean) {}
+}
+
+export class UserAction {
+  static readonly type = '[Auth] UserAction';
+  constructor(public user: User) {}
 }
