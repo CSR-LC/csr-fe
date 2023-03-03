@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
+import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-dec
     ValidationErrorsDirective,
     NotificationComponent,
     PersonalInfoModalComponent,
+    PublicOfferComponent,
   ],
   exports: [
     NumberDeclensionPipe,

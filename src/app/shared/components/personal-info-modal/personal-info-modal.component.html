@@ -1,48 +1,45 @@
-<div class="logo">
-  <img src="assets/img/logo.svg" alt="Логотип" />
+<div class="header-container">
+  <h3>Персональные данные</h3>
+  <i
+    [mat-dialog-close]="false"
+  ></i>
 </div>
+<p class="message">
+  Для совершения заказов вам нужно указать следующие персональные данные. Заполните их один раз и мы больше вас не побеспокоим.
+</p>
+<form [formGroup]="personalInfoForm">
+    <mat-form-field floatLabel="auto">
+      <mat-label>Имя</mat-label>
+      <input type="text" matInput formControlName="name" lcValidationErrors />
+    </mat-form-field>
 
-<div class="message-container">
-  <p class="message-text" *ngIf="source === openedFrom.OrderPage">
-    Для отправки заявки укажите Ваши персональные данные
-  </p>
-</div>
+    <mat-form-field floatLabel="auto">
+      <mat-label>Фамилия</mat-label>
+      <input type="text" matInput formControlName="surname" lcValidationErrors />
+    </mat-form-field>
 
-<mat-tab-group mat-align-tabs="center">
-  <mat-tab label="УКАЖИТЕ ВАШИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ">
-    <form [formGroup]="personalInfoForm">
-      <mat-form-field floatLabel="auto">
-        <mat-label>Имя</mat-label>
-        <input type="text" matInput formControlName="name" lcValidationErrors />
-      </mat-form-field>
+    <mat-form-field floatLabel="auto">
+      <mat-label>Телефон</mat-label>
+      <input
+        type="tel"
+        matInput
+        formControlName="phone"
+        maxlength="11"
+        lcValidationErrors
+      />
+    </mat-form-field>
 
-      <mat-form-field floatLabel="auto">
-        <mat-label>Фамилия</mat-label>
-        <input type="text" matInput formControlName="surname" lcValidationErrors />
-      </mat-form-field>
+    <div class="offer">
+      Нажимая «Продолжить» вы даете
+      <a routerLink="/public-offer" target="_blank">согласие на обработку персональных данных</a>
+    </div>
 
-      <mat-form-field floatLabel="auto">
-        <mat-label>Телефон</mat-label>
-        <input type="tel" matInput formControlName="phone" lcValidationErrors />
-      </mat-form-field>
-
-      <div class="offer">
-        Нажимая «Продолжить» вы даете
-        <a routerLink="/public-offer" target="_blank">согласие на обработку персональных данных</a>
-      </div>
-
-      <button
-        class="btn"
-        mat-raised-button
-        color="primary"
-        [mat-dialog-close]="personalInfoForm.value"
-        [disabled]="personalInfoForm.invalid"
-      >
-        ОТПРАВИТЬ
-      </button>
-      <button class="btn btn-cancel" mat-raised-button color="primary" [mat-dialog-close]="false">
-        {{ source === openedFrom.RegistrationPage ? 'ПРОПУСТИТЬ' : 'ОТМЕНИТЬ' }}
-      </button>
-    </form>
-  </mat-tab>
-</mat-tab-group>
+    <button
+      class="btn"
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="personalInfoForm.value"
+    >
+      ОТПРАВИТЬ
+    </button>
+  </form>

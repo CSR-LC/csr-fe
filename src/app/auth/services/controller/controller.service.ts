@@ -10,7 +10,6 @@ import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/st
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
 import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
-import { OpenedFrom } from '@shared/constants/personal-info.enum';
 
 @Injectable()
 export class ControllerService {
@@ -65,7 +64,7 @@ export class ControllerService {
     return this.store.dispatch(new UserAction(user));
   }
 
-  openPersonalInfoModal(source: OpenedFrom): Observable<void> {
-    return this.personalInfoService.openPersonalInfoModal(source);
+  openPersonalInfoModal(): Observable<void> {
+    return this.personalInfoService.openPersonalInfoModal();
   }
 }

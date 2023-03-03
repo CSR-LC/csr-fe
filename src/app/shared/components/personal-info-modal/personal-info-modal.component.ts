@@ -1,7 +1,5 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OpenedFrom } from '@app/shared/constants/personal-info.enum';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { ValidationPatterns } from '@shared/constants/validation-patterns';
 
@@ -22,18 +20,12 @@ export class PersonalInfoModalComponent {
         Validators.minLength(11),
         Validators.maxLength(11),
         this.validationService.pattern(
-          { message: 'Номер телефона должен состоять исключительно из цифр' },
+          { message: 'Номер телефона должен состоять из цифр' },
           ValidationPatterns.Numbers,
         ),
       ],
     ],
   });
 
-  readonly openedFrom = OpenedFrom;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public source: OpenedFrom,
-    private readonly formBuilder: FormBuilder,
-    private readonly validationService: ValidationService,
-  ) {}
+  constructor(private readonly formBuilder: FormBuilder, private readonly validationService: ValidationService) {}
 }

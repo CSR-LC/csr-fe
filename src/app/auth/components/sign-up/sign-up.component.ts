@@ -10,7 +10,6 @@ import { ValidationService } from '@shared/services/validation/validation.servic
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
-import { OpenedFrom } from '@shared/constants/personal-info.enum';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 
 @UntilDestroy
@@ -70,7 +69,7 @@ export class SignUpComponent implements OnInit {
             password: this.formValue.password,
           });
         }),
-        switchMap(() => this.controller.openPersonalInfoModal(OpenedFrom.RegistrationPage)),
+        switchMap(() => this.controller.openPersonalInfoModal()),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
