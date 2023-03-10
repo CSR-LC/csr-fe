@@ -8,9 +8,11 @@ import { NewUserInfo, UserType } from '../../models';
 import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
-import { catchError, finalize, switchMap, take, throwError } from 'rxjs';
+import { catchError, finalize, switchMap, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
+import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 
+@UntilDestroy
 @Component({
   selector: 'lc-sign-up',
   templateUrl: './sign-up.component.html',
@@ -67,12 +69,13 @@ export class SignUpComponent implements OnInit {
             password: this.formValue.password,
           });
         }),
+        switchMap(() => this.controller.openPersonalInfoModal()),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
         }),
         finalize(() => this.blockUiService.unBlock()),
-        take(1),
+        untilDestroyed(this),
       )
       .subscribe(() => this.router.navigate(['/']));
   }
