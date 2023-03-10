@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
+import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
+import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 
 const routes: Routes = [
@@ -15,6 +17,10 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
+    resolve: {
+      petKinds: PetKindsResolver,
+      petSizes: PetSizeResolver,
+    },
     children: [
       {
         path: '',
