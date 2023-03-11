@@ -14,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterComponent } from './components/filter/filter.component';
 import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
 import { CatalogApi } from './services';
-import { PetKindsResolver } from './resolver/pet-kinds.resolver';
+import { PetKindsResolver } from './resolvers/pet-kinds.resolver';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 
 @NgModule({

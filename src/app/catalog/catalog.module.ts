@@ -14,7 +14,6 @@ import { CategoriesComponent } from './containers/categories/categories.componen
 import { CategorySetComponent } from './containers/category-set/category-set.component';
 import { CategoryTabComponent } from './components/category-tab/category-tab.component';
 import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
-import { PetKindsResolver } from '@app/shared/resolver/pet-kinds.resolver';
 
 @NgModule({
   declarations: [
@@ -37,6 +36,6 @@ import { PetKindsResolver } from '@app/shared/resolver/pet-kinds.resolver';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [CatalogApi, PetKindsResolver],
+  providers: [CatalogApi],
 })
 export class CatalogModule {}

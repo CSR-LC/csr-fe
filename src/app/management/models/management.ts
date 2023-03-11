@@ -12,6 +12,7 @@ export interface EquipmentKind extends BaseKind {
 
 export interface PetSize extends BaseKind {
   size: string;
+  is_universal: boolean;
 }
 
 export type EquipmentOptions = {

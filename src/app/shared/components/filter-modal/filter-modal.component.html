@@ -18,8 +18,8 @@
             *ngFor="let petSize of petSizes"
             [attr.data-size]="petSize.id"
             #size="matChip"
-            (click)="changeSelectedValue($event, size)"
-            [selected]="filterValue?.petSize?.includes(petSize.id)"
+            (click)="changeSelectedValue($event)"
+            [selected]="filterValue.petSize.includes(petSize.id)"
             >{{ petSize.name | titlecase }} {{ petSize.size | size }}</mat-chip
           >
         </mat-chip-list>
@@ -44,14 +44,18 @@
         >
           <img src="assets/img/icons/icon-reset.svg" alt="icon-reset" />
           <span>Очистить фильтры</span>
-      </button>
+        </button>
       </div>
       <div class="filter-modal__center">
-        <ng-container *ngIf="
-        selectedPetKinds.includes(true) ||
-        selectedPetSize.includes(true) ||
-        this.filterGroup.get('technicalIssues')?.value === true; else close">
-          <button (click)="closeModal()" class="filter-modal__btn">Показать товаров: {{count}}</button>
+        <ng-container
+          *ngIf="
+            selectedPetKinds.includes(true) ||
+              selectedPetSize.includes(true) ||
+              this.filterGroup.get('technicalIssues')?.value === true;
+            else close
+          "
+        >
+          <button (click)="closeModal()" class="filter-modal__btn">Показать товаров: {{ count }}</button>
         </ng-container>
         <ng-template #close>
           <button (click)="closeModal()" class="filter-modal__btn">Закрыть</button>

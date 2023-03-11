@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from '../api/api.service';
-import { BaseKind, PetSize } from '@shared/types';
+import { BaseItemsResponse, Equipment, EquipmentFilter } from '@shared/types';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +9,7 @@ import { BaseKind, PetSize } from '@shared/types';
 export class ControllerService {
   constructor(private api: ApiService) {}
 
-  getPetKinds(): Observable<BaseKind[]> {
-    return this.api.getPetKinds();
-  }
-
-  getPetSizes(): Observable<PetSize[]> {
-    return this.api.getPetSizes();
+  filterEquipment(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
+    return this.api.filterEquipment(payload);
   }
 }
