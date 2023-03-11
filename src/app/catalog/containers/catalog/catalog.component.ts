@@ -64,7 +64,7 @@ export class CatalogComponent implements OnInit {
             this.controller.filterEquipment(this.filterValue);
           }
         }
-        this.cd.detectChanges();
+        this.cd.markForCheck();
       });
   }
 

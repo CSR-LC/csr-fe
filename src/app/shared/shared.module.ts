@@ -9,13 +9,14 @@ import { MaterialModule } from '@app/material/material.module';
 import { HideTextDirective } from '@shared/directives/hide-text/hide-text.directive';
 import { NotificationComponent } from './components/notification/notification.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SizePipe } from './pipes/size.pipe';
+import { PersonalInfoModalComponent } from './components/personal-info-modal/personal-info-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
+import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { FilterModalComponent } from './components/filter-modal/filter-modal.component';
-import { CatalogApi } from './services';
-import { PetKindsResolver } from './resolvers/pet-kinds.resolver';
-import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
+import { SizePipe } from './pipes/size.pipe';
+import { ApiService } from './services/api/api.service';
 
 @NgModule({
   declarations: [
@@ -26,9 +27,11 @@ import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-dec
     PageNotFoundComponent,
     ValidationErrorsDirective,
     NotificationComponent,
-    SizePipe,
+    PersonalInfoModalComponent,
+    PublicOfferComponent,
     FilterComponent,
     FilterModalComponent,
+    SizePipe,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -39,7 +42,7 @@ import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-dec
     MatSnackBarModule,
     SizePipe,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, FormsModule, ReactiveFormsModule],
-  providers: [CatalogApi, PetKindsResolver],
+  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule, FormsModule],
+  providers: [ApiService],
 })
 export class SharedModule {}

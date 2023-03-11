@@ -49,9 +49,9 @@
       <div class="filter-modal__center">
         <ng-container
           *ngIf="
-            selectedPetKinds.includes(true) ||
+            (selectedPetKinds.includes(true) ||
               selectedPetSize.includes(true) ||
-              this.filterGroup.get('technicalIssues')?.value === true;
+              this.filterGroup.get('technicalIssues')?.value === true) && count !== undefined;
             else close
           "
         >

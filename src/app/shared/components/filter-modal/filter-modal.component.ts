@@ -30,7 +30,7 @@ export class FilterModalComponent implements OnInit, OnDestroy {
   petSizes: PetSize[] = [];
   selectedPetKinds: boolean[] = [];
   selectedPetSize: boolean[] = [];
-  count: number = 0;
+  count?: number;
   routeParam!: CategoryId;
   subscription!: Subscription;
 
@@ -80,8 +80,12 @@ export class FilterModalComponent implements OnInit, OnDestroy {
     if (!control) return;
     const value = control.value;
     control.setValue(!value);
-    this.filterValue.petSize.push(size);
-    this.cd.markForCheck();
+    const index = this.filterValue.petSize.indexOf(size);
+    if (index !== -1) {
+      this.filterValue.petSize.splice(index, 1);
+    } else {
+      this.filterValue.petSize.push(size);
+    }
   }
 
   closeModal() {
@@ -142,6 +146,7 @@ export class FilterModalComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
       });
     });
+    return this.count;
   }
 
   private filterItems(a: { id: number }, b: { id: number }): number {
@@ -165,7 +170,7 @@ export class FilterModalComponent implements OnInit, OnDestroy {
       .valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         if (value != null && typeof value === 'object') {
-          this.selectedPetKinds = Object.values(value);
+          this.selectedPetSize = Object.values(value);
         }
       });
   }

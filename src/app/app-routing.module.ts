@@ -5,6 +5,7 @@ import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
 import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
 import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
+import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,10 @@ const routes: Routes = [
         loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
       },
     ],
+  },
+  {
+    path: 'public-offer',
+    component: PublicOfferComponent,
   },
   {
     path: '**',
