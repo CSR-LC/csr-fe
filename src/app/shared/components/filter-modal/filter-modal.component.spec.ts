@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterModalComponent } from './filter-modal.component';
 
-describe('CatalogFilterComponent', () => {
+describe('FilterModalComponent', () => {
   let component: FilterModalComponent;
   let fixture: ComponentFixture<FilterModalComponent>;
 
