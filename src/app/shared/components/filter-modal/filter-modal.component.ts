@@ -23,7 +23,7 @@ export class FilterModalComponent implements OnInit, OnDestroy {
   filterGroup = this.fb.group({
     petKinds: this.fb.group({}),
     petSize: this.fb.group({}),
-    technicalIssues: this.fb.control(this.data.filterValue.technicalIssues),
+    technicalIssues: this.fb.control(this.data?.filterValue?.technicalIssues),
   });
   filterValue!: FilterValue;
   petKinds: BaseKind[] = [];
