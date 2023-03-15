@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CatalogController } from '../../services';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { CategoryId } from '@app/catalog/models';
 import { EquipmentFilter } from '@app/shared/types';
 import { DataService } from '@app/shared/services/data/data.service';
 import { switchMap } from 'rxjs';
+import { FilterService } from '@app/shared/services/filter/filter.service';
 
 @UntilDestroy
 @Component({
@@ -16,7 +17,7 @@ import { switchMap } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CatalogController],
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit, OnDestroy {
   catalog$ = this.controller.catalog$;
   filterValue!: EquipmentFilter;
   selectedFilters!: number;
@@ -26,8 +27,8 @@ export class CatalogComponent implements OnInit {
     private mainPageHeaderService: MainPageHeaderService,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private router: Router,
     private dataService: DataService,
+    private filterService: FilterService,
   ) {
     this.mainPageHeaderService.setPageTitle('Каталог');
   }
@@ -66,9 +67,15 @@ export class CatalogComponent implements OnInit {
         }
         this.cd.markForCheck();
       });
+
+    this.filterService.emit(false);
   }
 
   onSearch(term: string) {
     this.catalog$ = this.controller.searchEquipment(term);
+  }
+
+  ngOnDestroy() {
+    this.filterService.emit(true);
   }
 }
