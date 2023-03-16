@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class MainPageHeaderService {
   private mainPageTitle = new BehaviorSubject('Лёнькин кот');
 
-  getPageTitle() {
+  getPageTitle(): Observable<string> {
     return this.mainPageTitle.asObservable();
   }
 

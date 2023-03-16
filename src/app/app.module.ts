@@ -8,24 +8,26 @@ import { SharedModule } from '@shared/shared.module';
 import { AuthState } from './auth/store';
 import { interceptors } from '@shared/interceptors/intercetors';
 import { guards } from '@shared/guards/guards';
+import { resolvers } from '@shared/resolvers/resolvers';
 import { ngxsConfig } from '@app/ngxs.config';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ApplicationDataState } from '@shared/store/application-data';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
-    NgxsModule.forRoot([AuthState], ngxsConfig),
+    NgxsModule.forRoot([AuthState, ApplicationDataState], ngxsConfig),
     NgxsReduxDevtoolsPluginModule.forRoot(),
 
     BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
   ],
-  providers: [...guards, ...interceptors],
+  providers: [...guards, ...interceptors, ...resolvers],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

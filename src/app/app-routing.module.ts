@@ -3,7 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { AuthGuard } from '@shared/guards/auth.guard';
 import { TokensGuard } from '@shared/guards/tokens.guard';
-import { AdminResolver } from './admin/resolvers/admin.resolver';
+import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
+import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
+import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 
 const routes: Routes = [
   {
@@ -15,6 +17,10 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
+    resolve: {
+      petKinds: PetKindsResolver,
+      petSizes: PetSizeResolver,
+    },
     children: [
       {
         path: '',
@@ -33,11 +39,11 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
       },
-      {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
-      },
     ],
+  },
+  {
+    path: 'public-offer',
+    component: PublicOfferComponent,
   },
   {
     path: '**',
@@ -48,6 +54,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AdminResolver],
 })
 export class AppRoutingModule {}
