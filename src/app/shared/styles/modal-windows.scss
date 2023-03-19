@@ -2,3 +2,7 @@ mat-dialog-container {
   border-radius: 40px 40px 40px 40px !important;
   padding: 0 !important;
 }
+
+.paginator .mat-paginator-outer-container .mat-paginator-container {
+  justify-content: flex-start;
+}

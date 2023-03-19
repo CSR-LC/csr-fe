@@ -5,10 +5,13 @@ import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-eq
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal./block-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { EquipmentMock } from '@app/admin/mocks/admin-equipment.mock';
+import { AdminApi } from '@app/admin/services';
+import { Observable } from 'rxjs';
+import { Equipment } from '@app/catalog/models/equipment';
 
 @Injectable()
 export class ControllerService {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private api: AdminApi) {}
   openArchiveConfirmation() {
     this.dialog
       .open(ConfirmationModalComponent, {
@@ -60,5 +63,8 @@ export class ControllerService {
         data: { ...EquipmentMock[0] },
       })
       .afterClosed();
+  }
+  fetchEquipments(): Observable<Equipment[]> {
+    return this.api.getAllEquipment();
   }
 }

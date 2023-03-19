@@ -4,7 +4,7 @@ import { EquipmentMock } from '@app/admin/mocks/admin-equipment.mock';
 
 @Injectable()
 export class ApiService {
-  getAllUsers() {
+  getAllEquipment() {
     return of(EquipmentMock);
   }
 }

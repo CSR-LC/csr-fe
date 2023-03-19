@@ -7,9 +7,12 @@ import { SharedModule } from '@shared/shared.module';
 import { ArchiveEquipmentModalComponent } from './components/archive-equipment-modal/archive-equipment-modal.component';
 import { BlockEquipmentModalComponent } from './components/block-equipment-modal./block-equipment-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EquipmentTableComponent } from './components/equipment-table/equipment-table.component';
+import { AdminApi } from '@app/admin/services';
 
 @NgModule({
-  declarations: [AdminComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent],
+  declarations: [AdminComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent, EquipmentTableComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule],
+  providers: [AdminApi],
 })
 export class AdminModule {}

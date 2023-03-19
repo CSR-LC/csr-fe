@@ -2,6 +2,8 @@ import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
 import { ActivatedRoute } from '@angular/router';
 import { AdminController } from '@app/admin/services';
+import { Equipment } from '@app/catalog/models/equipment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'lc-admin',
@@ -12,6 +14,7 @@ import { AdminController } from '@app/admin/services';
 })
 export class AdminComponent implements OnInit {
   user: User | null = null;
+  equipments: Observable<Equipment[]> = this.controller.fetchEquipments();
 
   constructor(private route: ActivatedRoute, private controller: AdminController) {}
 
