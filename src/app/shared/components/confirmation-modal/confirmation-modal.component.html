@@ -1,0 +1,32 @@
+<div class="header">
+  <h3>{{title}}</h3>
+  <i
+    [mat-dialog-close]="false"
+  ></i>
+</div>
+<div class="separator"></div>
+<div class="content">
+  <span>В эти даты оборудование забронировано пользователем</span>
+  <div>{{users}}</div>
+  <span>{{reason}} сбросит данное бронирование.</span>
+</div>
+<div class="separator"></div>
+<div class="buttons-wrapper">
+  <div class="buttons">
+    <button
+      mat-button
+      class="cancel"
+      [mat-dialog-close]="false"
+
+    >
+      {{cancelButtonText}}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="true"
+    >
+      {{applyButtonText}}
+    </button>
+  </div>
+</div>

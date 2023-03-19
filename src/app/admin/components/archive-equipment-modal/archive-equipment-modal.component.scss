@@ -1,0 +1,87 @@
+@import 'src/app/shared/styles/variables';
+
+%padding {
+  padding: 0 24px;
+}
+
+:host {
+  padding: 24px 0;
+  display: block;
+}
+
+lc-text-like-input {
+  margin-bottom: 24px;
+}
+
+.header {
+  @extend %padding;
+  display: flex;
+  justify-content: space-between;
+  i {
+    position: relative;
+    &::before {
+      position: absolute;
+      top: 7px;
+      left: -12px;
+      display: block;
+      content: '';
+      width: 14px;
+      height: 14px;
+      background-image: url("../../../../assets/img/icons/cross.svg");
+      cursor: pointer;
+    }
+  }
+}
+
+h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0.25px;
+  color: #005F75;
+  margin: 0;
+}
+
+.content {
+  @extend %padding;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #000000;
+  p {
+    margin-bottom: 24px;
+  }
+  lc-text-like-input {
+    margin-bottom: 24px;
+  }
+  lc-text-like-input:last-child {
+    margin-bottom: 45px;
+  }
+}
+
+.separator {
+  border: 0.5px solid #CFDBE6;
+  margin: 24px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .cancel{
+    font-style: normal;
+    font-weight: 500;
+    color: #00677F;
+  ;
+  }
+  button{
+    font-style: normal;
+    font-weight: 400;
+    margin-right: 24px;
+    line-height: 20px;
+    padding: 16px;
+    text-transform: uppercase;
+  }
+}

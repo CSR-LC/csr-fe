@@ -17,7 +17,6 @@ export class PersonalInfoService {
         width: '100vw',
         maxWidth: '100vw',
         autoFocus: false,
-        position: { bottom: '0' },
       })
       .afterClosed()
       .pipe(

@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  span {
+    display: inline-block;
+    margin-left: 16px;
+  }
+  .label {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #5F5F5F;
+  }
+  .text {
+    font-size: 16px;
+  }
+  .separator {
+    border-bottom: 1px solid #656565;
+    margin-top: 10px;
+  }
+}

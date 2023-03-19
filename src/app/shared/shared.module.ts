@@ -13,6 +13,8 @@ import { PersonalInfoModalComponent } from './components/personal-info-modal/per
 import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { TextLikeInputComponent } from './components/text-like-input/text-like-input.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { PublicOfferComponent } from '@shared/components/public-offer/public-off
     NotificationComponent,
     PersonalInfoModalComponent,
     PublicOfferComponent,
+    ConfirmationModalComponent,
+    TextLikeInputComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -33,6 +37,8 @@ import { PublicOfferComponent } from '@shared/components/public-offer/public-off
     ValidationErrorsDirective,
     BlockUiComponent,
     MatSnackBarModule,
+    TextLikeInputComponent,
+    MaterialModule,
   ],
   imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule],
 })
