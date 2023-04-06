@@ -35,4 +35,10 @@ export class ApiService {
   addContactInfo(data: UserPersonalInfo): Observable<void> {
     return this.http.patch<void>('v1/users/me', data);
   }
+
+  sendConfirmationEmail(login: string): Observable<string> {
+    const url = 'registration_confirm';
+    const body = { data: { login: login} };
+    return this.http.post<string>(url, body);
+  }
 }

@@ -1,0 +1,54 @@
+@import "src/app/shared/styles/variables";
+
+:host {
+  display: block;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 50px;
+  }
+  
+.email-confirmation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+
+  &-controls-button {
+    height: 55px;
+    width: 350px;
+    border-radius: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  &-back-button {
+    height: 55px;
+    width: 350px;
+    align-items: center;
+    color: $color-title;
+    text-align: center;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  &-condition {
+    width: 350px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    text-align: center;
+    color: $color-description-text;
+  }
+}
+
+.actions {
+  position: fixed;
+  bottom: 3%;
+  width: 350px;
+}
+

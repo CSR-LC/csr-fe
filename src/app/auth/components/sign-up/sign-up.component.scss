@@ -17,15 +17,30 @@
     justify-content: space-around;
     width: 350px;
   }
+
+  &-controls-button {
+    height: 55px;
+    width: 350px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
 }
 
 .offer {
-  color: $color-title-lite;
+  color: $color-description-text;
   align-items: center;
   margin: 20px 0;
+  text-align: center;
   & a {
     text-decoration: underline;
     cursor: pointer;
     color: $color-title-lite;
   }
+}
+
+.actions {
+  position: fixed;
+  bottom: 3%;
+  width: 350px;
 }

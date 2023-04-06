@@ -8,9 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '@shared/shared.module';
 import { AuthComponent } from '@app/auth/containers/auth/auth.component';
+import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 
 @NgModule({
-  declarations: [LoginComponent, SignUpComponent, PasswordResetComponent, AuthComponent],
+  declarations: [LoginComponent, SignUpComponent, PasswordResetComponent, AuthComponent, EmailConfirmationComponent],
   imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, MaterialModule, SharedModule, FormsModule],
   providers: [AuthApi],
 })

@@ -11,6 +11,7 @@ import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
+import { DataService } from '@app/auth/services/data/data.service';
 
 @UntilDestroy
 @Component({
@@ -36,6 +37,7 @@ export class SignUpComponent implements OnInit {
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
     private readonly notificationsService: NotificationsService,
+    private readonly dataService: DataService
   ) {}
 
   get formValue() {
@@ -59,6 +61,7 @@ export class SignUpComponent implements OnInit {
 
     this.blockUiService.block();
     const personalData: NewUserInfo = this.getNewUserInfo();
+    this.dataService.updateData(this.formValue.email);
 
     this.controller
       .signUp(personalData)

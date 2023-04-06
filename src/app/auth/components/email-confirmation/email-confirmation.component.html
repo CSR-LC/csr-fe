@@ -1,0 +1,18 @@
+<div class="logo">
+    <img src="assets/img/logo.svg" alt="Логотип">
+</div>
+
+<main class="email-confirmation"> 
+    <h2>Подтвердите аккаунт</h2>
+    <p class="email-confirmation-condition">Для завершения регистрации, пройдите по ссылке в письме. Письмо отправлено на указанную почту.</p>
+    <h3>{{login}}</h3>
+    <div class="actions">
+        <div class="email-confirmation-back-button" (click)="backLoginPage()">
+            Вернуться к странице входа
+        </div>
+        <button type="submit" class="email-confirmation-controls-button" (click)="reSendEmail()" mat-raised-button color="primary">
+            Отправить снова
+        </button>
+    </div>
+</main>
+  

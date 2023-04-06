@@ -67,4 +67,8 @@ export class ControllerService {
   openPersonalInfoModal(): Observable<void> {
     return this.personalInfoService.openPersonalInfoModal();
   }
+
+  sendConfirmationEmail(login: string): Observable<string> {
+    return this.api.sendConfirmationEmail(login);
+  }
 }
