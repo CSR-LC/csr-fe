@@ -10,6 +10,7 @@ import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/st
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
 import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
+import { ConfirmedEmailModalComponent } from '@app/auth/components/confirmed-email-modal/confirmed-email-modal.component';
 
 @Injectable()
 export class ControllerService {
@@ -70,5 +71,12 @@ export class ControllerService {
 
   sendConfirmationEmail(login: string): Observable<string> {
     return this.api.sendConfirmationEmail(login);
+  }
+
+  openConfiremedEmailModal() {
+    this.dialog.open(ConfirmedEmailModalComponent, {
+      width: '100vw',
+      maxWidth: '100vw',
+    });
   }
 }
