@@ -6,6 +6,7 @@ import { TokensGuard } from '@shared/guards/tokens.guard';
 import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
 import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
+import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path: 'public-offer',
     component: PublicOfferComponent,
+  },
+  {
+    path: 'forbidden',
+    component: PageForbiddenComponent,
   },
   {
     path: '**',
