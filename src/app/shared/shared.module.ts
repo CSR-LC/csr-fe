@@ -15,6 +15,9 @@ import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-dec
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { TextLikeInputComponent } from './components/text-like-input/text-like-input.component';
+import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { TextLikeInputComponent } from './components/text-like-input/text-like-i
     PublicOfferComponent,
     ConfirmationModalComponent,
     TextLikeInputComponent,
+    PageForbiddenComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -39,7 +43,17 @@ import { TextLikeInputComponent } from './components/text-like-input/text-like-i
     MatSnackBarModule,
     TextLikeInputComponent,
     MaterialModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+  ],
 })
 export class SharedModule {}

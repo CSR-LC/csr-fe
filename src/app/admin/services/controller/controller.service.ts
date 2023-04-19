@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
-import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal./block-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { EquipmentMock } from '@app/admin/mocks/admin-equipment.mock';
 import { AdminApi } from '@app/admin/services';
 import { Observable } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
+import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 
 @Injectable()
 export class ControllerService {

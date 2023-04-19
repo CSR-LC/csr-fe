@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: AdminComponent,
-    canActivate: [AdminGuard],
+    //canActivate: [AdminGuard],
   },
 ];
 
