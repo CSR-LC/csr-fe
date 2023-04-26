@@ -24,7 +24,7 @@ export class TableComponent<T> implements AfterViewInit, OnChanges {
   @Input() data: T[] = [];
   @Input() total = 0;
   @Input() page = 0;
-  @Input() limit = 2;
+  @Input() limit = 10;
   @Output() setPage = new EventEmitter<number>();
   @Output() editCell = new EventEmitter<ActionEmit<T>>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
