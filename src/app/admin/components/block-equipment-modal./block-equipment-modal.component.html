@@ -16,15 +16,15 @@
     [text]="inventoryNumber"
   ></lc-text-like-input>
   <form [formGroup]="form">
-    <mat-form-field class="date" appearance="fill">
+    <mat-form-field class="date" appearance="fill" >
       <mat-label>Начало</mat-label>
-      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" />
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" lcValidationErrors/>
       <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #startDatePicker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field class="date" appearance="fill">
+    <mat-form-field class="date" appearance="fill" >
       <mat-label>Конец</mat-label>
-      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" />
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" [matDatepickerFilter]="endDateFilter" lcValidationErrors/>
       <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #endDatePicker></mat-datepicker>
     </mat-form-field>
@@ -36,7 +36,7 @@
     <button mat-button class="cancel" [mat-dialog-close]="false">
       {{ ModalEnum.BlockCancelButtonText }}
     </button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="true">
+    <button mat-raised-button color="primary" (click)="onClose()">
       {{ ModalEnum.BlockApplyButtonText }}
     </button>
   </div>

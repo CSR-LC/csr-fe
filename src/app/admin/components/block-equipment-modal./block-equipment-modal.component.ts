@@ -1,22 +1,52 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LabelEnum, ModalEnum } from '@app/admin/constants/modal.enum';
 import { Equipment } from '@app/catalog/models/equipment';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 
+@UntilDestroy
 @Component({
   selector: 'lc-block-equipment-modal.',
   templateUrl: './block-equipment-modal.component.html',
   styleUrls: ['./block-equipment-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlockEquipmentModalComponent {
+export class BlockEquipmentModalComponent implements OnInit {
   ModalEnum = ModalEnum;
   LabelEnum = LabelEnum;
   inventoryNumber: string = String(this.equipment.inventoryNumber);
+  minEndDate!: Date;
   form: FormGroup = this.fb.group({
-    startDate: [null],
-    endDate: [null],
+    startDate: [null, Validators.required],
+    endDate: [null, Validators.required],
   });
-  constructor(@Inject(MAT_DIALOG_DATA) public equipment: Equipment, private fb: FormBuilder) {}
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public equipment: Equipment,
+    private dialogRef: MatDialogRef<BlockEquipmentModalComponent>,
+    private fb: FormBuilder,
+  ) {}
+
+  ngOnInit() {
+    const startDateControl = this.form.get('startDate');
+    if (startDateControl) {
+      startDateControl.valueChanges.subscribe((startDate) => {
+        this.minEndDate = startDate;
+      });
+    }
+  }
+
+  endDateFilter = (d: Date | null): boolean => {
+    const endDate = d ? new Date(d.getFullYear(), d.getMonth(), d.getDate()) : null;
+    return endDate ? endDate >= this.minEndDate : !!endDate;
+  };
+
+  onClose() {
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.getRawValue());
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
 }

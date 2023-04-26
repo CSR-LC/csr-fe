@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { User } from '@app/user-profile/models/user';
 import { ConfirmationModalData } from '@shared/models/confirmation-modal';
 
 @Component({
@@ -11,7 +10,7 @@ import { ConfirmationModalData } from '@shared/models/confirmation-modal';
 })
 export class ConfirmationModalComponent {
   title: string = this.confirmationModalData.title;
-  users: User[] = this.confirmationModalData.users;
+  name: string = this.confirmationModalData.name;
   reason: string = this.confirmationModalData.reason;
   applyButtonText: string = this.confirmationModalData?.applyButtonText
     ? this.confirmationModalData?.applyButtonText

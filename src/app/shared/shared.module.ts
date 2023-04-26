@@ -18,6 +18,7 @@ import { TextLikeInputComponent } from './components/text-like-input/text-like-i
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatTableModule } from '@angular/material/table';
     ConfirmationModalComponent,
     TextLikeInputComponent,
     PageForbiddenComponent,
+    TableComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -45,6 +47,7 @@ import { MatTableModule } from '@angular/material/table';
     MaterialModule,
     MatPaginatorModule,
     MatTableModule,
+    TableComponent,
   ],
   imports: [
     CommonModule,

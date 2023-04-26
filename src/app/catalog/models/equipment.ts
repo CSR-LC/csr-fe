@@ -20,3 +20,8 @@ export type Equipment = {
   title: string;
   technicalIssues: boolean;
 };
+
+export type EquipmentAvailability = {
+  endDate: Date;
+  startDate: Date;
+};
