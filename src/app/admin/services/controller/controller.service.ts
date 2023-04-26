@@ -14,6 +14,7 @@ import { ActionEmit, TableColumn } from '@app/shared/models/table';
 import { ActionEnum } from '@app/shared/models/action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
+import { propGetter } from '@ngxs/store/src/internal/internals';
 
 @UntilDestroy
 @Injectable()
@@ -42,13 +43,19 @@ export class ControllerService {
   editCell(data: ActionEmit<Equipment>) {
     switch (data.action) {
       case ActionEnum.Block:
-        this.blockEquipment(data.row);
+        // eslint-disable-next-line no-console
+        console.log(data.action);
+        //this.blockEquipment(data.row);
         break;
       case ActionEnum.Edit:
-        this.editEquipment(data.row);
+        // eslint-disable-next-line no-console
+        console.log(data.action);
+        //this.editEquipment(data.row);
         break;
       case ActionEnum.Archivate:
-        this.archivateEquipment(data.row);
+        // eslint-disable-next-line no-console
+        console.log(data.action);
+        //this.archivateEquipment(data.row);
         break;
     }
   }
@@ -71,6 +78,7 @@ export class ControllerService {
   }
 
   private blockEquipment(equipment: Equipment) {
+    //todo add new logic
     let blockPeriod: EquipmentAvailability;
     this.openBlockEquipmentModal(equipment)
       .pipe(
@@ -93,6 +101,7 @@ export class ControllerService {
   }
 
   private archivateEquipment(equipment: Equipment) {
+    //todo add new logic
     let blockPeriod: EquipmentAvailability;
     this.openArchiveEquipmentModal(equipment)
       .pipe(
