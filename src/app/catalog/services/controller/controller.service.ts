@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EquipmentFilter } from '@app/catalog/models';
+import { DateRangeController } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
 import { CatalogApi } from '..';
@@ -10,7 +11,7 @@ import { CatalogState, GetCatalog } from '../../store';
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
 
-  constructor(private api: CatalogApi, private store: Store) {}
+  constructor(private api: CatalogApi, private store: Store, private dateRangeController: DateRangeController) {}
 
   getCatalog() {
     this.api.getCatalog().subscribe((res) => {
@@ -40,5 +41,9 @@ export class ControllerService {
     this.api.filterEquipmentByCategory(equipmentFilter).subscribe((res) => {
       this.store.dispatch(new GetCatalog(res.items));
     });
+  }
+
+  getRentPeriods(equipmentId?: number) {
+    this.dateRangeController.getUnavailablePeriods(equipmentId);
   }
 }

@@ -49,4 +49,8 @@ export class EquipmentItemComponent implements OnInit {
       this.image.nativeElement.src = url;
     });
   }
+
+  getRentPeriods(id?: number) {
+    this.controller.getRentPeriods(id);
+  }
 }
