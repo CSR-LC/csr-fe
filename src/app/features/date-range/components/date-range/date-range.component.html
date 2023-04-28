@@ -9,7 +9,8 @@
         <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }} - </span>
         <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
       </div>
-      <mat-calendar [dateFilter]="isDateUnavailable" (selectedChange)="selectedDateRange($event)"
+      <mat-calendar [dateFilter]="isDateUnavailable"
+        (selectedChange)="selectedDateRange($event)"
         [minDate]="minDate" [maxDate]="maxDate" [selected]="selectedRangeValue"
       >
       </mat-calendar>
