@@ -37,7 +37,7 @@ export class SignUpComponent implements OnInit {
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
     private readonly notificationsService: NotificationsService,
-    private readonly dataService: DataService
+    private readonly dataService: DataService,
   ) {}
 
   get formValue() {
@@ -72,7 +72,6 @@ export class SignUpComponent implements OnInit {
             password: this.formValue.password,
           });
         }),
-        switchMap(() => this.controller.openPersonalInfoModal()),
         catchError((error) => {
           this.notificationsService.openError(error.message);
           return throwError(error);
@@ -80,7 +79,7 @@ export class SignUpComponent implements OnInit {
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )
-      .subscribe(() => this.router.navigate(['/']));
+      .subscribe(() => this.router.navigate(['/email-confirmation']));
   }
 
   private getNewUserInfo(): NewUserInfo {

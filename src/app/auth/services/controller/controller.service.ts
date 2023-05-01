@@ -73,10 +73,15 @@ export class ControllerService {
     return this.api.sendConfirmationEmail(login);
   }
 
-  openConfiremedEmailModal() {
-    this.dialog.open(ConfirmedEmailModalComponent, {
+  openConfiremedEmailModal(): Observable<any> {
+    const dialogRef = this.dialog.open(ConfirmedEmailModalComponent, {
       width: '100vw',
       maxWidth: '100vw',
     });
+    return dialogRef.afterClosed();
+  }
+
+  confirmEmail(token: string) {
+    return this.api.confirmEmail(token);
   }
 }

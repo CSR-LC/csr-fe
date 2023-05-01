@@ -6,6 +6,7 @@ import { TokensGuard } from '@shared/guards/tokens.guard';
 import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
 import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
+import { EmailConfirmationComponent } from './auth/components/email-confirmation/email-confirmation.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: 'public-offer',
     component: PublicOfferComponent,
   },
+  {
+    path: 'email-confirmation',
+    component: EmailConfirmationComponent,
+  },
+  { path: 'email-confirmation/:token', component: EmailConfirmationComponent },
   {
     path: '**',
     component: PageNotFoundComponent,

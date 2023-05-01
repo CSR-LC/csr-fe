@@ -5,7 +5,7 @@ import { NotificationSuccess } from '@shared/constants/notification-success.enum
 import { DataService } from '@app/auth/services/data/data.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @UntilDestroy
 @Component({
@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
   providers: [ControllerService],
 })
 export class EmailConfirmationComponent implements OnInit {
-
   login: string = '';
 
   constructor(
@@ -24,27 +23,46 @@ export class EmailConfirmationComponent implements OnInit {
     private readonly notificationsService: NotificationsService,
     private readonly dataService: DataService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {}
-  
+
   ngOnInit(): void {
-    this.dataService.data$.pipe(
-      tap((data) => this.login = data),
-      switchMap((data) => this.controller.sendConfirmationEmail(data)),
-      untilDestroyed(this)
-    ).subscribe(() => {
-      this.notificationsService.openSuccess(NotificationSuccess.EmailSent);
-    });
+    this.dataService.data$
+      .pipe(
+        tap((data) => (this.login = data)),
+        switchMap((data) => this.controller.sendConfirmationEmail(data)),
+        untilDestroyed(this),
+      )
+      .subscribe(() => {
+        this.notificationsService.openSuccess(NotificationSuccess.EmailSent);
+      });
+
+    const token = this.route.snapshot.paramMap.get('token');
+    if (token) {
+      this.controller
+        .confirmEmail(token)
+        .pipe(
+          untilDestroyed(this),
+          tap(() => {
+            this.router.navigate(['/']);
+          }),
+          switchMap(() => {
+            return this.controller.openConfiremedEmailModal();
+          }),
+        )
+        .subscribe(() => {
+          this.controller.openPersonalInfoModal();
+        });
+    }
   }
 
   reSendEmail(): void {
-    this.controller.sendConfirmationEmail(this.login).subscribe(
-      (response: string) => {
-        this.notificationsService.openSuccess(NotificationSuccess.ReEmailSent);
-      },
-    );
+    this.controller.sendConfirmationEmail(this.login).subscribe((response: string) => {
+      this.notificationsService.openSuccess(NotificationSuccess.ReEmailSent);
+    });
   }
-  
+
   backLoginPage(): void {
-    this.router.navigate(['/auth'])
+    this.router.navigate(['/auth']);
   }
 }

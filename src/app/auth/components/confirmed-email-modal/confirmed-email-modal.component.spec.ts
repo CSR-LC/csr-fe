@@ -8,9 +8,8 @@ xdescribe('ConfirmedEmailModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConfirmedEmailModalComponent ]
-    })
-    .compileComponents();
+      declarations: [ConfirmedEmailModalComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

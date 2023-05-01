@@ -8,9 +8,8 @@ xdescribe('EmailConfirmationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmailConfirmationComponent ]
-    })
-    .compileComponents();
+      declarations: [EmailConfirmationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

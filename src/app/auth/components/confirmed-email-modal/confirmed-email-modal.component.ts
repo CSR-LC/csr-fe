@@ -8,7 +8,6 @@ import { MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmedEmailModalComponent implements OnInit {
-  
   constructor(private matDialogRef: MatDialogRef<ConfirmedEmailModalComponent>) {}
 
   ngOnInit(): void {

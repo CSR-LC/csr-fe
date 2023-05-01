@@ -12,7 +12,14 @@ import { EmailConfirmationComponent } from './components/email-confirmation/emai
 import { ConfirmedEmailModalComponent } from './components/confirmed-email-modal/confirmed-email-modal.component';
 
 @NgModule({
-  declarations: [LoginComponent, SignUpComponent, PasswordResetComponent, AuthComponent, EmailConfirmationComponent, ConfirmedEmailModalComponent],
+  declarations: [
+    LoginComponent,
+    SignUpComponent,
+    PasswordResetComponent,
+    AuthComponent,
+    EmailConfirmationComponent,
+    ConfirmedEmailModalComponent,
+  ],
   imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, MaterialModule, SharedModule, FormsModule],
   providers: [AuthApi],
 })

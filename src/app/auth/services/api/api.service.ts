@@ -38,7 +38,11 @@ export class ApiService {
 
   sendConfirmationEmail(login: string): Observable<string> {
     const url = 'registration_confirm';
-    const body = { data: { login: login} };
+    const body = { data: { login: login } };
     return this.http.post<string>(url, body);
+  }
+
+  confirmEmail(token: string) {
+    return this.http.get(`/registration_confirm/${token}`);
   }
 }
