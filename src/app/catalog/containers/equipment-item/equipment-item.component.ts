@@ -50,7 +50,7 @@ export class EquipmentItemComponent implements OnInit {
     });
   }
 
-  getRentPeriods(id?: number) {
-    this.controller.getRentPeriods(id);
+  getRentPeriods(equipmentId?: number, maxRentalPeriod?: number) {
+    this.controller.getRentPeriods(equipmentId, maxRentalPeriod);
   }
 }

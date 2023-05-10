@@ -9,19 +9,25 @@
         <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }} - </span>
         <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
       </div>
-      <mat-calendar [dateFilter]="isDateUnavailable"
+      <mat-calendar
+        [dateFilter]="isDateUnavailable"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [selected]="selectedRangeValue"
         (selectedChange)="selectedDateRange($event)"
-        [minDate]="minDate" [maxDate]="maxDate" [selected]="selectedRangeValue"
       >
       </mat-calendar>
     </div>
   </div>
   <div class="date-range-button">
-    <button mat-raised-button color="primary" class="button-confirm"
-      [disabled]="!selectedRangeValue?.start || !selectedRangeValue?.end"
-      [mat-dialog-close]="selectedRangeValue"
+    <button
+      mat-raised-button
+      color="primary"
+      class="button-confirm"
+      [mat-dialog-close]="getSelectedRentalDate(selectedRangeValue)"
       type="button"
-      >{{ dateRangeData.buttonText }}
+    >
+      {{ dateRangeData.buttonText }}
     </button>
   </div>
 </section>

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
 import { Category, EquipmentFilter } from '@app/catalog/models';
+import { UnavailablePeriods } from '@app/features/date-range/models';
 
 @Injectable()
 export class ApiService {
@@ -37,5 +38,9 @@ export class ApiService {
 
   filterEquipmentByCategory(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
     return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload);
+  }
+
+  getUnavailablePeriods(equipmentId?: number): Observable<UnavailablePeriods> {
+    return this.httpClient.get<UnavailablePeriods>(`equipment/unavailability_periods/${equipmentId}`);
   }
 }

@@ -44,6 +44,12 @@
     </div>
   </div>
   <div class="actions">
-    <button class="equipment-item__calendar-btn" (click)="getRentPeriods(equipment?.id)">Выберите период заявки</button>
+    <button
+      mat-raised-button color="primary"
+      class="equipment-item__calendar-btn"
+      (click)="getRentPeriods(equipment?.id, equipment?.maximumDays)"
+    >
+      Выберите период заявки
+    </button>
   </div>
 </section>

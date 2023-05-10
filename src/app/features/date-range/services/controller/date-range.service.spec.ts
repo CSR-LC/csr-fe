@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ApiService } from './api.service';
+import { DateRangeService } from './date-range.service';
 
-xdescribe('ApiService', () => {
-  let service: ApiService;
+xdescribe('DateRangeService', () => {
+  let service: DateRangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ApiService);
+    service = TestBed.inject(DateRangeService);
   });
 
   it('should be created', () => {

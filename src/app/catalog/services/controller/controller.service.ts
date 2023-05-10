@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { EquipmentFilter } from '@app/catalog/models';
-import { DateRangeController } from '@app/features/date-range/services';
+import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
+import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 
+@UntilDestroy
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
 
-  constructor(private api: CatalogApi, private store: Store, private dateRangeController: DateRangeController) {}
+  constructor(private api: CatalogApi, private store: Store, private dateRangeService: DateRangeService) {}
 
   getCatalog() {
     this.api.getCatalog().subscribe((res) => {
@@ -43,7 +45,13 @@ export class ControllerService {
     });
   }
 
-  getRentPeriods(equipmentId?: number) {
-    this.dateRangeController.getUnavailablePeriods(equipmentId);
+  getRentPeriods(equipmentId?: number, maxRentalPeriod?: number) {
+    this.api
+      .getUnavailablePeriods(equipmentId)
+      .pipe(
+        switchMap((periods) => this.dateRangeService.openDateRangeModal(periods.items, equipmentId, maxRentalPeriod)),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 }

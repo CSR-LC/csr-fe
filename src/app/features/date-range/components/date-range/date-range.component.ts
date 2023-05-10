@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateRange } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
-import { DateRangeController } from '../../services';
 
 @Component({
   selector: 'lc-date-range',
@@ -14,10 +13,10 @@ import { DateRangeController } from '../../services';
 export class DateRangeComponent {
   @Input() selectedRangeValue!: DateRange<Date> | null;
 
-  readonly maxRentalPeriod = 10;
-  readonly day = new Date().getDate();
-  readonly month = new Date().getMonth();
-  readonly year = new Date().getFullYear();
+  readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
+  readonly currentDay = new Date().getDate();
+  readonly currentMonth = new Date().getMonth();
+  readonly currentYear = new Date().getFullYear();
 
   dateRangeForm = new FormGroup({
     fromDate: new FormControl(null),
@@ -25,21 +24,21 @@ export class DateRangeComponent {
   });
 
   minDate = new Date();
-  maxDate = new Date(this.year + 1, this.month, this.day - 1);
+  maxDate = new Date(this.currentYear + 1, this.currentMonth, this.currentDay - 1);
 
   private unavailableDates: UnavailableDates[] = this.dateRangeData.unavailableDates;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData, private controller: DateRangeController) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData) {}
 
   isDateUnavailable = (dateFromCalendar: Date): boolean => {
-    const timeUnixFromCalendar = dateFromCalendar.setHours(0, 0, 0, 0);
+    const timeUnixFromCalendar = this.removeTime(dateFromCalendar);
 
     if (!this.unavailableDates) return true;
 
     return !this.unavailableDates.find((unavailableDate) => {
       return (
-        new Date(unavailableDate.start_date).setHours(0, 0, 0, 0) >= timeUnixFromCalendar &&
-        new Date(unavailableDate.end_date).setHours(0, 0, 0, 0) <= timeUnixFromCalendar
+        this.removeTime(unavailableDate.start_date) <= timeUnixFromCalendar &&
+        this.removeTime(unavailableDate.end_date) >= timeUnixFromCalendar
       );
     });
   };
@@ -69,9 +68,17 @@ export class DateRangeComponent {
     this.selectedRangeValue = new DateRange<Date>(this.selectedRangeValue.start, selectedUTCDate);
   }
 
-  resetMaxDate() {
-    this.maxDate = new Date(this.year + 1, this.month, this.day - 1);
-    this.selectedRangeValue = new DateRange<Date>(null, null);
+  getSelectedRentalDate(dateRange: DateRange<Date> | null): UnavailableDates | undefined {
+    if (!dateRange?.start || !dateRange.end) return;
+
+    return {
+      end_date: dateRange.end.toISOString(),
+      start_date: dateRange.start.toISOString(),
+    };
+  }
+
+  private removeTime(date: Date | string): number {
+    return new Date(date).setHours(0, 0, 0, 0);
   }
 
   private getUTCTime(date: Date): Date {
@@ -96,7 +103,11 @@ export class DateRangeComponent {
   }
 
   private setMaxDate(date: Date) {
-    const lastPeriodOfTheYear = new Date(this.year + 1, this.month, this.day - this.maxRentalPeriod);
+    const lastPeriodOfTheYear = new Date(
+      this.currentYear + 1,
+      this.currentMonth,
+      this.currentDay - this.maxRentalPeriod,
+    );
 
     if (date > lastPeriodOfTheYear) return;
 
