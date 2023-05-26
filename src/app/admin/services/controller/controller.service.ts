@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, catchError, filter, map, of, pipe, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, of, switchMap, tap } from 'rxjs';
 import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { BaseItemsResponse } from '@app/shared/types';
@@ -123,6 +123,7 @@ export class ControllerService {
   }
 
   private openArchiveConfirmation(name: string) {
+    //todo add new logic
     return this.dialog
       .open(ConfirmationModalComponent, {
         maxWidth: 472,
@@ -140,6 +141,7 @@ export class ControllerService {
   }
 
   private openBlockConfirmation(name: string) {
+    //todo add new logic
     return this.dialog
       .open(ConfirmationModalComponent, {
         maxWidth: 472,
@@ -156,6 +158,7 @@ export class ControllerService {
   }
 
   private openArchiveEquipmentModal(equipment: Equipment) {
+    //todo add new logic
     return this.dialog
       .open(ArchiveEquipmentModalComponent, {
         maxWidth: 472,
@@ -166,6 +169,7 @@ export class ControllerService {
       .afterClosed();
   }
   private openBlockEquipmentModal(equipment: Equipment) {
+    //todo add new logic
     return this.dialog
       .open(BlockEquipmentModalComponent, {
         maxWidth: 472,
