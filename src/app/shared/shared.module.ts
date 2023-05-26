@@ -14,7 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
-import { TextLikeInputComponent } from './components/text-like-input/text-like-input.component';
+import { FakeInputComponent } from '@shared/components/fake-input/fake-input.component';
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
@@ -32,7 +32,7 @@ import { TableComponent } from './components/table/table.component';
     PersonalInfoModalComponent,
     PublicOfferComponent,
     ConfirmationModalComponent,
-    TextLikeInputComponent,
+    FakeInputComponent,
     PageForbiddenComponent,
     TableComponent,
   ],
@@ -43,7 +43,7 @@ import { TableComponent } from './components/table/table.component';
     ValidationErrorsDirective,
     BlockUiComponent,
     MatSnackBarModule,
-    TextLikeInputComponent,
+    FakeInputComponent,
     MaterialModule,
     MatPaginatorModule,
     MatTableModule,

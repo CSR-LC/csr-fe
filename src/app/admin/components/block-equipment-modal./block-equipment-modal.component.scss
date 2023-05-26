@@ -9,7 +9,7 @@
   display: block;
 }
 
-lc-text-like-input {
+lc-fake-input {
   margin-bottom: 24px;
 }
 
@@ -45,7 +45,7 @@ h3 {
 
 .content {
   @extend %padding;
-  lc-text-like-input {
+  lc-fake-input {
     margin-bottom: 24px;
   }
 }

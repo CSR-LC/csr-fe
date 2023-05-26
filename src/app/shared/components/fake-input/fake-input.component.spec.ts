@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextLikeInputComponent } from './text-like-input.component';
+import { FakeInputComponent } from './fake-input.component';
 
 describe('TextLikeInputComponent', () => {
-  let component: TextLikeInputComponent;
-  let fixture: ComponentFixture<TextLikeInputComponent>;
+  let component: FakeInputComponent;
+  let fixture: ComponentFixture<FakeInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TextLikeInputComponent],
+      declarations: [FakeInputComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextLikeInputComponent);
+    fixture = TestBed.createComponent(FakeInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

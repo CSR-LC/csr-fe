@@ -3,8 +3,9 @@ import { User } from '@app/auth/models';
 import { ActivatedRoute } from '@angular/router';
 import { AdminController } from '@app/admin/services';
 import { Observable } from 'rxjs/internal/Observable';
-import { ActionEmit, TableColumn, TableData } from '@app/shared/models/table';
+import { TableAction } from '@shared/models/table-action';
 import { Equipment } from '@app/catalog/models/equipment';
+import { TableColumn } from '@shared/models/table-column';
 
 @Component({
   selector: 'lc-equipments',
@@ -31,8 +32,8 @@ export class EquipmentsComponent implements OnInit {
     this.user = this.route.snapshot.data['user'];
   }
 
-  editCell(data: ActionEmit<Equipment>) {
-    this.controller.editCell(data);
+  editEquipment(data: TableAction<Equipment>) {
+    this.controller.editEquipment(data);
   }
 
   setPage(page: number) {

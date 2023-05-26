@@ -29,12 +29,12 @@ export class BlockEquipmentModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const startDateControl = this.form.get('startDate');
-    if (startDateControl) {
-      startDateControl.valueChanges.subscribe((startDate) => {
-        this.minEndDate = startDate;
+    this.form
+      .get('startDate')
+      ?.valueChanges.pipe(untilDestroyed(this))
+      .subscribe((startDate) => {
+        this.minEndDate = startDate as Date;
       });
-    }
   }
 
   endDateFilter = (d: Date | null): boolean => {

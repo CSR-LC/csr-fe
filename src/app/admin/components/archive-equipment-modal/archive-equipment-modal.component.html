@@ -9,9 +9,9 @@
   <p>
     Статус оборудование измениться на “В архиве” и скроется из общего списка оборудования. Проверьте данные.
   </p>
-    <lc-text-like-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-text-like-input>
-    <lc-text-like-input *ngIf="equipment.name_substring"  [label]="LabelEnum.NameSubstring" [text]="equipment.name_substring"></lc-text-like-input>
-    <lc-text-like-input *ngIf="equipment.inventoryNumber"  [label]="LabelEnum.InventoryNumber" [text]="inventoryNumber"></lc-text-like-input>
+    <lc-fake-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-fake-input>
+    <lc-fake-input *ngIf="equipment.name_substring"  [label]="LabelEnum.NameSubstring" [text]="equipment.name_substring"></lc-fake-input>
+    <lc-fake-input *ngIf="equipment.inventoryNumber"  [label]="LabelEnum.InventoryNumber" [text]="inventoryNumber"></lc-fake-input>
 </div>
 <div class="separator"></div>
 <div class="buttons-wrapper">

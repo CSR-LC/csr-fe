@@ -3,18 +3,17 @@ import { ConfirmationModalComponent } from '@shared/components/confirmation-moda
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
-import { EquipmentMock } from '@app/admin/mocks/admin-equipment.mock';
 import { AdminApi } from '@app/admin/services';
 import { BehaviorSubject, Observable, catchError, filter, map, of, pipe, switchMap, tap } from 'rxjs';
 import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { BaseItemsResponse } from '@app/shared/types';
 import { EquipmentColumns } from '@app/admin/constants/equipment-columns';
-import { ActionEmit, TableColumn } from '@app/shared/models/table';
-import { ActionEnum } from '@app/shared/models/action.enum';
+import { TableAction } from '@shared/models/table-action';
+import { ActionEnum } from '@shared/constants/action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
-import { propGetter } from '@ngxs/store/src/internal/internals';
+import { TableColumn } from '@shared/models/table-column';
 
 @UntilDestroy
 @Injectable()
@@ -40,7 +39,7 @@ export class ControllerService {
     this.fetchEquipments().subscribe();
   }
 
-  editCell(data: ActionEmit<Equipment>) {
+  editEquipment(data: TableAction<Equipment>) {
     switch (data.action) {
       case ActionEnum.Block:
         // eslint-disable-next-line no-console
@@ -122,8 +121,6 @@ export class ControllerService {
       )
       .subscribe();
   }
-
-  private editEquipment(equipment: Equipment) {}
 
   private openArchiveConfirmation(name: string) {
     return this.dialog

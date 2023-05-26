@@ -3,6 +3,6 @@
   [data]="(data$ | async) || []"
   [total]="(total$ | async) || 0"
   [page]="(page$ | async) || 0"
-  (editCell)="editCell($event)"
+  (action)="editEquipment($event)"
   (setPage)="setPage($event)"
 ></lc-table>

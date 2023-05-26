@@ -4,17 +4,17 @@
 </div>
 <div class="separator"></div>
 <div class="content">
-  <lc-text-like-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-text-like-input>
-  <lc-text-like-input
+  <lc-fake-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-fake-input>
+  <lc-fake-input
     *ngIf="equipment.name_substring"
     [label]="LabelEnum.NameSubstring"
     [text]="equipment.name_substring"
-  ></lc-text-like-input>
-  <lc-text-like-input
+  ></lc-fake-input>
+  <lc-fake-input
     *ngIf="equipment.inventoryNumber"
     [label]="LabelEnum.InventoryNumber"
     [text]="inventoryNumber"
-  ></lc-text-like-input>
+  ></lc-fake-input>
   <form [formGroup]="form">
     <mat-form-field class="date" appearance="fill" >
       <mat-label>Начало</mat-label>

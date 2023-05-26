@@ -1,5 +1,5 @@
-import { ActionEnum } from '@app/shared/models/action.enum';
-import { TableColumn } from '@app/shared/models/table';
+import { ActionEnum } from '@shared/constants/action.enum';
+import { TableColumn } from '@shared/models/table-column';
 
 export const EquipmentColumns: TableColumn[] = [
   {

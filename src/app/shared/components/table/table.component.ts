@@ -11,7 +11,8 @@ import {
 } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActionEmit, TableColumn } from '@app/shared/models/table';
+import { TableAction } from '@shared/models/table-action';
+import { TableColumn } from '@shared/models/table-column';
 
 @Component({
   selector: 'lc-table',
@@ -26,7 +27,7 @@ export class TableComponent<T> implements AfterViewInit, OnChanges {
   @Input() page = 0;
   @Input() limit = 2;
   @Output() setPage = new EventEmitter<number>();
-  @Output() editCell = new EventEmitter<ActionEmit<T>>();
+  @Output() action = new EventEmitter<TableAction<T>>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   dataSource = new MatTableDataSource<T>();
@@ -49,7 +50,7 @@ export class TableComponent<T> implements AfterViewInit, OnChanges {
     return this.columns.map((column: TableColumn) => column.columnDef);
   }
 
-  onEditCell(data: ActionEmit<T>) {
-    this.editCell.emit(data);
+  onEditCell(data: TableAction<T>) {
+    this.action.emit(data);
   }
 }
