@@ -48,6 +48,11 @@ export class AuthState {
     return state.rememberMe;
   }
 
+  @Selector()
+  static isUserPersonalData(state: AuthStore): boolean {
+    return !!(state.user?.name && state.user.surname && state.user.phone_number);
+  }
+
   constructor(private readonly authApi: AuthApi) {}
 
   @Action(Login)
