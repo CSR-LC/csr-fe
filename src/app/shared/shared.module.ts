@@ -13,7 +13,12 @@ import { PersonalInfoModalComponent } from './components/personal-info-modal/per
 import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { FakeInputComponent } from '@shared/components/fake-input/fake-input.component';
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,10 @@ import { PageForbiddenComponent } from './components/page-forbidden/page-forbidd
     NotificationComponent,
     PersonalInfoModalComponent,
     PublicOfferComponent,
+    ConfirmationModalComponent,
+    FakeInputComponent,
     PageForbiddenComponent,
+    TableComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -35,7 +43,20 @@ import { PageForbiddenComponent } from './components/page-forbidden/page-forbidd
     ValidationErrorsDirective,
     BlockUiComponent,
     MatSnackBarModule,
+    FakeInputComponent,
+    MaterialModule,
+    MatPaginatorModule,
+    MatTableModule,
+    TableComponent,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+  ],
 })
 export class SharedModule {}
