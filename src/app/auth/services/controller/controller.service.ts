@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { filter, Observable, switchMap } from 'rxjs';
 
 import { ApiService } from '../api/api.service';
-import { LoginInformation, NewUserInfo, SignupResponse } from '../../models';
+import { LoginInformation, NewUserInfo, SignupResponse, User } from '../../models';
 import { Store } from '@ngxs/store';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
-import { AuthState, AuthStore, rememberMeAction } from '@app/auth/store';
+import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/store';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
+import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
 
 @Injectable()
 export class ControllerService {
@@ -20,6 +21,7 @@ export class ControllerService {
     private readonly store: Store,
     private readonly authService: AuthService,
     private dialog: MatDialog,
+    private readonly personalInfoService: PersonalInfoService,
   ) {}
 
   cancel() {
@@ -52,5 +54,17 @@ export class ControllerService {
 
   setRememberMe(rememberMe: boolean) {
     this.store.dispatch(new rememberMeAction(rememberMe));
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.api.getCurrentUser();
+  }
+
+  setUser(user: User) {
+    return this.store.dispatch(new UserAction(user));
+  }
+
+  openPersonalInfoModal(): Observable<void> {
+    return this.personalInfoService.openPersonalInfoModal();
   }
 }

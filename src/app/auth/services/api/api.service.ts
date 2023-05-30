@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginInformation, NewUserInfo, SignupResponse, Tokens } from '../../models';
+import { LoginInformation, NewUserInfo, SignupResponse, Tokens, User } from '../../models';
 import { Observable } from 'rxjs';
+import { UserPersonalInfo } from '@app/shared/constants/personal-info';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +26,13 @@ export class ApiService {
   resetPassword(email: string) {
     const data = { data: { login: email } };
     return this.http.post<any>('password_reset', data);
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>('v1/users/me');
+  }
+
+  addContactInfo(data: UserPersonalInfo): Observable<void> {
+    return this.http.patch<void>('v1/users/me', data);
   }
 }

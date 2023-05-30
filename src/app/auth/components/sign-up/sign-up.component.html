@@ -1,8 +1,5 @@
 <main class="sign-up">
-  <form
-    [formGroup]="userRegistrationForm"
-    class="sign-up-form"
-  >
+  <form [formGroup]="userRegistrationForm" class="sign-up-form">
     <mat-form-field floatLabel="auto">
       <mat-label>Эл. почта</mat-label>
       <input
@@ -11,7 +8,7 @@
         maxlength="49"
         (keydown)="disableKeyboardInput($event, 'email')"
         [lcValidationErrors]="formName"
-      >
+      />
     </mat-form-field>
 
     <mat-form-field floatLabel="auto">
@@ -24,7 +21,7 @@
         (keydown)="disableKeyboardInput($event, 'password')"
         [lcValidationErrors]="formName"
         lcHideText
-      >
+      />
     </mat-form-field>
 
     <mat-form-field floatLabel="auto">
@@ -37,17 +34,15 @@
         (keydown)="disableKeyboardInput($event, 'password')"
         [lcValidationErrors]="formName"
         lcHideText
-      >
+      />
     </mat-form-field>
 
-    <div class="offer">Нажимая «Продолжить» вы даете <a routerLink="public-offer" target="_blank">согласие на обработку персональных данных</a></div>
+    <div class="offer">
+      Нажимая «Продолжить» вы даете
+      <a routerLink="/public-offer" target="_blank">согласие на обработку персональных данных</a>
+    </div>
 
-    <button
-      type="submit"
-      class="sign-up-controls-button"
-      (click)="onSubmit()"
-      mat-raised-button color="primary"
-    >
+    <button type="submit" class="sign-up-controls-button" (click)="onSubmit()" mat-raised-button color="primary">
       Продолжить
     </button>
   </form>

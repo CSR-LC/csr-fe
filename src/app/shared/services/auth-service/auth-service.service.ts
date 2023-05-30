@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { AuthState, AuthStore, Login, Logout, TokensAction } from '@app/auth/store';
+import { AuthState, AuthStore, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
 import { Router } from '@angular/router';
 import { LocalStorageKey } from '../../constants';
 import { AuthApi } from '@app/auth/services';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -51,16 +51,23 @@ export class AuthService {
     return savedTokens ? JSON.parse(savedTokens) : savedTokens;
   }
 
-  checkTokens() {
-    if (this.store.selectSnapshot(AuthState.tokens)) return;
+  checkTokens(): Observable<{ auth: AuthStore } | null> {
+    let tokens: Tokens | null = this.store.selectSnapshot(AuthState.tokens);
+    if (tokens) return of(this.store.snapshot());
 
-    const tokens = this.getTokensFromLocalStorage();
-    if (tokens) {
-      this.saveTokens(tokens);
-    }
+    tokens = this.getTokensFromLocalStorage();
+    return tokens ? this.saveTokens(tokens) : of(null);
   }
 
-  saveTokens(tokens: Tokens): Observable<any> {
+  setCurrentUser(): Observable<{ auth: AuthStore }> {
+    return this.authApi.getCurrentUser().pipe(
+      switchMap((user) => {
+        return this.store.dispatch(new UserAction(user));
+      }),
+    );
+  }
+
+  saveTokens(tokens: Tokens): Observable<{ auth: AuthStore }> {
     return this.store.dispatch(new TokensAction(tokens));
   }
 
