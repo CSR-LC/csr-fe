@@ -4,9 +4,24 @@
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
       <div class="info-item">
-        <p class="info-item__description">
+        <p
+          *ngIf="!selectedRentPeriod"
+          class="info-item__description"
+        >
           {{ equipment?.description }}
         </p>
+        <div
+          *ngIf="selectedRentPeriod"
+          class="info-item__rent"
+        >
+          <p class="info-item__rent-title">Период аренды:</p>
+          <div class="info-item__rent-period"
+            (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
+          >
+            {{ selectedRentPeriod.start_date | date: 'dd.MM.yyyy' }} -
+            {{ selectedRentPeriod.end_date | date: 'dd.MM.yyyy' }}
+          </div>
+        </div>
         <div class="info-item__wrapper">
           <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
           <div>
@@ -45,11 +60,20 @@
   </div>
   <div class="actions">
     <button
+      *ngIf="!selectedRentPeriod"
       mat-raised-button color="primary"
       class="equipment-item__calendar-btn"
-      (click)="getRentPeriods(equipment?.id, equipment?.maximumDays)"
+      (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
     >
       Выберите период заявки
+    </button>
+    <button
+      *ngIf="selectedRentPeriod"
+      mat-raised-button color="primary"
+      class="equipment-item__calendar-btn"
+      (click)="createOrder(selectedRentPeriod, equipment?.id)"
+    >
+      Подтвердить заявку
     </button>
   </div>
 </section>

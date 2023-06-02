@@ -1,19 +1,26 @@
 import { Injectable } from '@angular/core';
-import { EquipmentFilter } from '@app/catalog/models';
+import { EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, switchMap } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
-import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
+import { UnavailableDates } from '@app/features/date-range/models';
+import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
+import { User } from '@app/auth/models';
+import { UserAction } from '@app/auth/store';
 
-@UntilDestroy
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
 
-  constructor(private api: CatalogApi, private store: Store, private dateRangeService: DateRangeService) {}
+  constructor(
+    private api: CatalogApi,
+    private store: Store,
+    private dateRangeService: DateRangeService,
+    private personalInfoService: PersonalInfoService,
+  ) {}
 
   getCatalog() {
     this.api.getCatalog().subscribe((res) => {
@@ -45,13 +52,34 @@ export class ControllerService {
     });
   }
 
-  getRentPeriods(equipmentId?: number, maxRentalPeriod?: number) {
-    this.api
+  getRentPeriods(equipmentId?: number, maxRentalPeriod?: number): Observable<UnavailableDates | null> {
+    return this.api
       .getUnavailablePeriods(equipmentId)
       .pipe(
         switchMap((periods) => this.dateRangeService.openDateRangeModal(periods.items, equipmentId, maxRentalPeriod)),
-        untilDestroyed(this),
-      )
-      .subscribe();
+      );
+  }
+
+  orderEquipment(selectedRentPeriod: UnavailableDates, equipmentId: number): Observable<EquipmentOrder> {
+    const payload: EquipmentRentalInfo = {
+      description: 'description',
+      equipment_id: equipmentId,
+      rent_end: selectedRentPeriod.end_date,
+      rent_start: selectedRentPeriod.start_date,
+    };
+
+    return this.api.getCreatedOrder(payload);
+  }
+
+  openPersonalInfoModal(): Observable<void> {
+    return this.personalInfoService.openPersonalInfoModal();
+  }
+
+  updateUserPersonalInfo(): Observable<void> {
+    return this.personalInfoService.updateUserPersonalInfo();
+  }
+
+  setUser(user: User) {
+    return this.store.dispatch(new UserAction(user));
   }
 }

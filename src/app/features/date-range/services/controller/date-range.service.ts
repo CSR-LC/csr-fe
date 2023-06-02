@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, filter, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { DateRangeComponent } from '../../components/date-range/date-range.component';
 import { UnavailableDates } from '../../models';
 
@@ -14,7 +14,7 @@ export class DateRangeService {
     unavailableDates: UnavailableDates[],
     equipmentId?: number,
     maxRentalPeriod?: number,
-  ): Observable<UnavailableDates | number | undefined> {
+  ): Observable<UnavailableDates | null> {
     const dateRangeData = {
       headerText: 'Период аренды',
       buttonText: 'Подтвердить период аренды',
@@ -32,13 +32,8 @@ export class DateRangeService {
       })
       .afterClosed()
       .pipe(
-        filter(Boolean),
-        switchMap((period: UnavailableDates | number | undefined) => {
-          if (period) {
-            return of(period, equipmentId);
-          } else {
-            return of(undefined);
-          }
+        switchMap((period: UnavailableDates | null) => {
+          return period ? of(period) : of(null);
         }),
       );
   }
