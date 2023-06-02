@@ -9,8 +9,9 @@ import { UnavailableDates } from '@app/features/date-range/models';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Select } from '@ngxs/store';
 import { AuthState } from '@app/auth/store';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from '@app/auth/models';
+import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
+import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 
 @UntilDestroy
 @Component({
@@ -18,16 +19,15 @@ import { User } from '@app/auth/models';
   templateUrl: './equipment-item.component.html',
   styleUrls: ['./equipment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CatalogController, { provide: MAT_DIALOG_DATA, useValue: {} }],
+  providers: [CatalogController],
 })
 export class EquipmentItemComponent implements OnInit {
-  @Select(AuthState.isUserPersonalData) isUserPersonalData$!: Observable<boolean>;
+  @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
   @Select(AuthState.user) user!: Observable<User>;
 
   @ViewChild('image') image?: ElementRef;
 
   equipment?: Equipment;
-  counter: number = 0;
   dayCases = dayCases;
   selectedRentPeriod: UnavailableDates | null = null;
 
@@ -38,6 +38,7 @@ export class EquipmentItemComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
     private readonly mainPageHeaderService: MainPageHeaderService,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   ngOnInit(): void {
@@ -62,29 +63,21 @@ export class EquipmentItemComponent implements OnInit {
   }
 
   createOrder(selectedRentPeriod: UnavailableDates, equipmentId?: number) {
-    if (equipmentId) {
-      this.isUserPersonalData$
-        .pipe(
-          switchMap((isPersonalData) => {
-            if (isPersonalData) {
-              return this.controller.openPersonalInfoModal();
-            } else {
-              return of(undefined);
-            }
-          }),
-          switchMap(() => this.controller.updateUserPersonalInfo()),
-          switchMap(() => this.isUserPersonalData$),
-          switchMap((isPersonalData) => {
-            if (isPersonalData) {
-              return this.controller.getCreatedOrder(selectedRentPeriod, equipmentId);
-            } else {
-              return of(undefined);
-            }
-          }),
-          untilDestroyed(this),
-        )
-        .subscribe();
-    }
+    if (!equipmentId) return;
+
+    this.hasUserPesonalData$
+      .pipe(
+        switchMap((isPersonalData) => {
+          return !isPersonalData ? this.controller.openPersonalInfoModal() : of(undefined);
+        }),
+        switchMap(() => this.controller.updateUserPersonalInfo()),
+        switchMap(() => this.hasUserPesonalData$),
+        switchMap((isPersonalData) => {
+          return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(undefined);
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe(() => this.notificationsService.openSuccess(NotificationSuccess.OrderSent));
   }
 
   private setPhoto(equipment: Equipment): void {

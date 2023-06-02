@@ -49,7 +49,7 @@ export class AuthState {
   }
 
   @Selector()
-  static isUserPersonalData(state: AuthStore): boolean {
+  static hasUserPesonalData(state: AuthStore): boolean {
     return !!(state.user?.name && state.user.surname && state.user.phone_number);
   }
 

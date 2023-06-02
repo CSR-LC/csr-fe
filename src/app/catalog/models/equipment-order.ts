@@ -1,8 +1,8 @@
 import { Equipment } from './equipment';
 import { OrderStatus } from './order-status';
-import { UserEmbeddable } from './user-embeddable';
+import { UserShortInfo } from './user-short-info';
 
-export type CreatedOrder = {
+export type EquipmentOrder = {
   description: string;
   equipments: Equipment;
   id: number;
@@ -11,5 +11,5 @@ export type CreatedOrder = {
   quantity: number;
   rent_end: string;
   rent_start: string;
-  user: UserEmbeddable;
+  user: UserShortInfo;
 };

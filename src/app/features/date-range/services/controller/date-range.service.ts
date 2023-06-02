@@ -33,11 +33,7 @@ export class DateRangeService {
       .afterClosed()
       .pipe(
         switchMap((period: UnavailableDates | null) => {
-          if (period) {
-            return of(period);
-          } else {
-            return of(null);
-          }
+          return period ? of(period) : of(null);
         }),
       );
   }

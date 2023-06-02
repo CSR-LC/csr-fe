@@ -1,7 +1,7 @@
-import { UserEmbeddable } from './user-embeddable';
+import { UserShortInfo } from './user-short-info';
 
 export type OrderStatus = {
-  changed_by: UserEmbeddable;
+  changed_by: UserShortInfo;
   comment: string;
   created_at: string;
   id: number;

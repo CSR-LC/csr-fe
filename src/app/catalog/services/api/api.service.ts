@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Equipment } from '../../models/equipment';
 import { BaseItemsResponse } from '@shared/types';
-import { Category, CreatedOrderRequest, CreatedOrder, EquipmentFilter } from '@app/catalog/models';
+import { Category, EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
 import { UnavailablePeriods } from '@app/features/date-range/models';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class ApiService {
     return this.httpClient.get<UnavailablePeriods>(`equipment/unavailability_periods/${equipmentId}`);
   }
 
-  getCreatedOrder(payload: CreatedOrderRequest): Observable<CreatedOrder> {
-    return this.httpClient.post<CreatedOrder>('v1/orders', payload);
+  getCreatedOrder(payload: EquipmentRentalInfo): Observable<EquipmentOrder> {
+    return this.httpClient.post<EquipmentOrder>('v1/orders', payload);
   }
 }

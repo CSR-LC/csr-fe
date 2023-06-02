@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatedOrderRequest, CreatedOrder, EquipmentFilter } from '@app/catalog/models';
+import { EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, switchMap } from 'rxjs';
@@ -60,8 +60,8 @@ export class ControllerService {
       );
   }
 
-  getCreatedOrder(selectedRentPeriod: UnavailableDates, equipmentId: number): Observable<CreatedOrder> {
-    const payload: CreatedOrderRequest = {
+  orderEquipment(selectedRentPeriod: UnavailableDates, equipmentId: number): Observable<EquipmentOrder> {
+    const payload: EquipmentRentalInfo = {
       description: 'description',
       equipment_id: equipmentId,
       rent_end: selectedRentPeriod.end_date,
@@ -71,7 +71,7 @@ export class ControllerService {
     return this.api.getCreatedOrder(payload);
   }
 
-  openPersonalInfoModal() {
+  openPersonalInfoModal(): Observable<void> {
     return this.personalInfoService.openPersonalInfoModal();
   }
 
