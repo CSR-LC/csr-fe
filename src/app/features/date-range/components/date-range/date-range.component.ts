@@ -77,6 +77,11 @@ export class DateRangeComponent {
     };
   }
 
+  resetSelectedPeriod() {
+    this.maxDate = new Date(this.currentYear + 1, this.currentMonth, this.currentDay - 1);
+    this.selectedRangeValue = new DateRange<Date>(null, null);
+  }
+
   private removeTime(date: Date | string): number {
     return new Date(date).setHours(0, 0, 0, 0);
   }

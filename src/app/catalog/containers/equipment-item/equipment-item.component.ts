@@ -70,14 +70,19 @@ export class EquipmentItemComponent implements OnInit {
         switchMap((isPersonalData) => {
           return !isPersonalData ? this.controller.openPersonalInfoModal() : of(undefined);
         }),
-        switchMap(() => this.controller.updateUserPersonalInfo()),
         switchMap(() => this.hasUserPesonalData$),
         switchMap((isPersonalData) => {
-          return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(undefined);
+          return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(null);
         }),
         untilDestroyed(this),
       )
-      .subscribe(() => this.notificationsService.openSuccess(NotificationSuccess.OrderSent));
+      .subscribe((isCreatedOreder) => {
+        if (isCreatedOreder) {
+          this.notificationsService.openSuccess(NotificationSuccess.OrderSent);
+          this.selectedRentPeriod = null;
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   private setPhoto(equipment: Equipment): void {
