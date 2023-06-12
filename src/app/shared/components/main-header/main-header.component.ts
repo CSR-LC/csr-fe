@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { AuthState } from '@app/auth/store';
 import { Observable } from 'rxjs';
@@ -14,4 +14,5 @@ export class MainHeaderComponent {
   public isAuthenticated$!: Observable<boolean>;
 
   @Input() pageTitle!: string;
+  @Output() toggleMenu = new EventEmitter<void>();
 }

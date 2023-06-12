@@ -1,0 +1,62 @@
+@import 'src/app/shared/styles/variables';
+
+:host {
+  ::ng-deep {
+    .mat-drawer-inner-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+  }
+
+  .sidenav .nav-head {
+    background: 24px center url("../../../../assets/img/logo-horizontal.svg") no-repeat;
+  }
+}
+
+.sidenav {
+  width: 256px;
+
+  .mat-toolbar {
+    background: inherit;
+  }
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.nav-list {
+  height: 100%;
+  padding: 12px;
+}
+
+.nav-head {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10px 0 24px;
+}
+
+.close .close-icon {
+  height: 32px;
+  width: 32px;
+  font-size: 32px;
+  color: $main;
+}
+
+.nav-link {
+  margin-top: 5px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+  background-color: $light-blue;
+  border-radius: 8px;
+}

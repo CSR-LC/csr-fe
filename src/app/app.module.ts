@@ -22,7 +22,6 @@ import { ApplicationDataState } from '@shared/store/application-data';
     HttpClientModule,
     NgxsModule.forRoot([AuthState, ApplicationDataState], ngxsConfig),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-
     BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,

@@ -20,7 +20,7 @@ export function UntilDestroy<T extends { new (...args: any[]): {} }>(constructor
   };
 }
 
-export function untilDestroyed(obj: any): MonoTypeOperatorFunction<unknown> {
+export function untilDestroyed<T>(obj: any): MonoTypeOperatorFunction<T> {
   const stream = obj[destroy$Prop];
   if (!stream) {
     throw new Error('The entity is not decorated with UntilDestroy decorator');
