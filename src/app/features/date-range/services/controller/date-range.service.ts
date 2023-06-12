@@ -48,7 +48,7 @@ export class DateRangeService {
 
     return this.hasUserPesonalData$.pipe(
       switchMap((isPersonalData) => {
-        return isPersonalData ? this.personalInfoService.openPersonalInfoModal() : of(null);
+        return !isPersonalData ? this.personalInfoService.openPersonalInfoModal() : of(null);
       }),
       switchMap(() => this.hasUserPesonalData$),
       switchMap((isPersonalData) => {
