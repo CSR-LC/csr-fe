@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PageForbiddenComponent } from './components/page-forbidden/page-forbidd
     PersonalInfoModalComponent,
     PublicOfferComponent,
     PageForbiddenComponent,
+    InfoModalComponent,
   ],
   exports: [
     NumberDeclensionPipe,

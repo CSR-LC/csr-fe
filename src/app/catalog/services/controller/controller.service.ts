@@ -10,6 +10,8 @@ import { UnavailableDates } from '@app/features/date-range/models';
 import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
 import { User } from '@app/auth/models';
 import { UserAction } from '@app/auth/store';
+import { InfoService } from '@app/shared/services/info/info.service';
+import { InfoData } from '@app/shared/models';
 
 @Injectable()
 export class ControllerService {
@@ -20,6 +22,7 @@ export class ControllerService {
     private store: Store,
     private dateRangeService: DateRangeService,
     private personalInfoService: PersonalInfoService,
+    private infoService: InfoService,
   ) {}
 
   getCatalog() {
@@ -71,15 +74,24 @@ export class ControllerService {
     return this.api.getCreatedOrder(payload);
   }
 
-  openPersonalInfoModal(): Observable<void> {
-    return this.personalInfoService.openPersonalInfoModal();
-  }
-
   updateUserPersonalInfo(): Observable<void> {
     return this.personalInfoService.updateUserPersonalInfo();
   }
 
   setUser(user: User) {
     return this.store.dispatch(new UserAction(user));
+  }
+
+  openInfoModal() {
+    const infoData: InfoData = {
+      headerText: 'Спасибо!',
+      infoMessage: `Вы успешно отправили заявку на аренду оборудования. Наши менеджеры скоро свяжутся с Вами.
+      Историю и статус ваших заявок вы можете посмотреть в разделе`,
+      buttonOkText: 'Ок',
+      infoLink: `Мои
+      заявки`,
+    };
+
+    this.infoService.openInfoModal(infoData);
   }
 }

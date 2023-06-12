@@ -68,10 +68,6 @@ export class EquipmentItemComponent implements OnInit {
     this.hasUserPesonalData$
       .pipe(
         switchMap((isPersonalData) => {
-          return !isPersonalData ? this.controller.openPersonalInfoModal() : of(undefined);
-        }),
-        switchMap(() => this.hasUserPesonalData$),
-        switchMap((isPersonalData) => {
           return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(null);
         }),
         untilDestroyed(this),
@@ -79,6 +75,7 @@ export class EquipmentItemComponent implements OnInit {
       .subscribe((isCreatedOreder) => {
         if (isCreatedOreder) {
           this.notificationsService.openSuccess(NotificationSuccess.OrderSent);
+          this.controller.openInfoModal();
           this.selectedRentPeriod = null;
           this.cdr.markForCheck();
         }

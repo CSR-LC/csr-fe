@@ -3,12 +3,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, of, switchMap } from 'rxjs';
 import { DateRangeComponent } from '../../components/date-range/date-range.component';
 import { UnavailableDates } from '../../models';
+import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
+import { AuthState } from '@app/auth/store';
+import { Select } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DateRangeService {
-  constructor(private dialog: MatDialog) {}
+  @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
+
+  constructor(private dialog: MatDialog, private personalInfoService: PersonalInfoService) {}
 
   openDateRangeModal(
     unavailableDates: UnavailableDates[],
@@ -33,8 +38,22 @@ export class DateRangeService {
       .afterClosed()
       .pipe(
         switchMap((period: UnavailableDates | null) => {
-          return period ? of(period) : of(null);
+          return this.addPersonalInfo(period);
         }),
       );
+  }
+
+  private addPersonalInfo(period: UnavailableDates | null): Observable<UnavailableDates | null> {
+    if (!period) return of(null);
+
+    return this.hasUserPesonalData$.pipe(
+      switchMap((isPersonalData) => {
+        return isPersonalData ? this.personalInfoService.openPersonalInfoModal() : of(null);
+      }),
+      switchMap(() => this.hasUserPesonalData$),
+      switchMap((isPersonalData) => {
+        return isPersonalData ? of(period) : of(null);
+      }),
+    );
   }
 }
