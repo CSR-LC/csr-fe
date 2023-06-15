@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
 import { User } from '@app/auth/models';
-import { UserAction } from '@app/auth/store';
+import { AuthState, UserAction } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
+  @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
 
   constructor(
     private api: CatalogApi,
@@ -56,11 +57,20 @@ export class ControllerService {
   }
 
   getRentPeriods(equipmentId?: number, maxRentalPeriod?: number): Observable<UnavailableDates | null> {
-    return this.api
-      .getUnavailablePeriods(equipmentId)
-      .pipe(
-        switchMap((periods) => this.dateRangeService.openDateRangeModal(periods.items, equipmentId, maxRentalPeriod)),
-      );
+    if (!maxRentalPeriod) return of(null);
+
+    return this.api.getUnavailablePeriods(equipmentId).pipe(
+      switchMap((periods) => {
+        const dateRangeData = {
+          headerText: 'Период аренды',
+          buttonText: 'Подтвердить период аренды',
+          maxRentalPeriod,
+          unavailableDates: periods.items,
+        };
+
+        return this.dateRangeService.openDateRangeModal(dateRangeData);
+      }),
+    );
   }
 
   orderEquipment(selectedRentPeriod: UnavailableDates, equipmentId: number): Observable<EquipmentOrder> {
@@ -93,5 +103,19 @@ export class ControllerService {
     };
 
     this.infoService.openInfoModal(infoData);
+  }
+
+  addPersonalInfo(period: UnavailableDates | null): Observable<UnavailableDates | null> {
+    if (!period) return of(null);
+
+    return this.hasUserPesonalData$.pipe(
+      switchMap((isPersonalData) => {
+        return !isPersonalData ? this.personalInfoService.openPersonalInfoModal() : of(null);
+      }),
+      switchMap(() => this.hasUserPesonalData$),
+      switchMap((isPersonalData) => {
+        return isPersonalData ? of(period) : of(null);
+      }),
+    );
   }
 }

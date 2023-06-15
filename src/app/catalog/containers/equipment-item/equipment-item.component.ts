@@ -55,7 +55,10 @@ export class EquipmentItemComponent implements OnInit {
   getSelectedRentPeriod(equipmentId?: number, maxRentalPeriod?: number) {
     this.controller
       .getRentPeriods(equipmentId, maxRentalPeriod)
-      .pipe(untilDestroyed(this))
+      .pipe(
+        switchMap((period) => this.controller.addPersonalInfo(period)),
+        untilDestroyed(this),
+      )
       .subscribe((period) => {
         this.selectedRentPeriod = <UnavailableDates | null>period;
         this.cdr.markForCheck();

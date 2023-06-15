@@ -20,7 +20,7 @@
       mat-raised-button
       color="primary"
       class="button-cancel"
-      [mat-dialog-close]
+      [mat-dialog-close]="false"
       type="button"
     >
       {{ infoData.buttonCancelText }}
@@ -29,7 +29,7 @@
       mat-raised-button
       color="primary"
       class="button-confirm"
-      [mat-dialog-close]
+      [mat-dialog-close]="true"
       type="button"
     >
       {{ infoData.buttonOkText }}
