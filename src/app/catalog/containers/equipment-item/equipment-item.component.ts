@@ -55,7 +55,10 @@ export class EquipmentItemComponent implements OnInit {
   getSelectedRentPeriod(equipmentId?: number, maxRentalPeriod?: number) {
     this.controller
       .getRentPeriods(equipmentId, maxRentalPeriod)
-      .pipe(untilDestroyed(this))
+      .pipe(
+        switchMap((period) => this.controller.addPersonalInfo(period)),
+        untilDestroyed(this),
+      )
       .subscribe((period) => {
         this.selectedRentPeriod = <UnavailableDates | null>period;
         this.cdr.markForCheck();
@@ -68,16 +71,18 @@ export class EquipmentItemComponent implements OnInit {
     this.hasUserPesonalData$
       .pipe(
         switchMap((isPersonalData) => {
-          return !isPersonalData ? this.controller.openPersonalInfoModal() : of(undefined);
-        }),
-        switchMap(() => this.controller.updateUserPersonalInfo()),
-        switchMap(() => this.hasUserPesonalData$),
-        switchMap((isPersonalData) => {
-          return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(undefined);
+          return isPersonalData ? this.controller.orderEquipment(selectedRentPeriod, equipmentId) : of(null);
         }),
         untilDestroyed(this),
       )
-      .subscribe(() => this.notificationsService.openSuccess(NotificationSuccess.OrderSent));
+      .subscribe((isCreatedOreder) => {
+        if (isCreatedOreder) {
+          this.notificationsService.openSuccess(NotificationSuccess.OrderSent);
+          this.controller.openInfoModal();
+          this.selectedRentPeriod = null;
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   private setPhoto(equipment: Equipment): void {

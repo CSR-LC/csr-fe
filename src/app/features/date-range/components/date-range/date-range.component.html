@@ -5,9 +5,20 @@
   </div>
   <div class="date-range-calendar">
     <div class="date-range-calendar-card">
-      <div class="period">
-        <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }} - </span>
-        <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
+      <div class="date-period">
+        <div class="period">
+          <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }}</span>
+          <span *ngIf="selectedRangeValue?.start"> - </span>
+          <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
+        </div>
+        <button
+          *ngIf="selectedRangeValue?.start && selectedRangeValue?.end"
+          mat-flat-button
+          class="reset-period"
+          (click)="resetSelectedPeriod()"
+        >
+          Сбросить период
+        </button>
       </div>
       <mat-calendar
         [dateFilter]="isDateUnavailable"
