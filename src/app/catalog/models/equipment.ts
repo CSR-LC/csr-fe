@@ -23,3 +23,8 @@ export type Equipment = {
   termsOfUse: string;
   title: string;
 };
+
+export type EquipmentAvailability = {
+  endDate: Date;
+  startDate: Date;
+};

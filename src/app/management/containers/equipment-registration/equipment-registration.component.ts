@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { map, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 
 import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
 import { ControllerService } from '../../services/controller/controller.service';
