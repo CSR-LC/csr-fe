@@ -1,5 +1,6 @@
 export enum UserRole {
-  admin = 'administrator',
-  manager = 'manager',
-  default = 'default',
+  admin = 'Администратор',
+  manager = 'Менеджер',
+  operator = 'Оператор',
+  user = 'Пользователь',
 }

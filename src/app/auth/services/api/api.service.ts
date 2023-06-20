@@ -18,6 +18,12 @@ export class ApiService {
     return this.http.post<SignupResponse>('v1/users', signUpInfo);
   }
 
+  logout(refreshToken: string): Observable<string> {
+    const payLoad = { refreshToken };
+
+    return this.http.post<string>('v1/logout', payLoad);
+  }
+
   refreshToken(refreshToken: string): Observable<Tokens> {
     const payLoad = { refreshToken };
     return this.http.post<Tokens>('v1/refresh', payLoad);

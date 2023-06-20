@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { ClearLoginData } from '@app/auth/store';
 

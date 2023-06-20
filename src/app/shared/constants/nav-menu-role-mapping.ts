@@ -1,38 +1,52 @@
 import { NavigationLink } from '../types/navigation-link';
+import { AppRoutes } from './routes.enum';
 import { UserRole } from './user-role.enum';
 
-const defaultRoutes: NavigationLink[] = [
+const userRoutes: NavigationLink[] = [
   {
     name: 'Каталог',
-    route: 'catalog/categories',
+    route: AppRoutes.Catalog,
   },
   {
     name: 'Профиль',
-    route: 'profile',
+    route: AppRoutes.Profile,
   },
   {
     name: 'Мои заявки',
-    route: 'profile/requests',
+    route: 'profile/requests', //TBD
   },
 ];
 
 const adminRoutes = [
   {
-    name: 'Admin',
-    route: 'categories',
+    name: 'Каталог',
+    route: AppRoutes.Catalog,
   },
   {
     name: 'Профиль',
-    route: 'profile',
+    route: AppRoutes.Profile,
   },
   {
     name: 'Мои заявки',
-    route: 'profile/requests',
+    route: 'profile/requests', //TBD
+  },
+  {
+    name: 'Роли',
+    route: 'roles', //TBD
+  },
+  {
+    name: 'Пользователи',
+    route: AppRoutes.Users,
+  },
+  {
+    name: 'Оборудование',
+    route: AppRoutes.Equipments,
   },
 ];
 
 export const navLinksMap = new Map([
-  [UserRole.default, defaultRoutes],
+  [UserRole.user, userRoutes],
   [UserRole.admin, adminRoutes],
   [UserRole.manager, adminRoutes],
+  [UserRole.operator, adminRoutes],
 ]);

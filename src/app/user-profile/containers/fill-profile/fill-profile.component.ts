@@ -5,6 +5,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
 import { User } from '../../models/user';
 import { UserController } from '../../services';
+import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 
 @Component({
   selector: 'lc-fill-profile',
@@ -18,7 +19,12 @@ export class FillProfileComponent {
 
   activeAreas = this.loadActiveAreas();
 
-  constructor(private readonly controller: UserController) {}
+  constructor(
+    private readonly controller: UserController,
+    private readonly mainPageHeaderService: MainPageHeaderService,
+  ) {
+    this.mainPageHeaderService.setPageTitle('Профиль');
+  }
 
   userInfoForm = new FormGroup({
     surname: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),

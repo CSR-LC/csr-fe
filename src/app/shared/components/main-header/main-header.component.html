@@ -1,4 +1,4 @@
-<header class="main-header" *ngIf="isAuthenticated$ | async">
+<header class="main-header">
   <button
     type="button"
     aria-label="toggle side navigation"
@@ -7,5 +7,5 @@
   >
     <mat-icon>menu</mat-icon>
   </button>
-  <h1 class="main-header__title">{{pageTitle}}</h1>
+  <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
 </header>
