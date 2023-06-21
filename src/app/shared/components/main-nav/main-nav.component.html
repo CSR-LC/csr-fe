@@ -15,7 +15,7 @@
         <span *ngIf="roleLinks.length" class="separator"></span>
         <a *ngFor="let link of roleLinks" class="nav-link" mat-list-item [routerLink]="link.route" [routerLinkActive]="['active']" (click)="drawer.toggle()">{{link.name}}</a>
       </mat-nav-list>
-      <button>Выйти</button>
+      <button type="button" class="logout-btn" (click)="logout(); drawer.toggle()">Выйти</button>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>

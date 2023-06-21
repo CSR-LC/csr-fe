@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Tokens, User } from '../models';
 import { rememberMeAction, ClearLoginData, Login, Logout, TokensAction, UserAction } from './actions';
 import { AuthApi } from '../services';
-import { finalize, tap, timeout } from 'rxjs';
+import { tap } from 'rxjs';
 import { LocalStorageKey } from '@shared/constants';
 
 export type AuthStore = {
@@ -63,15 +63,12 @@ export class AuthState {
   logout(ctx: StateContext<AuthStore>) {
     const { refreshToken } = <Tokens>AuthState.tokens(ctx.getState());
 
-    return this.authApi.logout(refreshToken).pipe(
-      timeout(3000),
-      finalize(() => {
-        localStorage.clear();
-        ctx.patchState({
-          ...defaults,
-        });
-      }),
-    );
+    localStorage.clear();
+    ctx.patchState({
+      ...defaults,
+    });
+
+    return this.authApi.logout(refreshToken);
   }
 
   @Action(ClearLoginData)
