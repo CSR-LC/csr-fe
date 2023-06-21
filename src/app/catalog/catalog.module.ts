@@ -14,6 +14,7 @@ import { CategoriesComponent } from './containers/categories/categories.componen
 import { CategorySetComponent } from './containers/category-set/category-set.component';
 import { CategoryTabComponent } from './components/category-tab/category-tab.component';
 import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
+import { DateRangeModule } from '@app/features/date-range/date-range-module.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,14 @@ import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
     CategoryTabComponent,
     CategoryPathPipe,
   ],
-  imports: [CommonModule, CatalogRoutingModule, SharedModule, MaterialModule, NgxsModule.forFeature([CatalogState])],
+  imports: [
+    CommonModule,
+    CatalogRoutingModule,
+    SharedModule,
+    DateRangeModule,
+    MaterialModule,
+    NgxsModule.forFeature([CatalogState]),
+  ],
   providers: [CatalogApi],
 })
 export class CatalogModule {}

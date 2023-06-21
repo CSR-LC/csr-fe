@@ -11,6 +11,7 @@
 
 html, body {
   min-height: 100vh;
+  height: 100%;
 }
 
 body {
@@ -19,6 +20,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-style: normal;
   margin: 0;
+}
+
+lc-root {
+  height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {

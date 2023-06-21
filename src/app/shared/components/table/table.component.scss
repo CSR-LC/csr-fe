@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  table {
+    width: 100%;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 0 8px;
+  }
+
+  .mat-header-cell:first-child,
+  .mat-cell:first-child {
+    padding-left: 16px;
+  }
+
+  .mat-header-cell:last-child,
+  .mat-cell:last-child {
+    padding-right: 16px;
+  }
+
+  .mat-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

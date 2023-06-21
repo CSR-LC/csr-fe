@@ -13,7 +13,20 @@ import { PersonalInfoModalComponent } from './components/personal-info-modal/per
 import { ReactiveFormsModule } from '@angular/forms';
 import { NumberDeclensionPipe } from '@shared/pipes/number-declension/number-declesion.pipe';
 import { PublicOfferComponent } from '@shared/components/public-offer/public-offer.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { FakeInputComponent } from '@shared/components/fake-input/fake-input.component';
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { TableComponent } from './components/table/table.component';
+import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -26,7 +39,12 @@ import { PageForbiddenComponent } from './components/page-forbidden/page-forbidd
     NotificationComponent,
     PersonalInfoModalComponent,
     PublicOfferComponent,
+    ConfirmationModalComponent,
+    FakeInputComponent,
     PageForbiddenComponent,
+    InfoModalComponent,
+    TableComponent,
+    MainNavComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -35,7 +53,27 @@ import { PageForbiddenComponent } from './components/page-forbidden/page-forbidd
     ValidationErrorsDirective,
     BlockUiComponent,
     MatSnackBarModule,
+    FakeInputComponent,
+    MaterialModule,
+    MatPaginatorModule,
+    MatTableModule,
+    TableComponent,
+    MainNavComponent,
   ],
-  imports: [CommonModule, RouterModule, MaterialModule, MatSnackBarModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+  ],
 })
 export class SharedModule {}

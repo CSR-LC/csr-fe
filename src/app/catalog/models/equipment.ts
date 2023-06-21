@@ -1,22 +1,30 @@
+// necessary to be corrected
 export type Equipment = {
   category: number;
   compensationCost: number;
   condition: string;
   description: string;
-  inventoryNumber: number;
   id: number;
-  kind: number;
-  location: number | null;
-  maximumAmount: number;
+  inventoryNumber: number;
+  location: number;
   maximumDays: number;
   name: string;
   name_substring: string;
-  order: number;
-  photo: string;
+  petKinds: {
+    name: string;
+  }[];
+  petSize: number;
   photoID: string;
-  receiptDate: string;
+  receiptDate: number;
   status: number;
+  subcategory: number;
   supplier: string;
-  title: string;
   technicalIssues: boolean;
+  termsOfUse: string;
+  title: string;
+};
+
+export type EquipmentAvailability = {
+  endDate: Date;
+  startDate: Date;
 };

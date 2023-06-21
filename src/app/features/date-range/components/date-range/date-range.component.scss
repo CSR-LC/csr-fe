@@ -1,0 +1,67 @@
+@import "./src/app/shared/styles/variables";
+
+.date-range {
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 24px 0 24px;
+    font-size: 20px;
+    .icon {
+      cursor: pointer;
+    }
+  }
+  &-title {
+    margin: 0px;
+  }
+  &-calendar {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    padding-top: 17px;
+    &-card {
+      background: #F7F7F7;;
+    }
+    .date-period {
+      display: flex;
+      justify-content: space-between;
+      padding:  9px 9px 0 9px;
+      .period {
+        font-weight: 500;
+        font-size: 16px;
+        height: 20px;
+      }
+      .reset-period {
+        height: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        font-size: 16px;
+      }
+    }
+  }
+  &-button {
+    display: flex;
+    margin: 0 auto;
+    padding: 24px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .button-confirm {
+      height: 56px;
+      padding: 0 16px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      width: 100%;
+      font-weight: 400;
+      background-color: $color-title;
+      color: $color-bg-base;
+    }
+  }
+  .mat-calendar {
+    width: 360px;
+    height: 405px;
+  }
+}

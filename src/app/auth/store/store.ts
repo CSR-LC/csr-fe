@@ -48,6 +48,11 @@ export class AuthState {
     return state.rememberMe;
   }
 
+  @Selector()
+  static hasUserPesonalData(state: AuthStore): boolean {
+    return !!(state.user?.name && state.user.surname && state.user.phone_number);
+  }
+
   constructor(private readonly authApi: AuthApi) {}
 
   @Action(Login)
@@ -61,10 +66,14 @@ export class AuthState {
 
   @Action(Logout)
   logout(ctx: StateContext<AuthStore>) {
+    const { refreshToken } = <Tokens>AuthState.tokens(ctx.getState());
+
     localStorage.clear();
     ctx.patchState({
       ...defaults,
     });
+
+    return this.authApi.logout(refreshToken);
   }
 
   @Action(ClearLoginData)

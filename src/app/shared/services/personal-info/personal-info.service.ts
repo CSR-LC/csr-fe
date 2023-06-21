@@ -4,12 +4,14 @@ import { PersonalInfoModalComponent } from '@shared/components/personal-info-mod
 import { Observable, of, switchMap } from 'rxjs';
 import { ApiService } from '@app/auth/services/api/api.service';
 import { UserPersonalInfo } from '@app/shared/constants/personal-info';
+import { Store } from '@ngxs/store';
+import { UserAction } from '@app/auth/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PersonalInfoService {
-  constructor(private readonly dialog: MatDialog, private readonly api: ApiService) {}
+  constructor(private readonly dialog: MatDialog, private readonly api: ApiService, private readonly store: Store) {}
 
   openPersonalInfoModal(): Observable<void> {
     return this.dialog
@@ -17,7 +19,6 @@ export class PersonalInfoService {
         width: '100vw',
         maxWidth: '100vw',
         autoFocus: false,
-        position: { bottom: '0' },
       })
       .afterClosed()
       .pipe(
@@ -28,6 +29,15 @@ export class PersonalInfoService {
             return of(undefined);
           }
         }),
+        switchMap(() => this.updateUserPersonalInfo()),
       );
+  }
+
+  updateUserPersonalInfo(): Observable<void> {
+    return this.api.getCurrentUser().pipe(
+      switchMap((user) => {
+        return this.store.dispatch(new UserAction(user));
+      }),
+    );
   }
 }

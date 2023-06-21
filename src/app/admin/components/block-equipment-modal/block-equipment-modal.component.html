@@ -1,0 +1,43 @@
+<div class="header">
+  <h3>{{ ModalEnum.BlockTitle }}</h3>
+  <i [mat-dialog-close]="false"></i>
+</div>
+<div class="separator"></div>
+<div class="content">
+  <lc-fake-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-fake-input>
+  <lc-fake-input
+    *ngIf="equipment.name_substring"
+    [label]="LabelEnum.NameSubstring"
+    [text]="equipment.name_substring"
+  ></lc-fake-input>
+  <lc-fake-input
+    *ngIf="equipment.inventoryNumber"
+    [label]="LabelEnum.InventoryNumber"
+    [text]="inventoryNumber"
+  ></lc-fake-input>
+  <form [formGroup]="form">
+    <mat-form-field class="date" appearance="fill" >
+      <mat-label>Начало</mat-label>
+      <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" lcValidationErrors/>
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="date" appearance="fill" >
+      <mat-label>Конец</mat-label>
+      <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" [matDatepickerFilter]="endDateFilter" lcValidationErrors/>
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</div>
+<div class="separator"></div>
+<div class="buttons-wrapper">
+  <div class="buttons">
+    <button mat-button class="cancel" [mat-dialog-close]="false">
+      {{ ModalEnum.BlockCancelButtonText }}
+    </button>
+    <button mat-raised-button color="primary" (click)="onClose()">
+      {{ ModalEnum.BlockApplyButtonText }}
+    </button>
+  </div>
+</div>

@@ -1,14 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from '@app/admin/containers/admin/admin.component';
+import { EquipmentsComponent } from '@app/admin/containers/equipments/equipments.component';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 import { AdminGuard } from '@app/shared/guards/admin.guard';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: AppRoutes.Equipments,
+  },
+  {
+    path: AppRoutes.Equipments,
     pathMatch: 'full',
-    component: AdminComponent,
-    canActivate: [AdminGuard],
+    component: EquipmentsComponent,
+    //canActivate: [AdminGuard],
+  },
+  {
+    path: AppRoutes.Users,
+    pathMatch: 'full',
+    component: EquipmentsComponent,
+    //canActivate: [AdminGuard],
   },
 ];
 

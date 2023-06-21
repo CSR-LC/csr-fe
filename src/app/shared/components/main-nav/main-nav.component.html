@@ -1,0 +1,27 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
+      [autoFocus]="false"
+      [attr.role]="'dialog'"
+      [mode]="'over'"
+      [opened]="false">
+    <div class="nav-wrapper">
+      <mat-toolbar class="nav-head">
+        <button type="button" class="close" mat-icon-button (click)="drawer.toggle()">
+          <mat-icon class="close-icon">close</mat-icon>
+        </button>
+      </mat-toolbar>
+      <mat-nav-list class="nav-list">
+        <a *ngFor="let link of links" class="nav-link" mat-list-item [routerLink]="link.route" [routerLinkActive]="['active']" (click)="drawer.toggle()">{{link.name}}</a>
+        <span *ngIf="roleLinks.length" class="separator"></span>
+        <a *ngFor="let link of roleLinks" class="nav-link" mat-list-item [routerLink]="link.route" [routerLinkActive]="['active']" (click)="drawer.toggle()">{{link.name}}</a>
+      </mat-nav-list>
+      <button type="button" class="logout-btn" (click)="logout(); drawer.toggle()">Выйти</button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar *ngIf="isAuthenticated$ | async" color="primary">
+      <lc-main-header (toggleMenu)="drawer.toggle()"></lc-main-header>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
