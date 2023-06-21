@@ -16,6 +16,7 @@ import { PublicOfferComponent } from '@shared/components/public-offer/public-off
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { FakeInputComponent } from '@shared/components/fake-input/fake-input.component';
 import { PageForbiddenComponent } from './components/page-forbidden/page-forbidden.component';
+import { InfoModalComponent } from './components/info-modal/info-modal.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { TableComponent } from './components/table/table.component';
@@ -34,6 +35,7 @@ import { TableComponent } from './components/table/table.component';
     ConfirmationModalComponent,
     FakeInputComponent,
     PageForbiddenComponent,
+    InfoModalComponent,
     TableComponent,
   ],
   exports: [

@@ -1,0 +1,44 @@
+<section class="date-range">
+  <div class="date-range-header">
+    <h2 class="date-range-title">{{ dateRangeData.headerText }}</h2>
+    <mat-icon class="icon" [mat-dialog-close]="false">close</mat-icon>
+  </div>
+  <div class="date-range-calendar">
+    <div class="date-range-calendar-card">
+      <div class="date-period">
+        <div class="period">
+          <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }}</span>
+          <span *ngIf="selectedRangeValue?.start"> - </span>
+          <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
+        </div>
+        <button
+          *ngIf="selectedRangeValue?.start && selectedRangeValue?.end"
+          mat-flat-button
+          class="reset-period"
+          (click)="resetSelectedPeriod()"
+        >
+          Сбросить период
+        </button>
+      </div>
+      <mat-calendar
+        [dateFilter]="isDateUnavailable"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [selected]="selectedRangeValue"
+        (selectedChange)="selectedDateRange($event)"
+      >
+      </mat-calendar>
+    </div>
+  </div>
+  <div class="date-range-button">
+    <button
+      mat-raised-button
+      color="primary"
+      class="button-confirm"
+      [mat-dialog-close]="getSelectedRentalDate(selectedRangeValue)"
+      type="button"
+    >
+      {{ dateRangeData.buttonText }}
+    </button>
+  </div>
+</section>
