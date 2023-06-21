@@ -1,9 +1,11 @@
-<section class="main-header" *ngIf="isAuthenticated$ | async">
-  <a routerLink="/catalog">
-    <img src="assets/img/icons/icon-home.svg" alt="home page"/>
-  </a>
-  <h1 class="main-header__title">{{pageTitle}}</h1>
-  <a routerLink="/auth">
-    <img src="assets/img/icons/icon-avatar.svg" alt="avatar"/>
-  </a>
-</section>
+<header class="main-header">
+  <button
+    type="button"
+    aria-label="toggle side navigation"
+    mat-icon-button
+    (click)="toggleMenu.emit()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
+</header>

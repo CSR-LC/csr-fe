@@ -10,7 +10,7 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     const user = this.store.selectSnapshot(AuthState.user);
-    if (user?.role?.slug === UserRole.admin) {
+    if (user?.role?.name === UserRole.admin) {
       return true;
     }
     return this.router.parseUrl('/forbidden');

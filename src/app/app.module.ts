@@ -23,7 +23,6 @@ import { DateRangeModule } from './features/date-range/date-range-module.module'
     HttpClientModule,
     NgxsModule.forRoot([AuthState, ApplicationDataState], ngxsConfig),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-
     BrowserAnimationsModule,
     DateRangeModule,
     SharedModule,

@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { AuthState } from '@app/auth/store';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 
 @Component({
   selector: 'lc-main-header',
@@ -10,8 +8,8 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainHeaderComponent {
-  @Select(AuthState.isAuthenticated)
-  public isAuthenticated$!: Observable<boolean>;
+  public pageTitle$ = this.mainPageHeaderService.getPageTitle();
+  @Output() toggleMenu = new EventEmitter<void>();
 
-  @Input() pageTitle!: string;
+  constructor(private readonly mainPageHeaderService: MainPageHeaderService) {}
 }

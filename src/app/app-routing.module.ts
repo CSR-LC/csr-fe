@@ -7,6 +7,7 @@ import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
 import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
+import { AppRoutes } from './shared/constants/routes.enum';
 
 const routes: Routes = [
   {
@@ -29,29 +30,29 @@ const routes: Routes = [
         redirectTo: 'catalog/categories',
       },
       {
-        path: 'catalog',
+        path: AppRoutes.Catalog,
         loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
       },
       {
-        path: 'management',
+        path: AppRoutes.Management,
         loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
       },
       {
-        path: 'profile',
+        path: AppRoutes.Profile,
         loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
       },
       {
-        path: 'admin',
+        path: AppRoutes.Admin,
         loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
       },
     ],
   },
   {
-    path: 'public-offer',
+    path: AppRoutes.PublicOffer,
     component: PublicOfferComponent,
   },
   {
-    path: 'forbidden',
+    path: AppRoutes.Forbidden,
     component: PageForbiddenComponent,
   },
   {

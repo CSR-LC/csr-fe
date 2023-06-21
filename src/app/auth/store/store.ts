@@ -66,10 +66,14 @@ export class AuthState {
 
   @Action(Logout)
   logout(ctx: StateContext<AuthStore>) {
+    const { refreshToken } = <Tokens>AuthState.tokens(ctx.getState());
+
     localStorage.clear();
     ctx.patchState({
       ...defaults,
     });
+
+    return this.authApi.logout(refreshToken);
   }
 
   @Action(ClearLoginData)

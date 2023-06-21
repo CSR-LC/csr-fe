@@ -1,0 +1,94 @@
+@import 'src/app/shared/styles/variables';
+
+:host {
+  .sidenav .nav-head {
+    background: 12px center url("../../../../assets/img/logo-horizontal.svg") no-repeat;
+  }
+}
+
+.nav-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 12px;
+}
+
+.sidenav {
+  width: 256px;
+
+  .mat-toolbar {
+    background: inherit;
+  }
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.nav-list {
+  height: 100%;
+  padding: 12px 0;
+}
+
+.nav-head {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.close {
+  height: 32px;
+  width: 32px;
+}
+
+.close .close-icon {
+  height: 32px;
+  width: 32px;
+  font-size: 32px;
+  color: $main;
+}
+
+.nav-link {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.nav-link.active,
+.nav-link:hover,
+.logout-btn:hover {
+  background-color: $light-blue;
+  border-radius: 8px;
+}
+
+.separator {
+  display: block;
+  height: 1px;
+  margin: 10px 0;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.logout-btn {
+  border: none;
+  background-color: white;
+  display: inline-block;
+  width: 100px;
+  height: 50px;
+  padding: 10px;
+  margin-left: 10px;
+  text-align: right;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: 'Roboto';
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  color: $main;
+  cursor: pointer;
+  background: 10px center url("../../../../assets/img/icons/logout.svg") no-repeat;
+}

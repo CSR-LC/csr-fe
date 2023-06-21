@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CatalogComponent, EquipmentItemComponent } from '@app/catalog/containers';
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategoriesResolver } from './resolver/categories.resolver';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'categories',
+    path: AppRoutes.Categories,
     resolve: {
       activeCategories: CategoriesResolver,
     },
