@@ -19,10 +19,14 @@ export class MainNavComponent implements OnInit {
   @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
   @Select(AuthState.user) user$!: Observable<User>;
   public links: NavigationLink[] = [];
+  public roleLinks: NavigationLink[] = [];
 
   public ngOnInit(): void {
     this.user$.pipe(untilDestroyed(this)).subscribe((user: User) => {
-      this.links = <NavigationLink[]>navLinksMap.get(user?.role.name ?? UserRole.user);
+      const role = user?.role.name;
+
+      this.links = <NavigationLink[]>navLinksMap.get(UserRole.user);
+      this.roleLinks = role && role !== UserRole.user ? <NavigationLink[]>navLinksMap.get(role) : [];
     });
   }
 }

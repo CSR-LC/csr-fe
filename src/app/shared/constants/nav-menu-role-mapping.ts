@@ -19,18 +19,6 @@ const userRoutes: NavigationLink[] = [
 
 const adminRoutes = [
   {
-    name: 'Каталог',
-    route: AppRoutes.Catalog,
-  },
-  {
-    name: 'Профиль',
-    route: AppRoutes.Profile,
-  },
-  {
-    name: 'Мои заявки',
-    route: 'profile/requests', //TBD
-  },
-  {
     name: 'Роли',
     route: 'roles', //TBD
   },
