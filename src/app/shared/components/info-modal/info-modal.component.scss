@@ -8,12 +8,17 @@
   &-header {
     display: flex;
     justify-content: space-between;
-    height: 40px;
     align-items: center;
-    margin-bottom: 17px;
+    border-bottom: 1px solid #CFDBE5;
+    padding: 24px 24px 17px 24px;
+    height: 81px;
 
     .title {
       margin: 0;
+    }
+
+    .icon {
+      cursor: pointer;
     }
   }
 
@@ -22,7 +27,7 @@
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0.5px;
-    padding: 24px 0 32px 0;
+    margin: 24px 24px 8px 24px;
 
     .message {
       display: inline;
@@ -42,6 +47,7 @@
     gap: 20px;
     display: flex;
     justify-content: space-between;
+    margin: 24px;
 
     .button-cancel {
       text-transform: uppercase;
