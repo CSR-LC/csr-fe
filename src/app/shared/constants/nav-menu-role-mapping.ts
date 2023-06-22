@@ -17,18 +17,18 @@ const userRoutes: NavigationLink[] = [
   },
 ];
 
-const adminRoutes = [
+const adminRoutes: NavigationLink[] = [
   {
     name: 'Роли',
-    route: 'roles', //TBD
+    route: `${AppRoutes.Admin}/${AppRoutes.Roles}`, //TBD
   },
   {
     name: 'Пользователи',
-    route: AppRoutes.Users,
+    route: `${AppRoutes.Admin}/${AppRoutes.Users}`,
   },
   {
     name: 'Оборудование',
-    route: AppRoutes.Equipments,
+    route: `${AppRoutes.Admin}/${AppRoutes.Equipments}`,
   },
 ];
 

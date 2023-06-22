@@ -8,6 +8,7 @@ import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
 import { AppRoutes } from './shared/constants/routes.enum';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 const routes: Routes = [
   {
@@ -43,6 +44,7 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.Admin,
+        canActivate: [AdminGuard],
         loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
       },
     ],
