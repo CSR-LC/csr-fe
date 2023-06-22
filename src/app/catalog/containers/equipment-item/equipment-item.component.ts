@@ -77,7 +77,6 @@ export class EquipmentItemComponent implements OnInit {
       )
       .subscribe((isCreatedOreder) => {
         if (isCreatedOreder) {
-          this.notificationsService.openSuccess(NotificationSuccess.OrderSent);
           this.controller.openInfoModal();
           this.selectedRentPeriod = null;
           this.cdr.markForCheck();
