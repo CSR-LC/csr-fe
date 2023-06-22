@@ -12,7 +12,7 @@ import { AdminGuard } from './shared/guards/admin.guard';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: AppRoutes.Auth,
     pathMatch: 'full',
     canActivate: [TokensGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
@@ -28,7 +28,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'catalog/categories',
+        redirectTo: `${AppRoutes.Catalog}/${AppRoutes.Categories}`,
       },
       {
         path: AppRoutes.Catalog,
