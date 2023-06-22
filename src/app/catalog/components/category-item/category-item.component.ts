@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Category } from '@app/catalog/models';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @Component({
   selector: 'lc-category-item',
@@ -9,4 +10,5 @@ import { Category } from '@app/catalog/models';
 })
 export class CategoryItemComponent {
   @Input() item?: Category;
+  readonly catalogPath = `${AppRoutes.Catalog}/${AppRoutes.Categories}/`;
 }

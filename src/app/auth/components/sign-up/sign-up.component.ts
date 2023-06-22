@@ -11,6 +11,7 @@ import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @UntilDestroy
 @Component({
@@ -28,6 +29,7 @@ export class SignUpComponent implements OnInit {
   });
 
   readonly formName = 'user_registration_form';
+  readonly offerPath = `/${AppRoutes.PublicOffer}`;
 
   constructor(
     private readonly controller: AuthController,

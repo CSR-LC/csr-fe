@@ -1,8 +1,8 @@
 <section class="category-item" >
-  <a class="category-item-link" routerLink="/catalog/categories/{{item?.id}}">
+  <a class="category-item-link" routerLink="{{catalogPath}}{{item?.id}}">
     <img class="category-item-img" alt="category photo">
   </a>
-  <a class="category-item-link" routerLink="/catalog/categories/{{item?.id}}">
+  <a class="category-item-link" routerLink="{{catalogPath}}{{item?.id}}">
     <h2 class="category-item-title">{{ item?.name }}</h2>
   </a>
 </section>

@@ -1,8 +1,8 @@
 <div class="equipment-card">
-  <a class="equipment-card__img" routerLink="/catalog/equipment/{{equipment.id}}">
+  <a class="equipment-card__img" routerLink="{{equipmentPath}}{{equipment.id}}">
     <img #image [src]="defaultImage" class="img"  alt="equipment photo">
   </a>
-  <a class="equipment-card__title" routerLink="/catalog/equipment/{{equipment.id}}">
+  <a class="equipment-card__title" routerLink="{{equipmentPath}}{{equipment.id}}">
     {{equipment.name}}
   </a>
   <p class="equipment-card__info">{{equipment.description}}</p>

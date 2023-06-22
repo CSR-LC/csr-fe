@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CatalogController } from '../../services';
 import { Equipment } from '../../models/equipment';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @Component({
   selector: 'lc-preview-equipment-card',
@@ -14,6 +15,7 @@ export class PreviewEquipmentCardComponent implements OnInit {
   @ViewChild('image') image?: ElementRef;
 
   readonly defaultImage = './assets/img/no-photo.png';
+  readonly equipmentPath = `/${AppRoutes.Catalog}/${AppRoutes.EquipMent}/`;
 
   constructor(private readonly controller: CatalogController) {}
 
