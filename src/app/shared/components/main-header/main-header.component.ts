@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { UntilDestroy } from '@shared/until-destroy/until-destroy';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @UntilDestroy
 @Component({
@@ -11,12 +12,15 @@ import { UntilDestroy } from '@shared/until-destroy/until-destroy';
 })
 export class MainHeaderComponent {
   public pageTitle$ = this.mainPageHeaderService.getPageTitle();
-  public filtersButtonDisplayed$ = this.mainPageHeaderService.getFiltersButtonDisplayed();
+  public filtersButtonDisplayed$ = this.catalogFilterService.getFiltersButtonDisplayed();
   @Output() toggleMenu = new EventEmitter<void>();
 
-  constructor(private readonly mainPageHeaderService: MainPageHeaderService) {}
+  constructor(
+    private readonly mainPageHeaderService: MainPageHeaderService,
+    private readonly catalogFilterService: CatalogFilterService,
+  ) {}
 
   onFiltersButtonToggle(): void {
-    this.mainPageHeaderService.setFiltersButtonToggled(true);
+    this.catalogFilterService.setFiltersButtonToggled(true);
   }
 }

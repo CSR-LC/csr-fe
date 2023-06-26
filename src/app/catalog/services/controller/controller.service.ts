@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
+import { EquipmentFilter, EquipmentOrder, EquipmentRentalInfo } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
-import { filter, map, Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
@@ -12,8 +12,7 @@ import { User } from '@app/auth/models';
 import { AuthState, UserAction } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
-import { MatDialog } from '@angular/material/dialog';
-import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @Injectable()
 export class ControllerService {
@@ -26,7 +25,7 @@ export class ControllerService {
     private dateRangeService: DateRangeService,
     private personalInfoService: PersonalInfoService,
     private infoService: InfoService,
-    private dialog: MatDialog,
+    private catalogFilterService: CatalogFilterService,
   ) {}
 
   getCatalog() {
@@ -122,14 +121,19 @@ export class ControllerService {
     );
   }
 
-  openFilterModal() {
-    this.dialog
-      .open(FilterModalComponent, {
-        width: '100vw',
-        maxWidth: '100vw',
-      })
-      .afterClosed()
-      .pipe(filter(Boolean))
-      .subscribe();
+  displayCatalogFiltersButton(): void {
+    this.catalogFilterService.setFiltersButtonDisplayed(true);
+  }
+
+  hideCatalogFiltersButton(): void {
+    this.catalogFilterService.setFiltersButtonDisplayed(false);
+  }
+
+  isCatalogFiltersButtonToggled(): Observable<boolean> {
+    return this.catalogFilterService.getFiltersButtonToggled();
+  }
+
+  openCatalogFiltersModal(): void {
+    this.catalogFilterService.openFiltersModal();
   }
 }

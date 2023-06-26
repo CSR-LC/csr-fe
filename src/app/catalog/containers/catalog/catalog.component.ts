@@ -33,14 +33,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.mainPageHeaderService
-      .getFiltersButtonToggled()
+    this.controller
+      .isCatalogFiltersButtonToggled()
       .pipe(untilDestroyed(this))
       .subscribe((isFiltersButtonToggled) => {
-        isFiltersButtonToggled && this.controller.openFilterModal();
+        isFiltersButtonToggled && this.controller.openCatalogFiltersModal();
       });
 
-    this.mainPageHeaderService.setFiltersButtonDisplayed(true);
+    this.controller.displayCatalogFiltersButton();
   }
 
   onSearch(term: string) {
@@ -48,6 +48,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mainPageHeaderService.setFiltersButtonDisplayed(false);
+    this.controller.hideCatalogFiltersButton();
   }
 }
