@@ -28,6 +28,7 @@
     "@commitlint/cli": "^17.0.2",
     "@commitlint/config-conventional": "^17.0.2",
     "@ngxs/devtools-plugin": "^3.7.6",
+    "@ngxs/form-plugin": "^3.8.1",
     "@ngxs/store": "^3.7.3",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

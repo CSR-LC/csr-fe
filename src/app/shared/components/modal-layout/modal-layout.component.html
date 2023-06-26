@@ -1,0 +1,18 @@
+<div class="modal">
+  <section mat-dialog-title class="modal-header">
+    <h3>{{ headerTitle }}</h3>
+    <div class="cross-container">
+      <i class="cross"
+        [mat-dialog-close]="false"
+      ></i>
+    </div>
+  </section>
+  <mat-divider></mat-divider>
+  <section mat-dialog-content class="modal-body">
+    <ng-content select="[body]"></ng-content>
+  </section>
+  <mat-divider></mat-divider>
+  <section mat-dialog-actions class="modal-footer">
+    <ng-content select="[footer]"></ng-content>
+  </section>
+</div>

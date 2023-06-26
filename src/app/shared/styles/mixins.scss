@@ -1,0 +1,18 @@
+@import "./src/app/shared/styles/variables";
+
+@mixin cross($bg-color: $color-title-lite) {
+  i.cross {
+    position: relative;
+
+    &::before {
+      display: block;
+      content: '';
+      width: 14px;
+      height: 14px;
+      mask-image: url("../../../assets/img/icons/cross.svg");
+      background-color: $bg-color;
+      cursor: pointer;
+    }
+  }
+
+}

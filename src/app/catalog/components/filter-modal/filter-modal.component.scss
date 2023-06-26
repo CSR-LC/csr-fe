@@ -1,0 +1,115 @@
+@import 'src/app/shared/styles/variables';
+@import "./src/app/shared/styles/mixins";
+
+:host {
+  ::ng-deep {
+    .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+      line-height: 20px;
+      padding: 6px 12px;
+      text-transform: capitalize;
+      border: 2px solid #CFDBE6;
+      border-radius: 16px;
+    }
+
+    .mat-button-toggle-checked .mat-button-toggle-label-content {
+      background-color: $main;
+      color: #ffffff;
+      border: 2px solid $main;
+    }
+
+    .mat-checkbox-label {
+      font-size: 16px;
+    }
+
+    .mat-slide-toggle-content {
+      font-size: 16px;
+    }
+
+    .mat-slide-toggle-bar {
+      display: flex;
+      align-items: center;
+      width: 49px;
+      height: 24px;
+      margin-right: 18px;
+      border-radius: 16px;
+    }
+
+    .mat-slide-toggle-thumb-container {
+      top: 2px;
+    }
+
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
+      transform: translate3d(27px, 0, 0);
+    }
+
+    .mat-button-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+  }
+}
+
+.pet {
+  &-size-item, &-kind-item {
+    text-transform: capitalize;
+  }
+
+  &-size-item {
+    border-radius: 16px;
+  }
+
+  &-size-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    border: none;
+  }
+}
+
+.pet-kind-container, .pet-size-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pet-size {
+  &-container {
+    margin-top: 32px;
+    margin-bottom: 40px;
+  }
+}
+
+.label {
+  font-size: 16px;
+  color: $color-label;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.equipment-condition-container {
+  height: 64px;
+  padding: 20px;
+  background: #F2F7F9;
+  border-radius: 15px;
+  margin-bottom: 40px;
+}
+
+.filter-reset {
+  border: none;
+  background-color: #fff;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  color: #005F75;
+
+  @include cross($main);
+}
+
+.filter-reset-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}

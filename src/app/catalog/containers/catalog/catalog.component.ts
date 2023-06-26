@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CatalogController } from '../../services';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { CategoryId } from '@app/catalog/models';
+
 @UntilDestroy
 @Component({
   selector: 'lc-catalog',
@@ -12,7 +13,7 @@ import { CategoryId } from '@app/catalog/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CatalogController],
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit, OnDestroy {
   catalog$ = this.controller.catalog$;
 
   constructor(
@@ -31,9 +32,22 @@ export class CatalogComponent implements OnInit {
         this.controller.getCatalog();
       }
     });
+
+    this.mainPageHeaderService
+      .getFiltersButtonToggled()
+      .pipe(untilDestroyed(this))
+      .subscribe((isFiltersButtonToggled) => {
+        isFiltersButtonToggled && this.controller.openFilterModal();
+      });
+
+    this.mainPageHeaderService.setFiltersButtonDisplayed(true);
   }
 
   onSearch(term: string) {
     this.catalog$ = this.controller.searchEquipment(term);
+  }
+
+  ngOnDestroy(): void {
+    this.mainPageHeaderService.setFiltersButtonDisplayed(false);
   }
 }

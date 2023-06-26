@@ -27,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ModalLayoutComponent } from './components/modal-layout/modal-layout.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatListModule } from '@angular/material/list';
     InfoModalComponent,
     TableComponent,
     MainNavComponent,
+    ModalLayoutComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -59,6 +61,7 @@ import { MatListModule } from '@angular/material/list';
     MatTableModule,
     TableComponent,
     MainNavComponent,
+    ModalLayoutComponent,
   ],
   imports: [
     CommonModule,

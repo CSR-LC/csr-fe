@@ -1,0 +1,38 @@
+@import "./src/app/shared/styles/variables";
+@import "./src/app/shared/styles/mixins";
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px;
+
+  @include cross();
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+  
+  .cross-container {
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.modal-body {
+  margin: 24px 0;
+}
+
+.modal-footer {
+  margin: 24px 24px;
+}
+
+.mat-dialog-actions {
+  padding: 0;
+  align-items: stretch;
+  min-height: 56px;
+}
