@@ -4,7 +4,7 @@
     [mat-dialog-close]="false"
   ></i>
 </div>
-<div class="separator"></div>
+<mat-divider class="separator"></mat-divider>
 <div class="content">
   <p>
     Статус оборудование измениться на “В архиве” и скроется из общего списка оборудования. Проверьте данные.
@@ -13,7 +13,7 @@
     <lc-fake-input *ngIf="equipment.name_substring"  [label]="LabelEnum.NameSubstring" [text]="equipment.name_substring"></lc-fake-input>
     <lc-fake-input *ngIf="equipment.inventoryNumber"  [label]="LabelEnum.InventoryNumber" [text]="inventoryNumber"></lc-fake-input>
 </div>
-<div class="separator"></div>
+<mat-divider class="separator"></mat-divider>
 <div class="buttons-wrapper">
   <div class="buttons">
     <button

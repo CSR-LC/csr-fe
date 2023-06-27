@@ -19,7 +19,7 @@
           [routerLinkActiveOptions]="{ exact: true }" 
           (click)="drawer.toggle()"
         >{{link.name}}</a>
-        <span *ngIf="adminLinks.length" class="separator"></span>
+        <mat-divider *ngIf="adminLinks.length" class="divider"></mat-divider>
         <a *ngFor="let link of adminLinks" 
           class="nav-link" 
           mat-list-item 
