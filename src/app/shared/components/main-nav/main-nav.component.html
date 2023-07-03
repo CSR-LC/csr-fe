@@ -36,6 +36,8 @@
     <mat-toolbar *ngIf="isAuthenticated$ | async" color="primary">
       <lc-main-header (toggleMenu)="drawer.toggle()"></lc-main-header>
     </mat-toolbar>
-    <ng-content></ng-content>
+    <main class="main-content" [ngClass]="{ rounded: isAuthenticated$ | async }">
+      <ng-content></ng-content>
+    </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

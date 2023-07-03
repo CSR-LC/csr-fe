@@ -24,6 +24,17 @@
 
 .sidenav-container {
   height: 100%;
+  background-color: $main;
+}
+
+.main-content {
+  height: 100%;
+  background-color: white;
+}
+
+.rounded {
+  border-radius: 32px 32px 0 0;
+  padding: 24px;
 }
 
 .mat-toolbar.mat-primary {
