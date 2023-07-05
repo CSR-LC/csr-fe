@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { ValidationPatterns } from '@shared/constants/validation-patterns';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @Component({
   selector: 'lc-personal-info-modal',
@@ -10,6 +11,7 @@ import { ValidationPatterns } from '@shared/constants/validation-patterns';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalInfoModalComponent {
+  readonly offerPath = `/${AppRoutes.PublicOffer}`;
   personalInfoForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(49)]],
     surname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(49)]],

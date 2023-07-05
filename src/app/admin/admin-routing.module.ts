@@ -13,13 +13,11 @@ const routes: Routes = [
     path: AppRoutes.Equipments,
     pathMatch: 'full',
     component: EquipmentsComponent,
-    //canActivate: [AdminGuard],
   },
   {
     path: AppRoutes.Users,
     pathMatch: 'full',
     component: EquipmentsComponent,
-    //canActivate: [AdminGuard],
   },
 ];
 

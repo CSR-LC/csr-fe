@@ -21,7 +21,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'equipment/:id',
+    path: `${AppRoutes.EquipMent}/:id`,
     component: EquipmentItemComponent,
   },
 ];

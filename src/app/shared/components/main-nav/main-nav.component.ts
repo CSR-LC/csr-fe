@@ -22,8 +22,8 @@ import { Observable, finalize, take } from 'rxjs';
 export class MainNavComponent implements OnInit {
   @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
   @Select(AuthState.user) user$!: Observable<User>;
-  public links: NavigationLink[] = [];
-  public roleLinks: NavigationLink[] = [];
+  public userLinks: NavigationLink[] = [];
+  public adminLinks: NavigationLink[] = [];
 
   constructor(
     private readonly authService: AuthService,
@@ -35,8 +35,8 @@ export class MainNavComponent implements OnInit {
     this.user$.pipe(untilDestroyed(this)).subscribe((user: User) => {
       const role = user?.role.name;
 
-      this.links = <NavigationLink[]>navLinksMap.get(UserRole.user);
-      this.roleLinks = role && role !== UserRole.user ? <NavigationLink[]>navLinksMap.get(role) : [];
+      this.userLinks = <NavigationLink[]>navLinksMap.get(UserRole.user);
+      this.adminLinks = role && role !== UserRole.user ? <NavigationLink[]>navLinksMap.get(role) : [];
     });
   }
 
