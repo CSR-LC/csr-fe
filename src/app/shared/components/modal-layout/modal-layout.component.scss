@@ -14,7 +14,7 @@
     font-weight: 700;
     margin: 0;
   }
-  
+
   .cross-container {
     padding: 14px;
     display: flex;
@@ -28,11 +28,17 @@
 }
 
 .modal-footer {
-  margin: 24px 24px;
+  margin: 16px 24px;
 }
 
 .mat-dialog-actions {
   padding: 0;
   align-items: stretch;
   min-height: 56px;
+}
+
+@media screen and (max-height: 768px) {
+  .modal-body {
+    max-height: 320px;
+  }
 }

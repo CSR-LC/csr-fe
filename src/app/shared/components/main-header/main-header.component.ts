@@ -19,8 +19,4 @@ export class MainHeaderComponent {
     private readonly mainPageHeaderService: MainPageHeaderService,
     private readonly catalogFilterService: CatalogFilterService,
   ) {}
-
-  onFiltersButtonToggle(): void {
-    this.catalogFilterService.setFiltersButtonToggled(true);
-  }
 }

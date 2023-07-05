@@ -4,6 +4,7 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { CategoryId } from '@app/catalog/models';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @UntilDestroy
 @Component({
@@ -19,13 +20,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
   constructor(
     private controller: CatalogController,
     private mainPageHeaderService: MainPageHeaderService,
+    private catalogFilterService: CatalogFilterService,
     private route: ActivatedRoute,
   ) {
     mainPageHeaderService.setPageTitle('Каталог');
   }
 
   ngOnInit() {
-    this.route.params.pipe(untilDestroyed(this)).subscribe((param) => {
+    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((param) => {
       if ((<CategoryId>param)['categoryId']) {
         this.controller.filterEquipmentByCategory(Number((<CategoryId>param)['categoryId']));
       } else {
@@ -33,14 +35,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.controller
-      .isCatalogFiltersButtonToggled()
-      .pipe(untilDestroyed(this))
-      .subscribe((isFiltersButtonToggled) => {
-        isFiltersButtonToggled && this.controller.openCatalogFiltersModal();
-      });
-
-    this.controller.displayCatalogFiltersButton();
+    this.catalogFilterService.setFiltersButtonDisplayed(true);
   }
 
   onSearch(term: string) {
@@ -48,6 +43,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.controller.hideCatalogFiltersButton();
+    this.catalogFilterService.setFiltersButtonDisplayed(false);
   }
 }

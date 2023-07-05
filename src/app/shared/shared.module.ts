@@ -28,6 +28,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ModalLayoutComponent } from './components/modal-layout/modal-layout.component';
+import { ButtonComponent } from './components/button/button.component';
+import { RaisedButtonComponent } from './components/raised-button/raised-button.component';
+import { IconButtonComponent } from './components/icon-button/icon-button.component';
+import { CatalogFilterComponent } from '@shared/components/catalog-filter/catalog-filter.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +51,10 @@ import { ModalLayoutComponent } from './components/modal-layout/modal-layout.com
     TableComponent,
     MainNavComponent,
     ModalLayoutComponent,
+    ButtonComponent,
+    RaisedButtonComponent,
+    IconButtonComponent,
+    CatalogFilterComponent,
   ],
   exports: [
     NumberDeclensionPipe,
@@ -62,6 +70,10 @@ import { ModalLayoutComponent } from './components/modal-layout/modal-layout.com
     TableComponent,
     MainNavComponent,
     ModalLayoutComponent,
+    ButtonComponent,
+    RaisedButtonComponent,
+    IconButtonComponent,
+    CatalogFilterComponent,
   ],
   imports: [
     CommonModule,

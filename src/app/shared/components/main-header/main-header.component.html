@@ -8,13 +8,5 @@
     <mat-icon>menu</mat-icon>
   </button>
   <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
-  <button
-    type="button"
-    aria-label="toggle filtering settings"
-    mat-icon-button
-    class="filters-button"
-    *ngIf="(filtersButtonDisplayed$ | async) === true"
-    (click)="onFiltersButtonToggle()"
-  >
-  </button>
+  <lc-catalog-filter *ngIf="(filtersButtonDisplayed$ | async) === true"></lc-catalog-filter>
 </header>

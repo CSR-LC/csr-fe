@@ -29,12 +29,6 @@ export class CatalogFilterService {
   }
 
   openFiltersModal(): void {
-    this.dialog
-      .open(FilterModalComponent, {
-        maxWidth: '450px',
-      })
-      .afterClosed()
-      .pipe(filter(Boolean))
-      .subscribe();
+    this.dialog.open(FilterModalComponent, { minWidth: 350 }).afterClosed().pipe(filter(Boolean)).subscribe();
   }
 }
