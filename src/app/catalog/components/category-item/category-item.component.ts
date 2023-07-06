@@ -10,5 +10,5 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
 })
 export class CategoryItemComponent {
   @Input() item?: Category;
-  readonly catalogPath = `/${AppRoutes.Catalog}/${AppRoutes.Categories}/`;
+  readonly catalogPath = `/${AppRoutes.Catalog}`;
 }

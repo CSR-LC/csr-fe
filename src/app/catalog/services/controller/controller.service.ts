@@ -12,6 +12,7 @@ import { User } from '@app/auth/models';
 import { AuthState, UserAction } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @Injectable()
 export class ControllerService {
@@ -24,6 +25,7 @@ export class ControllerService {
     private dateRangeService: DateRangeService,
     private personalInfoService: PersonalInfoService,
     private infoService: InfoService,
+    private catalogFilterService: CatalogFilterService,
   ) {}
 
   getCatalog() {
@@ -117,5 +119,9 @@ export class ControllerService {
         return isPersonalData ? of(period) : of(null);
       }),
     );
+  }
+
+  displayCatalogFilterButton(isDisplayed: boolean): void {
+    this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
   }
 }

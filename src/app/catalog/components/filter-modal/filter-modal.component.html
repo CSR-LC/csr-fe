@@ -19,13 +19,17 @@
   </ng-container>
   <ng-container footer>
     <section class="filter-actions">
-      <lc-button class="filter-reset"><div class="inner"><i class="cross"></i> <span>очистить фильтры</span></div></lc-button>
-      <lc-raised-button
+      <button mat-button color="primary" class="filter-reset modal-action-button">
+        <div class="inner"><i class="cross"></i> <span>очистить фильтры</span></div>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
         class="modal-action-button"
         [mat-dialog-close]=""
       >
         показать товаров: {{3}}
-      </lc-raised-button>
+      </button>
     </section>
   </ng-container>
 </lc-modal-layout>

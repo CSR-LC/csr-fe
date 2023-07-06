@@ -4,7 +4,6 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { CategoryId } from '@app/catalog/models';
-import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @UntilDestroy
 @Component({
@@ -20,7 +19,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
   constructor(
     private controller: CatalogController,
     private mainPageHeaderService: MainPageHeaderService,
-    private catalogFilterService: CatalogFilterService,
     private route: ActivatedRoute,
   ) {
     mainPageHeaderService.setPageTitle('Каталог');
@@ -35,7 +33,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.catalogFilterService.setFiltersButtonDisplayed(true);
+    this.controller.displayCatalogFilterButton(true);
   }
 
   onSearch(term: string) {
@@ -43,6 +41,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.catalogFilterService.setFiltersButtonDisplayed(false);
+    this.controller.displayCatalogFilterButton(false);
   }
 }

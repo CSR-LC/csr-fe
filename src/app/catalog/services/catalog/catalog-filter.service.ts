@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CatalogFilterService {
   private filtersButtonDisplayed = new Subject<boolean>();
-  private filtersButtonToggled = new Subject<boolean>();
 
   constructor(private readonly dialog: MatDialog) {}
 
@@ -20,15 +19,7 @@ export class CatalogFilterService {
     this.filtersButtonDisplayed.next(value);
   }
 
-  getFiltersButtonToggled(): Observable<boolean> {
-    return this.filtersButtonToggled.asObservable();
-  }
-
-  setFiltersButtonToggled(value: boolean): void {
-    this.filtersButtonToggled.next(value);
-  }
-
-  openFiltersModal(): void {
-    this.dialog.open(FilterModalComponent, { minWidth: 350 }).afterClosed().pipe(filter(Boolean)).subscribe();
+  openFiltersModal(): Observable<boolean> {
+    return this.dialog.open(FilterModalComponent, { minWidth: 350 }).afterClosed().pipe(filter(Boolean));
   }
 }

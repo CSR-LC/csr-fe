@@ -2,9 +2,11 @@
   <section mat-dialog-title class="modal-header">
     <h3>{{ headerTitle }}</h3>
     <div class="cross-container">
-      <i class="cross"
-        [mat-dialog-close]="false"
-      ></i>
+      <button mat-icon-button class="close-button">
+        <i class="cross"
+           [mat-dialog-close]="false"
+        ></i>
+      </button>
     </div>
   </section>
   <mat-divider></mat-divider>
@@ -12,7 +14,7 @@
     <ng-content select="[body]"></ng-content>
   </section>
   <mat-divider></mat-divider>
-  <section mat-dialog-actions class="modal-footer">
+  <section class="modal-footer">
     <ng-content select="[footer]"></ng-content>
   </section>
 </div>

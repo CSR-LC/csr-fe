@@ -37,6 +37,12 @@
   min-height: 56px;
 }
 
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-height: 768px) {
   .modal-body {
     max-height: 320px;
