@@ -16,7 +16,6 @@
   }
 
   .cross-container {
-    padding: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,7 +39,7 @@
 .close-button {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 @media screen and (max-height: 768px) {
