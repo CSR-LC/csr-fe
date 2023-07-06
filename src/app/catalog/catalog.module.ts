@@ -13,8 +13,9 @@ import { CategoryItemComponent } from './components/category-item/category-item.
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategorySetComponent } from './containers/category-set/category-set.component';
 import { CategoryTabComponent } from './components/category-tab/category-tab.component';
-import { CategoryPathPipe } from './pipes/category-path/category-path.pipe';
 import { DateRangeModule } from '@app/features/date-range/date-range-module.module';
+import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { DateRangeModule } from '@app/features/date-range/date-range-module.modu
     CategoryItemComponent,
     CategorySetComponent,
     CategoryTabComponent,
-    CategoryPathPipe,
+    FilterModalComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +36,7 @@ import { DateRangeModule } from '@app/features/date-range/date-range-module.modu
     DateRangeModule,
     MaterialModule,
     NgxsModule.forFeature([CatalogState]),
+    ReactiveFormsModule,
   ],
   providers: [CatalogApi],
 })

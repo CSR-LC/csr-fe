@@ -15,19 +15,10 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.Categories,
+    component: CategoriesComponent,
     resolve: {
       activeCategories: CategoriesResolver,
     },
-    children: [
-      {
-        path: '',
-        component: CategoriesComponent,
-      },
-      {
-        path: ':categoryId',
-        component: CatalogComponent,
-      },
-    ],
   },
   {
     path: `${AppRoutes.EquipMent}/:id`,

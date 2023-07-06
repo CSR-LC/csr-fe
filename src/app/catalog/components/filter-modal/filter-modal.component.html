@@ -1,0 +1,35 @@
+<lc-modal-layout headerTitle="Фильтры">
+  <ng-container body>
+    <form [formGroup]="filterForm">
+      <section class="pet-kind-container">
+        <mat-label class="label">Животное</mat-label>
+        <mat-checkbox *ngFor="let petKind of petKinds" formControlName="petKinds"
+                      class="pet-kind-item">{{ petKind.name }}</mat-checkbox>
+      </section>
+      <section class="pet-size-container">
+        <mat-label class="label">Размер животного</mat-label>
+        <mat-checkbox *ngFor="let petSize of petSizes" formControlName="petSizes"
+                           class="pet-size-item">{{ petSize.name }} {{!petSize.is_universal ? (petSize.size) : ''}}</mat-checkbox>
+      </section>
+      <section class="equipment-condition-container">
+        <mat-slide-toggle class="equipment-condition" formControlName="equipmentCondition">В идеальном состоянии
+        </mat-slide-toggle>
+      </section>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <section class="filter-actions">
+      <button mat-button color="primary" class="filter-reset modal-action-button">
+        <div class="inner"><i class="cross"></i> <span>очистить фильтры</span></div>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="modal-action-button"
+        [mat-dialog-close]=""
+      >
+        показать товаров: {{3}}
+      </button>
+    </section>
+  </ng-container>
+</lc-modal-layout>

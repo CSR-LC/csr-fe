@@ -23,7 +23,7 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
   @ViewChildren('categoryElement') categoriesElements?: QueryList<ElementRef<HTMLDivElement>>;
 
   categories: Category[] = [];
-  selectedCategoryId: number = Number(this.route.snapshot.params['categoryId']);
+  selectedCategoryId: number = Number(this.route.snapshot.queryParams['categoryId']);
 
   readonly marginLeft = 25;
 

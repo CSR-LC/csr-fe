@@ -8,4 +8,5 @@
     <mat-icon>menu</mat-icon>
   </button>
   <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
+  <lc-catalog-filter *ngIf="(filtersButtonDisplayed$ | async) === true"></lc-catalog-filter>
 </header>
