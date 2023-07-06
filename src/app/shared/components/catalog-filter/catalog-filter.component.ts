@@ -10,7 +10,7 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
 export class CatalogFilterComponent {
   constructor(private catalogFilterService: CatalogFilterService) {}
 
-  onClick(): void {
+  openFilters(): void {
     this.catalogFilterService.openFiltersModal();
   }
 }
