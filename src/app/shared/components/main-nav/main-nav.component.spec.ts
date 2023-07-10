@@ -49,10 +49,9 @@ describe('MainNavComponent', () => {
     fixture = TestBed.createComponent(MainNavComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
-    fixture.detectChanges();
   });
 
-  // it('should compile', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should compile', () => {
+    expect(component).toBeTruthy();
+  });
 });

@@ -1,0 +1,18 @@
+@import 'src/app/shared/styles/variables';
+
+:host {
+  display: block;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit {
+  color: $main;
+}
+
+.detail {
+  margin-bottom: 30px;
+}

@@ -27,6 +27,11 @@
   background-color: $main;
 }
 
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+}
+
 .main-content {
   height: 100%;
   background-color: white;

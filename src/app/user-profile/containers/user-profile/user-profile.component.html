@@ -1,0 +1,22 @@
+<div class="profile-container" *ngIf="user$ | async as user">
+  <div class="details">
+    <lc-user-details 
+    [title]="'Персональные данные'"
+    [details]="[
+      { label: 'Имя', text: user.surname }, 
+      { label: 'Фамилия', text: user.name }, 
+      { label: 'Мобильный телефон', text: user.phone_number }
+    ]"></lc-user-details>
+    <lc-user-details 
+    class="login-details"
+    [title]="'Данные для входа'"
+    [details]="[
+      { label: 'Эл. почта', text: user.email}, 
+    ]"></lc-user-details>
+  </div>
+  <div class="actions">
+    <button mat-flat-button class="sign-out-btn action-btn" (click)="logout()">Выйти</button>
+    <button mat-flat-button class="delete-profile-btn action-btn">Удалить профиль</button>
+  </div>
+</div>
+

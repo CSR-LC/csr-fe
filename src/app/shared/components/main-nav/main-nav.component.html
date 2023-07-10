@@ -32,7 +32,7 @@
       <button type="button" class="logout-btn" (click)="logout(); drawer.toggle()">Выйти</button>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content class="sidenav-content">
     <mat-toolbar *ngIf="isAuthenticated$ | async" color="primary">
       <lc-main-header (toggleMenu)="drawer.toggle()"></lc-main-header>
     </mat-toolbar>
