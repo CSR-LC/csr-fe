@@ -6,7 +6,9 @@ import { BaseItemsResponse } from '@shared/types';
 import { Category, EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
 import { UnavailablePeriods } from '@app/features/date-range/models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
@@ -18,10 +20,6 @@ export class ApiService {
     // TODO: remove prams, when pagination is ready
     const params = new HttpParams().set('limit', 1000);
     return this.httpClient.get<BaseItemsResponse<Equipment>>('equipment', { params });
-  }
-
-  searchEquipment(params: Partial<Equipment>): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.post<BaseItemsResponse<Equipment>>('equipment/search', params);
   }
 
   getPhotoById(photoId: string): Observable<ArrayBuffer> {
@@ -36,7 +34,7 @@ export class ApiService {
     return this.httpClient.get<BaseItemsResponse<Category>>(`equipment/categories`, { params });
   }
 
-  filterEquipmentByCategory(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
+  filterEquipment(payload: EquipmentFilter): Observable<BaseItemsResponse<Equipment>> {
     return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload);
   }
 

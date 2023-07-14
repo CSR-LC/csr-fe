@@ -10,8 +10,6 @@ import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-de
 import { Select } from '@ngxs/store';
 import { AuthState } from '@app/auth/store';
 import { User } from '@app/auth/models';
-import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
-import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 
 @UntilDestroy
 @Component({
@@ -19,7 +17,6 @@ import { NotificationSuccess } from '@app/shared/constants/notification-success.
   templateUrl: './equipment-item.component.html',
   styleUrls: ['./equipment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CatalogController],
 })
 export class EquipmentItemComponent implements OnInit {
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
@@ -38,7 +35,6 @@ export class EquipmentItemComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
     private readonly mainPageHeaderService: MainPageHeaderService,
-    private readonly notificationsService: NotificationsService,
   ) {}
 
   ngOnInit(): void {

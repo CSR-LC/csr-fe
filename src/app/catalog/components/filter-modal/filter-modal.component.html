@@ -1,34 +1,36 @@
-<lc-modal-layout headerTitle="Фильтры">
+<lc-modal-layout headerTitle="{{ headerTitle }}">
   <ng-container body>
-    <form [formGroup]="filterForm">
-      <section class="pet-kind-container">
-        <mat-label class="label">Животное</mat-label>
-        <mat-checkbox *ngFor="let petKind of petKinds" formControlName="petKinds"
-                      class="pet-kind-item">{{ petKind.name }}</mat-checkbox>
+    <form id="filterForm" [formGroup]="filterForm" ngxsForm="catalog.equipmentFilterForm" (ngSubmit)="showEquipments()">
+      <section *ngIf="petKinds" class="pet-kind-container" formArrayName="petKinds">
+        <mat-label class="label">{{ petKindsLabel }}</mat-label>
+        <mat-checkbox *ngFor="let petKind of petKindsFormArray.controls; let i = index"
+                      [formControlName]="i" class="pet-kind-item">{{ petKinds[i].name }}</mat-checkbox>
       </section>
-      <section class="pet-size-container">
-        <mat-label class="label">Размер животного</mat-label>
-        <mat-checkbox *ngFor="let petSize of petSizes" formControlName="petSizes"
-                           class="pet-size-item">{{ petSize.name }} {{!petSize.is_universal ? (petSize.size) : ''}}</mat-checkbox>
+      <section *ngIf="petSizes" class="pet-size-container" formArrayName="petSizes">
+        <mat-label class="label">{{ petSizesLabel }}</mat-label>
+        <mat-checkbox *ngFor="let petSize of petSizesFormArray.controls; let i = index"
+                           [formControlName]="i" class="pet-size-item">{{ petSizes[i].name }} {{!petSizes[i].is_universal ? (petSizes[i].size) : ''}}</mat-checkbox>
       </section>
       <section class="equipment-condition-container">
-        <mat-slide-toggle class="equipment-condition" formControlName="equipmentCondition">В идеальном состоянии
+        <mat-slide-toggle class="equipment-condition" formControlName="idealCondition">В идеальном состоянии
         </mat-slide-toggle>
       </section>
     </form>
   </ng-container>
   <ng-container footer>
     <section class="filter-actions">
-      <button mat-button color="primary" class="filter-reset modal-action-button">
-        <div class="inner"><i class="cross"></i> <span>очистить фильтры</span></div>
+      <button type="button" mat-button color="primary" class="filter-reset modal-action-button" (click)="resetFilters()">
+        <div class="inner"><i class="cross"></i> <span>{{ clearFiltersButtonLabel }}</span></div>
       </button>
       <button
+        form="filterForm"
+        type="submit"
         mat-raised-button
         color="primary"
         class="modal-action-button"
         [mat-dialog-close]=""
       >
-        показать товаров: {{3}}
+        {{ submitButtonLabel }}
       </button>
     </section>
   </ng-container>

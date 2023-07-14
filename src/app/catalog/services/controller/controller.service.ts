@@ -14,7 +14,9 @@ import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
@@ -38,24 +40,8 @@ export class ControllerService {
     return this.api.info(id);
   }
 
-  searchEquipment(term: string): Observable<Equipment[]> {
-    const parametersEquipment: Partial<Equipment> = {
-      name_substring: term,
-    };
-
-    return this.api.searchEquipment(parametersEquipment).pipe(map((res) => res.items));
-  }
-
   getPhotoById(photoId: string): Observable<Blob> {
     return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
-  }
-
-  filterEquipmentByCategory(categoryId: number) {
-    const equipmentFilter: EquipmentFilter = { category: categoryId };
-
-    this.api.filterEquipmentByCategory(equipmentFilter).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
   }
 
   getRentPeriods(equipmentId?: number, maxRentalPeriod?: number): Observable<UnavailableDates | null> {
@@ -123,5 +109,27 @@ export class ControllerService {
 
   displayCatalogFilterButton(isDisplayed: boolean): void {
     this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
+  }
+
+  filterEquipment(equipmentFilter: EquipmentFilter): void {
+    this.api.filterEquipment(equipmentFilter).subscribe((res) => {
+      this.store.dispatch(new GetCatalog(res.items));
+    });
+  }
+
+  resetFilters(): void {
+    this.catalogFilterService.resetFilters();
+  }
+
+  set selectedCategoryId(categoryId: number) {
+    this.catalogFilterService.selectedCategoryId = categoryId;
+  }
+
+  set equipmentFilter(equipmentFilter: EquipmentFilter) {
+    this.catalogFilterService.equipmentFilter = equipmentFilter;
+  }
+
+  set searchInput(searchInput: string) {
+    this.catalogFilterService.searchInput = searchInput;
   }
 }

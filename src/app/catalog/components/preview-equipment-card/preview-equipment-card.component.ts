@@ -7,7 +7,6 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
   selector: 'lc-preview-equipment-card',
   templateUrl: './preview-equipment-card.component.html',
   styleUrls: ['./preview-equipment-card.component.scss'],
-  providers: [CatalogController],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewEquipmentCardComponent implements OnInit {
