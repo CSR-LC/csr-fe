@@ -122,7 +122,7 @@ export class ControllerService {
       .subscribe();
   }
 
-  private openArchiveConfirmation(name: string) {
+  public openArchiveConfirmation(name: string) {
     //todo add new logic
     return this.dialog
       .open(ConfirmationModalComponent, {
@@ -130,9 +130,8 @@ export class ControllerService {
         minWidth: 472,
         autoFocus: false,
         data: {
-          name,
           title: ModalEnum.ArchiveTitle,
-          reason: ModalEnum.ArchiveReason,
+          content: this.getModalContent(name, ModalEnum.ArchiveReason),
           applyButtonText: ModalEnum.ArchiveApplyButtonText,
         },
       })
@@ -148,9 +147,8 @@ export class ControllerService {
         minWidth: 472,
         autoFocus: false,
         data: {
-          name,
           title: ModalEnum.BlockTitle,
-          reason: ModalEnum.BlockReason,
+          content: this.getModalContent(name, ModalEnum.BlockReason),
           applyButtonText: ModalEnum.BlockApplyButtonText,
         },
       })
@@ -178,5 +176,11 @@ export class ControllerService {
         data: equipment,
       })
       .afterClosed();
+  }
+
+  private getModalContent(name: string, reason: string): string {
+    return `<span>В эти даты оборудование забронировано пользователем</span>
+    <strong><u>${name}</u></strong>.
+    <span>${reason} сбросит данное бронирование.</span>`;
   }
 }

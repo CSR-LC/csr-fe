@@ -1,32 +1,25 @@
-<div class="header">
-  <h3>{{title}}</h3>
-  <i
-    [mat-dialog-close]="false"
-  ></i>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="content">
-  <span>В эти даты оборудование забронировано пользователем</span>
-  <strong><u>{{name}}</u></strong>
-  <span>{{reason}} сбросит данное бронирование.</span>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="buttons-wrapper">
-  <div class="buttons">
-    <button
-      mat-button
-      class="cancel"
-      [mat-dialog-close]="false"
-
-    >
-      {{cancelButtonText}}
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      [mat-dialog-close]="true"
-    >
-      {{applyButtonText}}
-    </button>
-  </div>
-</div>
+<lc-modal-layout headerTitle="{{title}}">
+  <ng-container body>
+    <div [innerHtml]="content"></div>
+  </ng-container>
+  <ng-container footer>
+    <section class="confirmation-modal-actions">
+      <button
+        mat-button
+        color="primary"
+        class="modal-action-button"
+        [mat-dialog-close]=""
+      >
+        {{cancelButtonText}}
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="modal-action-button"
+        [mat-dialog-close]=""
+      >
+        {{confirmButtonText}}
+      </button>
+    </section>
+  </ng-container>
+</lc-modal-layout>

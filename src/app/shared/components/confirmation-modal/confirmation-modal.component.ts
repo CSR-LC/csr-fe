@@ -10,13 +10,13 @@ import { ConfirmationModalData } from '@shared/models/confirmation-modal';
 })
 export class ConfirmationModalComponent {
   title: string = this.confirmationModalData.title;
-  name: string = this.confirmationModalData.name;
-  reason: string = this.confirmationModalData.reason;
-  applyButtonText: string = this.confirmationModalData?.applyButtonText
-    ? this.confirmationModalData?.applyButtonText
+  content: string = this.confirmationModalData.content;
+  confirmButtonText: string = this.confirmationModalData?.confirmButtonText
+    ? this.confirmationModalData?.confirmButtonText
     : 'Подтвердить';
   cancelButtonText: string = this.confirmationModalData?.cancelButtonText
     ? this.confirmationModalData?.cancelButtonText
     : 'Отменить';
+
   constructor(@Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData) {}
 }
