@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { filter, Observable, Subject } from 'rxjs';
+import { of, Observable, Subject, switchMap } from 'rxjs';
 import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EquipmentFilter } from '@app/catalog/models';
-import { ResetForm } from '@ngxs/form-plugin';
+import { EquipmentFilter, EquipmentFilterRequest } from '@app/catalog/models';
 import { Store } from '@ngxs/store';
-import { SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
+import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
+import { ApplicationDataState } from '@shared/store/application-data';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CatalogFilterService {
   private filtersButtonDisplayed = new Subject<boolean>();
+  private filteringApplied = new Subject<boolean>();
 
   constructor(private readonly dialog: MatDialog, private readonly store: Store) {}
 
@@ -23,12 +24,34 @@ export class CatalogFilterService {
     this.filtersButtonDisplayed.next(value);
   }
 
-  openFiltersModal(): Observable<boolean> {
-    return this.dialog.open(FilterModalComponent, { minWidth: 350 }).afterClosed().pipe(filter(Boolean));
+  getFilteringApplied(): Observable<boolean> {
+    return this.filteringApplied.asObservable();
   }
 
-  resetFilters(): void {
-    this.store.dispatch(new ResetForm({ path: 'catalog.equipmentFilterForm' }));
+  setFilteringApplied(value: boolean): void {
+    this.filteringApplied.next(value);
+  }
+
+  openFiltersModal(): Observable<EquipmentFilter> {
+    const equipmentFilterForm = this.store.selectSnapshot(CatalogState.equipmentFilterForm);
+    const petKinds = this.store.selectSnapshot(ApplicationDataState.petKinds);
+    const petSizes = this.store.selectSnapshot(ApplicationDataState.petSizes);
+
+    return this.dialog
+      .open(FilterModalComponent, {
+        minWidth: 350,
+        data: {
+          equipmentFilterForm,
+          petKinds,
+          petSizes,
+        },
+      })
+      .afterClosed()
+      .pipe(switchMap((equipmentFilter: EquipmentFilter) => of(equipmentFilter)));
+  }
+
+  get equipmentFilterRequest(): EquipmentFilterRequest {
+    return { name_substring: this.searchInput, category: this.selectedCategoryId, ...this.equipmentFilter };
   }
 
   set selectedCategoryId(categoryId: number) {
@@ -41,5 +64,17 @@ export class CatalogFilterService {
 
   set searchInput(searchInput: string) {
     this.store.dispatch(new SetSearchInput(searchInput));
+  }
+
+  get selectedCategoryId(): number {
+    return this.store.selectSnapshot(CatalogState.selectedCategoryId);
+  }
+
+  get equipmentFilter(): EquipmentFilter {
+    return this.store.selectSnapshot(CatalogState.equipmentFilter);
+  }
+
+  get searchInput(): string {
+    return this.store.selectSnapshot(CatalogState.searchInput);
   }
 }

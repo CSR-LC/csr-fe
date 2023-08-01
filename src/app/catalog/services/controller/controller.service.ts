@@ -111,14 +111,15 @@ export class ControllerService {
     this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
   }
 
-  filterEquipment(equipmentFilter: EquipmentFilter): void {
-    this.api.filterEquipment(equipmentFilter).subscribe((res) => {
+  filterEquipment(): void {
+    const payload = this.catalogFilterService.equipmentFilterRequest;
+    this.api.filterEquipment(payload).subscribe((res) => {
       this.store.dispatch(new GetCatalog(res.items));
     });
   }
 
-  resetFilters(): void {
-    this.catalogFilterService.resetFilters();
+  isFilteringApplied(): Observable<boolean> {
+    return this.catalogFilterService.getFilteringApplied();
   }
 
   set selectedCategoryId(categoryId: number) {
@@ -131,5 +132,9 @@ export class ControllerService {
 
   set searchInput(searchInput: string) {
     this.catalogFilterService.searchInput = searchInput;
+  }
+
+  get selectedCategoryId(): number {
+    return this.catalogFilterService.selectedCategoryId;
   }
 }

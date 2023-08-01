@@ -5,9 +5,6 @@ import { Catalog, EquipmentFilter, EquipmentFilterFormModel } from '../models';
 
 export type EquipmentFilterForm = {
   model: EquipmentFilterFormModel | undefined;
-  dirty: boolean;
-  status: string;
-  errors: object;
 };
 
 @State<Catalog>({
@@ -17,11 +14,8 @@ export type EquipmentFilterForm = {
     selectedCategoryId: 0,
     equipmentFilterForm: {
       model: undefined,
-      dirty: false,
-      status: '',
-      errors: {},
     },
-    equipmentFilter: { category: 0 },
+    equipmentFilter: {},
     searchInput: '',
   },
 })

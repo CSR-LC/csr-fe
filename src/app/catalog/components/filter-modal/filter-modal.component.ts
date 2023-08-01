@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { EquipmentFilter } from '@app/catalog/models';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { EquipmentFilter, EquipmentFilterModalData } from '@app/catalog/models';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
-import { Store } from '@ngxs/store';
-import { ApplicationDataState } from '@shared/store/application-data';
 import { BaseKind, PetSize } from '@app/management/models/management';
-import { CatalogState } from '@app/catalog/store';
-import { CatalogController } from '@app/catalog/services';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'lc-filter-modal',
@@ -30,14 +27,15 @@ export class FilterModalComponent implements OnInit {
   petSizes: PetSize[] | null = null;
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
     private readonly formBuilder: FormBuilder,
-    private readonly store: Store,
-    private readonly controller: CatalogController,
-  ) {}
+    private readonly dialogRef: MatDialogRef<FilterModalComponent>,
+  ) {
+    this.petKinds = data.petKinds;
+    this.petSizes = data.petSizes;
+  }
 
   ngOnInit(): void {
-    this.petKinds = this.store.selectSnapshot(ApplicationDataState.petKinds);
-    this.petSizes = this.store.selectSnapshot(ApplicationDataState.petSizes);
     this.createPetKindsFormControls();
     this.createPetSizesFormControls();
     this.initFilterFormValue();
@@ -52,22 +50,17 @@ export class FilterModalComponent implements OnInit {
   }
 
   resetFilters(): void {
-    this.controller.resetFilters();
+    this.filterForm.reset();
   }
 
   showEquipments(): void {
-    const selectedCategoryId = this.store.selectSnapshot(CatalogState.selectedCategoryId);
-    const searchInput = this.store.selectSnapshot(CatalogState.searchInput);
     const equipmentFilter: EquipmentFilter = {
-      category: selectedCategoryId,
       petKinds: this.selectedPetKindsIds,
       petSize: this.selectedPetSizesIds,
-      name_substring: searchInput,
       technicalIssues: this.technicalIssues,
     };
 
-    this.controller.equipmentFilter = equipmentFilter;
-    this.controller.filterEquipment(equipmentFilter);
+    this.dialogRef.close(equipmentFilter);
   }
 
   private get technicalIssues(): false | undefined {
@@ -95,11 +88,7 @@ export class FilterModalComponent implements OnInit {
   }
 
   private initFilterFormValue(): void {
-    const equipmentFilterForm = this.store.selectSnapshot(CatalogState.equipmentFilterForm);
-    const storedFormValue = equipmentFilterForm?.model;
-
-    if (storedFormValue) {
-      this.filterForm.patchValue(storedFormValue);
-    }
+    const storedFormValue = this.data.equipmentFilterForm.model;
+    storedFormValue && this.filterForm.patchValue(storedFormValue);
   }
 }
