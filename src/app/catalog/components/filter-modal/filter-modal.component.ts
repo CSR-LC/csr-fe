@@ -16,6 +16,7 @@ export class FilterModalComponent implements OnInit {
   petSizesLabel: string = 'Размер животного';
   clearFiltersButtonLabel: string = 'очистить фильтры';
   submitButtonLabel: string = 'показать товаров';
+  closeButtonLabel: string = 'закрыть';
 
   filterForm = this.formBuilder.group({
     petKinds: this.formBuilder.array([]),

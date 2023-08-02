@@ -20,20 +20,33 @@
   </ng-container>
   <ng-container footer>
     <section class="filter-actions">
-      <button type="button" mat-button color="primary" class="filter-reset modal-action-button"
-              (click)="resetFilters()">
-        <div class="inner"><i class="cross"></i> <span>{{ clearFiltersButtonLabel }}</span></div>
-      </button>
-      <button
-        form="filterForm"
-        type="submit"
-        mat-raised-button
-        color="primary"
-        class="modal-action-button"
-        [mat-dialog-close]="false"
-      >
-        {{ submitButtonLabel }}
-      </button>
+      <ng-container *ngIf="filterForm.dirty">
+        <button type="button" mat-button color="primary" class="filter-reset modal-action-button"
+                (click)="resetFilters()">
+          <div class="inner"><i class="cross"></i> <span>{{ clearFiltersButtonLabel }}</span></div>
+        </button>
+        <button
+          form="filterForm"
+          type="submit"
+          mat-raised-button
+          color="primary"
+          class="modal-action-button"
+          [mat-dialog-close]="false"
+        >
+          {{ submitButtonLabel }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!filterForm.dirty">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          class="modal-action-button"
+          [mat-dialog-close]="false"
+        >
+          {{ closeButtonLabel }}
+        </button>
+      </ng-container>
     </section>
   </ng-container>
 </lc-modal-layout>
