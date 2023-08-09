@@ -1,6 +1,6 @@
 import { Equipment } from './equipment';
-import { EquipmentFilterForm } from '@app/catalog/store';
-import { EquipmentFilter } from '@app/catalog/models/equipmentFilter';
+import { EquipmentFilterForm } from './equipment-filter-form';
+import { EquipmentFilter } from './equipment-filter';
 
 export type Catalog = {
   equipments: Equipment[];

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { of, Observable, Subject, switchMap } from 'rxjs';
+import { Observable, of, Subject, switchMap } from 'rxjs';
 import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EquipmentFilter, EquipmentFilterRequest } from '@app/catalog/models';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
 import { ApplicationDataState } from '@shared/store/application-data';
 
@@ -11,8 +11,8 @@ import { ApplicationDataState } from '@shared/store/application-data';
   providedIn: 'root',
 })
 export class CatalogFilterService {
+  @Select(CatalogState.equipmentFilterCount) equipmentFilterCount$!: Observable<number>;
   private filtersButtonDisplayed = new Subject<boolean>();
-  private filteringApplied = new Subject<boolean>();
 
   constructor(private readonly dialog: MatDialog, private readonly store: Store) {}
 
@@ -22,14 +22,6 @@ export class CatalogFilterService {
 
   setFiltersButtonDisplayed(value: boolean): void {
     this.filtersButtonDisplayed.next(value);
-  }
-
-  getFilteringApplied(): Observable<boolean> {
-    return this.filteringApplied.asObservable();
-  }
-
-  setFilteringApplied(value: boolean): void {
-    this.filteringApplied.next(value);
   }
 
   openFiltersModal(): Observable<EquipmentFilter> {

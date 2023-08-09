@@ -13,6 +13,7 @@ import { AuthState, UserAction } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
+  @Select(CatalogState.equipmentFilter) equipmentFilter$!: Observable<EquipmentFilter>;
 
   constructor(
     private api: CatalogApi,
@@ -28,6 +30,7 @@ export class ControllerService {
     private personalInfoService: PersonalInfoService,
     private infoService: InfoService,
     private catalogFilterService: CatalogFilterService,
+    private mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   getCatalog() {
@@ -118,10 +121,6 @@ export class ControllerService {
     });
   }
 
-  isFilteringApplied(): Observable<boolean> {
-    return this.catalogFilterService.getFilteringApplied();
-  }
-
   set selectedCategoryId(categoryId: number) {
     this.catalogFilterService.selectedCategoryId = categoryId;
   }
@@ -136,5 +135,14 @@ export class ControllerService {
 
   get selectedCategoryId(): number {
     return this.catalogFilterService.selectedCategoryId;
+  }
+
+  setPageTitle(title: string): void {
+    this.mainPageHeaderService.setPageTitle(title);
+  }
+
+  getPrefilteredEquipmentCount(equipmentFilter: EquipmentFilter): Observable<number> {
+    const payload = { ...this.catalogFilterService.equipmentFilterRequest, ...equipmentFilter };
+    return this.api.filterEquipment(payload).pipe(map((equipment) => equipment.total));
   }
 }

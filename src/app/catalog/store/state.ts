@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { GetCatalog, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from './actions';
-import { Catalog, EquipmentFilter, EquipmentFilterFormModel } from '../models';
-
-export type EquipmentFilterForm = {
-  model: EquipmentFilterFormModel | undefined;
-};
+import { Catalog, EquipmentFilter, EquipmentFilterForm } from '../models';
 
 @State<Catalog>({
   name: 'catalog',
@@ -44,6 +40,12 @@ export class CatalogState {
   @Selector()
   static equipmentFilter(state: Catalog): EquipmentFilter {
     return state.equipmentFilter;
+  }
+
+  @Selector()
+  static equipmentFilterCount(state: Catalog): number {
+    const { petKinds, petSize, technicalIssues } = state.equipmentFilter;
+    return +Boolean(petKinds?.length) + +Boolean(petSize?.length) + +(!!technicalIssues === technicalIssues);
   }
 
   @Action(GetCatalog)

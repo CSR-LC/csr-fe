@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { EquipmentFilter, EquipmentFilterModalData } from '@app/catalog/models';
 import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/management/models/management';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { filterModalLabels } from '@app/catalog/constants';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
+import { CatalogController } from '@app/catalog/services';
 
+@UntilDestroy
 @Component({
   selector: 'lc-filter-modal',
   templateUrl: './filter-modal.component.html',
@@ -11,12 +16,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterModalComponent implements OnInit {
-  headerTitle: string = 'Фильтры';
-  petKindsLabel: string = 'Животное';
-  petSizesLabel: string = 'Размер животного';
-  clearFiltersButtonLabel: string = 'очистить фильтры';
-  submitButtonLabel: string = 'показать товаров';
-  closeButtonLabel: string = 'закрыть';
+  filterModalLabels = filterModalLabels;
 
   filterForm = this.formBuilder.group({
     petKinds: this.formBuilder.array([]),
@@ -26,27 +26,41 @@ export class FilterModalComponent implements OnInit {
 
   petKinds: BaseKind[] | null = null;
   petSizes: PetSize[] | null = null;
+  count: number = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<FilterModalComponent>,
-  ) {
-    this.petKinds = data.petKinds;
-    this.petSizes = data.petSizes;
-  }
+    private readonly controller: CatalogController,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
-    this.createPetKindsFormControls();
-    this.createPetSizesFormControls();
+    this.petKinds = this.data.petKinds;
+    this.petSizes = this.data.petSizes;
+    this.petKinds && this.createCheckBoxFormControls<BaseKind>(this.petKinds, this.petKindsFormArray);
+    this.petSizes && this.createCheckBoxFormControls<PetSize>(this.petSizes, this.petSizesFormArray);
     this.initFilterFormValue();
+
+    this.filterForm.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(() => this.controller.getPrefilteredEquipmentCount(this.equipmentFilter)),
+        untilDestroyed(this),
+      )
+      .subscribe((count) => {
+        this.count = count;
+        this.cdr.markForCheck();
+      });
   }
 
-  get petKindsFormArray() {
+  get petKindsFormArray(): FormArray {
     return this.filterForm.get('petKinds') as FormArray;
   }
 
-  get petSizesFormArray() {
+  get petSizesFormArray(): FormArray {
     return this.filterForm.get('petSizes') as FormArray;
   }
 
@@ -55,13 +69,7 @@ export class FilterModalComponent implements OnInit {
   }
 
   showEquipments(): void {
-    const equipmentFilter: EquipmentFilter = {
-      petKinds: this.selectedPetKindsIds,
-      petSize: this.selectedPetSizesIds,
-      technicalIssues: this.technicalIssues,
-    };
-
-    this.dialogRef.close(equipmentFilter);
+    this.dialogRef.close(this.equipmentFilter);
   }
 
   private get technicalIssues(): false | undefined {
@@ -80,16 +88,20 @@ export class FilterModalComponent implements OnInit {
       .filter((v: number) => v !== null);
   }
 
-  private createPetKindsFormControls(): void {
-    this.petKinds?.forEach(() => this.petKindsFormArray.push(new FormControl(false)));
-  }
-
-  private createPetSizesFormControls(): void {
-    this.petSizes?.forEach(() => this.petSizesFormArray.push(new FormControl(false)));
+  private createCheckBoxFormControls<T>(modelArray: T[], modelFormArray: FormArray): void {
+    modelArray.forEach(() => modelFormArray.push(new FormControl(false)));
   }
 
   private initFilterFormValue(): void {
     const storedFormValue = this.data.equipmentFilterForm.model;
     storedFormValue && this.filterForm.patchValue(storedFormValue);
+  }
+
+  private get equipmentFilter(): EquipmentFilter {
+    return {
+      petKinds: this.selectedPetKindsIds,
+      petSize: this.selectedPetSizesIds,
+      technicalIssues: this.technicalIssues,
+    };
   }
 }

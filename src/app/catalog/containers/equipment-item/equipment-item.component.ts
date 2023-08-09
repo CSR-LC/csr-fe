@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnIn
 import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { Equipment } from '../../models/equipment';
-import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { dayCases } from '@shared/constants/day-cases';
 import { Observable, of, switchMap } from 'rxjs';
 import { UnavailableDates } from '@app/features/date-range/models';
@@ -34,14 +33,13 @@ export class EquipmentItemComponent implements OnInit {
     private readonly controller: CatalogController,
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
-    private readonly mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   ngOnInit(): void {
     this.controller.getCatalog();
 
     this.controller.getEquipmentItemInfo(this.route.snapshot.params['id']).subscribe((item) => {
-      this.mainPageHeaderService.setPageTitle(item.name);
+      this.controller.setPageTitle(item.name);
       this.equipment = item;
       this.setPhoto(item);
       this.cdr.markForCheck();

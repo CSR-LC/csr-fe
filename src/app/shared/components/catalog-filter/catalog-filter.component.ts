@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { EquipmentFilter } from '@app/catalog/models';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
+import { areObjectsEqual } from '@shared/utils/utils';
 
 @UntilDestroy
 @Component({
@@ -11,8 +12,14 @@ import { filter } from 'rxjs';
   styleUrls: ['./catalog-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CatalogFilterComponent {
+export class CatalogFilterComponent implements OnInit {
+  public equipmentFilterCount$!: Observable<number>;
+
   constructor(private catalogFilterService: CatalogFilterService) {}
+
+  ngOnInit(): void {
+    this.equipmentFilterCount$ = this.catalogFilterService.equipmentFilterCount$;
+  }
 
   openFilters(): void {
     this.catalogFilterService
@@ -22,8 +29,8 @@ export class CatalogFilterComponent {
         untilDestroyed(this),
       )
       .subscribe((equipmentFilter: EquipmentFilter) => {
-        this.catalogFilterService.equipmentFilter = equipmentFilter;
-        this.catalogFilterService.setFilteringApplied(true);
+        !areObjectsEqual(this.catalogFilterService.equipmentFilter, equipmentFilter) &&
+          (this.catalogFilterService.equipmentFilter = equipmentFilter);
       });
   }
 }

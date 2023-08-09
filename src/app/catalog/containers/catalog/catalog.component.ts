@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CatalogController } from '../../services';
-import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
-import { filter } from 'rxjs';
 
 @UntilDestroy
 @Component({
@@ -15,8 +13,8 @@ export class CatalogComponent implements OnInit, OnDestroy {
   catalog$ = this.controller.catalog$;
   noResultMessage: string = 'Извините, по вашему запросу ничего не найдено. Попробуйте изменить критерии запроса.';
 
-  constructor(private controller: CatalogController, private mainPageHeaderService: MainPageHeaderService) {
-    mainPageHeaderService.setPageTitle('Каталог');
+  constructor(private controller: CatalogController) {
+    this.controller.setPageTitle('Каталог');
   }
 
   ngOnInit() {
@@ -24,15 +22,9 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
     this.controller.displayCatalogFilterButton(true);
 
-    this.controller
-      .isFilteringApplied()
-      .pipe(
-        filter((isApplied) => isApplied),
-        untilDestroyed(this),
-      )
-      .subscribe(() => {
-        this.controller.filterEquipment();
-      });
+    this.controller.equipmentFilter$.pipe(untilDestroyed(this)).subscribe(() => {
+      this.controller.filterEquipment();
+    });
   }
 
   onSearch(term: string) {
@@ -40,7 +32,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     this.controller.filterEquipment();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.controller.displayCatalogFilterButton(false);
   }
 }

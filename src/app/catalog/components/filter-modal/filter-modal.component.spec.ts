@@ -4,6 +4,8 @@ import { FilterModalComponent } from './filter-modal.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@app/material/material.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CatalogController } from '@app/catalog/services';
 
 describe('FilterModalComponent', () => {
   let component: FilterModalComponent;
@@ -13,7 +15,7 @@ describe('FilterModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FilterModalComponent],
-      imports: [MaterialModule, ReactiveFormsModule],
+      imports: [MaterialModule, ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -21,6 +23,10 @@ describe('FilterModalComponent', () => {
         },
         {
           provide: MatDialogRef,
+          useValue: {},
+        },
+        {
+          provide: CatalogController,
           useValue: {},
         },
       ],
