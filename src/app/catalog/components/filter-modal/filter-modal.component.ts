@@ -4,9 +4,9 @@ import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/management/models/management';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { filterModalLabels } from '@app/catalog/constants';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, tap, skip } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
-import { CatalogController } from '@app/catalog/services';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
 @UntilDestroy
 @Component({
@@ -26,34 +26,47 @@ export class FilterModalComponent implements OnInit {
 
   petKinds: BaseKind[] | null = null;
   petSizes: PetSize[] | null = null;
-  count: number = 0;
+  count: number | undefined = undefined;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<FilterModalComponent>,
-    private readonly controller: CatalogController,
     private readonly cdr: ChangeDetectorRef,
+    private catalogFilterService: CatalogFilterService,
   ) {}
 
   ngOnInit(): void {
     this.petKinds = this.data.petKinds;
     this.petSizes = this.data.petSizes;
-    this.petKinds && this.createCheckBoxFormControls<BaseKind>(this.petKinds, this.petKindsFormArray);
-    this.petSizes && this.createCheckBoxFormControls<PetSize>(this.petSizes, this.petSizesFormArray);
-    this.initFilterFormValue();
+    this.creteArrayControls();
+    this.countCatalogItes();
+  }
 
+  private countCatalogItes() {
     this.filterForm.valueChanges
       .pipe(
+        skip(1),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(() => this.controller.getPrefilteredEquipmentCount(this.equipmentFilter)),
+        tap(() => {
+          this.count = undefined;
+          this.cdr.markForCheck();
+        }),
+        switchMap(() => {
+          return this.catalogFilterService.getPrefilteredEquipmentCount(this.equipmentFilter);
+        }),
         untilDestroyed(this),
       )
       .subscribe((count) => {
         this.count = count;
         this.cdr.markForCheck();
       });
+  }
+
+  private creteArrayControls() {
+    this.petKinds && this.createCheckBoxFormControls<BaseKind>(this.petKinds, this.petKindsFormArray);
+    this.petSizes && this.createCheckBoxFormControls<PetSize>(this.petSizes, this.petSizesFormArray);
   }
 
   get petKindsFormArray(): FormArray {

@@ -34,7 +34,20 @@
           class="modal-action-button"
           [mat-dialog-close]="false"
         >
-          {{ filterModalLabels.submitButtonLabel }}: {{count}}
+          {{ filterModalLabels.submitButtonLabel }} :
+
+          <ng-container *ngIf="count !== undefined">
+            {{count}}
+          </ng-container>
+
+          <ng-container *ngIf="count === undefined">
+            <mat-progress-spinner
+              class="example-margin"
+              color="accent"
+              mode="indeterminate"
+              diameter="20"
+            ></mat-progress-spinner> 
+          </ng-container>
         </button>
       </ng-container>
       <ng-container *ngIf="!filterForm.dirty">

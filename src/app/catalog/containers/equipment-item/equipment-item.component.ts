@@ -16,6 +16,7 @@ import { User } from '@app/auth/models';
   templateUrl: './equipment-item.component.html',
   styleUrls: ['./equipment-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CatalogController],
 })
 export class EquipmentItemComponent implements OnInit {
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
