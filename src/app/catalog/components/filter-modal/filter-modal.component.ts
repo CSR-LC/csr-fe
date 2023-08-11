@@ -39,11 +39,11 @@ export class FilterModalComponent implements OnInit {
   ngOnInit(): void {
     this.petKinds = this.data.petKinds;
     this.petSizes = this.data.petSizes;
-    this.creteArrayControls();
-    this.countCatalogItes();
+    this.createArrayControls();
+    this.startCountFilteredItems();
   }
 
-  private countCatalogItes() {
+  private startCountFilteredItems() {
     this.filterForm.valueChanges
       .pipe(
         skip(1),
@@ -64,7 +64,7 @@ export class FilterModalComponent implements OnInit {
       });
   }
 
-  private creteArrayControls() {
+  private createArrayControls() {
     this.petKinds && this.createCheckBoxFormControls<BaseKind>(this.petKinds, this.petKindsFormArray);
     this.petSizes && this.createCheckBoxFormControls<PetSize>(this.petSizes, this.petSizesFormArray);
   }
