@@ -11,7 +11,11 @@ import { Catalog, EquipmentFilter, EquipmentFilterForm } from '../models';
     equipmentFilterForm: {
       model: undefined,
     },
-    equipmentFilter: {},
+    equipmentFilter: {
+      petKinds: [],
+      petSize: [],
+      technicalIssues: undefined,
+    },
     searchInput: '',
   },
 })

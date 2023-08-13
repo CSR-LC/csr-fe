@@ -105,11 +105,6 @@ export class FilterModalComponent implements OnInit {
     modelArray.forEach(() => modelFormArray.push(new FormControl(false)));
   }
 
-  private initFilterFormValue(): void {
-    const storedFormValue = this.data.equipmentFilterForm.model;
-    storedFormValue && this.filterForm.patchValue(storedFormValue);
-  }
-
   private get equipmentFilter(): EquipmentFilter {
     return {
       petKinds: this.selectedPetKindsIds,

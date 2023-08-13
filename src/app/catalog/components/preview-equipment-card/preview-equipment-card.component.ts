@@ -8,6 +8,7 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
   templateUrl: './preview-equipment-card.component.html',
   styleUrls: ['./preview-equipment-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CatalogController],
 })
 export class PreviewEquipmentCardComponent implements OnInit {
   @Input() equipment!: Equipment;

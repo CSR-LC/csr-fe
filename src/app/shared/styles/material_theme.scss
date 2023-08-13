@@ -25,6 +25,31 @@ $lc-primary-palette: (
   )
 );
 
+$lc-primary-contrast-palette: (
+  50: black,
+  100: black,
+  200: black,
+  300: black,
+  400: black,
+  500: white,
+  600: white,
+  700: white,
+  800: white,
+  900: white,
+  contrast: (
+    50: rgba(#F2F7F9, 0.87),
+    100: rgba(#EAF0F1, 0.87),
+    200: rgba(#CFDBE6, 0.87),
+    300: rgba(#A5C4D5, 0.87),
+    400: rgba(#87AFBC, 0.87),
+    500: rgba(#4D8F9E, 0.87),
+    600: rgba(#005F75, 0.87),
+    700: rgba(#2C5667, 0.87),
+    800: rgba(#2C5667, 0.87),
+    900: rgba(#16323E, 0.87),
+  )
+);
+
 $lc-warn-palette: (
   50: #FFEDEA,
   100: #FFDAD6,
@@ -76,6 +101,7 @@ $lc-white-palette: (
 );
 
 $lc-primary: mat.define-palette($lc-primary-palette, 600);
+$lc-primary-contrast: mat.define-palette($lc-primary-contrast-palette, 600);
 $lc-warn: mat.define-palette($lc-warn-palette, 500);
 $lc-white: mat.define-palette($lc-white-palette);
 
@@ -87,7 +113,7 @@ $lc-theme: mat.define-light-theme((
   )
 ));
 
-$lc-spiner-theme: mat.define-light-theme((
+$lc-spinner-theme: mat.define-light-theme((
   color: (
     primary: $lc-primary,
     accent: $lc-white,
@@ -95,6 +121,15 @@ $lc-spiner-theme: mat.define-light-theme((
   )
 ));
 
+$lc-badge-theme: mat.define-light-theme((
+  color: (
+    primary: $lc-primary-contrast,
+    accent: $lc-primary-contrast,
+    warn: $lc-warn,
+  )
+));
+
 @include mat.core-theme($lc-theme);
 @include mat.all-component-themes($lc-theme);
-@include mat.progress-spinner-theme($lc-spiner-theme);
+@include mat.progress-spinner-theme($lc-spinner-theme);
+@include mat.badge-theme($lc-badge-theme);
