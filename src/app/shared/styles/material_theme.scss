@@ -50,16 +50,51 @@ $lc-warn-palette: (
   )
 );
 
+$lc-white-palette: (
+  50: #F2F7F9,
+  100: #F2F7F9,
+  200: #F2F7F9,
+  300: #F2F7F9,
+  400: #F2F7F9,
+  500: #F2F7F9,
+  600: #F2F7F9,
+  700: #F2F7F9,
+  800: #F2F7F9,
+  900: #F2F7F9,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+  )
+);
+
 $lc-primary: mat.define-palette($lc-primary-palette, 600);
 $lc-warn: mat.define-palette($lc-warn-palette, 500);
+$lc-white: mat.define-palette($lc-white-palette);
 
 $lc-theme: mat.define-light-theme((
   color: (
     primary: $lc-primary,
     accent: $lc-primary,
-    warn: $lc-warn
+    warn: $lc-warn,
+  )
+));
+
+$lc-spiner-theme: mat.define-light-theme((
+  color: (
+    primary: $lc-primary,
+    accent: $lc-white,
+    warn: $lc-warn,
   )
 ));
 
 @include mat.core-theme($lc-theme);
 @include mat.all-component-themes($lc-theme);
+@include mat.progress-spinner-theme($lc-spiner-theme);

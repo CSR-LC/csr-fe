@@ -15,9 +15,7 @@ import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
@@ -139,10 +137,5 @@ export class ControllerService {
 
   setPageTitle(title: string): void {
     this.mainPageHeaderService.setPageTitle(title);
-  }
-
-  getPrefilteredEquipmentCount(equipmentFilter: EquipmentFilter): Observable<number> {
-    const payload = { ...this.catalogFilterService.equipmentFilterRequest, ...equipmentFilter };
-    return this.api.filterEquipment(payload).pipe(map((equipment) => equipment.total));
   }
 }

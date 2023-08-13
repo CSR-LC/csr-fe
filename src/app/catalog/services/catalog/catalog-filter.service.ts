@@ -6,6 +6,8 @@ import { EquipmentFilter, EquipmentFilterRequest } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
 import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
 import { ApplicationDataState } from '@shared/store/application-data';
+import { CatalogApi } from '..';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class CatalogFilterService {
   @Select(CatalogState.equipmentFilterCount) equipmentFilterCount$!: Observable<number>;
   private filtersButtonDisplayed = new Subject<boolean>();
 
-  constructor(private readonly dialog: MatDialog, private readonly store: Store) {}
+  constructor(private readonly dialog: MatDialog, private readonly store: Store, private api: CatalogApi) {}
 
   getFiltersButtonDisplayed(): Observable<boolean> {
     return this.filtersButtonDisplayed.asObservable();
@@ -68,5 +70,10 @@ export class CatalogFilterService {
 
   get searchInput(): string {
     return this.store.selectSnapshot(CatalogState.searchInput);
+  }
+
+  getPrefilteredEquipmentCount(equipmentFilter: EquipmentFilter): Observable<number> {
+    const payload = { ...this.equipmentFilterRequest, ...equipmentFilter };
+    return this.api.filterEquipment(payload).pipe(map((equipment) => equipment.total));
   }
 }

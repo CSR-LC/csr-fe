@@ -8,6 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-de
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CatalogController],
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   catalog$ = this.controller.catalog$;
