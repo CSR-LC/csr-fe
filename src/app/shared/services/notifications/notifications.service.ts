@@ -12,7 +12,7 @@ export class NotificationsService {
     verticalPosition: 'top',
     horizontalPosition: 'center',
   };
-  private readonly durationTime = 5000;
+  private readonly durationTime = 50000000000;
 
   constructor(private notification: MatSnackBar) {}
 
