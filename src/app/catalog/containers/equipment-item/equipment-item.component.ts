@@ -11,7 +11,6 @@ import { Select } from '@ngxs/store';
 import { AuthState } from '@app/auth/store';
 import { User } from '@app/auth/models';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
-import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 
 @UntilDestroy
 @Component({

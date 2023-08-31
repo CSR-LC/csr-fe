@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, throwError } from 'rxjs';
-import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
 
@@ -37,7 +36,6 @@ export class SignUpComponent implements OnInit {
     private readonly router: Router,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
-    private readonly notificationsService: NotificationsService,
   ) {}
 
   get formValue() {
@@ -72,10 +70,6 @@ export class SignUpComponent implements OnInit {
           });
         }),
         switchMap(() => this.controller.openPersonalInfoModal()),
-        catchError((error) => {
-          this.notificationsService.openError(error.message);
-          return throwError(error);
-        }),
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )
