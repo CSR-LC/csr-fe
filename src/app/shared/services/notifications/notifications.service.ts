@@ -57,7 +57,7 @@ export class NotificationsService {
 
   handleErrorResponse(response: HttpErrorResponse) {
     const key = this.getKeyFromError(response.error);
-    const message = response.status >= 500 ? notificationMessages['default'] : this.getNotificationMessage(key);
+    const message = this.getNotificationMessage(key);
     this.openError(message);
   }
 
