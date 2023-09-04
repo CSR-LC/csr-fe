@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
-import { EquipmentFilter } from '@app/catalog/models';
+import { EquipmentFilter, EquipmentFilterForm } from '@app/catalog/models';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { filter, Observable } from 'rxjs';
 import { areObjectsEqual } from '@shared/utils/utils';
+import { FilterModalResult } from '@app/catalog/models/filter-modal-result';
 
 @UntilDestroy
 @Component({
@@ -28,9 +29,11 @@ export class CatalogFilterComponent implements OnInit {
         filter((data) => !!data),
         untilDestroyed(this),
       )
-      .subscribe((equipmentFilter: EquipmentFilter) => {
-        !areObjectsEqual(this.catalogFilterService.equipmentFilter, equipmentFilter) &&
-          (this.catalogFilterService.equipmentFilter = equipmentFilter);
+      .subscribe((filterModalResult: FilterModalResult) => {
+        !filterModalResult.isFormState
+          ? !areObjectsEqual(this.catalogFilterService.equipmentFilter, filterModalResult.equipmentFilter) &&
+            (this.catalogFilterService.equipmentFilter = filterModalResult.equipmentFilter as EquipmentFilter)
+          : (this.catalogFilterService.equipmentFilterForm = filterModalResult.equipmentFilter as EquipmentFilterForm);
       });
   }
 }

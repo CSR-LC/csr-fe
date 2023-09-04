@@ -4,6 +4,6 @@ export const filterModalLabels = {
   petSizesLabel: 'Размер животного',
   clearFiltersButtonLabel: 'очистить фильтры',
   submitButtonLabel: 'показать товаров',
-  closeButtonLabel: 'закрыть',
+  applyButtonLabel: 'применить',
   idealConditionLabel: 'В идеальном состоянии',
 };

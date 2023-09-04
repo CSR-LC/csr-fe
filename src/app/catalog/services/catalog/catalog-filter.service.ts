@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject, switchMap } from 'rxjs';
 import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EquipmentFilter, EquipmentFilterRequest } from '@app/catalog/models';
+import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterRequest } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
 import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
 import { ApplicationDataState } from '@shared/store/application-data';
 import { CatalogApi } from '..';
 import { map } from 'rxjs/operators';
+import { UpdateForm } from '@ngxs/form-plugin';
+import { FilterModalResult } from '@app/catalog/models/filter-modal-result';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +28,7 @@ export class CatalogFilterService {
     this.filtersButtonDisplayed.next(value);
   }
 
-  openFiltersModal(): Observable<EquipmentFilter> {
+  openFiltersModal(): Observable<FilterModalResult> {
     const equipmentFilterForm = this.store.selectSnapshot(CatalogState.equipmentFilterForm);
     const petKinds = this.store.selectSnapshot(ApplicationDataState.petKinds);
     const petSizes = this.store.selectSnapshot(ApplicationDataState.petSizes);
@@ -41,7 +43,7 @@ export class CatalogFilterService {
         },
       })
       .afterClosed()
-      .pipe(switchMap((equipmentFilter: EquipmentFilter) => of(equipmentFilter)));
+      .pipe(switchMap((filterModalResult: FilterModalResult) => of(filterModalResult)));
   }
 
   get equipmentFilterRequest(): EquipmentFilterRequest {
@@ -54,6 +56,16 @@ export class CatalogFilterService {
 
   set equipmentFilter(equipmentFilter: EquipmentFilter) {
     this.store.dispatch(new SetEquipmentFilter(equipmentFilter));
+  }
+
+  set equipmentFilterForm(equipmentFilterForm: EquipmentFilterForm) {
+    this.store.dispatch(
+      new UpdateForm({
+        ...equipmentFilterForm,
+        path: 'catalog.equipmentFilterForm',
+        value: equipmentFilterForm.model,
+      }),
+    );
   }
 
   set searchInput(searchInput: string) {

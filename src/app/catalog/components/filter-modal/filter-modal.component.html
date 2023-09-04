@@ -1,4 +1,4 @@
-<lc-modal-layout headerTitle="{{ filterModalLabels.headerTitle }}">
+<lc-modal-layout headerTitle="{{ filterModalLabels.headerTitle }}" (closed)="onModalClose()">
   <ng-container body>
     <form id="filterForm" [formGroup]="filterForm" ngxsForm="catalog.equipmentFilterForm" (ngSubmit)="showEquipments()">
       <section *ngIf="petKinds" class="pet-kind-container" formArrayName="petKinds">
@@ -59,7 +59,7 @@
           [mat-dialog-close]="false"
           (click)="showEquipments()"
         >
-          {{ filterModalLabels.closeButtonLabel }}
+          {{ filterModalLabels.applyButtonLabel }}
         </button>
       </ng-container>
     </section>

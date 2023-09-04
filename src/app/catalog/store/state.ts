@@ -10,6 +10,9 @@ import { Catalog, EquipmentFilter, EquipmentFilterForm } from '../models';
     selectedCategoryId: 0,
     equipmentFilterForm: {
       model: undefined,
+      dirty: false,
+      errors: null,
+      status: null,
     },
     equipmentFilter: {
       petKinds: [],
