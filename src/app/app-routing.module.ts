@@ -10,8 +10,8 @@ import { PageForbiddenComponent } from './shared/components/page-forbidden/page-
 import { AppRoutes } from './shared/constants/routes.enum';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { EmailConfirmationComponent } from './shared/containers/email-confirmation/email-confirmation.component';
-import { EmailGuard } from './shared/guards/email.guerd';
-import { ConfirmedEmail } from './shared/guards/confirmed-email.gueard';
+import { EmailGuard } from './shared/guards/email.guard';
+import { ConfirmedEmail } from './shared/guards/confirmed-email.guard';
 
 const routes: Routes = [
   {
