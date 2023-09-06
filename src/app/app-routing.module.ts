@@ -9,6 +9,9 @@ import { PublicOfferComponent } from '@app/shared/components/public-offer/public
 import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
 import { AppRoutes } from './shared/constants/routes.enum';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { EmailConfirmationComponent } from './shared/containers/email-confirmation/email-confirmation.component';
+import { EmailGuard } from './shared/guards/email.guerd';
+import { ConfirmedEmail } from './shared/guards/confirmed-email.gueard';
 
 const routes: Routes = [
   {
@@ -20,32 +23,44 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    resolve: {
-      petKinds: PetKindsResolver,
-      petSizes: PetSizeResolver,
-    },
     children: [
+      // keep email confiramtion route before redirect
+      {
+        path: AppRoutes.EmailConfirmation,
+        component: EmailConfirmationComponent,
+        canActivate: [ConfirmedEmail],
+      },
       {
         path: '',
         pathMatch: 'full',
         redirectTo: `${AppRoutes.Catalog}/${AppRoutes.Categories}`,
       },
       {
-        path: AppRoutes.Catalog,
-        loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
-      },
-      {
-        path: AppRoutes.Management,
-        loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
-      },
-      {
-        path: AppRoutes.Profile,
-        loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
-      },
-      {
-        path: AppRoutes.Admin,
-        canActivate: [AdminGuard],
-        loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+        path: '',
+        canActivate: [EmailGuard],
+        resolve: {
+          petKinds: PetKindsResolver,
+          petSizes: PetSizeResolver,
+        },
+        children: [
+          {
+            path: AppRoutes.Catalog,
+            loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
+          },
+          {
+            path: AppRoutes.Management,
+            loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
+          },
+          {
+            path: AppRoutes.Profile,
+            loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+          },
+          {
+            path: AppRoutes.Admin,
+            canActivate: [AdminGuard],
+            loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+          },
+        ],
       },
     ],
   },
