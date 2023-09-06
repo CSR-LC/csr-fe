@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from '@app/catalog/models';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
 
@@ -10,5 +10,14 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
 })
 export class CategoryItemComponent {
   @Input() item?: Category;
+  @Output() categorySelected = new EventEmitter<number>();
   readonly catalogPath = `/${AppRoutes.Catalog}`;
+
+  get categoryId() {
+    return this.item?.id || 0;
+  }
+
+  selectCategory(categoryId: number) {
+    this.categorySelected.next(categoryId);
+  }
 }

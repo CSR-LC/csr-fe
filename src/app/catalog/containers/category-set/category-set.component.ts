@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { categoryContainsAllEquipment } from '@app/catalog/constants';
 import { Category } from '@app/catalog/models';
+import { CatalogController } from '@app/catalog/services';
 
 @Component({
   selector: 'lc-category-set',
@@ -23,17 +24,14 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
   @ViewChildren('categoryElement') categoriesElements?: QueryList<ElementRef<HTMLDivElement>>;
 
   categories: Category[] = [];
-  selectedCategoryId: number = Number(this.route.snapshot.queryParams['categoryId']);
+  selectedCategoryId: number = 0;
 
   readonly marginLeft = 25;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private controller: CatalogController) {}
 
   ngOnInit() {
-    if (!this.selectedCategoryId) {
-      this.selectedCategoryId = 0;
-    }
-
+    this.selectedCategoryId = this.controller.selectedCategoryId;
     this.categories = [categoryContainsAllEquipment, ...this.route.snapshot.data['activeCategories']];
   }
 
@@ -53,6 +51,8 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
 
   scrollCategories(categoryId: number, selectedCategoryElement: HTMLDivElement) {
     this.selectedCategoryId = categoryId;
+    this.controller.selectedCategoryId = categoryId;
+    this.controller.filterEquipment();
 
     if (!this.listCategories) return;
 
