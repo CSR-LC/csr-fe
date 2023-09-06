@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor/auth-interceptor';
 import { UrlInterceptor } from '@shared/interceptors/url-interceptor/url-interceptor';
-import { RequestNotificationsInterceptor } from '@shared/interceptors/requests-notifications/request-notificztions.interceptor';
+import { RequestNotificationsInterceptor } from '@shared/interceptors/requests-notifications/request-notifications.interceptor';
 
 export const interceptors = [
   {
