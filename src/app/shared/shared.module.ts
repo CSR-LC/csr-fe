@@ -29,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ModalLayoutComponent } from './components/modal-layout/modal-layout.component';
 import { CatalogFilterComponent } from '@shared/components/catalog-filter/catalog-filter.component';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,8 @@ import { CatalogFilterComponent } from '@shared/components/catalog-filter/catalo
     MainNavComponent,
     ModalLayoutComponent,
     CatalogFilterComponent,
+    ReactiveFormsModule,
+    NgxsFormPluginModule,
   ],
   imports: [
     CommonModule,
@@ -80,6 +83,7 @@ import { CatalogFilterComponent } from '@shared/components/catalog-filter/catalo
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    NgxsFormPluginModule,
   ],
 })
 export class SharedModule {}

@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CatalogController } from '../../services';
-import { MainPageHeaderService } from '@shared/services/main-page-header.service';
-import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
-import { CategoryId } from '@app/catalog/models';
 
 @UntilDestroy
 @Component({
@@ -15,32 +12,28 @@ import { CategoryId } from '@app/catalog/models';
 })
 export class CatalogComponent implements OnInit, OnDestroy {
   catalog$ = this.controller.catalog$;
+  noResultMessage: string = 'Извините, по вашему запросу ничего не найдено. Попробуйте изменить критерии запроса.';
 
-  constructor(
-    private controller: CatalogController,
-    private mainPageHeaderService: MainPageHeaderService,
-    private route: ActivatedRoute,
-  ) {
-    mainPageHeaderService.setPageTitle('Каталог');
+  constructor(private controller: CatalogController) {
+    this.controller.setPageTitle('Каталог');
   }
 
   ngOnInit() {
-    this.route.queryParams.pipe(untilDestroyed(this)).subscribe((param) => {
-      if ((<CategoryId>param)['categoryId']) {
-        this.controller.filterEquipmentByCategory(Number((<CategoryId>param)['categoryId']));
-      } else {
-        this.controller.getCatalog();
-      }
-    });
+    this.controller.filterEquipment();
 
     this.controller.displayCatalogFilterButton(true);
+
+    this.controller.equipmentFilter$.pipe(untilDestroyed(this)).subscribe(() => {
+      this.controller.filterEquipment();
+    });
   }
 
   onSearch(term: string) {
-    this.catalog$ = this.controller.searchEquipment(term);
+    this.controller.searchInput = term;
+    this.controller.filterEquipment();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.controller.displayCatalogFilterButton(false);
   }
 }

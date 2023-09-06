@@ -1,12 +1,15 @@
 <lc-category-set></lc-category-set>
 <section class="catalog">
   <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
-  <div class="catalog-list">
-    <div *ngFor="let equipment of catalog$ | async">
-      <lc-preview-equipment-card
-      [equipment]="equipment"
-    >
-    </lc-preview-equipment-card>
+  <ng-container *ngIf="(catalog$ | async) as equipmentList">
+    <div *ngIf="equipmentList.length > 0 else noResult" class="catalog-list">
+        <div *ngFor="let equipment of catalog$ | async">
+          <lc-preview-equipment-card
+            [equipment]="equipment"
+          >
+          </lc-preview-equipment-card>
+        </div>
     </div>
-  </div>
+  </ng-container>
+  <ng-template #noResult><section class="no-result">{{ noResultMessage }}</section></ng-template>
 </section>
