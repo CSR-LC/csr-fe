@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from '@shared/shared.module';
 import { AuthState } from './auth/store';
-import { interceptors } from '@shared/interceptors/intercetors';
+import { interceptors } from '@app/shared/interceptors/interceptors';
 import { guards } from '@shared/guards/guards';
 import { resolvers } from '@shared/resolvers/resolvers';
 import { ngxsConfig } from '@app/ngxs.config';

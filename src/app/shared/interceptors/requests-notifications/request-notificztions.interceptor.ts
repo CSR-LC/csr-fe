@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 
 @Injectable()
-export class RequestNotificztionsInterceptor implements HttpInterceptor {
+export class RequestNotificationsInterceptor implements HttpInterceptor {
   constructor(private notificationsService: NotificationsService) {}
 
   intercept<T>(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
