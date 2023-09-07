@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthController } from '../../services';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { LoginInformation } from '../../models';
 import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
@@ -29,7 +29,7 @@ export class LoginComponent {
   constructor(
     private readonly controller: AuthController,
     private readonly router: Router,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
     private readonly notificationsService: NotificationsService,

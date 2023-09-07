@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { ValidationPatterns } from '@shared/constants/validation-patterns';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
@@ -29,5 +29,5 @@ export class PersonalInfoModalComponent {
     ],
   });
 
-  constructor(private readonly formBuilder: FormBuilder, private readonly validationService: ValidationService) {}
+  constructor(private readonly formBuilder: UntypedFormBuilder, private readonly validationService: ValidationService) {}
 }
