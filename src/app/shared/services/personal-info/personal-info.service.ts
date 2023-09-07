@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PersonalInfoModalComponent } from '@shared/components/personal-info-modal/personal-info-modal.component';
 import { Observable, of, switchMap } from 'rxjs';
 import { ApiService } from '@app/auth/services/api/api.service';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject, switchMap } from 'rxjs';
 import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterRequest } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
 import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';

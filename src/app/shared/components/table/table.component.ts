@@ -9,8 +9,8 @@ import {
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 

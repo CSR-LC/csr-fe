@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { InfoModalComponent } from '@app/shared/components/info-modal/info-modal.component';
 import { InfoData } from '@app/shared/models';
 import { Observable, of, switchMap } from 'rxjs';

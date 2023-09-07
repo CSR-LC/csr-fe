@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { LabelEnum, ModalEnum } from '@app/admin/constants/modal.enum';
 import { Equipment } from '@app/catalog/models/equipment';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';

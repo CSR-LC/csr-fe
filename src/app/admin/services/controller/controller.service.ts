@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { AdminApi } from '@app/admin/services';

@@ -129,7 +129,7 @@ $lc-badge-theme: mat.define-light-theme((
   )
 ));
 
-@include mat.core-theme($lc-theme);
-@include mat.all-component-themes($lc-theme);
-@include mat.progress-spinner-theme($lc-spinner-theme);
+@include mat.legacy-core-theme($lc-theme);
+@include mat.all-legacy-component-themes($lc-theme);
+@include mat.legacy-progress-spinner-theme($lc-spinner-theme);
 @include mat.badge-theme($lc-badge-theme);

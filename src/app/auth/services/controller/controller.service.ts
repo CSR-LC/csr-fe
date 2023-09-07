@@ -7,7 +7,7 @@ import { LoginInformation, NewUserInfo, SignupResponse, User } from '../../model
 import { Store } from '@ngxs/store';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
 import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/store';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
 import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
 
