@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { UserRole } from '../constants/user-role.enum';
 
 @Injectable()
-export class AdminGuard  {
+export class AdminGuard {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
   canActivate(): boolean | UrlTree {

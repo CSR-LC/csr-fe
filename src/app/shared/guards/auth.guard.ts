@@ -6,7 +6,7 @@ import { AuthService } from '@shared/services/auth-service/auth-service.service'
 import { Observable, of, switchMap, tap } from 'rxjs';
 
 @Injectable()
-export class AuthGuard  {
+export class AuthGuard {
   constructor(
     private readonly store: Store,
     private readonly router: Router,

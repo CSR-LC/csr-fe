@@ -3,7 +3,7 @@ import { Router, UrlTree } from '@angular/router';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
 
 @Injectable()
-export class TokensGuard  {
+export class TokensGuard {
   constructor(private readonly router: Router, private readonly authService: AuthService) {}
 
   canActivate(): boolean | UrlTree {

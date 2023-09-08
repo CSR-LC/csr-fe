@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarConfig as MatSnackBarConfig } from '@angular/material/legacy-snack-bar';
+import {
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarConfig as MatSnackBarConfig,
+} from '@angular/material/legacy-snack-bar';
 import { NotificationTypes } from '@shared/constants/notification.enum';
 import { NotificationComponent } from '@shared/components/notification/notification.component';
 import { HttpErrorResponse } from '@angular/common/http';

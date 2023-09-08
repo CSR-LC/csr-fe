@@ -29,5 +29,8 @@ export class PersonalInfoModalComponent {
     ],
   });
 
-  constructor(private readonly formBuilder: UntypedFormBuilder, private readonly validationService: ValidationService) {}
+  constructor(
+    private readonly formBuilder: UntypedFormBuilder,
+    private readonly validationService: ValidationService,
+  ) {}
 }

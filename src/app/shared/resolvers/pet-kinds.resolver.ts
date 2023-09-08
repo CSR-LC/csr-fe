@@ -5,7 +5,7 @@ import { BaseKind } from '@app/management/models/management';
 import { ApplicationResolverService } from '@shared/services/application-resolver/application-resolver.service';
 
 @Injectable()
-export class PetKindsResolver  {
+export class PetKindsResolver {
   constructor(private readonly applicationResolverService: ApplicationResolverService) {}
 
   resolve(): Observable<BaseKind[]> {

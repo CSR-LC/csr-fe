@@ -2,7 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit }
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterModalData } from '@app/catalog/models';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/management/models/management';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { filterModalLabels } from '@app/catalog/constants';
 import { debounceTime, distinctUntilChanged, skip, switchMap, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';

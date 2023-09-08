@@ -2,17 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 
-  ::ng-deep {
-    .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
-      top: 12px;
-      right: 0;
-    }
+  .filters-button {
+    background: url('../../../../assets/img/icons/filtering.svg') center no-repeat;
+  }
+  
+  .badge {
+    position: absolute;
+    right: 12px;
   }
 }
-
-.filters-button {
-  background: url('../../../../assets/img/icons/filtering.svg') center no-repeat;
-}
-
-

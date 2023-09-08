@@ -5,7 +5,7 @@ import { Category } from '../models';
 import { ApiService } from '../services/api/api.service';
 
 @Injectable()
-export class CategoriesResolver  {
+export class CategoriesResolver {
   constructor(private api: ApiService) {}
 
   resolve(): Observable<Category[]> {

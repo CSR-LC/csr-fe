@@ -27,8 +27,16 @@ export class FillProfileComponent {
   }
 
   userInfoForm = new UntypedFormGroup({
-    surname: new UntypedFormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
-    name: new UntypedFormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
+    surname: new UntypedFormControl('', [
+      Validators.required,
+      Validators.maxLength(49),
+      Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
+    ]),
+    name: new UntypedFormControl('', [
+      Validators.required,
+      Validators.maxLength(49),
+      Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
+    ]),
     patronymic: new UntypedFormControl('', [Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
     documentNumber: new UntypedFormControl('', [Validators.required, Validators.maxLength(49)]),
     documentIssuingInfo: new UntypedFormControl('', [
