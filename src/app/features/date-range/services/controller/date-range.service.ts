@@ -17,7 +17,6 @@ export class DateRangeService {
         width: '390px',
         maxWidth: '390px',
         autoFocus: false,
-        position: { bottom: '0px' },
       })
       .afterClosed()
       .pipe(
