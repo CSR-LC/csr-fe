@@ -13,6 +13,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
 
   private errorsElement?: Element;
   private readonly destroy$ = new Subject();
+  private controlWrapper?: Element | null;
 
   constructor(
     private readonly element: ElementRef,
@@ -22,6 +23,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setControlWrapper();
     this.validationService
       .getSubmitObservable()
       .pipe(untilDestroyed(this))
@@ -42,8 +44,8 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
     this.destroy$.next(undefined);
   }
 
-  get controlWrapper(): Element {
-    return this.element.nativeElement.closest('.mat-form-field-wrapper');
+  setControlWrapper() {
+    this.controlWrapper = this.element.nativeElement.closest('.mat-mdc-form-field');
   }
 
   get control(): AbstractControl {
@@ -69,9 +71,10 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
   }
 
   private renderErrors(errors: string[]): void {
+    if (!this.controlWrapper) return;
     if (!errors.length) return;
     const errorsContainer = this.renderer.createElement('div');
-    this.renderer.addClass(errorsContainer, 'mat-form-field-subscript-wrapper');
+    this.renderer.addClass(errorsContainer, 'lc-error');
 
     errors.forEach((errorText) => {
       this.renderer.appendChild(errorsContainer, this.createError(errorText));
@@ -89,7 +92,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
   }
 
   private removeErrors(): void {
-    if (!this.errorsElement) return;
+    if (!this.errorsElement || !this.controlWrapper) return;
     this.renderer.removeChild(this.controlWrapper, this.errorsElement);
     this.errorsElement = undefined;
   }

@@ -101,7 +101,6 @@ $lc-white-palette: (
 );
 
 $lc-primary: mat.define-palette($lc-primary-palette, 600);
-// $lc-primary-contrast: mat.define-palette($lc-primary-contrast-palette, 600);
 $lc-warn: mat.define-palette($lc-warn-palette, 500);
 $lc-white: mat.define-palette($lc-white-palette);
 
@@ -113,23 +112,5 @@ $lc-theme: mat.define-light-theme((
   )
 ));
 
-// $lc-spinner-theme: mat.define-light-theme((
-//   color: (
-//     primary: $lc-primary,
-//     accent: $lc-white,
-//     warn: $lc-warn,
-//   )
-// ));
-
-// $lc-badge-theme: mat.define-light-theme((
-//   color: (
-//     primary: $lc-primary-contrast,
-//     accent: $lc-primary-contrast,
-//     warn: $lc-warn,
-//   )
-// ));
-
 @include mat.legacy-core-theme($lc-theme);
-@include mat.all-legacy-component-themes($lc-theme);
-// @include mat.legacy-progress-spinner-theme($lc-spinner-theme);
-// @include mat.badge-theme($lc-badge-theme);
+@include mat.all-component-themes($lc-theme)

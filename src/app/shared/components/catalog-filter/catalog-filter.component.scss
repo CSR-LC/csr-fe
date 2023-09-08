@@ -5,11 +5,8 @@
   position: relative;
 
   .filters-button {
+    height: 24px;
+    width: 24px;
     background: url('../../../../assets/img/icons/filtering.svg') center no-repeat;
-  }
-  
-  .badge {
-    position: absolute;
-    right: 12px;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DateRange } from '@angular/material/datepicker';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
 
 @Component({
