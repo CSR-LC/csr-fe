@@ -1,0 +1,33 @@
+import {
+  MainHeaderComponent,
+  InfoModalComponent,
+  FakeInputComponent,
+  ConfirmationModalComponent,
+  CatalogFilterComponent,
+  BlockUiComponent,
+  PageNotFoundComponent,
+  NotificationComponent,
+  PersonalInfoModalComponent,
+  PublicOfferComponent,
+  TableComponent,
+  MainNavComponent,
+  ModalLayoutComponent,
+  PageForbiddenComponent,
+} from '../components';
+
+export const sharedComponents = [
+  BlockUiComponent,
+  MainHeaderComponent,
+  PageNotFoundComponent,
+  NotificationComponent,
+  PersonalInfoModalComponent,
+  PublicOfferComponent,
+  ConfirmationModalComponent,
+  FakeInputComponent,
+  PageForbiddenComponent,
+  InfoModalComponent,
+  TableComponent,
+  MainNavComponent,
+  ModalLayoutComponent,
+  CatalogFilterComponent,
+];
