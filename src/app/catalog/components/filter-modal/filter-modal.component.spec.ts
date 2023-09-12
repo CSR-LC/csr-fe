@@ -6,7 +6,6 @@ import {
   MatLegacyDialogRef as MatDialogRef,
 } from '@angular/material/legacy-dialog';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '@app/material/material.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CatalogController } from '@app/catalog/services';
 
@@ -18,7 +17,7 @@ xdescribe('FilterModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FilterModalComponent],
-      imports: [MaterialModule, ReactiveFormsModule, HttpClientTestingModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,

@@ -7,7 +7,7 @@ import { CatalogComponent, EquipmentItemComponent } from './containers';
 import { CatalogSearchComponent, PreviewEquipmentCardComponent } from './components';
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
-import { MaterialModule } from '../material/material.module';
+// import { MaterialModule } from '../material/material.module';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategorySetComponent } from './containers/category-set/category-set.component';
@@ -27,13 +27,6 @@ import { FilterModalComponent } from '@app/catalog/components/filter-modal/filte
     CategoryTabComponent,
     FilterModalComponent,
   ],
-  imports: [
-    CommonModule,
-    CatalogRoutingModule,
-    SharedModule,
-    DateRangeModule,
-    MaterialModule,
-    NgxsModule.forFeature([CatalogState]),
-  ],
+  imports: [CommonModule, CatalogRoutingModule, SharedModule, DateRangeModule, NgxsModule.forFeature([CatalogState])],
 })
 export class CatalogModule {}
