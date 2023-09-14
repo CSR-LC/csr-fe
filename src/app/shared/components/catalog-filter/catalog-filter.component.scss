@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .filters-button {
+    height: 24px;
+    width: 24px;
+    background: url('../../../../assets/img/icons/filtering.svg') center no-repeat;
+  }
+}

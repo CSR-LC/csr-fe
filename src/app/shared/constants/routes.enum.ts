@@ -1,5 +1,6 @@
 export enum AppRoutes {
   Auth = 'auth',
+  EquipMent = 'equipment',
   Equipments = 'equipments',
   Users = 'users',
   Admin = 'admin',
@@ -10,4 +11,5 @@ export enum AppRoutes {
   EquipmentRegistration = 'equipment-registration',
   PublicOffer = 'public-offer',
   Forbidden = 'forbidden',
+  Roles = 'roles',
 }

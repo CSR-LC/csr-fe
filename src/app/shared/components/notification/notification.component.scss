@@ -1,44 +1,37 @@
-@import 'src/app/shared/styles/variables';
+@import '/src/app/shared/styles/variables';
 
 :host {
   display: block;
 
   .wrapper {
-    min-height: 45px;
-    width: 390px;
-    padding: 18px 26px;
-    border-radius: 16px;
-    background-color: #323232;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
   }
 
   .title {
     font-weight: 500;
   }
 
-  .error {
-    color: $notification-error-color;
+  .icon {
+    &-success {
+      color: $success-icon;
+    }
+    &-error {
+      color: $error-icon;
+    }
   }
 
-  .warning {
-    color: $notification-warning-color;
-  }
 
-  .success {
-    color: $color-title;
+  .message {
+    color: black;
+    padding: 3px 5px 0px 5px;
+    max-width: 265px;
   }
 
   .close_btn {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    margin-bottom: -18px;
-    padding: 0;
-    color: $color-bg-base;
-    background-color: #323232;
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
     border: none;
     cursor: pointer;
   }

@@ -2,7 +2,7 @@
   <h3>{{ ModalEnum.BlockTitle }}</h3>
   <i [mat-dialog-close]="false"></i>
 </div>
-<div class="separator"></div>
+<<mat-divider class="separator"></mat-divider>
 <div class="content">
   <lc-fake-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-fake-input>
   <lc-fake-input
@@ -30,7 +30,7 @@
     </mat-form-field>
   </form>
 </div>
-<div class="separator"></div>
+<mat-divider class="separator"></mat-divider>
 <div class="buttons-wrapper">
   <div class="buttons">
     <button mat-button class="cancel" [mat-dialog-close]="false">

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EquipmentRentalInfo, EquipmentOrder, EquipmentFilter } from '@app/catalog/models';
+import { EquipmentFilter, EquipmentOrder, EquipmentRentalInfo } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, of, switchMap } from 'rxjs';
@@ -12,11 +12,14 @@ import { User } from '@app/auth/models';
 import { AuthState, UserAction } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
+import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
 @Injectable()
 export class ControllerService {
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
+  @Select(CatalogState.equipmentFilter) equipmentFilter$!: Observable<EquipmentFilter>;
 
   constructor(
     private api: CatalogApi,
@@ -24,6 +27,8 @@ export class ControllerService {
     private dateRangeService: DateRangeService,
     private personalInfoService: PersonalInfoService,
     private infoService: InfoService,
+    private catalogFilterService: CatalogFilterService,
+    private mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   getCatalog() {
@@ -36,24 +41,8 @@ export class ControllerService {
     return this.api.info(id);
   }
 
-  searchEquipment(term: string): Observable<Equipment[]> {
-    const parametersEquipment: Partial<Equipment> = {
-      name_substring: term,
-    };
-
-    return this.api.searchEquipment(parametersEquipment).pipe(map((res) => res.items));
-  }
-
   getPhotoById(photoId: string): Observable<Blob> {
     return this.api.getPhotoById(photoId).pipe(map((res) => new Blob([res], { type: 'image/jpeg' })));
-  }
-
-  filterEquipmentByCategory(categoryId: number) {
-    const equipmentFilter: EquipmentFilter = { category: categoryId };
-
-    this.api.filterEquipmentByCategory(equipmentFilter).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
   }
 
   getRentPeriods(equipmentId?: number, maxRentalPeriod?: number): Observable<UnavailableDates | null> {
@@ -117,5 +106,36 @@ export class ControllerService {
         return isPersonalData ? of(period) : of(null);
       }),
     );
+  }
+
+  displayCatalogFilterButton(isDisplayed: boolean): void {
+    this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
+  }
+
+  filterEquipment(): void {
+    const payload = this.catalogFilterService.equipmentFilterRequest;
+    this.api.filterEquipment(payload).subscribe((res) => {
+      this.store.dispatch(new GetCatalog(res.items));
+    });
+  }
+
+  set selectedCategoryId(categoryId: number) {
+    this.catalogFilterService.selectedCategoryId = categoryId;
+  }
+
+  set equipmentFilter(equipmentFilter: EquipmentFilter) {
+    this.catalogFilterService.equipmentFilter = equipmentFilter;
+  }
+
+  set searchInput(searchInput: string) {
+    this.catalogFilterService.searchInput = searchInput;
+  }
+
+  get selectedCategoryId(): number {
+    return this.catalogFilterService.selectedCategoryId;
+  }
+
+  setPageTitle(title: string): void {
+    this.mainPageHeaderService.setPageTitle(title);
   }
 }

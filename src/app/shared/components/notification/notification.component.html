@@ -1,11 +1,18 @@
 <div class="wrapper">
   <ng-container [ngSwitch]="data.type">
-    <div *ngSwitchCase="notificationTypes.Error" class="title error">Ошибка</div>
-    <div *ngSwitchCase="notificationTypes.Warning" class="title warning">Внимание!</div>
-    <div *ngSwitchCase="notificationTypes.Success" class="title success">Успех</div>
+    <mat-icon
+      *ngSwitchCase="notificationTypes.Error"
+      class="icon-error"
+    >error</mat-icon>
+    <mat-icon
+      *ngSwitchCase="notificationTypes.Success"
+      class="icon-success"
+    >check_circle</mat-icon>
   </ng-container>
-  <span>{{ data.message }}</span>
-  <button class="close_btn" *ngIf="isCloseBtnVisible" (click)="dismiss()">
+  <div class="message">
+    <span>{{ data.message }}</span>
+  </div>
+  <button class="close_btn" (click)="dismiss()">
     <mat-icon>close</mat-icon>
   </button>
 </div>

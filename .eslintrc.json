@@ -37,7 +37,6 @@
             "style": "kebab-case"
           }
         ],
-        //Possible Problems
         "getter-return": "error",
         "no-const-assign": "error",
         "no-debugger": "error",
@@ -48,13 +47,11 @@
         "no-setter-return": "error",
         "no-console": "error",
         "no-sparse-arrays": "error",
-        //Suggestions
         "valid-typeof": "warn",
         "no-delete-var": "error",
         "no-lone-blocks": "error",
         "no-multi-str": "error",
         "no-nested-ternary": "error",
-        //Layout & Formatting
         "arrow-parens": "error",
         "block-spacing": "error",
         "func-call-spacing": "error",

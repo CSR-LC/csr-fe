@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Dictionary, ErrorOptions } from '../../types';
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
@@ -47,13 +47,13 @@ export class ValidationService {
     };
   }
 
-  validateForm(form: FormGroup): void {
+  validateForm(form: UntypedFormGroup): void {
     form.updateValueAndValidity();
 
     Object.values(form.controls).forEach((control) => {
       control.updateValueAndValidity();
-      if ((control as FormGroup).controls) {
-        this.validateForm(control as FormGroup);
+      if ((control as UntypedFormGroup).controls) {
+        this.validateForm(control as UntypedFormGroup);
       }
     });
 

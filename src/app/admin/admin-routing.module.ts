@@ -8,18 +8,17 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: AppRoutes.Equipments,
+    pathMatch: 'full',
   },
   {
     path: AppRoutes.Equipments,
     pathMatch: 'full',
     component: EquipmentsComponent,
-    //canActivate: [AdminGuard],
   },
   {
     path: AppRoutes.Users,
     pathMatch: 'full',
     component: EquipmentsComponent,
-    //canActivate: [AdminGuard],
   },
 ];
 

@@ -44,15 +44,20 @@
 }
 
 .close {
+  position: relative;
   height: 32px;
   width: 32px;
-}
 
-.close .close-icon {
-  height: 32px;
-  width: 32px;
-  font-size: 32px;
-  color: $main;
+  .close-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 32px;
+    width: 32px;
+    font-size: 32px;
+    color: $main;
+  }
+  
 }
 
 .nav-link {
@@ -67,22 +72,19 @@
   border-radius: 8px;
 }
 
-.separator {
-  display: block;
-  height: 1px;
+.divider {
   margin: 10px 0;
-  background: rgba(0, 0, 0, 0.12);
 }
 
 .logout-btn {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   border: none;
-  background-color: white;
-  display: inline-block;
-  width: 100px;
+  width: 220px;
   height: 50px;
-  padding: 10px;
   margin-left: 10px;
-  text-align: right;
+  padding-left: 40px;
   font-size: 14px;
   text-transform: uppercase;
   font-family: 'Roboto';

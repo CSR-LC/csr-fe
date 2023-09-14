@@ -5,11 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './user-profile-routing.module';
 import { UserApi } from './services';
 import { FillProfileComponent } from './containers';
-import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 @NgModule({
   declarations: [FillProfileComponent],
-  imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, MaterialModule],
+  imports: [CommonModule, AuthRoutingModule, ReactiveFormsModule, SharedModule],
   providers: [UserApi],
 })
 export class UserProfile {}

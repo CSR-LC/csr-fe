@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 import { OnSubmitStateMatcher } from '@shared/error-matcher/on-submit.error-matcher';
@@ -26,23 +26,31 @@ export class FillProfileComponent {
     this.mainPageHeaderService.setPageTitle('Профиль');
   }
 
-  userInfoForm = new FormGroup({
-    surname: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
-    name: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
-    patronymic: new FormControl('', [Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
-    documentNumber: new FormControl('', [Validators.required, Validators.maxLength(49)]),
-    documentIssuingInfo: new FormControl('', [
+  userInfoForm = new UntypedFormGroup({
+    surname: new UntypedFormControl('', [
+      Validators.required,
+      Validators.maxLength(49),
+      Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
+    ]),
+    name: new UntypedFormControl('', [
+      Validators.required,
+      Validators.maxLength(49),
+      Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
+    ]),
+    patronymic: new UntypedFormControl('', [Validators.maxLength(49), Validators.pattern(/^[-а-яА-ЯёЁ]+$/)]),
+    documentNumber: new UntypedFormControl('', [Validators.required, Validators.maxLength(49)]),
+    documentIssuingInfo: new UntypedFormControl('', [
       Validators.required,
       Validators.maxLength(149),
       Validators.pattern(/^[-а-яА-ЯёЁ]+$/),
     ]),
-    phoneNumber: new FormControl('', [Validators.required, Validators.maxLength(24)]),
-    email: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.email]),
-    status: new FormControl(''),
-    organizationName: new FormControl('', [Validators.maxLength(149)]),
-    organizationContact: new FormControl('', [Validators.maxLength(149)]),
-    personalAccount: new FormControl('', [Validators.maxLength(149)]),
-    workDistrict: new FormControl(''),
+    phoneNumber: new UntypedFormControl('', [Validators.required, Validators.maxLength(24)]),
+    email: new UntypedFormControl('', [Validators.required, Validators.maxLength(49), Validators.email]),
+    status: new UntypedFormControl(''),
+    organizationName: new UntypedFormControl('', [Validators.maxLength(149)]),
+    organizationContact: new UntypedFormControl('', [Validators.maxLength(149)]),
+    personalAccount: new UntypedFormControl('', [Validators.maxLength(149)]),
+    workDistrict: new UntypedFormControl(''),
   });
 
   disableKeyboardInput(event: KeyboardEvent, formFieldName: string) {

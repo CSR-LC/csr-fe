@@ -8,10 +8,11 @@ import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
 import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
 import { AppRoutes } from './shared/constants/routes.enum';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 const routes: Routes = [
   {
-    path: 'auth',
+    path: AppRoutes.Auth,
     pathMatch: 'full',
     canActivate: [TokensGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
@@ -27,7 +28,7 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'catalog/categories',
+        redirectTo: `${AppRoutes.Catalog}/${AppRoutes.Categories}`,
       },
       {
         path: AppRoutes.Catalog,
@@ -43,6 +44,7 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.Admin,
+        canActivate: [AdminGuard],
         loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
       },
     ],

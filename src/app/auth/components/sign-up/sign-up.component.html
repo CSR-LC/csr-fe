@@ -39,11 +39,14 @@
 
     <div class="offer">
       Нажимая «Продолжить» вы даете
-      <a routerLink="/public-offer" target="_blank">согласие на обработку персональных данных</a>
+      <a routerLink="{{offerPath}}" target="_blank">согласие на обработку персональных данных</a>
     </div>
 
-    <button type="submit" class="sign-up-controls-button" (click)="onSubmit()" mat-raised-button color="primary">
-      Продолжить
-    </button>
+    <button
+        type="submit"
+        class="sign-up-controls-button"
+        (click)="onSubmit()"
+        mat-raised-button color="primary"
+      >Продолжить</button>
   </form>
 </main>

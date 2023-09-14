@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 import { AuthController } from '../../services';
@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { catchError, finalize, switchMap, throwError } from 'rxjs';
-import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @UntilDestroy
 @Component({
@@ -28,14 +28,14 @@ export class SignUpComponent implements OnInit {
   });
 
   readonly formName = 'user_registration_form';
+  readonly offerPath = `/${AppRoutes.PublicOffer}`;
 
   constructor(
     private readonly controller: AuthController,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
-    private readonly notificationsService: NotificationsService,
   ) {}
 
   get formValue() {
@@ -70,10 +70,6 @@ export class SignUpComponent implements OnInit {
           });
         }),
         switchMap(() => this.controller.openPersonalInfoModal()),
-        catchError((error) => {
-          this.notificationsService.openError(error.message);
-          return throwError(error);
-        }),
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )
