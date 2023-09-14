@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DateRange } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
@@ -18,9 +18,9 @@ export class DateRangeComponent {
   readonly currentMonth = new Date().getMonth();
   readonly currentYear = new Date().getFullYear();
 
-  dateRangeForm = new FormGroup({
-    fromDate: new FormControl(null),
-    toDate: new FormControl(null),
+  dateRangeForm = new UntypedFormGroup({
+    fromDate: new UntypedFormControl(null),
+    toDate: new UntypedFormControl(null),
   });
 
   minDate = new Date();

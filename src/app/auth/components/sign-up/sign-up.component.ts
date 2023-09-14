@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 import { AuthController } from '../../services';
@@ -32,7 +32,7 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private readonly controller: AuthController,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,

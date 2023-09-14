@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: AppRoutes.Equipments,
+    pathMatch: 'full',
   },
   {
     path: AppRoutes.Equipments,

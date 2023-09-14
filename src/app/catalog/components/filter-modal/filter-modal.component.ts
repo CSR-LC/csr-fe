@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterModalData } from '@app/catalog/models';
-import { FormArray, FormBuilder, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/management/models/management';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { filterModalLabels } from '@app/catalog/constants';
@@ -32,7 +32,7 @@ export class FilterModalComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly dialogRef: MatDialogRef<FilterModalComponent>,
     private readonly cdr: ChangeDetectorRef,
     private catalogFilterService: CatalogFilterService,
@@ -73,12 +73,12 @@ export class FilterModalComponent implements OnInit {
     this.petSizes && this.createCheckBoxFormControls<PetSize>(this.petSizes, this.petSizesFormArray);
   }
 
-  get petKindsFormArray(): FormArray {
-    return this.filterForm.get('petKinds') as FormArray;
+  get petKindsFormArray(): UntypedFormArray {
+    return this.filterForm.get('petKinds') as UntypedFormArray;
   }
 
-  get petSizesFormArray(): FormArray {
-    return this.filterForm.get('petSizes') as FormArray;
+  get petSizesFormArray(): UntypedFormArray {
+    return this.filterForm.get('petSizes') as UntypedFormArray;
   }
 
   resetFilters(): void {
@@ -105,8 +105,8 @@ export class FilterModalComponent implements OnInit {
       .filter((v: number) => v !== null);
   }
 
-  private createCheckBoxFormControls<T>(modelArray: T[], modelFormArray: FormArray): void {
-    modelArray.forEach(() => modelFormArray.push(new FormControl(false)));
+  private createCheckBoxFormControls<T>(modelArray: T[], modelFormArray: UntypedFormArray): void {
+    modelArray.forEach(() => modelFormArray.push(new UntypedFormControl(false)));
   }
 
   private get equipmentFilter(): EquipmentFilter {

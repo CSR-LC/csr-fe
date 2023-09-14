@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBarConfig } from '@angular/material/snack-bar/snack-bar-config';
+import { MatSnackBarConfig, MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationTypes } from '@shared/constants/notification.enum';
 import { NotificationComponent } from '@shared/components/notification/notification.component';
 import { HttpErrorResponse } from '@angular/common/http';

@@ -36,6 +36,7 @@ export class CatalogFilterService {
     return this.dialog
       .open(FilterModalComponent, {
         minWidth: 350,
+        autoFocus: false,
         data: {
           equipmentFilterForm,
           petKinds,
