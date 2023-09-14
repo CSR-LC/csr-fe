@@ -7,7 +7,6 @@ import { CatalogComponent, EquipmentItemComponent } from './containers';
 import { CatalogSearchComponent, PreviewEquipmentCardComponent } from './components';
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
-// import { MaterialModule } from '../material/material.module';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
 import { CategorySetComponent } from './containers/category-set/category-set.component';
