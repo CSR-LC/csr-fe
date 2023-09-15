@@ -69,7 +69,6 @@ export class SignUpComponent implements OnInit {
             password: this.formValue.password,
           });
         }),
-        switchMap(() => this.controller.openPersonalInfoModal()),
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )

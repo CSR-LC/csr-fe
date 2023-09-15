@@ -9,7 +9,7 @@ import { PublicOfferComponent } from '@app/shared/components/public-offer/public
 import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
 import { AppRoutes } from './shared/constants/routes.enum';
 import { AdminGuard } from './shared/guards/admin.guard';
-import { EmailConfirmationComponent } from './shared/containers/email-confirmation/email-confirmation.component';
+import { EmailConfirmationComponent } from './stand-alone/email-confirmation/component/email-confirmation.component';
 import { EmailGuard } from './shared/guards/email.guard';
 import { ConfirmedEmail } from './shared/guards/confirmed-email.guard';
 
@@ -26,7 +26,13 @@ const routes: Routes = [
     children: [
       // keep email confiramtion route before redirect
       {
-        path: AppRoutes.EmailConfirmation,
+        path: `${AppRoutes.EmailConfirmation}`,
+        component: EmailConfirmationComponent,
+        pathMatch: 'full',
+        canActivate: [ConfirmedEmail],
+      },
+      {
+        path: `${AppRoutes.EmailConfirmation}/:token`,
         component: EmailConfirmationComponent,
         canActivate: [ConfirmedEmail],
       },
