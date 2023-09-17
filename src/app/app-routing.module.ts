@@ -24,7 +24,7 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     children: [
-      // keep email confiramtion route before redirect
+      // keep email confiramtion routes before redirect
       {
         path: `${AppRoutes.EmailConfirmation}`,
         component: EmailConfirmationComponent,
