@@ -3,7 +3,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { EmailConfirmationController } from '../servicves/controller/email-confirmation-controller';
 import { EmailConfirmationApi } from '../servicves/api/email-confirmation-api';
 import { CommonModule } from '@angular/common';
-import { catchError, switchMap } from 'rxjs';
+import { catchError, switchMap, finalize } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -30,11 +30,13 @@ export class EmailConfirmationComponent implements OnInit {
 
   confirmMail() {
     if (!this.token) return;
+    this.controller.bockUi();
     this.controller
       .confirmMail(this.token)
       .pipe(
         switchMap(() => this.controller.openEmailConfirmedModal()),
         switchMap(() => this.controller.openPersonalInfoModal()),
+        finalize(() => this.controller.unblockUi()),
         catchError((err) => {
           this.isTokenValid = false;
           this.cdr.markForCheck();

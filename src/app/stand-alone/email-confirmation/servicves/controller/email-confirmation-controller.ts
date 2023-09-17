@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { User } from '@app/auth/models';
+import { BlockUiService } from '@app/shared/services/block-ui/block-ui.service';
 
 @Injectable()
 export class EmailConfirmationController {
@@ -19,6 +20,7 @@ export class EmailConfirmationController {
     private readonly personalInfoService: PersonalInfoService,
     private readonly infoService: InfoService,
     private readonly router: Router,
+    private readonly blockUiService: BlockUiService,
   ) {}
 
   get user(): User | undefined {
@@ -64,5 +66,13 @@ export class EmailConfirmationController {
       infoMessage: `Вы успешно зарегистрировались`,
       buttonOkText: 'Продолжить',
     });
+  }
+
+  bockUi() {
+    this.blockUiService.block();
+  }
+
+  unblockUi() {
+    this.blockUiService.unBlock();
   }
 }
