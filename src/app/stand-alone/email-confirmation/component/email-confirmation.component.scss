@@ -35,6 +35,9 @@
     }
 
     h3 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       @include font-style(20px, 24px, 700);
       margin-bottom: 40px;
     }

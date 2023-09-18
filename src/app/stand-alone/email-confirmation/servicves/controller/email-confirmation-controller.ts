@@ -49,7 +49,7 @@ export class EmailConfirmationController {
   }
 
   resendMailSuccess() {
-    this.notificationService.openError(NotificationSuccess.EmailConfirmationMailResent);
+    this.notificationService.openSuccess(NotificationSuccess.EmailConfirmationMailResent);
   }
 
   openPersonalInfoModal(): Observable<void> {
