@@ -12,4 +12,5 @@ export enum AppRoutes {
   PublicOffer = 'public-offer',
   Forbidden = 'forbidden',
   Roles = 'roles',
+  EmailConfirmation = 'email-confirmation',
 }
