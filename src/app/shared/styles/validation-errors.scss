@@ -1,0 +1,12 @@
+@import "./variables.scss";
+
+.mat-mdc-form-field {
+    position: relative !important;
+}
+
+.lc-error {
+    position: absolute !important;
+    bottom: 0;
+    color: $notification-error-color;
+    font-size: 12px
+}

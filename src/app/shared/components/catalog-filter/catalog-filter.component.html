@@ -1,1 +1,12 @@
-<button mat-icon-button class="filters-button" (click)="openFilters()"></button>
+<button
+  class="filters-button"
+  mat-icon-button
+  matBadgeSize="small"
+  matBadge="8"
+  matBadgePosition="after"
+  matBadgeColor="accent"
+  [matBadgeHidden]="(equipmentFilterCount$ | async) === 0"
+  [matBadge]="equipmentFilterCount$ | async"
+  (click)="openFilters()"
+></button>
+

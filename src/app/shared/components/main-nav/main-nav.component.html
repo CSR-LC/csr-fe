@@ -10,7 +10,7 @@
           <mat-icon class="close-icon">close</mat-icon>
         </button>
       </mat-toolbar>
-      <mat-nav-list class="nav-list">
+      <mat-nav-list *ngIf="isEmailConfirmed$ | async" class="nav-list">
         <a *ngFor="let link of userLinks" 
           class="nav-link" 
           mat-list-item 

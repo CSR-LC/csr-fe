@@ -16,8 +16,6 @@ export class PersonalInfoService {
   openPersonalInfoModal(): Observable<void> {
     return this.dialog
       .open(PersonalInfoModalComponent, {
-        width: '100vw',
-        maxWidth: '100vw',
         autoFocus: false,
       })
       .afterClosed()

@@ -5,14 +5,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 24px;
+  height: 81px;
+  padding: 0 28px;
 
   @include cross();
 
   h3 {
     font-size: 20px;
     font-weight: 700;
-    margin: 0;
+    margin-bottom: 0;
   }
 
   .cross-container {
@@ -20,10 +21,6 @@
     justify-content: center;
     align-items: center;
   }
-}
-
-.modal-body {
-  margin: 24px 0;
 }
 
 .modal-footer {
@@ -39,7 +36,10 @@
 .close-button {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  padding: 0;
+  height: 24px;
+  width: 24px;
 }
 
 @media screen and (max-height: 768px) {

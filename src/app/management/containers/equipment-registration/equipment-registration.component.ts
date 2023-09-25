@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, Validators } from '@angular/forms';
 import { map, Observable, switchMap, tap } from 'rxjs';
 
 import { BaseKind, EquipmentKind, PetSize } from '../../models/management';
@@ -73,7 +73,7 @@ export class EquipmentRegistrationComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly controller: ControllerService,
     private readonly notificationsService: NotificationsService,
   ) {}

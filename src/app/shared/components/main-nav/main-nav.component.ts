@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 export class MainNavComponent implements OnInit {
   @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
   @Select(AuthState.user) user$!: Observable<User>;
+  @Select(AuthState.isEmailConfirmed) isEmailConfirmed$!: Observable<boolean>;
   public userLinks: NavigationLink[] = [];
   public adminLinks: NavigationLink[] = [];
 

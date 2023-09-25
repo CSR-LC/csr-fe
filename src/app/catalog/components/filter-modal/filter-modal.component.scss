@@ -17,7 +17,6 @@
 .pet-kind-container, .pet-size-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .pet-size {
@@ -61,4 +60,12 @@
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+}
+
+mat-progress-spinner {
+  display: inline-block;
+}
+
+.modal-action-button {
+  height: 58px !important;
 }

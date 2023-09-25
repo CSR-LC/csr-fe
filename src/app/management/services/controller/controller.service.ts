@@ -10,7 +10,7 @@ import { EquipmentSubCategory } from '@app/management/types/equipment-sub-catego
 import { Equipment } from '@app/catalog/models/equipment';
 import { NewEquipment } from '@app/management/models/equipment';
 import { ValidationService } from '@shared/services/validation/validation.service';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 
 @Injectable()
@@ -56,7 +56,7 @@ export class ControllerService {
     return this.api.getEquipmentStatuses();
   }
 
-  validateForm(form: FormGroup) {
+  validateForm(form: UntypedFormGroup) {
     this.validationService.validateForm(form);
   }
 

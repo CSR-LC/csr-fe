@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'lc-modal-layout',
@@ -8,6 +8,11 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class ModalLayoutComponent {
   @Input() headerTitle!: string;
+  @Output() closed = new EventEmitter<boolean>();
 
   constructor() {}
+
+  close() {
+    this.closed.next(true);
+  }
 }

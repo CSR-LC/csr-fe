@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+.mat-form-field-subscript-wrapper {
+  transform: translateY(0%);
+}
+
+mat-snack-bar-container.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    background-color: $color-bg-base;
+    border-radius: 10px;
+
+    .mat-mdc-snack-bar-label {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}

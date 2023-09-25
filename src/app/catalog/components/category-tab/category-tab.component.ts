@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from '@app/catalog/models';
 
 @Component({
@@ -9,4 +9,13 @@ import { Category } from '@app/catalog/models';
 })
 export class CategoryTabComponent {
   @Input() item?: Category;
+  @Output() categorySelected = new EventEmitter<number>();
+
+  get categoryId() {
+    return this.item?.id || 0;
+  }
+
+  selectCategory(categoryId: number): void {
+    this.categorySelected.next(categoryId);
+  }
 }

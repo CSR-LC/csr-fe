@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { ActiveArea, User } from '../../models/user';
 import { UserApi } from '..';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ControllerService {
   constructor(private readonly api: UserApi) {}
 
-  cancel(form: FormGroup) {
+  cancel(form: UntypedFormGroup) {
     form.reset();
   }
 

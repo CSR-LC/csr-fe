@@ -1,0 +1,26 @@
+<section *ngIf="!token || !isTokenValid">
+  <div class="information">
+    <div class="logo">
+      <img src="assets/img/logo.svg" alt="Логотип">
+    </div>
+      <h3>
+        <span>{{isTokenValid ? 'Подтвердите' : 'Не удалось подтвердить'}}</span>
+        <span>учетную запись</span>
+      </h3>
+      <p *ngIf="isTokenValid" class="message">
+        Для завершения регистрации, пройдите по ссылке в письме. Письмо отправлено на указанную почту.
+      </p>
+      <p *ngIf="!isTokenValid" class="message">
+        Возможно действие ссылки истекло. Получите новое письмо и пройдите по сслыке снова. Письмо будет отправлено на указанную почту
+      </p>
+      <p class="mail">{{ userEmail }}</p>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="resendMail()"
+  >
+    ОТПРАВИТЬ СНОВА
+  </button>
+</section>
+
