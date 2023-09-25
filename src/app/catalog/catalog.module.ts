@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CatalogRoutingModule } from './catalog-routing.module';
 import { SharedModule } from '@shared/shared.module';
 import { CatalogComponent, EquipmentItemComponent } from './containers';
-import { CatalogSearchComponent, PreviewEquipmentCardComponent } from './components';
+import { PreviewEquipmentCardComponent } from './components';
 import { NgxsModule } from '@ngxs/store';
 import { CatalogState } from './store';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
@@ -18,7 +18,6 @@ import { FilterModalComponent } from '@app/catalog/components/filter-modal/filte
   declarations: [
     CatalogComponent,
     PreviewEquipmentCardComponent,
-    CatalogSearchComponent,
     EquipmentItemComponent,
     CategoriesComponent,
     CategoryItemComponent,

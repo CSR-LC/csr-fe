@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.search-button {
+  height: 24px;
+  width: 24px;
+  background: url('../../../../assets/img/icons/icon-search.svg') center no-repeat;
+}
+
+.cancel-button {
+  height: 24px;
+  width: 24px;
+  background: url('../../../../assets/img/icons/icon-cancel.svg') center no-repeat;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  color: white;
+}

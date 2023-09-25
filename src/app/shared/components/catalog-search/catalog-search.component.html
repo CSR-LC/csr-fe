@@ -1,0 +1,18 @@
+<form *ngIf="showSearchInput" class="search-form">
+  <mat-form-field class="search-input">
+    <input
+      #searchBox
+      matInput
+      type="search"
+      maxlength="100"
+      (keydown.enter)="onSearch(searchBox.value); $event.preventDefault()"
+      class="search-input"
+      placeholder="Поиск"
+    >
+  </mat-form-field>
+</form>
+<button
+  [ngClass]="showSearchInput ? 'cancel-button' : 'search-button'"
+  mat-icon-button
+  (click)="toggle()"
+></button>

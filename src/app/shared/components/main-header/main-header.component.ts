@@ -11,12 +11,22 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainHeaderComponent {
+  public showTitle: boolean = true;
   public pageTitle$ = this.mainPageHeaderService.getPageTitle();
-  public filtersButtonDisplayed$ = this.catalogFilterService.getFiltersButtonDisplayed();
+  public actionsDisplayed$ = this.catalogFilterService.getActionsDisplayed();
   @Output() toggleMenu = new EventEmitter<void>();
 
   constructor(
     private readonly mainPageHeaderService: MainPageHeaderService,
     private readonly catalogFilterService: CatalogFilterService,
   ) {}
+
+  onSearch(term: string) {
+    this.catalogFilterService.searchInput = term;
+    this.catalogFilterService.filterEquipment();
+  }
+
+  toggleTitle() {
+    this.showTitle = !this.showTitle;
+  }
 }

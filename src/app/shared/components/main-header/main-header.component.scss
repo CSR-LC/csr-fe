@@ -21,3 +21,11 @@
     letter-spacing: 0.25px;
   }
 }
+
+.actions {
+  display: flex;
+  gap: 10px;
+  &.no-title {
+    width: 100%;
+  }
+}
