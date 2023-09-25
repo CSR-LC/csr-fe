@@ -8,7 +8,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class CatalogSearchComponent {
   showSearchInput: boolean = false;
   @Output() search = new EventEmitter();
-  @Output() titleToggled = new EventEmitter();
 
   onSearch(term: string) {
     this.search.emit(term);
@@ -16,6 +15,5 @@ export class CatalogSearchComponent {
 
   toggle() {
     this.showSearchInput = !this.showSearchInput;
-    this.titleToggled.emit();
   }
 }

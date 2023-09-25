@@ -7,9 +7,9 @@
   >
     <mat-icon>menu</mat-icon>
   </button>
-  <h1 class="main-header__title" *ngIf="showTitle">{{pageTitle$ | async}}</h1>
-  <section class="actions"  *ngIf="(actionsDisplayed$ | async) === true" [ngClass]="{'no-title': !showTitle}">
-    <lc-catalog-search (search)="onSearch($event)" (titleToggled)="toggleTitle()"></lc-catalog-search>
+  <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
+  <section class="actions" *ngIf="(actionsDisplayed$ | async) === true">
+    <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
     <lc-catalog-filter></lc-catalog-filter>
   </section>
 </header>
