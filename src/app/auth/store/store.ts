@@ -53,6 +53,11 @@ export class AuthState {
     return !!(state.user?.name && state.user.surname && state.user.phone_number);
   }
 
+  @Selector()
+  static isEmailConfirmed(state: AuthStore): boolean {
+    return state.user ? state.user.is_registration_confirmed : false;
+  }
+
   constructor(private readonly authApi: AuthApi) {}
 
   @Action(Login)

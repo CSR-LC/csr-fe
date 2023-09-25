@@ -4,6 +4,8 @@ export type User = {
   email: string;
   id: number;
   is_blocked: boolean;
+  is_readonly: boolean;
+  is_registration_confirmed: boolean;
   login: string;
   name: string;
   org_name: string;

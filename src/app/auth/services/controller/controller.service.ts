@@ -25,6 +25,7 @@ export class ControllerService {
     private readonly dialog: MatDialog,
     private readonly personalInfoService: PersonalInfoService,
     private readonly notificationService: NotificationsService,
+    private dialog: MatDialog,
   ) {}
 
   cancel() {
@@ -66,9 +67,5 @@ export class ControllerService {
 
   setUser(user: User) {
     return this.store.dispatch(new UserAction(user));
-  }
-
-  openPersonalInfoModal(): Observable<void> {
-    return this.personalInfoService.openPersonalInfoModal();
   }
 }

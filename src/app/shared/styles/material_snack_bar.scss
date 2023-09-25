@@ -1,9 +1,17 @@
-@import "/src/app/shared/styles/variables.scss";
+@import './variables.scss';
 
-.mat-snack-bar-container {
+.mat-form-field-subscript-wrapper {
+  transform: translateY(0%);
+}
+
+mat-snack-bar-container.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
     background-color: $color-bg-base;
-    width: 342px;
-    border-radius: 10px !important;
-    padding: 9px 18px 9px 18px !important;
-    margin-top: 10px !important;
+    border-radius: 10px;
+
+    .mat-mdc-snack-bar-label {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
   }
+}
