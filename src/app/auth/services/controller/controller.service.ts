@@ -25,7 +25,6 @@ export class ControllerService {
     private readonly dialog: MatDialog,
     private readonly personalInfoService: PersonalInfoService,
     private readonly notificationService: NotificationsService,
-    private dialog: MatDialog,
   ) {}
 
   cancel() {
