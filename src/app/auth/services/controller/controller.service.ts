@@ -9,6 +9,9 @@ import { AuthService } from '@shared/services/auth-service/auth-service.service'
 import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/store';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
+import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
+import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
+import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 
 @Injectable()
 export class ControllerService {
@@ -19,7 +22,9 @@ export class ControllerService {
     private readonly router: Router,
     private readonly store: Store,
     private readonly authService: AuthService,
-    private dialog: MatDialog,
+    private readonly dialog: MatDialog,
+    private readonly personalInfoService: PersonalInfoService,
+    private readonly notificationService: NotificationsService,
   ) {}
 
   cancel() {
@@ -37,17 +42,18 @@ export class ControllerService {
   openResetPasswordModal(email?: string) {
     this.dialog
       .open(PasswordResetComponent, {
-        width: '100vw',
-        maxWidth: '100vw',
+        width: '318px',
+        autoFocus: false,
         data: email,
-        position: { bottom: '0' },
       })
       .afterClosed()
       .pipe(
         filter(Boolean),
         switchMap((email) => this.api.resetPassword(email)),
       )
-      .subscribe();
+      .subscribe(() => {
+        this.notificationService.openSuccess(NotificationSuccess.PasswordSent);
+      });
   }
 
   setRememberMe(rememberMe: boolean) {

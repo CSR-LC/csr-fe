@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
-import { NotificationsService } from '@shared/services/notifications/notifications.service';
-import { catchError, finalize, switchMap, throwError, tap } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 
 @UntilDestroy
 @Component({
@@ -32,7 +31,6 @@ export class LoginComponent {
     private readonly formBuilder: UntypedFormBuilder,
     private readonly validationService: ValidationService,
     private readonly blockUiService: BlockUiService,
-    private readonly notificationsService: NotificationsService,
   ) {}
 
   onLogin() {
