@@ -1,13 +1,13 @@
-<form *ngIf="showSearchInput" class="search-form">
+<form [formGroup]="form" *ngIf="showSearchInput" class="search-form" (ngSubmit)="onSearch();">
   <mat-form-field class="search-input">
     <input
-      #searchBox
       matInput
       type="search"
       maxlength="100"
-      (keydown.enter)="onSearch(searchBox.value); $event.preventDefault()"
       class="search-input"
       placeholder="Поиск"
+      formControlName="searchValue"
+      (search)="$event.stopPropagation()"
     >
   </mat-form-field>
 </form>

@@ -11,7 +11,6 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainHeaderComponent {
-  public showTitle: boolean = true;
   public pageTitle$ = this.mainPageHeaderService.getPageTitle();
   public actionsDisplayed$ = this.catalogFilterService.getActionsDisplayed();
   @Output() toggleMenu = new EventEmitter<void>();
@@ -24,9 +23,5 @@ export class MainHeaderComponent {
   onSearch(term: string) {
     this.catalogFilterService.searchInput = term;
     this.catalogFilterService.filterEquipment();
-  }
-
-  toggleTitle() {
-    this.showTitle = !this.showTitle;
   }
 }
