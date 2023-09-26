@@ -135,4 +135,8 @@ export class ControllerService {
   setPageTitle(title: string): void {
     this.mainPageHeaderService.setPageTitle(title);
   }
+
+  displayPageTitle(isDisplayed: boolean) {
+    this.mainPageHeaderService.setPageTitleDisplayed(isDisplayed);
+  }
 }

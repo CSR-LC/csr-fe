@@ -28,8 +28,13 @@
   width: 100%;
   color: white !important;
   font-weight: 200;
-  ::placeholder {
+
+  &::placeholder {
     font-weight: 200;
     color: rgb(194, 194, 194) !important;
+  }
+
+  &::-webkit-search-cancel-button {
+    display: none;
   }
 }

@@ -30,5 +30,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.controller.displayCatalogActions(false);
+    this.controller.displayPageTitle(true);
   }
 }
