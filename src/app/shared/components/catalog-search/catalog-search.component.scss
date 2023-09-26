@@ -26,5 +26,10 @@
 
 .search-input {
   width: 100%;
-  color: white;
+  color: white !important;
+  font-weight: 200;
+  ::placeholder {
+    font-weight: 200;
+    color: rgb(194, 194, 194) !important;
+  }
 }
