@@ -9,6 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CatalogSearchComponent {
   showSearchInput: boolean = false;
   @Output() search = new EventEmitter();
+  @Output() inputDisplayed = new EventEmitter<boolean>();
 
   form = new FormGroup({
     searchValue: new FormControl(''),
@@ -20,5 +21,6 @@ export class CatalogSearchComponent {
 
   toggle() {
     this.showSearchInput = !this.showSearchInput;
+    this.inputDisplayed.emit(this.showSearchInput);
   }
 }

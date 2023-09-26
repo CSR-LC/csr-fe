@@ -20,22 +20,13 @@
     text-align: center;
     letter-spacing: 0.25px;
   }
-
-  &:has(input[type="search"]) {
-    .main-header__title {
-      display: none;
-    }
-
-    .actions {
-      width: 100%;
-    }
-  }
 }
 
 .actions {
   display: flex;
   gap: 10px;
-  .no-title {
+
+  &.no-title {
     width: 100%;
   }
 }

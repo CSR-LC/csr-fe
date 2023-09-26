@@ -25,4 +25,8 @@ export class MainHeaderComponent {
     this.catalogFilterService.searchInput = term;
     this.catalogFilterService.filterEquipment();
   }
+
+  toggleTitle(inputDisplayed: boolean) {
+    this.mainPageHeaderService.setPageTitleDisplayed(!inputDisplayed);
+  }
 }
