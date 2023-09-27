@@ -10,7 +10,7 @@
   <h1 class="main-header__title" *ngIf="(pageTitleDisplayed$ | async) === true">{{pageTitle$ | async}}</h1>
   <section class="actions" *ngIf="(actionsDisplayed$ | async) === true"
            [ngClass]="{'no-title': (pageTitleDisplayed$ | async) === false}">
-    <lc-catalog-search (search)="onSearch($event)" (inputDisplayed)="toggleTitle($event)"></lc-catalog-search>
+    <lc-catalog-search [searchValue]="searchValue" (search)="onSearch($event)" (inputDisplayed)="toggleTitle($event)"></lc-catalog-search>
     <lc-catalog-filter></lc-catalog-filter>
   </section>
 </header>

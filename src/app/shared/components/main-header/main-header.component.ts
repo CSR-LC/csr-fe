@@ -29,4 +29,8 @@ export class MainHeaderComponent {
   toggleTitle(inputDisplayed: boolean) {
     this.mainPageHeaderService.setPageTitleDisplayed(!inputDisplayed);
   }
+
+  get searchValue() {
+    return this.catalogFilterService.searchInput;
+  }
 }
