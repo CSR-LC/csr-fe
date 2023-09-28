@@ -1,4 +1,4 @@
-import { ActionEnum } from '@shared/constants/action.enum';
+import { EquipmentAction } from '@shared/constants/action.enum';
 import { TableColumn } from '@shared/models/table-column';
 
 export const EquipmentColumns: TableColumn[] = [
@@ -25,25 +25,27 @@ export const EquipmentColumns: TableColumn[] = [
   {
     header: 'Статус',
     columnDef: 'status',
-    tooltip: 'Тултип',
     style: { 'width.px': 150 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Block,
-    action: ActionEnum.Block,
+    columnDef: EquipmentAction.Block,
+    action: EquipmentAction.Block,
+    tooltip: 'Блокировать',
     style: { 'width.px': 32 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Edit,
-    action: ActionEnum.Edit,
+    columnDef: EquipmentAction.Edit,
+    action: EquipmentAction.Edit,
+    tooltip: 'Редактировать',
     style: { 'width.px': 32 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Archivate,
-    action: ActionEnum.Archivate,
+    columnDef: EquipmentAction.Archivate,
+    action: EquipmentAction.Archivate,
+    tooltip: 'Архивировать',
     style: { 'width.px': 32 },
   },
 ];

@@ -5,12 +5,12 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  AfterViewInit,
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 
@@ -20,37 +20,44 @@ import { TableColumn } from '@shared/models/table-column';
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T> implements AfterViewInit, OnChanges {
-  @Input() columns!: TableColumn[];
+export class TableComponent<T> implements OnChanges {
+  @Input() columns: TableColumn[] = [];
   @Input() data: T[] = [];
-  @Input() total = 0;
-  @Input() page = 0;
   @Input() limit = 10;
-  @Output() setPage = new EventEmitter<number>();
-  @Output() action = new EventEmitter<TableAction<T>>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource = new MatTableDataSource<T>();
+  @Output() action = new EventEmitter<TableAction<T>>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
+
+  total = 0;
+  dataSource!: MatTableDataSource<T>;
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
-      this.dataSource = new MatTableDataSource(this.data);
+      this.total = this.data.length;
+      this.dataSource = this.getMatTableData(this.data);
     }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  onSetPage(e: PageEvent) {
-    this.setPage.emit(e.pageIndex);
-  }
-
-  get displayColumns() {
+  get displayedColumns() {
     return this.columns.map((column: TableColumn) => column.columnDef);
   }
 
-  onEditCell(data: TableAction<T>) {
+  editRow(data: TableAction<T>) {
     this.action.emit(data);
+  }
+
+  private getMatTableData(data: T[]): MatTableDataSource<T> {
+    const matData = new MatTableDataSource(data);
+
+    if (this.sort && this.dataSource) {
+      matData.sort = this.sort;
+    }
+
+    if (this.paginator) {
+      matData.paginator = this.paginator;
+    }
+    return matData;
   }
 }
