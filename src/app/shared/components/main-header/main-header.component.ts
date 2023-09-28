@@ -21,16 +21,7 @@ export class MainHeaderComponent {
     private readonly catalogFilterService: CatalogFilterService,
   ) {}
 
-  onSearch(term: string) {
-    this.catalogFilterService.searchInput = term;
-    this.catalogFilterService.filterEquipment();
-  }
-
   toggleTitle(inputDisplayed: boolean) {
     this.mainPageHeaderService.setPageTitleDisplayed(!inputDisplayed);
-  }
-
-  get searchValue() {
-    return this.catalogFilterService.searchInput;
   }
 }
