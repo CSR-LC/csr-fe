@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 export const materialModules = [
@@ -38,11 +39,11 @@ export const materialModules = [
   MatSidenavModule,
   MatSlideToggleModule,
   MatTableModule,
+  MatCheckboxModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
   MatSnackBarModule,
-  MatCheckboxModule,
-  MatIconModule,
+  MatSortModule,
   MatFormFieldModule,
 ];
