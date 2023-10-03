@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSortModule } from '@angular/material/sort';
 
 export const materialModules = [
   A11yModule,
@@ -42,4 +43,5 @@ export const materialModules = [
   MatToolbarModule,
   MatTooltipModule,
   MatSnackBarModule,
+  MatSortModule,
 ];
