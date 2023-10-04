@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/internal/Observable';
 import { TableAction } from '@shared/models/table-action';
 import { Equipment } from '@app/catalog/models/equipment';
 import { TableColumn } from '@shared/models/table-column';
+import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 
+@UntilDestroy
 @Component({
   selector: 'lc-equipments',
   templateUrl: './equipments.component.html',
@@ -20,6 +22,12 @@ export class EquipmentsComponent implements OnInit {
 
   ngOnInit() {
     this.controller.fetchEquipments().subscribe();
+    this.controller.equipmentCategories
+      .pipe(untilDestroyed(this))
+      .subscribe((res) => this.controller.createCategoriesDictionary(res, this.controller.categoryDictionary));
+    this.controller.equipmentStatuses
+      .pipe(untilDestroyed(this))
+      .subscribe((res) => this.controller.createCategoriesDictionary(res, this.controller.statusDictionary));
   }
 
   editEquipment(data: TableAction<Equipment>) {

@@ -8,10 +8,13 @@ import { ArchiveEquipmentModalComponent } from './components/archive-equipment-m
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminApi } from '@app/admin/services';
 import { BlockEquipmentModalComponent } from './components/block-equipment-modal/block-equipment-modal.component';
+import { EquipmentsStatusesResolver } from './resolvers/equipment-statuses/equipment-statuses.resolver';
+import { EquipmentResolverService } from './services/equipment-resolver/equipment-resolver.service';
+import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
 
 @NgModule({
   declarations: [EquipmentsComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule],
-  providers: [AdminApi],
+  providers: [AdminApi, EquipmentResolverService, EquipmentsStatusesResolver, EquipmentCategoriesResolver],
 })
 export class AdminModule {}

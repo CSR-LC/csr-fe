@@ -4,22 +4,30 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, catchError, filter, of, pipe, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, of, map, switchMap, tap } from 'rxjs';
 import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
-import { BaseItemsResponse } from '@app/shared/types';
+import { Dictionary } from '@app/shared/types';
 import { EquipmentColumns } from '@app/admin/constants/equipment-columns';
 import { TableAction } from '@shared/models/table-action';
 import { EquipmentAction } from '@shared/constants/action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { TableColumn } from '@shared/models/table-column';
+import { Select } from '@ngxs/store';
+import { ApplicationDataState } from '@app/shared/store/application-data';
+import { Category } from '@app/catalog/models';
 
 @UntilDestroy
 @Injectable()
 export class ControllerService {
   readonly equipmentColumns: TableColumn[] = EquipmentColumns;
   private equipmentDataSubj$ = new BehaviorSubject<Equipment[]>([]);
+  categoryDictionary: Dictionary<string> = {};
+  statusDictionary: Dictionary<string> = {};
+
+  @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
+  @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<Category[]>;
 
   get equipmentData$(): Observable<Equipment[]> {
     return this.equipmentDataSubj$.asObservable();
@@ -48,9 +56,20 @@ export class ControllerService {
   }
 
   fetchEquipments() {
-    return this.api
-      .getAllEquipment()
-      .pipe(tap((data: BaseItemsResponse<Equipment>) => this.equipmentDataSubj$.next(data.items)));
+    return this.api.getAllEquipment().pipe(
+      map((res) => this.fillCategoriesAndStatusNames(res.items)),
+      tap((data: Equipment[]) => this.equipmentDataSubj$.next(data)),
+    );
+  }
+
+  private fillCategoriesAndStatusNames(equipments: Equipment[]): Equipment[] {
+    return equipments.map((equipment) => {
+      const categoryName = this.getDictiionaryValue(this.categoryDictionary, equipment.category);
+      const statusName = this.getDictiionaryValue(this.statusDictionary, equipment.status);
+      if (categoryName) equipment.categoryName = categoryName;
+      if (statusName) equipment.statusName = statusName;
+      return equipment;
+    });
   }
 
   private blockEquipment(equipment: Equipment) {
@@ -155,5 +174,17 @@ export class ControllerService {
         data: equipment,
       })
       .afterClosed();
+  }
+
+  createCategoriesDictionary(
+    items: { id: number; name: string; translation?: string }[],
+    dictionary: Dictionary<string>,
+  ) {
+    items.forEach((item) => (dictionary[item.id] = item.translation || item.name));
+  }
+
+  private getDictiionaryValue(dictionary: Dictionary<string>, key: string | number): string | undefined {
+    const value = dictionary[key];
+    return value ? value : undefined;
   }
 }
