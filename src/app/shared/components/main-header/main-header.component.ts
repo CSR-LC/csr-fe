@@ -12,11 +12,16 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
 })
 export class MainHeaderComponent {
   public pageTitle$ = this.mainPageHeaderService.getPageTitle();
-  public filtersButtonDisplayed$ = this.catalogFilterService.getFiltersButtonDisplayed();
+  public pageTitleDisplayed$ = this.mainPageHeaderService.getPageTitleDisplayed();
+  public actionsDisplayed$ = this.catalogFilterService.getActionsDisplayed();
   @Output() toggleMenu = new EventEmitter<void>();
 
   constructor(
     private readonly mainPageHeaderService: MainPageHeaderService,
     private readonly catalogFilterService: CatalogFilterService,
   ) {}
+
+  toggleTitle(inputDisplayed: boolean) {
+    this.mainPageHeaderService.setPageTitleDisplayed(!inputDisplayed);
+  }
 }
