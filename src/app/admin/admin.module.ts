@@ -11,9 +11,17 @@ import { BlockEquipmentModalComponent } from './components/block-equipment-modal
 import { EquipmentsStatusesResolver } from './resolvers/equipment-statuses/equipment-statuses.resolver';
 import { EquipmentResolverService } from './services/equipment-resolver/equipment-resolver.service';
 import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
+import { EquipmentInfoComponent } from './components/equipment-info/equipment-info.component';
+import { OrderNotificationModalComponent } from './components/order-notification-modal/order-notification-modal.component';
 
 @NgModule({
-  declarations: [EquipmentsComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent],
+  declarations: [
+    EquipmentsComponent,
+    ArchiveEquipmentModalComponent,
+    BlockEquipmentModalComponent,
+    EquipmentInfoComponent,
+    OrderNotificationModalComponent,
+  ],
   imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule],
   providers: [AdminApi, EquipmentResolverService, EquipmentsStatusesResolver, EquipmentCategoriesResolver],
 })

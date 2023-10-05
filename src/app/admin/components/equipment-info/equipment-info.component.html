@@ -1,0 +1,15 @@
+<lc-fake-input
+  *ngIf="equipment && equipment.name"
+  [label]="LabelEnum.Name"
+  [text]="equipment.name"
+></lc-fake-input>
+<lc-fake-input
+  *ngIf="equipment && equipment.title" 
+  [label]="LabelEnum.NameSubstring"
+  [text]="equipment.title"
+></lc-fake-input>
+<lc-fake-input
+  *ngIf="equipment && equipment.inventoryNumber"
+  [label]="LabelEnum.InventoryNumber"
+  [text]="equipment.inventoryNumber"
+></lc-fake-input>

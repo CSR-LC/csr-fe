@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
+import { TableRow } from '@app/shared/models/table-row';
 
 @Component({
   selector: 'lc-table',
@@ -22,7 +23,7 @@ import { TableColumn } from '@shared/models/table-column';
 })
 export class TableComponent<T> implements OnChanges {
   @Input() columns: TableColumn[] = [];
-  @Input() data: T[] = [];
+  @Input() data: TableRow[] = [];
   @Input() limit = 10;
 
   @Output() action = new EventEmitter<TableAction<T>>();
@@ -31,7 +32,7 @@ export class TableComponent<T> implements OnChanges {
   @ViewChild(MatSort) sort?: MatSort;
 
   total = 0;
-  dataSource!: MatTableDataSource<T>;
+  dataSource!: MatTableDataSource<TableRow>;
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
@@ -48,7 +49,7 @@ export class TableComponent<T> implements OnChanges {
     this.action.emit(data);
   }
 
-  private getMatTableData(data: T[]): MatTableDataSource<T> {
+  private getMatTableData(data: TableRow[]): MatTableDataSource<TableRow> {
     const matData = new MatTableDataSource(data);
 
     if (this.sort && this.dataSource) {

@@ -1,3 +1,2 @@
-import { NumberDeclensionPipe } from '../pipes';
-
-export const sharedPipes = [NumberDeclensionPipe];
+import { NumberDeclensionPipe, TableDisableActionPipe } from '../pipes';
+export const sharedPipes = [NumberDeclensionPipe, TableDisableActionPipe];

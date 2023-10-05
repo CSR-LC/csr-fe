@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LabelEnum, ModalEnum } from '@app/admin/constants/modal.enum';
+import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { Equipment } from '@app/catalog/models/equipment';
 
 @Component({
@@ -10,8 +10,7 @@ import { Equipment } from '@app/catalog/models/equipment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArchiveEquipmentModalComponent {
-  ModalEnum = ModalEnum;
-  LabelEnum = LabelEnum;
+  ModalEnum = EquipmentModal;
   inventoryNumber: string = String(this.equipment.inventoryNumber);
   constructor(@Inject(MAT_DIALOG_DATA) public equipment: Equipment) {}
 }

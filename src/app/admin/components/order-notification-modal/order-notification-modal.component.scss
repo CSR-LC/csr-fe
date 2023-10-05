@@ -1,14 +1,15 @@
-.content {
-  font-style: normal;
-  font-weight: 400;
+p {
+  margin-bottom: 0px;
+  color: #000000de;
   font-size: 14px;
-  line-height: 24px;
+  font-weight: 400;
+  line-height: 22px;
   letter-spacing: 0.10px;
-  color: #000000;
-
-  p {
-    margin-bottom: 24px;
-  }
+  word-wrap: break-word
+}
+mat-icon {
+  position: relative;
+  top: 8px;
 }
 
 .buttons {

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LabelEnum, ModalEnum } from '@app/admin/constants/modal.enum';
+import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
+import { Label } from '@app/admin/constants/label';
 import { Equipment } from '@app/catalog/models/equipment';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
@@ -13,8 +14,8 @@ import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-de
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockEquipmentModalComponent implements OnInit {
-  ModalEnum = ModalEnum;
-  LabelEnum = LabelEnum;
+  ModalEnum = EquipmentModal;
+  LabelEnum = Label;
   inventoryNumber: string = String(this.equipment.inventoryNumber);
   minEndDate!: Date;
   form: UntypedFormGroup = this.fb.group({

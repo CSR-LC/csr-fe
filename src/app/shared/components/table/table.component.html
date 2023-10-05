@@ -22,7 +22,11 @@
         </ng-container>
   
         <ng-container *ngIf="column.action">
-            <button mat-icon-button (click)="editRow({row, action:column.action })">
+            <button
+              mat-icon-button
+              [disabled]="column | tableDisableAction: row" 
+              (click)="editRow({row, action:column.action })"
+            >
               <mat-icon fontSet="material-icons-outlined">{{ column.action }}</mat-icon>
             </button>
         </ng-container>

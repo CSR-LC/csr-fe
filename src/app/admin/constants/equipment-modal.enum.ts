@@ -1,15 +1,9 @@
-export enum ModalEnum {
+export enum EquipmentModal {
   ArchiveTitle = 'Архивирование оборудования',
+  BlockTitle = 'Блокировка оборудования',
   ArchiveReason = 'Архивирование',
   ArchiveApplyButtonText = 'Архивировать',
-  BlockTitle = 'Блокировка оборудования',
   BlockReason = 'Блокировка',
   BlockApplyButtonText = 'Блокировать',
   BlockCancelButtonText = 'Разблокировать',
-}
-
-export enum LabelEnum {
-  Name = 'Название',
-  NameSubstring = 'Наименование',
-  InventoryNumber = 'Инвентарный номер',
 }

@@ -48,4 +48,12 @@ export const EquipmentColumns: TableColumn[] = [
     tooltip: 'Архивирование',
     style: { 'width.px': 32 },
   },
+  {
+    header: '',
+    columnDef: EquipmentAction.Orders,
+    action: EquipmentAction.Orders,
+    essentialAction: true,
+    tooltip: 'Перейти к заявкам',
+    style: { 'width.px': 32 },
+  },
 ];
