@@ -8,10 +8,8 @@ import { BaseItemsResponse } from '@app/shared/types/base-items-response';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  getAllEquipment(page: number = 0, limit: number = 10): Observable<BaseItemsResponse<Equipment>> {
-    const offset = limit * page;
-    const params = new HttpParams().set('limit', limit).set('offset', offset);
-    return this.http.get<BaseItemsResponse<Equipment>>('equipment', { params });
+  getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
+    return this.http.get<BaseItemsResponse<Equipment>>('equipment');
   }
 
   getEquipmentAvailable(period: EquipmentAvailability) {

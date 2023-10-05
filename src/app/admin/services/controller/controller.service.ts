@@ -4,13 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { ModalEnum } from '@app/admin/constants/modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, catchError, filter, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, of, pipe, switchMap, tap } from 'rxjs';
 import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { BaseItemsResponse } from '@app/shared/types';
 import { EquipmentColumns } from '@app/admin/constants/equipment-columns';
 import { TableAction } from '@shared/models/table-action';
-import { ActionEnum } from '@shared/constants/action.enum';
+import { EquipmentAction } from '@shared/constants/action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { TableColumn } from '@shared/models/table-column';
@@ -20,38 +20,26 @@ import { TableColumn } from '@shared/models/table-column';
 export class ControllerService {
   readonly equipmentColumns: TableColumn[] = EquipmentColumns;
   private equipmentDataSubj$ = new BehaviorSubject<Equipment[]>([]);
-  private equipmentTotalSubj$ = new BehaviorSubject<number>(0);
-  private equipmentPageSubj$ = new BehaviorSubject<number>(0);
 
   get equipmentData$(): Observable<Equipment[]> {
     return this.equipmentDataSubj$.asObservable();
   }
 
-  get equipmentTotal$(): Observable<number> {
-    return this.equipmentTotalSubj$.asObservable();
-  }
-
-  get equipmentPage$(): Observable<number> {
-    return this.equipmentPageSubj$.asObservable();
-  }
-
-  constructor(private dialog: MatDialog, private api: AdminApi, private notificationService: NotificationsService) {
-    this.fetchEquipments().subscribe();
-  }
+  constructor(private dialog: MatDialog, private api: AdminApi, private notificationService: NotificationsService) {}
 
   editEquipment(data: TableAction<Equipment>) {
     switch (data.action) {
-      case ActionEnum.Block:
+      case EquipmentAction.Block:
         // eslint-disable-next-line no-console
         console.log(data.action);
         //this.blockEquipment(data.row);
         break;
-      case ActionEnum.Edit:
+      case EquipmentAction.Edit:
         // eslint-disable-next-line no-console
         console.log(data.action);
         //this.editEquipment(data.row);
         break;
-      case ActionEnum.Archivate:
+      case EquipmentAction.Archivate:
         // eslint-disable-next-line no-console
         console.log(data.action);
         //this.archivateEquipment(data.row);
@@ -59,21 +47,10 @@ export class ControllerService {
     }
   }
 
-  setPage(page: number) {
-    this.fetchEquipments(page)
-      .pipe(tap(() => this.equipmentPageSubj$.next(page)))
-      .subscribe();
-  }
-
-  fetchEquipments(page: number = 0) {
-    return this.api.getAllEquipment(page).pipe(
-      tap((data: BaseItemsResponse<Equipment>) => {
-        if (!this.equipmentTotalSubj$.getValue()) {
-          this.equipmentTotalSubj$.next(data.total);
-        }
-      }),
-      tap((data: BaseItemsResponse<Equipment>) => this.equipmentDataSubj$.next(data.items)),
-    );
+  fetchEquipments() {
+    return this.api
+      .getAllEquipment()
+      .pipe(tap((data: BaseItemsResponse<Equipment>) => this.equipmentDataSubj$.next(data.items)));
   }
 
   private blockEquipment(equipment: Equipment) {
