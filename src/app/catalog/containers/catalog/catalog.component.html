@@ -1,6 +1,5 @@
 <lc-category-set></lc-category-set>
 <section class="catalog">
-  <lc-catalog-search (search)="onSearch($event)"></lc-catalog-search>
   <ng-container *ngIf="(catalog$ | async) as equipmentList">
     <div *ngIf="equipmentList.length > 0 else noResult" class="catalog-list">
         <div *ngFor="let equipment of catalog$ | async">

@@ -14,6 +14,7 @@ import {
   ModalLayoutComponent,
   PageForbiddenComponent,
 } from '../components';
+import { CatalogSearchComponent } from '@shared/components/catalog-search/catalog-search.component';
 
 export const sharedComponents = [
   BlockUiComponent,
@@ -30,4 +31,5 @@ export const sharedComponents = [
   MainNavComponent,
   ModalLayoutComponent,
   CatalogFilterComponent,
+  CatalogSearchComponent,
 ];
