@@ -57,7 +57,6 @@ export class ApplicationDataState {
     const state = ctx.getState();
     const petKinds = action.petKinds;
     ctx.patchState({
-      // ...state,
       petKinds,
     });
   }
@@ -67,7 +66,6 @@ export class ApplicationDataState {
     const state = ctx.getState();
     const petSizes = action.petSizes;
     ctx.patchState({
-      // ...state,
       petSizes,
     });
   }
@@ -77,7 +75,6 @@ export class ApplicationDataState {
     const state = ctx.getState();
     const equipmentStatuses = action.equipmentStatuses;
     ctx.patchState({
-      // ...state,
       equipmentStatuses,
     });
   }
@@ -87,7 +84,6 @@ export class ApplicationDataState {
     const state = ctx.getState();
     const equipmentCategories = action.equipmentCategories;
     ctx.patchState({
-      // ...state,
       equipmentCategories,
     });
   }

@@ -14,6 +14,9 @@ import { NotificationsService } from '@app/shared/services/notifications/notific
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { OrderNotificationModalComponent } from '@app/admin/components/order-notification-modal/order-notification-modal.component';
 import { TableRow } from '@app/shared/models/table-row';
+import { EquipmentStatusId } from '@app/shared/models/equipment-status-ids';
+import { equipmentStatusIdDefaultValue } from '@app/shared/constants/equipment-status-id';
+import { EquipmentStatus } from '@app/admin/types/equipment-status';
 
 @UntilDestroy
 @Injectable()
@@ -21,6 +24,9 @@ export class EquipmentController {
   private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
+  statusIdsDisctionary: EquipmentStatusId = {
+    ...equipmentStatusIdDefaultValue,
+  };
 
   private readonly commonModalConfig = {
     maxWidth: 472,
@@ -65,7 +71,9 @@ export class EquipmentController {
       const statusName = this.getDictionaryValue(this.statusDictionary, equipment.status);
       if (categoryName) equipment.categoryName = categoryName;
       if (statusName) equipment.statusName = statusName;
-      if (equipment.status === 5) (equipment as TableRow).disableActions = true;
+      if (equipment.status === this.statusIdsDisctionary.archived) {
+        (equipment as TableRow).disableActions = true;
+      }
       return equipment;
     });
   }
@@ -170,15 +178,18 @@ export class EquipmentController {
     //   .afterClosed();
   }
 
-  createCategoriesDictionary(
-    items: { id: number; name: string; translation?: string }[],
-    dictionary: Dictionary<string>,
-  ) {
+  createDictionary(items: { id: number; name: string; translation?: string }[], dictionary: Dictionary<string>) {
     items.forEach((item) => (dictionary[item.id] = item.translation || item.name));
   }
 
   private getDictionaryValue(dictionary: Dictionary<string>, key: string | number): string | undefined {
     const value = dictionary[key];
     return value ? value : undefined;
+  }
+
+  createEquipmentStatusIds(statuses: EquipmentStatus[]) {
+    statuses.forEach((status) => {
+      this.statusIdsDisctionary[status.name as keyof EquipmentStatusId] = status.id;
+    });
   }
 }

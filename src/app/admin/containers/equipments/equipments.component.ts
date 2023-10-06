@@ -33,10 +33,11 @@ export class EquipmentsComponent implements OnInit {
     this.controller.fetchEquipments().subscribe();
     this.equipmentCategories
       .pipe(untilDestroyed(this))
-      .subscribe((res) => this.controller.createCategoriesDictionary(res, this.controller.categoryDictionary));
-    this.equipmentStatuses
-      .pipe(untilDestroyed(this))
-      .subscribe((res) => this.controller.createCategoriesDictionary(res, this.controller.statusDictionary));
+      .subscribe((res) => this.controller.createDictionary(res, this.controller.categoryDictionary));
+    this.equipmentStatuses.pipe(untilDestroyed(this)).subscribe((res) => {
+      this.controller.createDictionary(res, this.controller.statusDictionary);
+      this.controller.createEquipmentStatusIds(res);
+    });
   }
 
   editEquipment(data: TableAction<Equipment>) {
