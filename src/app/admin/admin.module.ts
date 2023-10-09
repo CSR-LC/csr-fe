@@ -8,9 +8,10 @@ import { ArchiveEquipmentModalComponent } from './components/archive-equipment-m
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminApi } from '@app/admin/services';
 import { BlockEquipmentModalComponent } from './components/block-equipment-modal/block-equipment-modal.component';
+import { UsersComponent } from './containers/users/users.component';
 
 @NgModule({
-  declarations: [EquipmentsComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent],
+  declarations: [EquipmentsComponent, ArchiveEquipmentModalComponent, BlockEquipmentModalComponent, UsersComponent],
   imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule],
   providers: [AdminApi],
 })
