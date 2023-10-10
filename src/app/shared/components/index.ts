@@ -12,3 +12,4 @@ export * from './page-not-found/page-not-found.component';
 export * from './personal-info-modal/personal-info-modal.component';
 export * from './public-offer/public-offer.component';
 export * from './table/table.component';
+export * from './error-page-layout/error-page-layout.component';
