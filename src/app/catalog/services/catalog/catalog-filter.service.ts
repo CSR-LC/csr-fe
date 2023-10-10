@@ -4,7 +4,13 @@ import { FilterModalComponent } from '@app/catalog/components/filter-modal/filte
 import { MatDialog } from '@angular/material/dialog';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterRequest } from '@app/catalog/models';
 import { Select, Store } from '@ngxs/store';
-import { CatalogState, SetEquipmentFilter, SetSearchInput, SetSelectedCategoryId } from '@app/catalog/store';
+import {
+  CatalogState,
+  GetCatalog,
+  SetEquipmentFilter,
+  SetSearchInput,
+  SetSelectedCategoryId,
+} from '@app/catalog/store';
 import { ApplicationDataState } from '@shared/store/application-data';
 import { CatalogApi } from '..';
 import { map } from 'rxjs/operators';
@@ -16,16 +22,16 @@ import { FilterModalResult } from '@app/catalog/models/filter-modal-result';
 })
 export class CatalogFilterService {
   @Select(CatalogState.equipmentFilterCount) equipmentFilterCount$!: Observable<number>;
-  private filtersButtonDisplayed = new Subject<boolean>();
+  private actionsDisplayed = new Subject<boolean>();
 
   constructor(private readonly dialog: MatDialog, private readonly store: Store, private api: CatalogApi) {}
 
-  getFiltersButtonDisplayed(): Observable<boolean> {
-    return this.filtersButtonDisplayed.asObservable();
+  getActionsDisplayed(): Observable<boolean> {
+    return this.actionsDisplayed.asObservable();
   }
 
-  setFiltersButtonDisplayed(value: boolean): void {
-    this.filtersButtonDisplayed.next(value);
+  setActionsDisplayed(value: boolean): void {
+    this.actionsDisplayed.next(value);
   }
 
   openFiltersModal(): Observable<FilterModalResult> {
@@ -88,5 +94,12 @@ export class CatalogFilterService {
   getPrefilteredEquipmentCount(equipmentFilter: EquipmentFilter): Observable<number> {
     const payload = { ...this.equipmentFilterRequest, ...equipmentFilter };
     return this.api.filterEquipment(payload).pipe(map((equipment) => equipment.total));
+  }
+
+  filterEquipment(): void {
+    const payload = this.equipmentFilterRequest;
+    this.api.filterEquipment(payload).subscribe((res) => {
+      this.store.dispatch(new GetCatalog(res.items));
+    });
   }
 }

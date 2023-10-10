@@ -110,15 +110,12 @@ export class ControllerService {
     );
   }
 
-  displayCatalogFilterButton(isDisplayed: boolean): void {
-    this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
+  displayCatalogActions(isDisplayed: boolean): void {
+    this.catalogFilterService.setActionsDisplayed(isDisplayed);
   }
 
   filterEquipment(): void {
-    const payload = this.catalogFilterService.equipmentFilterRequest;
-    this.api.filterEquipment(payload).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
+    this.catalogFilterService.filterEquipment();
   }
 
   set selectedCategoryId(categoryId: number) {
@@ -139,5 +136,9 @@ export class ControllerService {
 
   setPageTitle(title: string): void {
     this.mainPageHeaderService.setPageTitle(title);
+  }
+
+  displayPageTitle(isDisplayed: boolean) {
+    this.mainPageHeaderService.setPageTitleDisplayed(isDisplayed);
   }
 }
