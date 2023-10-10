@@ -13,6 +13,7 @@ import { EquipmentResolverService } from './services/equipment-resolver/equipmen
 import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
 import { EquipmentInfoComponent } from './components/equipment-info/equipment-info.component';
 import { OrderNotificationModalComponent } from './components/order-notification-modal/order-notification-modal.component';
+import { DateRangeModule } from '@app/features/date-range/date-range-module.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { OrderNotificationModalComponent } from './components/order-notification
     EquipmentInfoComponent,
     OrderNotificationModalComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule],
+  imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule, DateRangeModule],
   providers: [AdminApi, EquipmentResolverService, EquipmentsStatusesResolver, EquipmentCategoriesResolver],
 })
 export class AdminModule {}

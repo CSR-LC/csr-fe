@@ -1,63 +1,16 @@
 @import 'src/app/shared/styles/variables';
 
-%padding {
-  padding: 0 24px;
-}
-
 :host {
-  padding: 24px 0;
   display: block;
 }
 
-lc-fake-input {
-  margin-bottom: 24px;
-}
-
-.header {
-  @extend %padding;
-  display: flex;
-  justify-content: space-between;
-  i {
-    position: relative;
-    &::before {
-      position: absolute;
-      top: 7px;
-      left: -12px;
-      display: block;
-      content: '';
-      width: 14px;
-      height: 14px;
-      background-image: url("../../../../assets/img/icons/cross.svg");
-      cursor: pointer;
-    }
-  }
-}
-
-h3 {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: 0.25px;
-  color: #005F75;
-  margin: 0;
-}
-
-.content {
-  @extend %padding;
-  lc-fake-input {
-    margin-bottom: 24px;
-  }
-}
-
-.separator {
-  margin: 24px 0;
-}
-
 form {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  margin-top: 24px;
+
+  mat-form-field {
+    width: 100%;
+  }
+
   .date {
     max-width: 200px;
   }
@@ -67,18 +20,24 @@ form {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  .cancel{
+
+  .cancel {
     font-style: normal;
     font-weight: 500;
     color: #00677F;
-  ;
   }
-  button{
+
+  button {
     font-style: normal;
     font-weight: 400;
     margin-right: 24px;
     line-height: 20px;
-    padding: 16px;
     text-transform: uppercase;
+    height: 56px;
+    border-radius: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }

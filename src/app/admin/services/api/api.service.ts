@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
+import { Equipment } from '@app/catalog/models/equipment';
 import { BaseItemsResponse } from '@app/shared/types/base-items-response';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
 import { UnavailableDates } from '@app/features/date-range/models';
+import { Period } from '@app/shared/models/period';
 
 @Injectable()
 export class ApiService {
@@ -15,8 +16,8 @@ export class ApiService {
     return this.http.get<BaseItemsResponse<Equipment>>('equipment');
   }
 
-  getEquipmentAvailable(period: EquipmentAvailability) {
-    return this.http.post<string>(`equipment/availability`, period);
+  getUnavailablePeriodsById(equipmentId: number): Observable<BaseItemsResponse<UnavailableDates>> {
+    return this.http.get<BaseItemsResponse<UnavailableDates>>(`/equipment/unavailability_periods/${equipmentId}`);
   }
 
   archiveEquipment(equipmentId: number): Observable<unknown> {
@@ -25,8 +26,12 @@ export class ApiService {
     });
   }
 
-  blockEquipment(id: number, period: EquipmentAvailability) {
-    return this.http.put<string>(`equipment/availability/${id}`, period);
+  blockEquipment(id: number, period: Period) {
+    const body = {
+      end_date: period.endDate,
+      start_date: period.startDate,
+    };
+    return this.http.post<string>(`/equipment/${id}/blocking`, body);
   }
 
   getEquipmentStatuses(): Observable<EquipmentStatus[]> {

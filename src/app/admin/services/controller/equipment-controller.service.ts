@@ -5,7 +5,7 @@ import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-eq
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { AdminApi } from '@app/admin/services';
 import { BehaviorSubject, Observable, filter, of, map, switchMap, tap } from 'rxjs';
-import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
+import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary } from '@app/shared/types';
 import { TableAction } from '@shared/models/table-action';
@@ -17,6 +17,8 @@ import { TableRow } from '@app/shared/models/table-row';
 import { EquipmentStatusId } from '@app/shared/models/equipment-status-ids';
 import { equipmentStatusIdDefaultValue } from '@app/shared/constants/equipment-status-id';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
+import { Period } from '@app/shared/models/period';
+import { UnavailableDates } from '@app/features/date-range/models';
 
 @UntilDestroy
 @Injectable()
@@ -38,14 +40,16 @@ export class EquipmentController {
     return this.equipmentDataSubj$.asObservable();
   }
 
-  constructor(private dialog: MatDialog, private api: AdminApi, private notificationService: NotificationsService) {}
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly api: AdminApi,
+    private readonly notificationService: NotificationsService,
+  ) {}
 
   editEquipment(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
-        // eslint-disable-next-line no-console
-        console.log(data.action);
-        //this.blockEquipment(data.row);
+        this.blockEquipment(data);
         break;
       case EquipmentAction.Edit:
         // eslint-disable-next-line no-console
@@ -78,27 +82,51 @@ export class EquipmentController {
     });
   }
 
-  private blockEquipment(equipment: Equipment) {
-    //todo add new logic
-    // let blockPeriod: EquipmentAvailability;
-    // this.openBlockEquipmentModal(equipment)
-    //   .pipe(
-    //     filter(Boolean),
-    //     switchMap((period: EquipmentAvailability) => {
-    //       blockPeriod = period;
-    //       return this.api.getEquipmentAvailable(period);
-    //     }),
-    //     switchMap((name: string) => (name ? this.openBlockConfirmation(name) : of(true))),
-    //     filter(Boolean),
-    //     switchMap(() => this.api.blockEquipment(equipment.id, blockPeriod)),
-    //     tap(() => this.notificationService.openSuccess(`${equipment.title} было за блокированно!`)),
-    //     untilDestroyed(this),
-    //     catchError((error) => {
-    //       this.notificationService.openError(error);
-    //       throw new Error(error);
-    //     }),
-    //   )
-    //   .subscribe();
+  private blockEquipment(data: TableAction<Equipment>) {
+    const equipment = data.row;
+    let unavailableDates: UnavailableDates[];
+    let blockPeriod: Period;
+
+    this.api
+      .getUnavailablePeriodsById(equipment.id)
+      .pipe(
+        map((res) => {
+          unavailableDates = res.items ? res.items : [];
+          return res.items;
+        }),
+        switchMap((unavailablePeriods) => this.openBlockEquipmentModal(equipment, unavailablePeriods)),
+        filter(Boolean),
+        map((period) => {
+          blockPeriod = period;
+          return this.isPeriodsIntersect(period, unavailableDates);
+        }),
+        switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(data.action) : of(true))),
+        filter(Boolean),
+        switchMap(() => this.api.blockEquipment(equipment.id, blockPeriod)),
+        untilDestroyed(this),
+      )
+      .subscribe((res) => {
+        this.notificationService.openSuccess(`${equipment.title} было за блокированно!`);
+      });
+  }
+
+  private isPeriodsIntersect(blockPeiod: Period, unavailablePeriods: UnavailableDates[]): boolean {
+    for (const unavailablePeriod of unavailablePeriods) {
+      if (
+        this.isDateInPeriod(blockPeiod.startDate, unavailablePeriod) ||
+        this.isDateInPeriod(blockPeiod.endDate, unavailablePeriod)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private isDateInPeriod(date: Date, period: UnavailableDates) {
+    const startUnavailable = new Date(period.start_date);
+    const endUnavailable = new Date(period.end_date);
+    const dateTime = date.getTime();
+    return date >= startUnavailable && date <= endUnavailable;
   }
 
   private archivateEquipment(data: TableAction<Equipment>) {
@@ -168,14 +196,16 @@ export class EquipmentController {
       })
       .afterClosed();
   }
-  private openBlockEquipmentModal(equipment: Equipment) {
-    //todo add new logic
-    // return this.dialog
-    //   .open(BlockEquipmentModalComponent, {
-    //     ...this.commonModalConfig,
-    //     data: equipment,
-    //   })
-    //   .afterClosed();
+  private openBlockEquipmentModal(equipment: Equipment, unavailablePeriods: UnavailableDates[]): Observable<Period> {
+    return this.dialog
+      .open(BlockEquipmentModalComponent, {
+        ...this.commonModalConfig,
+        data: {
+          equipment,
+          unavailablePeriods: unavailablePeriods ? unavailablePeriods : [],
+        },
+      })
+      .afterClosed();
   }
 
   createDictionary(items: { id: number; name: string; translation?: string }[], dictionary: Dictionary<string>) {

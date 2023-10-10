@@ -1,8 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Inject, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { DateRange } from '@angular/material/datepicker';
+import { DateRange, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
+import { DateRangePurpose } from '../../models/date-rrange-purpose';
 
 @Component({
   selector: 'lc-date-range',
@@ -10,13 +11,15 @@ import { DateRangeData, UnavailableDates } from '../../models';
   styleUrls: ['./date-range.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateRangeComponent {
+export class DateRangeComponent implements OnInit {
   @Input() selectedRangeValue!: DateRange<Date> | null;
 
   readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
+  readonly celClassNAme = 'marked-date';
   readonly currentDay = new Date().getDate();
   readonly currentMonth = new Date().getMonth();
   readonly currentYear = new Date().getFullYear();
+  purpose: DateRangePurpose = DateRangePurpose.rent;
 
   dateRangeForm = new UntypedFormGroup({
     fromDate: new UntypedFormControl(null),
@@ -30,18 +33,30 @@ export class DateRangeComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData) {}
 
+  ngOnInit() {
+    this.purpose = this.dateRangeData.purpose;
+  }
+
   isDateUnavailable = (dateFromCalendar: Date): boolean => {
-    const timeUnixFromCalendar = this.removeTime(dateFromCalendar);
+    if (this.purpose === DateRangePurpose.block || !this.unavailableDates) return true;
 
-    if (!this.unavailableDates) return true;
+    return !this.hasIntersection(dateFromCalendar);
+  };
 
-    return !this.unavailableDates.find((unavailableDate) => {
+  dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
+    if (this.purpose === DateRangePurpose.rent) return '';
+
+    return !!this.hasIntersection(cellDate) ? this.celClassNAme : '';
+  };
+
+  private hasIntersection(date: Date): undefined | UnavailableDates {
+    return this.unavailableDates.find((unavailableDate) => {
       return (
-        this.removeTime(unavailableDate.start_date) <= timeUnixFromCalendar &&
-        this.removeTime(unavailableDate.end_date) >= timeUnixFromCalendar
+        this.removeTime(unavailableDate.start_date) <= this.removeTime(date) &&
+        this.removeTime(unavailableDate.end_date) >= this.removeTime(date)
       );
     });
-  };
+  }
 
   selectedDateRange(selectedDate: Date | null) {
     if (!selectedDate) return;
