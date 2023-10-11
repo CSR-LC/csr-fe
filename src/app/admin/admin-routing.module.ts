@@ -5,6 +5,7 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
 import { AdminGuard } from '@app/shared/guards/admin.guard';
 import { EquipmentsStatusesResolver } from './resolvers/equipment-statuses/equipment-statuses.resolver';
 import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
+import { UsersComponent } from '@app/admin/containers/users/users.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
   {
     path: AppRoutes.Users,
     pathMatch: 'full',
-    component: EquipmentsComponent,
+    component: UsersComponent,
   },
 ];
 

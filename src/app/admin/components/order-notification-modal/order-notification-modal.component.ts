@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
-import { EquipmentAction } from '@app/shared/constants/action.enum';
+import { EquipmentAction } from '@app/shared/constants/equipment-action.enum';
 
 @Component({
   selector: 'lc-order-notification-modal',

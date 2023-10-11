@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseItemsResponse } from '@app/shared/types/base-items-response';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { Period } from '@app/shared/models/period';
+import { User } from '@app/auth/models';
 
 @Injectable()
 export class ApiService {
@@ -44,5 +45,9 @@ export class ApiService {
 
   getEquipmentUnavailabilityPeriods(equipmentId: number): Observable<BaseItemsResponse<UnavailableDates[]>> {
     return this.http.get<BaseItemsResponse<UnavailableDates[]>>(`/equipment/unavailability_periods/${equipmentId}`);
+  }
+
+  getAllUsers(): Observable<BaseItemsResponse<User>> {
+    return this.http.get<BaseItemsResponse<User>>('v1/users');
   }
 }

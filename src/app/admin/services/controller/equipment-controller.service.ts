@@ -9,7 +9,7 @@ import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary } from '@app/shared/types';
 import { TableAction } from '@shared/models/table-action';
-import { EquipmentAction } from '@shared/constants/action.enum';
+import { EquipmentAction } from '@shared/constants/equipment-action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { OrderNotificationModalComponent } from '@app/admin/components/order-notification-modal/order-notification-modal.component';
