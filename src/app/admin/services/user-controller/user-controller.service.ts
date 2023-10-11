@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { BaseItemsResponse } from '@shared/types';
 import { AdminApi } from '@app/admin/services';
-import { User } from '@app/admin/models/user';
+import { User } from '@app/auth/models';
 
 @Injectable()
 export class UserControllerService {

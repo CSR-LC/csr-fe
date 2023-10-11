@@ -1,9 +1,7 @@
-import { AdminTableAction } from '@shared/constants';
-
 export interface TableColumn {
   header: string;
   columnDef: string;
   tooltip?: string;
-  action?: AdminTableAction;
+  action?: string;
   style: { [klass: string]: any } | null;
 }

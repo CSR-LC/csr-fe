@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Equipment, EquipmentAvailability } from '@app/catalog/models/equipment';
 import { BaseItemsResponse } from '@app/shared/types/base-items-response';
-import { User } from '@app/admin/models/user';
+import { User } from '@app/auth/models';
 
 @Injectable()
 export class ApiService {

@@ -18,4 +18,5 @@ export type User = {
   role: Role;
   surname: string;
   type: string;
+  status: string;
 };

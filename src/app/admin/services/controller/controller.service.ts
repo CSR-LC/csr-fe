@@ -10,7 +10,7 @@ import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipm
 import { BaseItemsResponse } from '@app/shared/types';
 import { EquipmentColumns } from '@app/admin/constants/equipment-columns';
 import { TableAction } from '@shared/models/table-action';
-import { EquipmentAction } from '@shared/constants/admin-table-action.enum';
+import { EquipmentAction } from '@shared/constants';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { TableColumn } from '@shared/models/table-column';
