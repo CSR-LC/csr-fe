@@ -7,6 +7,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorPageLayoutComponent {
-  @Input() hederText: string = '';
+  @Input() headerText: string = '';
   @Input() message: string = '';
 }
