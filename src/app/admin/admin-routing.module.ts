@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { EquipmentsComponent } from '@app/admin/containers/equipments/equipments.component';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
 import { AdminGuard } from '@app/shared/guards/admin.guard';
+import { EquipmentsStatusesResolver } from './resolvers/equipment-statuses/equipment-statuses.resolver';
+import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
+import { UsersComponent } from '@app/admin/containers/users/users.component';
 
 const routes: Routes = [
   {
@@ -12,13 +15,17 @@ const routes: Routes = [
   },
   {
     path: AppRoutes.Equipments,
+    resolve: {
+      equipmentsStatuses: EquipmentsStatusesResolver,
+      equipmentCategories: EquipmentCategoriesResolver,
+    },
     pathMatch: 'full',
     component: EquipmentsComponent,
   },
   {
     path: AppRoutes.Users,
     pathMatch: 'full',
-    component: EquipmentsComponent,
+    component: UsersComponent,
   },
 ];
 

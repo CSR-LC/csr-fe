@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { notificationMessages } from '@app/shared/constants/notification-messages';
 import { DefaultResponseError } from '@app/shared/models/default-response-error';
 import { ResponseError } from '@app/shared/models/response-error';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,7 @@ export class NotificationsService {
   };
   private readonly durationTime = 5000;
 
-  constructor(private notification: MatSnackBar) {}
+  constructor(private readonly router: Router, private readonly notification: MatSnackBar) {}
 
   openError(message: string) {
     const config = {
@@ -55,6 +57,10 @@ export class NotificationsService {
   }
 
   handleErrorResponse(response: HttpErrorResponse) {
+    if (response.status === 403) {
+      this.router.navigate([`${AppRoutes.Forbidden}`]);
+      return;
+    }
     const key = this.getKeyFromError(response.error);
     const message = this.getNotificationMessage(key);
     this.openError(message);

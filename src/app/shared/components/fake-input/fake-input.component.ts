@@ -8,5 +8,5 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class FakeInputComponent {
   @Input() label!: string;
-  @Input() text!: string;
+  @Input() text!: string | number;
 }

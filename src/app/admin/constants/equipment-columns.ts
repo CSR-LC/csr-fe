@@ -1,4 +1,4 @@
-import { EquipmentAction } from '@shared/constants/action.enum';
+import { EquipmentAction } from '@shared/constants';
 import { TableColumn } from '@shared/models/table-column';
 
 export const EquipmentColumns: TableColumn[] = [
@@ -19,33 +19,41 @@ export const EquipmentColumns: TableColumn[] = [
   },
   {
     header: 'Категория',
-    columnDef: 'category',
+    columnDef: 'categoryName',
     style: { 'width.px': 150 },
   },
   {
     header: 'Статус',
-    columnDef: 'status',
+    columnDef: 'statusName',
     style: { 'width.px': 150 },
   },
   {
     header: '',
     columnDef: EquipmentAction.Block,
     action: EquipmentAction.Block,
-    tooltip: 'Блокировать',
+    tooltip: 'Блокировка',
     style: { 'width.px': 32 },
   },
   {
     header: '',
     columnDef: EquipmentAction.Edit,
     action: EquipmentAction.Edit,
-    tooltip: 'Редактировать',
+    tooltip: 'Редактирование',
     style: { 'width.px': 32 },
   },
   {
     header: '',
     columnDef: EquipmentAction.Archivate,
     action: EquipmentAction.Archivate,
-    tooltip: 'Архивировать',
+    tooltip: 'Архивирование',
+    style: { 'width.px': 32 },
+  },
+  {
+    header: '',
+    columnDef: EquipmentAction.Orders,
+    action: EquipmentAction.Orders,
+    essentialAction: true,
+    tooltip: 'Перейти к заявкам',
     style: { 'width.px': 32 },
   },
 ];

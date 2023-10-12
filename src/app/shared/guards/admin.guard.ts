@@ -10,7 +10,8 @@ export class AdminGuard {
 
   canActivate(): boolean | UrlTree {
     const user = this.store.selectSnapshot(AuthState.user);
-    if (user?.role?.name === UserRole.admin) {
+    const role = user?.role?.name;
+    if (role === UserRole.admin || role === UserRole.manager) {
       return true;
     }
     return this.router.parseUrl('/forbidden');
