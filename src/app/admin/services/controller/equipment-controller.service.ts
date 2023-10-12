@@ -7,7 +7,7 @@ import { AdminApi } from '@app/admin/services';
 import { BehaviorSubject, Observable, filter, of, map, switchMap, tap } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
-import { Dictionary } from '@app/shared/types';
+import { Dictionary, ItemTranslated } from '@app/shared/types';
 import { TableAction } from '@shared/models/table-action';
 import { EquipmentAction } from '@shared/constants/equipment-action.enum';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
@@ -19,6 +19,7 @@ import { equipmentStatusIdDefaultValue } from '@app/shared/constants/equipment-s
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
+import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
 
 @UntilDestroy
 @Injectable()
@@ -26,7 +27,7 @@ export class EquipmentController {
   private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
-  statusIdsDisctionary: EquipmentStatusId = {
+  statusIdsDictionary: EquipmentStatusId = {
     ...equipmentStatusIdDefaultValue,
   };
 
@@ -44,6 +45,7 @@ export class EquipmentController {
     private readonly dialog: MatDialog,
     private readonly api: AdminApi,
     private readonly notificationService: NotificationsService,
+    private readonly dictionaryService: DictionaryService,
   ) {}
 
   editEquipment(data: TableAction<Equipment>) {
@@ -71,11 +73,11 @@ export class EquipmentController {
 
   private createRows(equipments: Equipment[]): TableRow[] {
     return equipments.map((equipment) => {
-      const categoryName = this.getDictionaryValue(this.categoryDictionary, equipment.category);
-      const statusName = this.getDictionaryValue(this.statusDictionary, equipment.status);
+      const categoryName = this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category);
+      const statusName = this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status);
       if (categoryName) equipment.categoryName = categoryName;
       if (statusName) equipment.statusName = statusName;
-      if (equipment.status === this.statusIdsDisctionary.archived) {
+      if (equipment.status === this.statusIdsDictionary.archived) {
         (equipment as TableRow).disableActions = true;
       }
       return equipment;
@@ -208,18 +210,17 @@ export class EquipmentController {
       .afterClosed();
   }
 
-  createDictionary(items: { id: number; name: string; translation?: string }[], dictionary: Dictionary<string>) {
-    items.forEach((item) => (dictionary[item.id] = item.translation || item.name));
+  createCategoryDictionary(items: ItemTranslated[]) {
+    this.dictionaryService.createDictionary(items, this.categoryDictionary);
   }
 
-  private getDictionaryValue(dictionary: Dictionary<string>, key: string | number): string | undefined {
-    const value = dictionary[key];
-    return value ? value : undefined;
+  createStatusDictionary(items: ItemTranslated[]) {
+    this.dictionaryService.createDictionary(items, this.statusDictionary);
   }
 
   createEquipmentStatusIds(statuses: EquipmentStatus[]) {
     statuses.forEach((status) => {
-      this.statusIdsDisctionary[status.name as keyof EquipmentStatusId] = status.id;
+      this.statusIdsDictionary[status.name as keyof EquipmentStatusId] = status.id;
     });
   }
 }

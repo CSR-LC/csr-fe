@@ -33,9 +33,9 @@ export class EquipmentsComponent implements OnInit {
     this.controller.fetchEquipments().subscribe();
     this.equipmentCategories
       .pipe(untilDestroyed(this))
-      .subscribe((res) => this.controller.createDictionary(res, this.controller.categoryDictionary));
+      .subscribe((res) => this.controller.createCategoryDictionary(res));
     this.equipmentStatuses.pipe(untilDestroyed(this)).subscribe((res) => {
-      this.controller.createDictionary(res, this.controller.statusDictionary);
+      this.controller.createStatusDictionary(res);
       this.controller.createEquipmentStatusIds(res);
     });
   }

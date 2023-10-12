@@ -15,7 +15,7 @@ export class DateRangeComponent implements OnInit {
   @Input() selectedRangeValue!: DateRange<Date> | null;
 
   readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
-  readonly celClassNAme = 'marked-date';
+  readonly cellClassName = 'marked-date';
   readonly currentDay = new Date().getDate();
   readonly currentMonth = new Date().getMonth();
   readonly currentYear = new Date().getFullYear();
@@ -46,7 +46,7 @@ export class DateRangeComponent implements OnInit {
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     if (this.purpose === DateRangePurpose.rent) return '';
 
-    return !!this.hasIntersection(cellDate) ? this.celClassNAme : '';
+    return !!this.hasIntersection(cellDate) ? this.cellClassName : '';
   };
 
   private hasIntersection(date: Date): undefined | UnavailableDates {
