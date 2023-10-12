@@ -1,35 +1,30 @@
-<div class="header">
-  <h3>{{ModalEnum.ArchiveTitle}}</h3>
-  <i
-    [mat-dialog-close]="false"
-  ></i>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="content">
-  <p>
-    Статус оборудование измениться на “В архиве” и скроется из общего списка оборудования. Проверьте данные.
-  </p>
-    <lc-fake-input *ngIf="equipment.name" [label]="LabelEnum.Name" [text]="equipment.name"></lc-fake-input>
-    <lc-fake-input *ngIf="equipment.name_substring"  [label]="LabelEnum.NameSubstring" [text]="equipment.name_substring"></lc-fake-input>
-    <lc-fake-input *ngIf="equipment.inventoryNumber"  [label]="LabelEnum.InventoryNumber" [text]="inventoryNumber"></lc-fake-input>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="buttons-wrapper">
-  <div class="buttons">
-    <button
-      mat-button
-      class="cancel"
-      [mat-dialog-close]="false"
-
-    >
-      Отменить
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      [mat-dialog-close]="true"
-    >
-      {{ModalEnum.ArchiveApplyButtonText}}
-    </button>
-  </div>
-</div>
+<lc-modal-layout headerTitle="Архивирование оборудования">
+  <ng-container body>
+    <div class="content">
+      <p>
+        Статус оборудование измениться на “В архиве” и скроется из общего списка оборудования. Проверьте данные.
+      </p>
+      <lc-equipment-info
+        [equipment]="equipment"
+      ></lc-equipment-info>
+    </div>
+  </ng-container>
+  <ng-container footer>
+    <div class="buttons">
+      <button
+        mat-button
+        class="cancel"
+        [mat-dialog-close]="false"
+      >
+        Отменить
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        [mat-dialog-close]="true"
+      >
+        {{ModalEnum.ArchiveApplyButtonText}}
+      </button>
+    </div>
+  </ng-container>
+</lc-modal-layout>

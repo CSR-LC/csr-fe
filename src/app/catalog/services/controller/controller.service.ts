@@ -14,6 +14,7 @@ import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
 
 @Injectable()
 export class ControllerService {
@@ -55,6 +56,7 @@ export class ControllerService {
           buttonText: 'Подтвердить период аренды',
           maxRentalPeriod,
           unavailableDates: periods.items,
+          purpose: DateRangePurpose.rent,
         };
 
         return this.dateRangeService.openDateRangeModal(dateRangeData);
