@@ -13,6 +13,7 @@ import {
   MainNavComponent,
   ModalLayoutComponent,
   PageForbiddenComponent,
+  ErrorPageLayoutComponent,
 } from '../components';
 import { CatalogSearchComponent } from '@shared/components/catalog-search/catalog-search.component';
 
@@ -32,4 +33,5 @@ export const sharedComponents = [
   ModalLayoutComponent,
   CatalogFilterComponent,
   CatalogSearchComponent,
+  ErrorPageLayoutComponent,
 ];
