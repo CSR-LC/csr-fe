@@ -38,14 +38,14 @@ export const USER_COLUMNS: TableColumn[] = [
     header: '',
     columnDef: UserAction.Block,
     action: UserAction.Block,
-    tooltip: 'Блокировать',
+    tooltip: 'Блокировка',
     style: { 'width.px': 32 },
   },
   {
     header: '',
     columnDef: UserAction.Delete,
     action: UserAction.Delete,
-    tooltip: 'Удалить',
+    tooltip: 'Удаление',
     style: { 'width.px': 32 },
   },
 ];
