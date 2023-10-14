@@ -25,27 +25,27 @@ export const USER_COLUMNS: TableColumn[] = [
   {
     header: 'Статус',
     columnDef: 'status',
-    style: { 'width.px': 100 },
+    style: { 'width.px': 150 },
   },
   {
     header: '',
     columnDef: UserAction.Profile,
     action: UserAction.Profile,
     tooltip: 'Профиль',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
     columnDef: UserAction.Block,
     action: UserAction.Block,
     tooltip: 'Блокировка',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
     columnDef: UserAction.Delete,
     action: UserAction.Delete,
     tooltip: 'Удаление',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
 ];
