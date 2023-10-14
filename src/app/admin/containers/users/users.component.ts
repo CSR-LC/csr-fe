@@ -6,6 +6,7 @@ import { UserControllerService } from '@app/admin/services';
 import { User } from '@app/auth/models';
 import { TableAction } from '@shared/models/table-action';
 import { TableRow } from '@shared/models/table-row';
+import { AdminPagesTitles } from '@app/admin/constants/admin-pages-titles.enum';
 
 @Component({
   selector: 'lc-users',
@@ -22,6 +23,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.controller.fetchUsers().subscribe();
+    this.controller.setPageTitle(AdminPagesTitles.Users);
   }
 
   editUser(data: TableAction<User>) {

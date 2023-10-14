@@ -14,16 +14,26 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
 import { UserNotification } from '@app/admin/constants/user-notification.enum';
 import { TableRow } from '@shared/models/table-row';
 import { UserStatus } from '@app/admin/constants/user-status.enum';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
 @UntilDestroy
 @Injectable()
 export class UserControllerService {
   private usersSubject$ = new BehaviorSubject<TableRow[]>([]);
 
-  constructor(private api: AdminApi, private notificationService: NotificationsService, private dialog: MatDialog) {}
+  constructor(
+    private api: AdminApi,
+    private notificationService: NotificationsService,
+    private dialog: MatDialog,
+    private mainPageHeaderService: MainPageHeaderService,
+  ) {}
 
   get users$(): Observable<TableRow[]> {
     return this.usersSubject$.asObservable();
+  }
+
+  setPageTitle(title: string) {
+    this.mainPageHeaderService.setPageTitle(title);
   }
 
   fetchUsers() {
