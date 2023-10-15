@@ -8,13 +8,15 @@ import { UserAction } from '@shared/constants';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
-import { BlockUserModalComponent } from '@app/admin/components/block-user-modal/block-user-modal.component';
-import { BlockUserAction } from '@app/admin/constants/block-user-action.enum';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { UserNotification } from '@app/admin/constants/user-notification.enum';
 import { TableRow } from '@shared/models/table-row';
 import { UserStatus } from '@app/admin/constants/user-status.enum';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { ConfirmationModalComponent } from '@shared/components';
+import { UserModal } from '@app/admin/constants/user-modal.enum';
+import { BlockUserModalContentComponent } from '@app/admin/components/block-user-modal-content/block-user-modal-content.component';
+import { UnblockUserModalContentComponent } from '@app/admin/components/unblock-user-modal-content/unblock-user-modal-content.component';
 
 @UntilDestroy
 @Injectable()
@@ -59,7 +61,7 @@ export class UserControllerService {
   private blockUser(data: TableAction<User>) {
     const user = data.row;
 
-    this.openBlockUserModal(user, BlockUserAction.Block)
+    this.openBlockUserModal(user)
       .pipe(
         filter(Boolean),
         switchMap(() => this.api.updateUserReadonlyAccess(user.id, true)),
@@ -74,7 +76,7 @@ export class UserControllerService {
   private unblockUser(data: TableAction<User>) {
     const user = data.row;
 
-    this.openBlockUserModal(user, BlockUserAction.Unblock)
+    this.openUnblockUserModal(user)
       .pipe(
         filter(Boolean),
         switchMap(() => this.api.updateUserReadonlyAccess(user.id, false)),
@@ -86,13 +88,31 @@ export class UserControllerService {
       });
   }
 
-  private openBlockUserModal(user: User, action: BlockUserAction): Observable<boolean> {
+  private openBlockUserModal(user: User): Observable<boolean> {
     return this.dialog
-      .open(BlockUserModalComponent, {
+      .open(ConfirmationModalComponent, {
         ...ADMIN_MODAL_CONFIG,
         data: {
-          user,
-          action,
+          title: UserModal.BlockTitle,
+          data: user,
+          contentComponent: BlockUserModalContentComponent,
+          applyButtonText: UserModal.BlockButtonText,
+          cancelButtonText: UserModal.CancelButtonText,
+        },
+      })
+      .afterClosed();
+  }
+
+  private openUnblockUserModal(user: User): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmationModalComponent, {
+        ...ADMIN_MODAL_CONFIG,
+        data: {
+          title: UserModal.UnblockTitle,
+          data: user,
+          contentComponent: UnblockUserModalContentComponent,
+          applyButtonText: UserModal.UnblockButtonText,
+          cancelButtonText: UserModal.CancelButtonText,
         },
       })
       .afterClosed();

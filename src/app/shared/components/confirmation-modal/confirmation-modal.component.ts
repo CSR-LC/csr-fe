@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmationModalData } from '@shared/models/confirmation-modal';
+import { ChangeDetectionStrategy, Component, Inject, Type } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmationModalData } from '@shared/models';
 
 @Component({
   selector: 'lc-confirmation-modal',
@@ -10,13 +10,18 @@ import { ConfirmationModalData } from '@shared/models/confirmation-modal';
 })
 export class ConfirmationModalComponent {
   title: string = this.confirmationModalData.title;
-  name: string = this.confirmationModalData.name;
-  reason: string = this.confirmationModalData.reason;
-  applyButtonText: string = this.confirmationModalData?.applyButtonText
-    ? this.confirmationModalData?.applyButtonText
-    : 'Подтвердить';
-  cancelButtonText: string = this.confirmationModalData?.cancelButtonText
-    ? this.confirmationModalData?.cancelButtonText
-    : 'Отменить';
-  constructor(@Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData) {}
+  body?: string = this.confirmationModalData.body;
+  contentComponent?: Type<unknown> = this.confirmationModalData.contentComponent;
+  contentComponentData?: Record<string, unknown> = this.confirmationModalData.contentComponentData;
+  applyButtonText?: string = this.confirmationModalData.applyButtonText;
+  cancelButtonText?: string = this.confirmationModalData.cancelButtonText;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData,
+    private dialogRef: MatDialogRef<ConfirmationModalComponent>,
+  ) {}
+
+  confirm() {
+    this.dialogRef.close(true);
+  }
 }
