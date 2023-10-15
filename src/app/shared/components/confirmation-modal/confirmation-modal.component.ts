@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, Type } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationModalData } from '@shared/models';
 
 @Component({
@@ -16,12 +16,5 @@ export class ConfirmationModalComponent {
   applyButtonText?: string = this.confirmationModalData.applyButtonText;
   cancelButtonText?: string = this.confirmationModalData.cancelButtonText;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData,
-    private dialogRef: MatDialogRef<ConfirmationModalComponent>,
-  ) {}
-
-  confirm() {
-    this.dialogRef.close(true);
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData) {}
 }

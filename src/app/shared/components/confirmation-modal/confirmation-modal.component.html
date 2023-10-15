@@ -9,7 +9,7 @@
       <button mat-button class="cancel" [mat-dialog-close]="false" *ngIf="cancelButtonText">
         {{ cancelButtonText }}
       </button>
-      <button mat-raised-button color="primary" (click)="confirm()" *ngIf="applyButtonText">
+      <button mat-raised-button color="primary" [mat-dialog-close]="true" *ngIf="applyButtonText">
         {{ applyButtonText }}
       </button>
     </div>
