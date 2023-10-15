@@ -11,7 +11,7 @@ import { ConfirmationModalData } from '@shared/models';
 export class ConfirmationModalComponent {
   title: string = this.confirmationModalData.title;
   body?: string = this.confirmationModalData.body;
-  contentComponent?: Type<unknown> = this.confirmationModalData.contentComponent;
+  contentComponent: Type<any> | null = this.confirmationModalData.contentComponent || null;
   contentComponentData?: Record<string, unknown> = this.confirmationModalData.contentComponentData;
   applyButtonText?: string = this.confirmationModalData.applyButtonText;
   cancelButtonText?: string = this.confirmationModalData.cancelButtonText;

@@ -10,6 +10,6 @@ import { UserModal } from '@app/admin/constants/user-modal.enum';
 })
 export class UnblockUserModalContentComponent {
   @Input()
-  user!: User;
+  data!: User;
   ModalEnum = UserModal;
 }

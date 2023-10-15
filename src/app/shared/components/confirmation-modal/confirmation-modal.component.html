@@ -1,8 +1,7 @@
 <lc-modal-layout [headerTitle]="title">
   <ng-container body>
     <p *ngIf="body">{{body}}</p>
-    <ng-container *ngIf="contentComponent" [ngComponentOutlet]="contentComponent"
-                  [ngComponentOutletInputs]="contentComponentData">
+    <ng-container *ngComponentOutlet="contentComponent; inputs: {data: contentComponentData}">
     </ng-container>
   </ng-container>
   <ng-container footer>

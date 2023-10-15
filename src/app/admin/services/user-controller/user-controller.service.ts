@@ -94,7 +94,7 @@ export class UserControllerService {
         ...ADMIN_MODAL_CONFIG,
         data: {
           title: UserModal.BlockTitle,
-          data: user,
+          contentComponentData: user,
           contentComponent: BlockUserModalContentComponent,
           applyButtonText: UserModal.BlockButtonText,
           cancelButtonText: UserModal.CancelButtonText,
@@ -109,7 +109,7 @@ export class UserControllerService {
         ...ADMIN_MODAL_CONFIG,
         data: {
           title: UserModal.UnblockTitle,
-          data: user,
+          contentComponentData: user,
           contentComponent: UnblockUserModalContentComponent,
           applyButtonText: UserModal.UnblockButtonText,
           cancelButtonText: UserModal.CancelButtonText,
