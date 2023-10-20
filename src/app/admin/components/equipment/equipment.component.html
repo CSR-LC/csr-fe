@@ -1,0 +1,214 @@
+<lc-modal-layout [headerTitle]="modalHeader">
+  <ng-container body>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="column">
+          <mat-form-field appearance="fill" floatLabel="auto">
+            <mat-label>Название</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              lcValidationErrors
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill" floatLabel="auto">
+            <mat-label>Наименование</mat-label>
+            <input
+              matInput
+              formControlName="title"
+              lcValidationErrors
+            >
+          </mat-form-field>
+        </div>
+        <mat-form-field width="370px" appearance="fill">
+          <mat-label>Описание</mat-label>
+          <textarea
+            rows="4"
+            matInput
+            formControlName="description"
+            lcValidationErrors
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="column">
+          <mat-form-field>
+            <mat-label>Категория</mat-label>
+            <mat-select
+              formControlName="category"
+              lcValidationErrors
+              (valueChange)="setSubcategoryDisabledState($event)"
+            >
+              <mat-option
+                *ngFor="let option of equipmentCategories"
+                [value]="option.id"
+              >{{ option.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Технические Ососбенности</mat-label>
+            <mat-select
+              formControlName="technicalIssues"
+              (valueChange)="setConditionState($event)"
+              lcValidationErrors
+            >
+              <mat-option
+                *ngFor="let item of technicalIssuesOptions"
+                [value]="item"
+              >{{ item }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Состояние исправности</mat-label>
+          <textarea
+            matInput
+            rows="4"
+            [maxlength]="1000"
+            formControlName="condition"
+          ></textarea>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Инвентарный номер</mat-label>
+          <input
+            matInput
+            type="number"
+            [max]="maxInventoryNumberValue"
+            formControlName="inventoryNumber"
+            lcValidationErrors
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Плата за порчу оборудования, руб</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="compensationCost"
+            lcValidationErrors
+          >
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Поставщик</mat-label>
+          <input
+            matInput
+            formControlName="supplier"
+            lcValidationErrors
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Ссылка на правила пользования</mat-label>
+          <input
+            matInput
+            type="url"
+            formControlName="termsOfUse"
+            lcValidationErrors
+          >
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="fill" floatLabel="auto">
+          <mat-label>Животное</mat-label>
+          <mat-select
+            formControlName="petKinds"
+            multiple
+            lcValidationErrors
+          >
+            <mat-option
+              *ngFor="let kind of petKinds"
+              [value]="kind.id"
+            >
+              {{ kind.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Рaзмер животного</mat-label>
+          <mat-select
+            formControlName="petSize"
+            lcValidationErrors
+          >
+            <mat-option
+              *ngFor="let size of petSizes"
+              [value]="size.id"
+            >{{ size.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Максимальный срок использования</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="maximumDays"
+            lcValidationErrors
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="registration-form-field-input">
+          <mat-label>Дата поступления в фонд</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="receiptDate"
+            lcValidationErrors
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="photo-field">
+          <button
+            mat-flat-button
+            type="button"
+            class="registration-controls-button"
+            (click)="choosePhoto()"
+          >
+            <mat-icon color="primary">photo_camera</mat-icon> 
+            загрузить фото
+          </button>
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="photoID"
+              type="text"
+              (keydown)="preventDefault($event)"
+            />
+          </mat-form-field>
+          <div class="hidden" >
+            <input
+              #photoInput
+              class="registration-form-field-input"
+              type="file"
+        
+              (change)="addPhoto($event)"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <div class="buttons">
+      <button
+        mat-button
+        class="cancel"
+        [mat-dialog-close]="false"
+      >
+        Отмена
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        [mat-dialog-close]="true"
+      >
+        {{actionButtonText}}
+      </button>
+    </div>
+  </ng-container>
+</lc-modal-layout>

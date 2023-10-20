@@ -1,7 +1,27 @@
-div {
-  margin: 16px;
-}
+.add-equipment {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  height: 56px;
+  width: 286px;
+  border-radius: 28px;
 
-.wrap {
-  width: 300px;
+  .content {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 24px;
+    letter-spacing: 1.25px;
+    word-wrap: break-word;
+  }
+
+  span {
+    font-size: 24px;
+    font-weight: 100;
+    margin-right: 8px;
+  }
 }

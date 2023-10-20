@@ -3,3 +3,8 @@
   [data]="(data$ | async) || []"
   (action)="editEquipment($event)"
 ></lc-table>
+<button
+  class="add-equipment"
+  (click)="addNewEquipoment()"
+  mat-raised-button color="primary"
+><div class="content"><span>+</span>Добавить оборудование</div></button>

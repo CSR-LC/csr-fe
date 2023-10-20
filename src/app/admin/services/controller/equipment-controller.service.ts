@@ -20,6 +20,7 @@ import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
+import { EquipmentComponent } from '@app/admin/components/imdex';
 
 @UntilDestroy
 @Injectable()
@@ -48,15 +49,13 @@ export class EquipmentController {
     private readonly dictionaryService: DictionaryService,
   ) {}
 
-  editEquipment(data: TableAction<Equipment>) {
+  manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
         this.blockEquipment(data);
         break;
       case EquipmentAction.Edit:
-        // eslint-disable-next-line no-console
-        console.log(data.action);
-        //this.editEquipment(data.row);
+        this.editEquipment(data.row);
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
@@ -222,5 +221,24 @@ export class EquipmentController {
     statuses.forEach((status) => {
       this.statusIdsDictionary[status.name as keyof EquipmentStatusId] = status.id;
     });
+  }
+
+  addNewEquipoment() {
+    this.openEquipmentModal();
+  }
+
+  private editEquipment(equipment: Equipment) {
+    this.openEquipmentModal(equipment);
+  }
+
+  private openEquipmentModal(equipment?: Equipment): Observable<unknown> {
+    return this.dialog
+      .open(EquipmentComponent, {
+        autoFocus: false,
+        data: {
+          equipment,
+        },
+      })
+      .afterClosed();
   }
 }
