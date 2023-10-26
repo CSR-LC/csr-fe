@@ -15,7 +15,6 @@ import { OrderNotificationModalComponent } from './components/order-notification
 import { DateRangeModule } from '@app/features/date-range/date-range-module.module';
 import { UsersComponent } from './containers/users/users.component';
 import { BlockUserModalContentComponent } from './components/block-user-modal-content/block-user-modal-content.component';
-import { UnblockUserModalContentComponent } from './components/unblock-user-modal-content/unblock-user-modal-content.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { UnblockUserModalContentComponent } from './components/unblock-user-moda
     OrderNotificationModalComponent,
     UsersComponent,
     BlockUserModalContentComponent,
-    UnblockUserModalContentComponent,
   ],
   imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule, DateRangeModule],
   providers: [AdminApi, EquipmentResolverService, EquipmentsStatusesResolver, EquipmentCategoriesResolver],

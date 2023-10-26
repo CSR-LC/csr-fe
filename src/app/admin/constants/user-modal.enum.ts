@@ -1,6 +1,6 @@
 export enum UserModal {
   BlockTitle = 'Блокировать пользователя',
-  UnblockTitle = 'Разлокировать пользователя',
+  UnblockTitle = 'Разблокировать пользователя',
   BlockButtonText = 'Блокировать',
   UnblockButtonText = 'Разблокировать',
   CancelButtonText = 'Отменить',

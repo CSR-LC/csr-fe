@@ -1,3 +1,17 @@
-<p *ngIf="data">{{ModalEnum.BlockConfirmationText }}
-  <strong>{{data.name}}{{data.surname ? ' ' + data.surname : ''}}</strong>?</p>
-<p>{{ModalEnum.BlockDescriptionText}}</p>
+<ng-container *ngIf="data">
+  <ng-container *ngIf="!data.is_readonly"  [ngTemplateOutlet]="blockContent">
+  </ng-container>
+  <ng-container *ngIf="data.is_readonly" [ngTemplateOutlet]="unblockContent">
+  </ng-container>
+</ng-container>
+
+<ng-template #blockContent>
+  <p>{{ModalEnum.BlockConfirmationText }}
+    <strong>{{data.name}}{{data.surname ? ' ' + data.surname : ''}}</strong>?</p>
+  <p>{{ModalEnum.BlockDescriptionText}}</p>
+</ng-template>
+<ng-template #unblockContent>
+  <p>{{ModalEnum.UnblockConfirmationText }}
+    <strong>{{data.name}}{{data.surname ? ' ' + data.surname : ''}}</strong>?</p>
+  <p>{{ModalEnum.UnblockDescriptionText}}</p>
+</ng-template>

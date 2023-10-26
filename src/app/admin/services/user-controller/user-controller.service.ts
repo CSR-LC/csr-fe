@@ -16,7 +16,6 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 import { ConfirmationModalComponent } from '@shared/components';
 import { UserModal } from '@app/admin/constants/user-modal.enum';
 import { BlockUserModalContentComponent } from '@app/admin/components/block-user-modal-content/block-user-modal-content.component';
-import { UnblockUserModalContentComponent } from '@app/admin/components/unblock-user-modal-content/unblock-user-modal-content.component';
 
 @UntilDestroy
 @Injectable()
@@ -45,46 +44,29 @@ export class UserControllerService {
   }
 
   editUser(data: TableAction<User>) {
-    const user = data.row;
-
     switch (data.action) {
       case UserAction.Profile:
         break;
       case UserAction.Block:
-        user.is_readonly ? this.unblockUser(data) : this.blockUser(data);
+        this.updateUserBlockingStatus(data);
         break;
       case UserAction.Delete:
         break;
     }
   }
 
-  private blockUser(data: TableAction<User>) {
+  private updateUserBlockingStatus(data: TableAction<User>) {
     const user = data.row;
 
     this.openBlockUserModal(user)
       .pipe(
         filter(Boolean),
-        switchMap(() => this.api.updateUserReadonlyAccess(user.id, true)),
+        switchMap(() => this.api.updateUserReadonlyAccess(user.id, !user.is_readonly)),
         switchMap(() => this.fetchUsers()),
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.notificationService.openSuccess(UserNotification.Blocked);
-      });
-  }
-
-  private unblockUser(data: TableAction<User>) {
-    const user = data.row;
-
-    this.openUnblockUserModal(user)
-      .pipe(
-        filter(Boolean),
-        switchMap(() => this.api.updateUserReadonlyAccess(user.id, false)),
-        switchMap(() => this.fetchUsers()),
-        untilDestroyed(this),
-      )
-      .subscribe(() => {
-        this.notificationService.openSuccess(UserNotification.Unblocked);
+        this.notificationService.openSuccess(user.is_readonly ? UserNotification.Unblocked : UserNotification.Blocked);
       });
   }
 
@@ -93,25 +75,10 @@ export class UserControllerService {
       .open(ConfirmationModalComponent, {
         ...ADMIN_MODAL_CONFIG,
         data: {
-          title: UserModal.BlockTitle,
+          title: user.is_readonly ? UserModal.UnblockTitle : UserModal.BlockTitle,
           contentComponentData: user,
           contentComponent: BlockUserModalContentComponent,
-          applyButtonText: UserModal.BlockButtonText,
-          cancelButtonText: UserModal.CancelButtonText,
-        },
-      })
-      .afterClosed();
-  }
-
-  private openUnblockUserModal(user: User): Observable<boolean> {
-    return this.dialog
-      .open(ConfirmationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
-        data: {
-          title: UserModal.UnblockTitle,
-          contentComponentData: user,
-          contentComponent: UnblockUserModalContentComponent,
-          applyButtonText: UserModal.UnblockButtonText,
+          applyButtonText: user.is_readonly ? UserModal.UnblockButtonText : UserModal.BlockButtonText,
           cancelButtonText: UserModal.CancelButtonText,
         },
       })
