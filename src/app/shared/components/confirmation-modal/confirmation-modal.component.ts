@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, Type } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationModalData } from '@shared/models';
 
@@ -8,13 +8,22 @@ import { ConfirmationModalData } from '@shared/models';
   styleUrls: ['./confirmation-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfirmationModalComponent {
-  title: string = this.confirmationModalData.title;
-  body?: string = this.confirmationModalData.body;
-  contentComponent: Type<any> | null = this.confirmationModalData.contentComponent || null;
-  contentComponentData?: Record<string, unknown> = this.confirmationModalData.contentComponentData;
-  applyButtonText?: string = this.confirmationModalData.applyButtonText;
-  cancelButtonText?: string = this.confirmationModalData.cancelButtonText;
+export class ConfirmationModalComponent implements OnInit {
+  title = '';
+  body?: string;
+  contentComponent: Type<any> | null = null;
+  contentComponentData?: Record<string, unknown>;
+  applyButtonText?: string;
+  cancelButtonText?: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData) {}
+
+  ngOnInit() {
+    this.title = this.confirmationModalData.title;
+    this.body = this.confirmationModalData.body;
+    this.contentComponent = this.confirmationModalData.contentComponent || null;
+    this.contentComponentData = this.confirmationModalData.contentComponentData;
+    this.applyButtonText = this.confirmationModalData.applyButtonText;
+    this.cancelButtonText = this.confirmationModalData.cancelButtonText;
+  }
 }

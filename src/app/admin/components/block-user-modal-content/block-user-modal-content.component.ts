@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
 import { UserModal } from '@app/admin/constants/user-modal.enum';
 
@@ -8,8 +8,16 @@ import { UserModal } from '@app/admin/constants/user-modal.enum';
   styleUrls: ['./block-user-modal-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlockUserModalContentComponent {
-  @Input()
-  data!: User;
+export class BlockUserModalContentComponent implements OnInit {
+  @Input() data?: User;
   ModalEnum = UserModal;
+  user?: User;
+  isUserBlocked = false;
+
+  ngOnInit() {
+    if (this.data) {
+      this.user = this.data;
+      this.isUserBlocked = this.user.is_readonly;
+    }
+  }
 }
