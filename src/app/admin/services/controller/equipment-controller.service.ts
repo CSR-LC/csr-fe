@@ -20,6 +20,7 @@ import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
+import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 
 @UntilDestroy
 @Injectable()
@@ -29,12 +30,6 @@ export class EquipmentController {
   statusDictionary: Dictionary<string> = {};
   statusIdsDictionary: EquipmentStatusId = {
     ...equipmentStatusIdDefaultValue,
-  };
-
-  private readonly commonModalConfig = {
-    maxWidth: 472,
-    minWidth: 472,
-    autoFocus: false,
   };
 
   get equipmentData$(): Observable<TableRow[]> {
@@ -108,7 +103,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe((res) => {
-        this.notificationService.openSuccess(`${equipment.title} было за блокированно!`);
+        this.notificationService.openSuccess(`${equipment.title} было заблокированно!`);
       });
   }
 
@@ -146,7 +141,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.notificationService.openSuccess(`${equipment.title} было за архивированно!`);
+        this.notificationService.openSuccess(`${equipment.title} было заархивированно!`);
       });
   }
 
@@ -184,7 +179,7 @@ export class EquipmentController {
   private openOrderNotificationModal(action: string): Observable<unknown> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
-        ...this.commonModalConfig,
+        ...ADMIN_MODAL_CONFIG,
         data: action,
       })
       .afterClosed();
@@ -193,7 +188,7 @@ export class EquipmentController {
   private openArchiveEquipmentModal(equipment: Equipment) {
     return this.dialog
       .open(ArchiveEquipmentModalComponent, {
-        ...this.commonModalConfig,
+        ...ADMIN_MODAL_CONFIG,
         data: equipment,
       })
       .afterClosed();
@@ -201,7 +196,7 @@ export class EquipmentController {
   private openBlockEquipmentModal(equipment: Equipment, unavailablePeriods: UnavailableDates[]): Observable<Period> {
     return this.dialog
       .open(BlockEquipmentModalComponent, {
-        ...this.commonModalConfig,
+        ...ADMIN_MODAL_CONFIG,
         data: {
           equipment,
           unavailablePeriods: unavailablePeriods ? unavailablePeriods : [],

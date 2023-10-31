@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserControllerService } from './user-controller.service';
+import { UserControllerService } from '@app/admin/services';
 
 xdescribe('UserControllerService', () => {
   let service: UserControllerService;
