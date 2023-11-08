@@ -35,7 +35,9 @@ export class ApiService {
   }
 
   filterEquipment(payload: EquipmentFilterRequest): Observable<BaseItemsResponse<Equipment>> {
-    return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload);
+    // TODO: remove prams, when pagination is ready
+    const params = new HttpParams().set('limit', 1000);
+    return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload, { params });
   }
 
   getUnavailablePeriods(equipmentId?: number): Observable<UnavailablePeriods> {

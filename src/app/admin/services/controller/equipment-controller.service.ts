@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
-import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, filter, of, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, of, map, switchMap, tap, forkJoin } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary, ItemTranslated } from '@app/shared/types';
@@ -21,11 +19,15 @@ import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
 import { EquipmentComponent } from '@app/admin/components/imdex';
+import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
+import { Store } from '@ngxs/store';
+import { BaseKind } from '@app/shared/models/management';
 
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
   private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
+  private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
   statusIdsDictionary: EquipmentStatusId = {
@@ -47,6 +49,7 @@ export class EquipmentController {
     private readonly api: AdminApi,
     private readonly notificationService: NotificationsService,
     private readonly dictionaryService: DictionaryService,
+    private readonly store: Store,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -55,7 +58,7 @@ export class EquipmentController {
         this.blockEquipment(data);
         break;
       case EquipmentAction.Edit:
-        this.editEquipment(data.row);
+        this.manageEquipment(data.row);
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
@@ -65,6 +68,7 @@ export class EquipmentController {
 
   fetchEquipments() {
     return this.api.getAllEquipment().pipe(
+      tap((res) => (this.inventoryNumbers = res.items.map((i) => i.inventoryNumber))),
       map((res) => this.createRows(res.items)),
       tap((data: TableRow[]) => this.equipmentDataSubj$.next(data)),
     );
@@ -223,22 +227,57 @@ export class EquipmentController {
     });
   }
 
+  private manageEquipment(equipment?: Equipment) {
+    this.openEquipmentModal(equipment)
+      .pipe(
+        filter(Boolean),
+        switchMap((res) => {
+          return forkJoin({
+            photo: res.file ? this.api.uploadPhoto(res.file) : of(null),
+            equipment: of(res.equipment),
+          });
+        }),
+        switchMap((res) => {
+          if (res.photo) res.equipment.photoID = res.photo.data.id;
+          return equipment
+            ? this.api.editEquipment(res.equipment, equipment.id)
+            : this.api.registerEquipment(res.equipment);
+        }),
+        switchMap(() => this.fetchEquipments()),
+        untilDestroyed(this),
+      )
+      .subscribe((res) => {
+        this.notificationService.openSuccess(equipment ? 'Оборудование отредактированно' : 'Оборудование добавлено');
+      });
+  }
+
   addNewEquipoment() {
-    this.openEquipmentModal();
+    this.manageEquipment();
   }
 
-  private editEquipment(equipment: Equipment) {
-    this.openEquipmentModal(equipment);
-  }
-
-  private openEquipmentModal(equipment?: Equipment): Observable<unknown> {
+  private openEquipmentModal(equipment?: Equipment): Observable<EquipmentModalResponse | false> {
     return this.dialog
       .open(EquipmentComponent, {
         autoFocus: false,
         data: {
-          equipment,
+          inventoryNumbers: equipment ? undefined : this.inventoryNumbers,
+          equipment: equipment ? this.prepareEquipmentForModal(equipment) : undefined,
         },
       })
       .afterClosed();
+  }
+
+  private prepareEquipmentForModal(equipment: Equipment): Equipment {
+    const kinds = this.store.snapshot().application_data.petKinds as BaseKind[];
+    const copy = { ...equipment };
+    copy.receiptDate = Number(`${copy.receiptDate}000`);
+
+    copy.petKinds = equipment.petKinds.map((kind) => {
+      if (typeof kind === 'number') return kind;
+      const kindStored = kinds.find((el) => el.name === kind.name);
+      return kindStored ? kindStored.id : 0;
+    }) as unknown as { name: string }[];
+
+    return copy;
   }
 }

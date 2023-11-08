@@ -11,6 +11,7 @@ import { Category } from '@app/catalog/models';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { EquipmentColumns } from '@app/admin/constants/equipment-columns';
 import { TableRow } from '@app/shared/models/table-row';
+import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 
 @UntilDestroy
 @Component({
@@ -27,9 +28,13 @@ export class EquipmentsComponent implements OnInit {
   @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
   @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<EquipmentStatus[]>;
 
-  constructor(private controller: EquipmentController) {}
+  constructor(
+    private readonly controller: EquipmentController,
+    private readonly mainHeaderService: MainPageHeaderService,
+  ) {}
 
   ngOnInit() {
+    this.mainHeaderService.setPageTitle('Оборудование');
     this.controller.fetchEquipments().subscribe();
     this.equipmentCategories
       .pipe(untilDestroyed(this))

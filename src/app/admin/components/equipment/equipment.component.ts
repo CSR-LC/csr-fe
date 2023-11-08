@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Equipment } from '@app/catalog/models/equipment';
-import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
-import { Store } from '@ngxs/store';
 import { EquipmentModalService } from '@app/admin/services/equipment-modal/equipment-modal.service';
-import { BaseKind, EquipmentKind, PetSize } from '@app/management/models/management';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { TechnicalIssues } from '@app/management/types';
+import { BaseKind, EquipmentKind, EquipmentOptions, PetSize } from '@app/shared/models/management';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TechnicalIssues } from '@app/shared/types/technical-issues';
+import { ValidationService } from '@app/shared/services/validation/validation.service';
+import { NewEquipment } from '@app/shared/models/equipment';
 
 type Data = {
   equipment: Equipment;
+  inventoryNumbers: undefined | number[];
 };
 
 @Component({
@@ -27,6 +28,8 @@ export class EquipmentComponent implements OnInit {
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;
+  private inventoryNumbers?: number[];
+  readonly formName = 'equipment_form';
   technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
   equipmentCategories: EquipmentKind[] = [];
   petKinds: BaseKind[] = [];
@@ -34,49 +37,75 @@ export class EquipmentComponent implements OnInit {
   modalHeader = '';
   actionButtonText = '';
 
-  form = this.formBuilder.group({
-    category: [null, Validators.required],
-    subCategory: [{ value: null, disabled: true }, Validators.min(0)],
-    compensationCost: [null, [Validators.required, Validators.max(this.maxCompensationCost)]],
-    condition: [{ value: null, disabled: true }, Validators.maxLength(1000)],
-    description: ['', Validators.required],
-    inventoryNumber: [null, [Validators.required, Validators.max(this.maxInventoryNumberValue)]],
-    // temporary is not used. there is no control on ui
-    location: [1, Validators.required],
-    maximumAmount: [null, [Validators.required, Validators.min(1)]],
-    maximumDays: [null, [Validators.required, Validators.min(1)]],
-    name: ['', Validators.required],
-    nameSubstring: [''],
-    petKinds: [[null], Validators.required],
-    petSize: [null, Validators.required],
-    photoID: [null, Validators.required],
-    receiptDate: ['', Validators.required],
-    // unnecessary  remove when the changed
-    status: [1, Validators.required],
-    supplier: ['', [Validators.required, Validators.maxLength(50)]],
-    technicalIssues: [null, [Validators.required]],
-    termsOfUse: ['', [Validators.required, Validators.maxLength(249)]],
-    title: ['', [Validators.required, Validators.maxLength(49)]],
-  });
+  form?: FormGroup;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,
     private readonly controler: EquipmentModalService,
     private readonly formBuilder: FormBuilder,
+    private readonly dialogRef: MatDialogRef<EquipmentComponent>,
+    private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit() {
-    this.equipment = this.data.equipment;
+    if (this.data.equipment) {
+      this.equipment = { ...this.data.equipment };
+    }
+    this.inventoryNumbers = this.data.inventoryNumbers;
+
     this.petSizes = this.controler.petSizes;
     this.petKinds = this.controler.petKinds;
     this.equipmentCategories = this.controler.categories;
     this.modalHeader = this.controler.getHeaderText(this.equipment);
     this.actionButtonText = this.controler.getActionButtonText(this.equipment);
 
-    // this.subCategoryControl = this.equipmentRegistrationForm.get('subCategory');
-    this.conditionControl = this.form.get('condition');
-    this.photoIdControl = this.form.get('photoID');
-    // this.inventoryNumberControl = this.equipmentRegistrationForm.get('inventoryNumber');
+    this.createForm(this.equipment);
+
+    this.conditionControl = this.form?.get('condition');
+    this.photoIdControl = this.form?.get('photoID');
+  }
+
+  createForm(equipment?: Equipment) {
+    this.form = this.formBuilder.group({
+      category: [equipment?.category || null, Validators.required],
+      compensationCost: [
+        this.equipment?.compensationCost || null,
+        [Validators.required, Validators.max(this.maxCompensationCost)],
+      ],
+      condition: [
+        { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
+        Validators.maxLength(1000),
+      ],
+      description: [equipment?.description || '', Validators.required],
+      inventoryNumber: [
+        equipment?.inventoryNumber || null,
+        [Validators.required, Validators.max(this.maxInventoryNumberValue)],
+      ],
+      // temporary is not used. there is no control on ui
+      location: [1, Validators.required],
+      maximumDays: [equipment?.maximumDays || null, [Validators.required, Validators.min(1)]],
+      name: [equipment?.name || '', Validators.required],
+      nameSubstring: [''],
+      petKinds: [equipment?.petKinds || [null], Validators.required],
+      petSize: [equipment?.petSize ? equipment.petSize : null, Validators.required],
+      photoID: [equipment?.photoID || null, Validators.required],
+      receiptDate: [equipment?.receiptDate ? new Date(equipment.receiptDate) : '', Validators.required],
+      // unnecessary  remove when the changed
+      status: [1, Validators.required],
+      subCategory: [1],
+      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(50)]],
+      technicalIssues: [equipment ? this.getTechnicalIssuesValue(equipment) : null, [Validators.required]],
+      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(249)]],
+      title: [equipment?.title || '', [Validators.required, Validators.maxLength(49)]],
+    });
+  }
+
+  getTechnicalIssuesValue(equipment: Equipment): TechnicalIssues {
+    return equipment.technicalIssues ? TechnicalIssues.is : TechnicalIssues.not;
+  }
+
+  getConditionDisableState(equipment: Equipment): boolean {
+    return equipment.technicalIssues ? false : true;
   }
 
   setConditionState(value: string) {
@@ -94,13 +123,6 @@ export class EquipmentComponent implements OnInit {
     control?.setValidators(enabled ? Validators.required : null);
   }
 
-  setSubcategoryDisabledState(categoryId: number) {
-    // this.controller.getEquipmentSubCategoryById(categoryId).subscribe((subcategories) => {
-    //   this.setControlState(!!subcategories.length, this.subCategoryControl);
-    //   this.subcategoryOptions = subcategories;
-    // });
-  }
-
   choosePhoto() {
     this.photoInput?.nativeElement.click();
   }
@@ -116,5 +138,16 @@ export class EquipmentComponent implements OnInit {
     if (this.file) {
       this.photoIdControl?.setValue(this.file.name);
     }
+  }
+
+  returnEquipment() {
+    this.validationService.emitSubmit(this.formName);
+
+    if (!this.form?.valid) return;
+
+    this.dialogRef.close({
+      file: this.file,
+      equipment: new NewEquipment(this.form.value as unknown as EquipmentOptions),
+    });
   }
 }

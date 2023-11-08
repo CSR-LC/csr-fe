@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseKind, EquipmentKind, PetSize } from '@app/management/models/management';
+import { BaseKind, EquipmentKind, PetSize } from '@app/shared/models/management';
 import { Store } from '@ngxs/store';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { Equipment } from '@app/catalog/models/equipment';

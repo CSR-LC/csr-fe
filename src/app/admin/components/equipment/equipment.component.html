@@ -1,6 +1,6 @@
 <lc-modal-layout [headerTitle]="modalHeader">
   <ng-container body>
-    <form [formGroup]="form">
+    <form *ngIf="form" [formGroup]="form">
       <div class="row">
         <div class="column">
           <mat-form-field appearance="fill" floatLabel="auto">
@@ -8,7 +8,7 @@
             <input
               matInput
               formControlName="name"
-              lcValidationErrors
+              [lcValidationErrors]="formName"
             />
           </mat-form-field>
           <mat-form-field appearance="fill" floatLabel="auto">
@@ -16,7 +16,7 @@
             <input
               matInput
               formControlName="title"
-              lcValidationErrors
+              [lcValidationErrors]="formName"
             >
           </mat-form-field>
         </div>
@@ -26,18 +26,17 @@
             rows="4"
             matInput
             formControlName="description"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           ></textarea>
         </mat-form-field>
       </div>
       <div class="row">
         <div class="column">
-          <mat-form-field>
+          <mat-form-field floatLabel="auto">
             <mat-label>Категория</mat-label>
             <mat-select
               formControlName="category"
-              lcValidationErrors
-              (valueChange)="setSubcategoryDisabledState($event)"
+              [lcValidationErrors]="formName"
             >
               <mat-option
                 *ngFor="let option of equipmentCategories"
@@ -45,12 +44,12 @@
               >{{ option.name }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field floatLabel="auto" appearance="fill">
             <mat-label>Технические Ососбенности</mat-label>
             <mat-select
               formControlName="technicalIssues"
               (valueChange)="setConditionState($event)"
-              lcValidationErrors
+              [lcValidationErrors]="formName"
             >
               <mat-option
                 *ngFor="let item of technicalIssuesOptions"
@@ -78,7 +77,7 @@
             type="number"
             [max]="maxInventoryNumberValue"
             formControlName="inventoryNumber"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
@@ -87,7 +86,7 @@
             matInput
             type="number"
             formControlName="compensationCost"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
         </mat-form-field>
       </div>
@@ -97,7 +96,7 @@
           <input
             matInput
             formControlName="supplier"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
@@ -106,7 +105,7 @@
             matInput
             type="url"
             formControlName="termsOfUse"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
         </mat-form-field>
       </div>
@@ -116,7 +115,7 @@
           <mat-select
             formControlName="petKinds"
             multiple
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
             <mat-option
               *ngFor="let kind of petKinds"
@@ -126,11 +125,11 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field floatLabel="auto" appearance="fill">
           <mat-label>Рaзмер животного</mat-label>
           <mat-select
             formControlName="petSize"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
             <mat-option
               *ngFor="let size of petSizes"
@@ -140,22 +139,22 @@
         </mat-form-field>
       </div>
       <div class="row">
-        <mat-form-field>
+        <mat-form-field floatLabel="auto">
           <mat-label>Максимальный срок использования</mat-label>
           <input
             matInput
             type="number"
             formControlName="maximumDays"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           >
         </mat-form-field>
-        <mat-form-field appearance="fill" class="registration-form-field-input">
+        <mat-form-field floatLabel="auto" appearance="fill" class="registration-form-field-input">
           <mat-label>Дата поступления в фонд</mat-label>
           <input
             matInput
             [matDatepicker]="picker"
             formControlName="receiptDate"
-            lcValidationErrors
+            [lcValidationErrors]="formName"
           />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -177,6 +176,7 @@
               matInput
               formControlName="photoID"
               type="text"
+              [lcValidationErrors]="formName"
               (keydown)="preventDefault($event)"
             />
           </mat-form-field>
@@ -205,7 +205,7 @@
       <button
         mat-raised-button
         color="primary"
-        [mat-dialog-close]="true"
+        (click)="returnEquipment()"
       >
         {{actionButtonText}}
       </button>

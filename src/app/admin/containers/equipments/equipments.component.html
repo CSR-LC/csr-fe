@@ -1,5 +1,6 @@
 <lc-table
   [columns]="columns"
+  [limit]="20"
   [data]="(data$ | async) || []"
   (action)="editEquipment($event)"
 ></lc-table>

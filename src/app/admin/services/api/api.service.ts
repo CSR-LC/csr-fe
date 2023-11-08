@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseItemsResponse } from '@app/shared/types/base-items-response';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
@@ -8,13 +8,17 @@ import { Category } from '@app/catalog/models';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { Period } from '@app/shared/models/period';
 import { User } from '@app/auth/models';
+import { UploadPhotoResponse } from '@app/shared/types/upload-photo-response';
+import { NewEquipment } from '@app/shared/models/equipment';
 
 @Injectable()
 export class ApiService {
   constructor(private http: HttpClient) {}
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
-    return this.http.get<BaseItemsResponse<Equipment>>('equipment');
+    // TODO: remove when solved
+    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+    return this.http.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
 
   getUnavailablePeriodsById(equipmentId: number): Observable<BaseItemsResponse<UnavailableDates>> {
@@ -33,6 +37,20 @@ export class ApiService {
       start_date: period.startDate,
     };
     return this.http.post<string>(`/equipment/${id}/blocking`, body);
+  }
+
+  uploadPhoto(file: File): Observable<UploadPhotoResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<UploadPhotoResponse>('equipment/photos', formData);
+  }
+
+  registerEquipment(equipment: NewEquipment): Observable<Equipment> {
+    return this.http.post<Equipment>('equipment', equipment);
+  }
+
+  editEquipment(equipment: NewEquipment, id: number): Observable<unknown> {
+    return this.http.put(`equipment/${id}`, equipment);
   }
 
   getEquipmentStatuses(): Observable<EquipmentStatus[]> {
