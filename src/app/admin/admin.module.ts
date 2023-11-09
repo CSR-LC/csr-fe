@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdminRoutingModule } from './admin-routing.module';
 import { EquipmentsComponent } from './containers/equipments/equipments.component';
 import { SharedModule } from '@shared/shared.module';

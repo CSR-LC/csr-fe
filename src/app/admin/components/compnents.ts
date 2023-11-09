@@ -4,6 +4,7 @@ import {
   EquipmentComponent,
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
+  BlockUserModalContentComponent,
 } from './imdex';
 
 export const adminComponents = [
@@ -12,4 +13,5 @@ export const adminComponents = [
   EquipmentComponent,
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
+  BlockUserModalContentComponent,
 ];

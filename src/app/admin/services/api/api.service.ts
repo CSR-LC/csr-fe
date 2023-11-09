@@ -13,6 +13,8 @@ import { NewEquipment } from '@app/shared/models/equipment';
 
 @Injectable()
 export class ApiService {
+  private static USERS_BASE_URL = 'v1/users';
+
   constructor(private http: HttpClient) {}
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
@@ -66,6 +68,14 @@ export class ApiService {
   }
 
   getAllUsers(): Observable<BaseItemsResponse<User>> {
-    return this.http.get<BaseItemsResponse<User>>('v1/users');
+    return this.http.get<BaseItemsResponse<User>>(ApiService.USERS_BASE_URL);
+  }
+
+  updateUserReadonlyAccess(userId: number, isReadonly: boolean) {
+    const body = {
+      is_readonly: isReadonly,
+    };
+
+    return this.http.put<string>(`${ApiService.USERS_BASE_URL}/${userId}/readonly-access`, body);
   }
 }

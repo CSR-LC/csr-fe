@@ -1,4 +1,5 @@
 <lc-table
   [columns]="columns"
   [data]="(users$ | async) || []"
+  (action)="editUser($event)"
 ></lc-table>

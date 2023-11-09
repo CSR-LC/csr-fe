@@ -32,21 +32,21 @@ export const EquipmentColumns: TableColumn[] = [
     columnDef: EquipmentAction.Block,
     action: EquipmentAction.Block,
     tooltip: 'Блокировка',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
     columnDef: EquipmentAction.Edit,
     action: EquipmentAction.Edit,
     tooltip: 'Редактирование',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
     columnDef: EquipmentAction.Archivate,
     action: EquipmentAction.Archivate,
     tooltip: 'Архивирование',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
@@ -54,6 +54,6 @@ export const EquipmentColumns: TableColumn[] = [
     action: EquipmentAction.Orders,
     essentialAction: true,
     tooltip: 'Перейти к заявкам',
-    style: { 'width.px': 32 },
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
 ];
