@@ -8,15 +8,9 @@ import { ValidationService } from '@app/shared/services/validation/validation.se
 import { NewEquipment } from '@app/shared/models/equipment';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { ErrorOptions } from '@app/shared/types';
-
-type Data = {
-  equipment: Equipment;
-  inventoryNumbers: undefined | number[];
-  petKinds: BaseKind[] | undefined;
-  petSizes: PetSize[] | undefined;
-  categories: EquipmentKind[] | undefined;
-  equipmentIds: number[] | undefined;
-};
+import { EquipmentMOdalData } from '@app/admin/types/equipoment-modal-data';
+import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
+import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
 
 @Component({
   selector: 'lc-equipment',
@@ -27,8 +21,7 @@ type Data = {
 export class EquipmentComponent implements OnInit {
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
-  readonly maxInventoryNumberValue = 99999999999999999999999999999999999999999999999999;
-  private readonly maxCompensationCost = 9999999999;
+  readonly maxInventoryNumber = maxInventoryNumber;
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;
@@ -47,7 +40,7 @@ export class EquipmentComponent implements OnInit {
   form?: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: Data,
+    @Inject(MAT_DIALOG_DATA) private data: EquipmentMOdalData,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<EquipmentComponent>,
     private readonly validationService: ValidationService,
@@ -78,7 +71,7 @@ export class EquipmentComponent implements OnInit {
       category: [equipment?.category || null, Validators.required],
       compensationCost: [
         this.equipment?.compensationCost || null,
-        [Validators.required, Validators.max(this.maxCompensationCost)],
+        [Validators.required, Validators.max(maxCompensationCost)],
       ],
       condition: [
         { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
@@ -89,7 +82,7 @@ export class EquipmentComponent implements OnInit {
         equipment?.inventoryNumber || null,
         [
           Validators.required,
-          Validators.max(this.maxInventoryNumberValue),
+          Validators.max(maxInventoryNumber),
           this.validationService.custom(this.inventoryNumberErrorOptions, this.inventoryNumbersValiator),
         ],
       ],

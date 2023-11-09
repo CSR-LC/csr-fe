@@ -23,6 +23,7 @@ import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-respons
 import { Store } from '@ngxs/store';
 import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
+import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 
 @UntilDestroy
 @Injectable()
@@ -43,6 +44,7 @@ export class EquipmentController {
     private readonly dialog: MatDialog,
     private readonly api: AdminApi,
     private readonly notificationService: NotificationsService,
+    private readonly mainHeaderService: MainPageHeaderService,
     private readonly dictionaryService: DictionaryService,
     private readonly store: Store,
   ) {}
@@ -215,7 +217,7 @@ export class EquipmentController {
       });
   }
 
-  addNewEquipoment() {
+  addNewEquipment() {
     this.manageEquipment();
   }
 
@@ -240,12 +242,18 @@ export class EquipmentController {
     const copy = { ...equipment };
     copy.receiptDate = Number(`${copy.receiptDate}000`);
 
+    // TODO: remove this the back will send petkinds ids
     copy.petKinds = equipment.petKinds.map((kind) => {
       if (typeof kind === 'number') return kind;
       const kindStored = kinds.find((el) => el.name === kind.name);
       return kindStored ? kindStored.id : 0;
+      // TODO: remove casting vhen the back will send petkinds ids
     }) as unknown as { name: string }[];
 
     return copy;
+  }
+
+  setPageHeader() {
+    this.mainHeaderService.setPageTitle('Оборудование');
   }
 }

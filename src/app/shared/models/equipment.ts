@@ -9,7 +9,6 @@ export class NewEquipment {
   description: string;
   inventoryNumber: number;
   location: number;
-  // maximumAmount: number;
   maximumDays: number;
   name: string;
   nameSubstring?: string;
@@ -29,13 +28,11 @@ export class NewEquipment {
     this.description = equipment.description;
     this.inventoryNumber = equipment.inventoryNumber;
     this.location = equipment.location;
-    // this.maximumAmount = equipment.maximumAmount;
     this.maximumDays = equipment.maximumDays;
     this.name = equipment.name;
     this.petKinds = equipment.petKinds;
     this.petSize = equipment.petSize;
     this.photoID = equipment.photoID;
-    // this.receiptDate = this.getDate(equipment.receiptDate);
     this.receiptDate = this.getDate(equipment.receiptDate);
     this.status = equipment.status;
     this.supplier = equipment.supplier;
@@ -44,11 +41,7 @@ export class NewEquipment {
     this.title = equipment.title;
     this.subCategory = equipment.subCategory;
 
-    this.nameSubstring = 'сабстринг';
-
-    // if (equipment.subCategory) {
-    //   this.subCategory = equipment.subCategory;
-    // }
+    this.nameSubstring = 'str';
 
     if (equipment.condition) {
       this.condition = equipment.condition;
@@ -61,9 +54,5 @@ export class NewEquipment {
 
   private getDate(date: Date): number {
     return Number(`${date.getTime()}`.slice(0, -3));
-  }
-
-  private addZero(num: number): string {
-    return num < 10 ? `0${num}` : `${num}`;
   }
 }
