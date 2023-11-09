@@ -47,17 +47,11 @@ export class ValidationService {
     };
   }
 
-  validateForm(form: UntypedFormGroup): void {
-    form.updateValueAndValidity();
-
-    Object.values(form.controls).forEach((control) => {
-      control.updateValueAndValidity();
-      if ((control as UntypedFormGroup).controls) {
-        this.validateForm(control as UntypedFormGroup);
-      }
-    });
-
-    this.emitSubmit();
+  custom(options: ErrorOptions, callback: (v: any) => boolean): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = callback(control.value);
+      return isValid ? null : { custom: { message: options.message } };
+    };
   }
 
   private areValuesComparable(value: any, compareValue: any): boolean {

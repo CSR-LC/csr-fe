@@ -1,23 +1,27 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Equipment } from '@app/catalog/models/equipment';
-import { EquipmentModalService } from '@app/admin/services/equipment-modal/equipment-modal.service';
 import { BaseKind, EquipmentKind, EquipmentOptions, PetSize } from '@app/shared/models/management';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TechnicalIssues } from '@app/shared/types/technical-issues';
 import { ValidationService } from '@app/shared/services/validation/validation.service';
 import { NewEquipment } from '@app/shared/models/equipment';
+import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
+import { ErrorOptions } from '@app/shared/types';
 
 type Data = {
   equipment: Equipment;
   inventoryNumbers: undefined | number[];
+  petKinds: BaseKind[] | undefined;
+  petSizes: PetSize[] | undefined;
+  categories: EquipmentKind[] | undefined;
+  equipmentIds: number[] | undefined;
 };
 
 @Component({
   selector: 'lc-equipment',
   templateUrl: './equipment.component.html',
   styleUrls: ['./equipment.component.scss'],
-  providers: [EquipmentModalService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EquipmentComponent implements OnInit {
@@ -30,6 +34,9 @@ export class EquipmentComponent implements OnInit {
   private file?: File;
   private inventoryNumbers?: number[];
   readonly formName = 'equipment_form';
+  private readonly inventoryNumberErrorOptions: ErrorOptions = {
+    message: 'Инвентарный номер уже существует',
+  };
   technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
   equipmentCategories: EquipmentKind[] = [];
   petKinds: BaseKind[] = [];
@@ -41,7 +48,6 @@ export class EquipmentComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: Data,
-    private readonly controler: EquipmentModalService,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<EquipmentComponent>,
     private readonly validationService: ValidationService,
@@ -53,11 +59,13 @@ export class EquipmentComponent implements OnInit {
     }
     this.inventoryNumbers = this.data.inventoryNumbers;
 
-    this.petSizes = this.controler.petSizes;
-    this.petKinds = this.controler.petKinds;
-    this.equipmentCategories = this.controler.categories;
-    this.modalHeader = this.controler.getHeaderText(this.equipment);
-    this.actionButtonText = this.controler.getActionButtonText(this.equipment);
+    this.petSizes = this.data.petSizes || [];
+    this.petKinds = this.data.petKinds || [];
+    this.equipmentCategories = this.data.categories || [];
+    this.modalHeader = this.equipment ? EquipmentModal.EditEquipmentHeader : EquipmentModal.AddEquipmentHeader;
+    this.actionButtonText = this.equipment
+      ? EquipmentModal.EditEquipmentModalButtonText
+      : EquipmentModal.AddEquipmentModalButtonText;
 
     this.createForm(this.equipment);
 
@@ -79,7 +87,11 @@ export class EquipmentComponent implements OnInit {
       description: [equipment?.description || '', Validators.required],
       inventoryNumber: [
         equipment?.inventoryNumber || null,
-        [Validators.required, Validators.max(this.maxInventoryNumberValue)],
+        [
+          Validators.required,
+          Validators.max(this.maxInventoryNumberValue),
+          this.validationService.custom(this.inventoryNumberErrorOptions, this.inventoryNumbersValiator),
+        ],
       ],
       // temporary is not used. there is no control on ui
       location: [1, Validators.required],
@@ -99,6 +111,12 @@ export class EquipmentComponent implements OnInit {
       title: [equipment?.title || '', [Validators.required, Validators.maxLength(49)]],
     });
   }
+
+  private readonly inventoryNumbersValiator = (inventoryNumber: number): boolean => {
+    if (this.equipment && this.equipment.inventoryNumber === inventoryNumber) return true;
+    if (!this.inventoryNumbers) return true;
+    return !this.inventoryNumbers.includes(inventoryNumber);
+  };
 
   getTechnicalIssuesValue(equipment: Equipment): TechnicalIssues {
     return equipment.technicalIssues ? TechnicalIssues.is : TechnicalIssues.not;

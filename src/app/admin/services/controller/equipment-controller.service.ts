@@ -148,37 +148,6 @@ export class EquipmentController {
       });
   }
 
-  private openArchiveConfirmation(name: string) {
-    // //todo add new logic
-    // return this.dialog
-    //   .open(ConfirmationModalComponent, {
-    //     ...this.commonModalConfig,
-    //     data: {
-    //       name,
-    //       title: ModalEnum.ArchiveTitle,
-    //       reason: ModalEnum.ArchiveReason,
-    //       applyButtonText: ModalEnum.ArchiveApplyButtonText,
-    //     },
-    //   })
-    //   .afterClosed()
-    //   .pipe(tap());
-  }
-
-  private openBlockConfirmation(name: string) {
-    // //todo add new logic
-    // return this.dialog
-    //   .open(ConfirmationModalComponent, {
-    //     ...this.commonModalConfig,
-    //     data: {
-    //       name,
-    //       title: ModalEnum.BlockTitle,
-    //       reason: ModalEnum.BlockReason,
-    //       applyButtonText: ModalEnum.BlockApplyButtonText,
-    //     },
-    //   })
-    //   .afterClosed();
-  }
-
   private openOrderNotificationModal(action: string): Observable<unknown> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
@@ -251,12 +220,16 @@ export class EquipmentController {
   }
 
   private openEquipmentModal(equipment?: Equipment): Observable<EquipmentModalResponse | false> {
+    const appData = this.store.snapshot().application_data;
     return this.dialog
       .open(EquipmentComponent, {
         autoFocus: false,
         data: {
-          inventoryNumbers: equipment ? undefined : this.inventoryNumbers,
+          inventoryNumbers: this.inventoryNumbers || [],
           equipment: equipment ? this.prepareEquipmentForModal(equipment) : undefined,
+          petKinds: appData?.petKinds || [],
+          petSizes: appData?.petSizes || [],
+          categories: appData?.equipmentCategories || [],
         },
       })
       .afterClosed();
