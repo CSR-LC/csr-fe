@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
-import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, filter, of, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary, ItemTranslated } from '@app/shared/types';
@@ -21,6 +19,7 @@ import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
+import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
 
 @UntilDestroy
 @Injectable()
@@ -68,14 +67,30 @@ export class EquipmentController {
 
   private createRows(equipments: Equipment[]): TableRow[] {
     return equipments.map((equipment) => {
+      let actions = INITIAL_EQUIPMENT_ACTIONS_STATE;
       const categoryName = this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category);
       const statusName = this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status);
       if (categoryName) equipment.categoryName = categoryName;
       if (statusName) equipment.statusName = statusName;
       if (equipment.status === this.statusIdsDictionary.archived) {
-        (equipment as TableRow).disableActions = true;
+        actions = {
+          ...actions,
+          [EquipmentAction.Archivate]: {
+            tooltip: '',
+            disabled: true,
+          },
+          [EquipmentAction.Edit]: {
+            tooltip: '',
+            disabled: true,
+          },
+          [EquipmentAction.Block]: {
+            tooltip: '',
+            disabled: true,
+          },
+        };
       }
-      return equipment;
+
+      return { ...equipment, actions };
     });
   }
 
@@ -193,6 +208,7 @@ export class EquipmentController {
       })
       .afterClosed();
   }
+
   private openBlockEquipmentModal(equipment: Equipment, unavailablePeriods: UnavailableDates[]): Observable<Period> {
     return this.dialog
       .open(BlockEquipmentModalComponent, {
