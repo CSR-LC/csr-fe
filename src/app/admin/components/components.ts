@@ -1,16 +1,16 @@
 import {
   ArchiveEquipmentModalComponent,
   BlockEquipmentModalComponent,
-  EquipmentComponent,
+  EquipmentModalComponent,
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,
-} from './imdex';
+} from '.';
 
 export const adminComponents = [
   ArchiveEquipmentModalComponent,
   BlockEquipmentModalComponent,
-  EquipmentComponent,
+  EquipmentModalComponent,
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,

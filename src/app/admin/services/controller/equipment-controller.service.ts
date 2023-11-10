@@ -18,12 +18,13 @@ import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
-import { EquipmentComponent } from '@app/admin/components/imdex';
+import { EquipmentModalComponent } from '@app/admin/components';
 import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
 import { Store } from '@ngxs/store';
 import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
+import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
 
 @UntilDestroy
 @Injectable()
@@ -108,7 +109,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe((res) => {
-        this.notificationService.openSuccess(`${equipment.title} было заблокированно!`);
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`);
       });
   }
 
@@ -146,7 +147,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.notificationService.openSuccess(`${equipment.title} было заархивированно!`);
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.archived}}`);
       });
   }
 
@@ -213,7 +214,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe((res) => {
-        this.notificationService.openSuccess(equipment ? 'Оборудование отредактированно' : 'Оборудование добавлено');
+        this.notificationService.openSuccess(equipment ? EquipmentNotification.edited : EquipmentNotification.added);
       });
   }
 
@@ -224,7 +225,7 @@ export class EquipmentController {
   private openEquipmentModal(equipment?: Equipment): Observable<EquipmentModalResponse | false> {
     const appData = this.store.snapshot().application_data;
     return this.dialog
-      .open(EquipmentComponent, {
+      .open(EquipmentModalComponent, {
         autoFocus: false,
         data: {
           inventoryNumbers: this.inventoryNumbers || [],

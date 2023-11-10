@@ -10,7 +10,7 @@ import { EquipmentResolverService } from './services/equipment-resolver/equipmen
 import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
 import { DateRangeModule } from '@app/features/date-range/date-range-module.module';
 import { UsersComponent } from './containers/users/users.component';
-import { adminComponents } from './components/compnents';
+import { adminComponents } from './components/components';
 
 @NgModule({
   declarations: [EquipmentsComponent, UsersComponent, adminComponents],

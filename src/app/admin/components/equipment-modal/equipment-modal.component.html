@@ -4,7 +4,7 @@
       <div class="row">
         <div class="column">
           <mat-form-field appearance="fill" floatLabel="auto">
-            <mat-label>Название</mat-label>
+            <mat-label>{{ labels.name }}</mat-label>
             <input
               matInput
               formControlName="name"
@@ -12,7 +12,7 @@
             />
           </mat-form-field>
           <mat-form-field appearance="fill" floatLabel="auto">
-            <mat-label>Наименование</mat-label>
+            <mat-label>{{ labels.title }}</mat-label>
             <input
               matInput
               formControlName="title"
@@ -21,7 +21,7 @@
           </mat-form-field>
         </div>
         <mat-form-field width="370px" appearance="fill">
-          <mat-label>Описание</mat-label>
+          <mat-label>{{ labels.description }}</mat-label>
           <textarea
             rows="4"
             matInput
@@ -33,7 +33,7 @@
       <div class="row">
         <div class="column">
           <mat-form-field floatLabel="auto">
-            <mat-label>Категория</mat-label>
+            <mat-label>{{ labels.category }}</mat-label>
             <mat-select
               formControlName="category"
               [lcValidationErrors]="formName"
@@ -45,7 +45,7 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field floatLabel="auto" appearance="fill">
-            <mat-label>Технические Ососбенности</mat-label>
+            <mat-label>{{ labels.technicalIssues }}</mat-label>
             <mat-select
               formControlName="technicalIssues"
               (valueChange)="setConditionState($event)"
@@ -60,7 +60,7 @@
 
         </div>
         <mat-form-field appearance="fill">
-          <mat-label>Состояние исправности</mat-label>
+          <mat-label>{{ labels.condition }}</mat-label>
           <textarea
             matInput
             rows="4"
@@ -71,7 +71,7 @@
       </div>
       <div class="row">
         <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>Инвентарный номер</mat-label>
+          <mat-label>{{ labels.inventoryNumber }}</mat-label>
           <input
             matInput
             type="number"
@@ -81,7 +81,7 @@
           >
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>Плата за порчу оборудования, руб</mat-label>
+          <mat-label>{{ labels.compensationCost }}</mat-label>
           <input
             matInput
             type="number"
@@ -92,7 +92,7 @@
       </div>
       <div class="row">
         <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>Поставщик</mat-label>
+          <mat-label>{{ labels.supplier }}</mat-label>
           <input
             matInput
             formControlName="supplier"
@@ -100,7 +100,7 @@
           >
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>Ссылка на правила пользования</mat-label>
+          <mat-label>{{ labels.termsOfUse }}</mat-label>
           <input
             matInput
             type="url"
@@ -111,7 +111,7 @@
       </div>
       <div class="row">
         <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>Животное</mat-label>
+          <mat-label>{{ labels.petKinds }}</mat-label>
           <mat-select
             formControlName="petKinds"
             multiple
@@ -126,7 +126,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field floatLabel="auto" appearance="fill">
-          <mat-label>Рaзмер животного</mat-label>
+          <mat-label>{{ labels.petSize }}</mat-label>
           <mat-select
             formControlName="petSize"
             [lcValidationErrors]="formName"
@@ -140,7 +140,7 @@
       </div>
       <div class="row">
         <mat-form-field floatLabel="auto">
-          <mat-label>Максимальный срок использования</mat-label>
+          <mat-label>{{ labels.maximumDays }}</mat-label>
           <input
             matInput
             type="number"
@@ -149,7 +149,7 @@
           >
         </mat-form-field>
         <mat-form-field floatLabel="auto" appearance="fill" class="registration-form-field-input">
-          <mat-label>Дата поступления в фонд</mat-label>
+          <mat-label>{{ labels.receiptDate }}</mat-label>
           <input
             matInput
             [matDatepicker]="picker"
@@ -169,7 +169,7 @@
             (click)="choosePhoto()"
           >
             <mat-icon color="primary">photo_camera</mat-icon> 
-            загрузить фото
+            {{ labels.photoID }}
           </button>
           <mat-form-field>
             <input
@@ -200,7 +200,7 @@
         class="cancel"
         [mat-dialog-close]="false"
       >
-        Отмена
+      {{ labels.cancel }}
       </button>
       <button
         mat-raised-button

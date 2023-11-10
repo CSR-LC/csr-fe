@@ -1,7 +1,7 @@
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseKind, PetSize, EquipmentKind } from '@app/shared/models/management';
 
-export type EquipmentMOdalData = {
+export type EquipmentModalData = {
   equipment: Equipment;
   inventoryNumbers: undefined | number[];
   petKinds: BaseKind[] | undefined;

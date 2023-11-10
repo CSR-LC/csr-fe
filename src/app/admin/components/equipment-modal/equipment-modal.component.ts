@@ -8,20 +8,22 @@ import { ValidationService } from '@app/shared/services/validation/validation.se
 import { NewEquipment } from '@app/shared/models/equipment';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { ErrorOptions } from '@app/shared/types';
-import { EquipmentMOdalData } from '@app/admin/types/equipoment-modal-data';
+import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
 import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
+import { EqipementFormLabel } from '@app/admin/constants';
 
 @Component({
   selector: 'lc-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.scss'],
+  templateUrl: './equipment-modal.component.html',
+  styleUrls: ['./equipment-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EquipmentComponent implements OnInit {
+export class EquipmentModalComponent implements OnInit {
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
   readonly maxInventoryNumber = maxInventoryNumber;
+  readonly labels = EqipementFormLabel;
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;
@@ -40,9 +42,9 @@ export class EquipmentComponent implements OnInit {
   form?: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: EquipmentMOdalData,
+    @Inject(MAT_DIALOG_DATA) private data: EquipmentModalData,
     private readonly formBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<EquipmentComponent>,
+    private readonly dialogRef: MatDialogRef<EquipmentModalComponent>,
     private readonly validationService: ValidationService,
   ) {}
 
@@ -83,7 +85,7 @@ export class EquipmentComponent implements OnInit {
         [
           Validators.required,
           Validators.max(maxInventoryNumber),
-          this.validationService.custom(this.inventoryNumberErrorOptions, this.inventoryNumbersValiator),
+          this.validationService.getCustomValidator(this.inventoryNumberErrorOptions, this.inventoryNumbersValidator),
         ],
       ],
       // temporary is not used. there is no control on ui
@@ -105,7 +107,7 @@ export class EquipmentComponent implements OnInit {
     });
   }
 
-  private readonly inventoryNumbersValiator = (inventoryNumber: number): boolean => {
+  private readonly inventoryNumbersValidator = (inventoryNumber: number): boolean => {
     if (this.equipment && this.equipment.inventoryNumber === inventoryNumber) return true;
     if (!this.inventoryNumbers) return true;
     return !this.inventoryNumbers.includes(inventoryNumber);
