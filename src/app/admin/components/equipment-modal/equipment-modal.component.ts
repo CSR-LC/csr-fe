@@ -11,7 +11,7 @@ import { ErrorOptions } from '@app/shared/types';
 import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
 import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
-import { EqipementFormLabel } from '@app/admin/constants';
+import { EqipmentFormLabel } from '@app/admin/constants';
 
 @Component({
   selector: 'lc-equipment',
@@ -23,7 +23,7 @@ export class EquipmentModalComponent implements OnInit {
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
   readonly maxInventoryNumber = maxInventoryNumber;
-  readonly labels = EqipementFormLabel;
+  readonly labels = EqipmentFormLabel;
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;

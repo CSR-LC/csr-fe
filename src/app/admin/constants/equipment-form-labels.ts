@@ -1,9 +1,9 @@
-export enum EqipementFormLabel {
+export enum EqipmentFormLabel {
   name = 'Название',
   title = 'Наименование',
   description = 'Описание',
   category = 'Категория',
-  technicalIssues = 'Технические Ососбенности',
+  technicalIssues = 'Технические Особенности',
   condition = 'Состояние исправности',
   inventoryNumber = 'Инвентарный номер',
   compensationCost = 'Плата за порчу оборудования, руб',
