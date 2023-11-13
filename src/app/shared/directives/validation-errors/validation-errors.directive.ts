@@ -54,7 +54,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
 
   private createErrors(): void {
     if (!this.control.errors) return;
-
+    this.control.markAllAsTouched();
     this.renderErrors(this.getErrorMessages(this.control.errors));
   }
 

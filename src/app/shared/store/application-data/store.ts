@@ -1,4 +1,4 @@
-import { BaseKind, PetSize } from '@app/management/models/management';
+import { BaseKind, PetSize } from '@app/shared/models/management';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import {

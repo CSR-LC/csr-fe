@@ -1,4 +1,4 @@
-import { BaseKind, PetSize } from '@app/management/models/management';
+import { BaseKind, PetSize } from '@app/shared/models/management';
 import { EquipmentFilterForm } from './equipment-filter-form';
 
 export type EquipmentFilterModalData = {

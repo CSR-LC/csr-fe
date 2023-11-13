@@ -95,7 +95,7 @@ export class SignUpComponent implements OnInit {
       Validators.required,
       Validators.maxLength(49),
       Validators.minLength(6),
-      this.validationService.compare({ message: 'Значения не совпадают' }, compareControl),
+      this.validationService.getCompareValidator({ message: 'Значения не совпадают' }, compareControl),
     ]);
   }
 }

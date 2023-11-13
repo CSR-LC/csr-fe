@@ -6,4 +6,8 @@ export enum EquipmentModal {
   BlockReason = 'Блокировка',
   BlockApplyButtonText = 'Блокировать',
   BlockCancelButtonText = 'Разблокировать',
+  AddEquipmentHeader = 'Регистрация нового оборудования',
+  EditEquipmentHeader = 'Редактирование оборудования',
+  EditEquipmentModalButtonText = 'Редактировать',
+  AddEquipmentModalButtonText = 'Зарегистрировать',
 }

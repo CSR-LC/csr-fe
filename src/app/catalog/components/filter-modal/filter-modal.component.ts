@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterModalData } from '@app/catalog/models';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
-import { BaseKind, PetSize } from '@app/management/models/management';
+import { BaseKind, PetSize } from '@app/shared/models/management';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { filterModalLabels } from '@app/catalog/constants';
 import { debounceTime, distinctUntilChanged, skip, switchMap, tap } from 'rxjs';

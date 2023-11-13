@@ -27,9 +27,10 @@ export class EquipmentsComponent implements OnInit {
   @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
   @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<EquipmentStatus[]>;
 
-  constructor(private controller: EquipmentController) {}
+  constructor(private readonly controller: EquipmentController) {}
 
   ngOnInit() {
+    this.controller.setPageHeader();
     this.controller.fetchEquipments().subscribe();
     this.equipmentCategories
       .pipe(untilDestroyed(this))
@@ -41,6 +42,10 @@ export class EquipmentsComponent implements OnInit {
   }
 
   editEquipment(data: TableAction<Equipment>) {
-    this.controller.editEquipment(data);
+    this.controller.manageEvent(data);
+  }
+
+  addNewEquipment() {
+    this.controller.addNewEquipment();
   }
 }

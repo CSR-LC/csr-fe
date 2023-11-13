@@ -1,5 +1,11 @@
 <lc-table
   [columns]="columns"
+  [limit]="20"
   [data]="(data$ | async) || []"
   (action)="editEquipment($event)"
 ></lc-table>
+<button
+  class="add-equipment"
+  (click)="addNewEquipment()"
+  mat-raised-button color="primary"
+><div class="content"><span>+</span>Добавить оборудование</div></button>

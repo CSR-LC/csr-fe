@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
-import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, filter, of, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, of, map, switchMap, tap, forkJoin } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary, ItemTranslated } from '@app/shared/types';
@@ -20,12 +18,19 @@ import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
+import { EquipmentModalComponent } from '@app/admin/components';
+import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
+import { Store } from '@ngxs/store';
+import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
+import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
+import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
 
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
   private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
+  private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
   statusIdsDictionary: EquipmentStatusId = {
@@ -40,18 +45,18 @@ export class EquipmentController {
     private readonly dialog: MatDialog,
     private readonly api: AdminApi,
     private readonly notificationService: NotificationsService,
+    private readonly mainHeaderService: MainPageHeaderService,
     private readonly dictionaryService: DictionaryService,
+    private readonly store: Store,
   ) {}
 
-  editEquipment(data: TableAction<Equipment>) {
+  manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
         this.blockEquipment(data);
         break;
       case EquipmentAction.Edit:
-        // eslint-disable-next-line no-console
-        console.log(data.action);
-        //this.editEquipment(data.row);
+        this.manageEquipment(data.row);
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
@@ -61,6 +66,7 @@ export class EquipmentController {
 
   fetchEquipments() {
     return this.api.getAllEquipment().pipe(
+      tap((res) => (this.inventoryNumbers = res.items.map((i) => i.inventoryNumber))),
       map((res) => this.createRows(res.items)),
       tap((data: TableRow[]) => this.equipmentDataSubj$.next(data)),
     );
@@ -103,7 +109,7 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe((res) => {
-        this.notificationService.openSuccess(`${equipment.title} было заблокированно!`);
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`);
       });
   }
 
@@ -141,39 +147,8 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe(() => {
-        this.notificationService.openSuccess(`${equipment.title} было заархивированно!`);
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.archived}}`);
       });
-  }
-
-  private openArchiveConfirmation(name: string) {
-    // //todo add new logic
-    // return this.dialog
-    //   .open(ConfirmationModalComponent, {
-    //     ...this.commonModalConfig,
-    //     data: {
-    //       name,
-    //       title: ModalEnum.ArchiveTitle,
-    //       reason: ModalEnum.ArchiveReason,
-    //       applyButtonText: ModalEnum.ArchiveApplyButtonText,
-    //     },
-    //   })
-    //   .afterClosed()
-    //   .pipe(tap());
-  }
-
-  private openBlockConfirmation(name: string) {
-    // //todo add new logic
-    // return this.dialog
-    //   .open(ConfirmationModalComponent, {
-    //     ...this.commonModalConfig,
-    //     data: {
-    //       name,
-    //       title: ModalEnum.BlockTitle,
-    //       reason: ModalEnum.BlockReason,
-    //       applyButtonText: ModalEnum.BlockApplyButtonText,
-    //     },
-    //   })
-    //   .afterClosed();
   }
 
   private openOrderNotificationModal(action: string): Observable<unknown> {
@@ -217,5 +192,69 @@ export class EquipmentController {
     statuses.forEach((status) => {
       this.statusIdsDictionary[status.name as keyof EquipmentStatusId] = status.id;
     });
+  }
+
+  private manageEquipment(equipment?: Equipment) {
+    this.openEquipmentModal(equipment)
+      .pipe(
+        filter(Boolean),
+        switchMap((res) => {
+          return forkJoin({
+            photo: res.file ? this.api.uploadPhoto(res.file) : of(null),
+            equipment: of(res.equipment),
+          });
+        }),
+        switchMap((res) => {
+          if (res.photo) res.equipment.photoID = res.photo.data.id;
+          return equipment
+            ? this.api.editEquipment(res.equipment, equipment.id)
+            : this.api.registerEquipment(res.equipment);
+        }),
+        switchMap(() => this.fetchEquipments()),
+        untilDestroyed(this),
+      )
+      .subscribe((res) => {
+        this.notificationService.openSuccess(equipment ? EquipmentNotification.edited : EquipmentNotification.added);
+      });
+  }
+
+  addNewEquipment() {
+    this.manageEquipment();
+  }
+
+  private openEquipmentModal(equipment?: Equipment): Observable<EquipmentModalResponse | false> {
+    const appData = this.store.snapshot().application_data;
+    return this.dialog
+      .open(EquipmentModalComponent, {
+        autoFocus: false,
+        data: {
+          inventoryNumbers: this.inventoryNumbers || [],
+          equipment: equipment ? this.prepareEquipmentForModal(equipment) : undefined,
+          petKinds: appData?.petKinds || [],
+          petSizes: appData?.petSizes || [],
+          categories: appData?.equipmentCategories || [],
+        },
+      })
+      .afterClosed();
+  }
+
+  private prepareEquipmentForModal(equipment: Equipment): Equipment {
+    const kinds = this.store.snapshot().application_data.petKinds as BaseKind[];
+    const copy = { ...equipment };
+    copy.receiptDate = Number(`${copy.receiptDate}000`);
+
+    // TODO: remove this the back will send petkinds ids
+    copy.petKinds = equipment.petKinds.map((kind) => {
+      if (typeof kind === 'number') return kind;
+      const kindStored = kinds.find((el) => el.name === kind.name);
+      return kindStored ? kindStored.id : 0;
+      // TODO: remove casting vhen the back will send petkinds ids
+    }) as unknown as { name: string }[];
+
+    return copy;
+  }
+
+  setPageHeader() {
+    this.mainHeaderService.setPageTitle('Оборудование');
   }
 }
