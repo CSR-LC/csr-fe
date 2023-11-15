@@ -28,7 +28,7 @@ export class ValidationService {
     return this.errorMessages[key];
   }
 
-  compare(errorOptions: ErrorOptions, compareControl: AbstractControl): ValidatorFn {
+  getCompareValidator(errorOptions: ErrorOptions, compareControl: AbstractControl): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value;
       const compareValue = compareControl.value;
@@ -39,7 +39,7 @@ export class ValidationService {
     };
   }
 
-  pattern(errorOptions: ErrorOptions, pattern: RegExp): ValidatorFn {
+  getPatternValidator(errorOptions: ErrorOptions, pattern: RegExp): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const isValid = pattern.test(control.value);
 
@@ -47,17 +47,11 @@ export class ValidationService {
     };
   }
 
-  validateForm(form: UntypedFormGroup): void {
-    form.updateValueAndValidity();
-
-    Object.values(form.controls).forEach((control) => {
-      control.updateValueAndValidity();
-      if ((control as UntypedFormGroup).controls) {
-        this.validateForm(control as UntypedFormGroup);
-      }
-    });
-
-    this.emitSubmit();
+  getCustomValidator(options: ErrorOptions, callback: (v: any) => boolean): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = callback(control.value);
+      return isValid ? null : { custom: { message: options.message } };
+    };
   }
 
   private areValuesComparable(value: any, compareValue: any): boolean {

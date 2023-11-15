@@ -1,0 +1,18 @@
+export enum EqipmentFormLabel {
+  name = 'Название',
+  title = 'Наименование',
+  description = 'Описание',
+  category = 'Категория',
+  technicalIssues = 'Технические Особенности',
+  condition = 'Состояние исправности',
+  inventoryNumber = 'Инвентарный номер',
+  compensationCost = 'Плата за порчу оборудования, руб',
+  supplier = 'Поставщик',
+  termsOfUse = 'Ссылка на правила пользования',
+  petKinds = 'Животное',
+  petSize = 'Рaзмер животного',
+  maximumDays = 'Максимальный срок использования',
+  receiptDate = 'Дата поступления в фонд',
+  photoID = 'загрузить фото',
+  cancel = 'Отмена',
+}

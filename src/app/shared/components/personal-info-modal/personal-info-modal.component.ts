@@ -21,7 +21,7 @@ export class PersonalInfoModalComponent {
         Validators.required,
         Validators.minLength(11),
         Validators.maxLength(11),
-        this.validationService.pattern(
+        this.validationService.getPatternValidator(
           { message: 'Номер телефона должен состоять из цифр' },
           ValidationPatterns.Numbers,
         ),

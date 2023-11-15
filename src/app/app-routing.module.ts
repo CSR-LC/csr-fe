@@ -54,10 +54,6 @@ const routes: Routes = [
             loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
           },
           {
-            path: AppRoutes.Management,
-            loadChildren: () => import('./management/management.module').then((m) => m.ManagementModule),
-          },
-          {
             path: AppRoutes.Profile,
             loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
           },

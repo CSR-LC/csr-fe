@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { PetSize } from '@app/management/models/management';
+import { PetSize } from '@app/shared/models/management';
 import { ApplicationResolverService } from '@shared/services/application-resolver/application-resolver.service';
 
 @Injectable()

@@ -1,6 +1,6 @@
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
-import { BaseKind, PetSize } from '@app/management/models/management';
+import { BaseKind, PetSize } from '@app/shared/models/management';
 
 export class PetKindsAction {
   static readonly type = '[Application data] PetKindsAction';

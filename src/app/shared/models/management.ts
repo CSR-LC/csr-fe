@@ -1,4 +1,4 @@
-import { TechnicalIssues } from '@app/management/types';
+import { TechnicalIssues } from '../types/technical-issues';
 
 export interface BaseKind {
   id: number;
@@ -17,13 +17,12 @@ export interface PetSize extends BaseKind {
 
 export type EquipmentOptions = {
   category: number;
-  subCategory: number | null;
+  subCategory: number;
   compensationCost: number;
   condition: string | null;
   description: string;
   inventoryNumber: number;
   location: number;
-  maximumAmount: number;
   maximumDays: number;
   name: string;
   nameSubstring: string | null;
@@ -36,30 +35,4 @@ export type EquipmentOptions = {
   technicalIssues: TechnicalIssues;
   termsOfUse: string;
   title: string;
-};
-
-export type EquipmentManagement = {
-  name: string;
-  title: string;
-  description: string;
-  nameSubstring: string;
-  category: string;
-  subCategory: string;
-  // TODO: remove russian C in Cost
-  compensationСost: number;
-  condition: string;
-  inventoryNumber: number;
-  supplier: string;
-  receiptDate: string;
-  termsOfUse: string;
-  kind: number;
-  location: number;
-  maximumAmount: number;
-  maximumDays: number;
-  order: number;
-  status: number;
-  photo: string;
-  petSize: number;
-  photoID: string;
-  petKinds: number[];
 };
