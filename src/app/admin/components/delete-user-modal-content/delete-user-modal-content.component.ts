@@ -5,7 +5,6 @@ import { UserModal } from '@app/admin/constants/user-modal.enum';
 @Component({
   selector: 'lc-delete-user-modal-content',
   templateUrl: './delete-user-modal-content.component.html',
-  styleUrls: ['./delete-user-modal-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteUserModalContentComponent implements OnInit {

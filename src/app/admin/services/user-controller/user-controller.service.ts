@@ -15,8 +15,7 @@ import { UserStatus } from '@app/admin/constants/user-status.enum';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { ConfirmationModalComponent } from '@shared/components';
 import { UserModal } from '@app/admin/constants/user-modal.enum';
-import { BlockUserModalContentComponent } from '@app/admin/components/block-user-modal-content/block-user-modal-content.component';
-import { DeleteUserModalContentComponent } from '@app/admin/components/delete-user-modal-content/delete-user-modal-content.component';
+import { BlockUserModalContentComponent, DeleteUserModalContentComponent } from '@app/admin/components';
 import { INITIAL_USERS_ACTIONS_STATE } from '@app/admin/constants/initial-users-actions-state';
 import { UsersActionsTooltips } from '@app/admin/constants/users-actions-tooltips.enum';
 
@@ -40,7 +39,7 @@ export class UserControllerService {
     this.mainPageHeaderService.setPageTitle(title);
   }
 
-  fetchUsers() {
+  fetchUsers(): Observable<BaseItemsResponse<User>> {
     return this.api
       .getAllUsers()
       .pipe(tap((data: BaseItemsResponse<User>) => this.usersSubject$.next(this.createRows(data.items))));
