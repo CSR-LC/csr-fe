@@ -7,7 +7,6 @@ import { TableRow } from '@app/shared/models/table-row';
 })
 export class TableDisableActionPipe implements PipeTransform {
   transform(column: TableColumn, row: TableRow): boolean {
-    if (column.essentialAction) return false;
-    return !!row.disableActions;
+    return (row.actions && row.actions[column.columnDef].disabled) || false;
   }
 }

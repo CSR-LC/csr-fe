@@ -5,6 +5,7 @@ import {
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,
+  DeleteUserModalContentComponent,
 } from '.';
 
 export const adminComponents = [
@@ -14,4 +15,5 @@ export const adminComponents = [
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,
+  DeleteUserModalContentComponent,
 ];

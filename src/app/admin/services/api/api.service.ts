@@ -78,4 +78,8 @@ export class ApiService {
 
     return this.http.put<string>(`${ApiService.USERS_BASE_URL}/${userId}/readonly-access`, body);
   }
+
+  deleteUser(userId: number): Observable<string> {
+    return this.http.delete<string>(`${ApiService.USERS_BASE_URL}/${userId}`);
+  }
 }
