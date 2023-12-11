@@ -1,0 +1,4 @@
+<ng-container *ngIf="user">
+  <p>{{ ModalEnum.DeleteConfirmationText }} <strong>{{ user.role.name }}</strong> пользователя
+    <strong>{{user.name}}{{user.surname ? ' ' + user.surname : ''}}</strong>?</p>
+</ng-container>

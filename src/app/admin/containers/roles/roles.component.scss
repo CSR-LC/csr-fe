@@ -1,9 +1,5 @@
 @import "./src/app/shared/styles/mixins";
 
-lc-table {
-  margin-bottom: 30px;
-}
-
-.add-equipment {
+.add-role {
   @include admin-add-button()
 }
