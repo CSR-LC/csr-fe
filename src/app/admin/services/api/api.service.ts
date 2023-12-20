@@ -10,10 +10,13 @@ import { Period } from '@app/shared/models/period';
 import { User } from '@app/auth/models';
 import { UploadPhotoResponse } from '@app/shared/types/upload-photo-response';
 import { NewEquipment } from '@app/shared/models/equipment';
+import { Role } from '@app/auth/models/role';
 
 @Injectable()
 export class ApiService {
   private static USERS_BASE_URL = 'v1/users';
+  private static ROLES_BASE_URL = 'v1/roles';
+  private static MANAGEMENT_BASE_URL = 'v1/management';
 
   constructor(private http: HttpClient) {}
 
@@ -81,5 +84,16 @@ export class ApiService {
 
   deleteUser(userId: number): Observable<string> {
     return this.http.delete<string>(`${ApiService.USERS_BASE_URL}/${userId}`);
+  }
+
+  getAllRoles(): Observable<Role[]> {
+    return this.http.get<Role[]>(ApiService.ROLES_BASE_URL);
+  }
+
+  assignRoleToUser(userId: number, roleId: number): Observable<string> {
+    const body = {
+      roleId,
+    };
+    return this.http.post<string>(`${ApiService.MANAGEMENT_BASE_URL}/users/${userId}/role`, body);
   }
 }
