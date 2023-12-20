@@ -56,6 +56,11 @@ export class ApplicationDataState {
     return state.equipmentCategories;
   }
 
+  @Selector()
+  static roles(state: ApplicationData): Role[] | null {
+    return state.roles;
+  }
+
   @Action(PetKindsAction)
   petKinds(ctx: StateContext<ApplicationData>, action: PetKindsAction) {
     const petKinds = action.petKinds;

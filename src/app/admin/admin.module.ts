@@ -12,10 +12,18 @@ import { DateRangeModule } from '@app/features/date-range/date-range-module.modu
 import { UsersComponent } from './containers/users/users.component';
 import { RolesComponent } from '@app/admin/containers/roles/roles.component';
 import { adminComponents } from './components/components';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [EquipmentsComponent, UsersComponent, adminComponents, RolesComponent],
-  imports: [CommonModule, AdminRoutingModule, SharedModule, ReactiveFormsModule, DateRangeModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    DateRangeModule,
+    MatAutocompleteModule,
+  ],
   providers: [
     AdminApi,
     EquipmentResolverService,
