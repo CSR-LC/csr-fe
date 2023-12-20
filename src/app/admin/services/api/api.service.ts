@@ -33,12 +33,16 @@ export class ApiService {
     });
   }
 
-  blockEquipment(id: number, period: Period) {
+  blockEquipment(id: number, period: Period): Observable<unknown> {
     const body = {
       end_date: period.endDate,
       start_date: period.startDate,
     };
     return this.http.post<string>(`/equipment/${id}/blocking`, body);
+  }
+
+  unblockEquipment(id: number): Observable<null> {
+    return this.http.post<null>(`/equipment/${id}/unblocking`, {});
   }
 
   uploadPhoto(file: File): Observable<UploadPhotoResponse> {

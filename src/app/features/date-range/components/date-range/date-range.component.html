@@ -12,12 +12,12 @@
           <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
         </div>
         <button
-          *ngIf="selectedRangeValue?.start && selectedRangeValue?.end"
+        *ngIf="selectedRangeValue?.start"
           mat-flat-button
           class="reset-period"
           (click)="resetSelectedPeriod()"
         >
-          Сбросить период
+          Сбросить
         </button>
       </div>
       <mat-calendar

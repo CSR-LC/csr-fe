@@ -12,7 +12,7 @@ import { DateRangePurpose } from '../../models/date-rrange-purpose';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateRangeComponent implements OnInit {
-  @Input() selectedRangeValue!: DateRange<Date> | null;
+  selectedRangeValue!: DateRange<Date> | null;
 
   readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
   readonly cellClassName = 'marked-date';
@@ -35,6 +35,7 @@ export class DateRangeComponent implements OnInit {
 
   ngOnInit() {
     this.purpose = this.dateRangeData.purpose;
+    this.selectedRangeValue = this.dateRangeData.selectedPeriod || null;
   }
 
   isDateUnavailable = (dateFromCalendar: Date): boolean => {
