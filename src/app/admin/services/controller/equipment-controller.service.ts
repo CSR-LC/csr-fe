@@ -26,6 +26,7 @@ import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
 import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
+import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
 
 @UntilDestroy
 @Injectable()
@@ -75,14 +76,30 @@ export class EquipmentController {
 
   private createRows(equipments: Equipment[]): TableRow[] {
     return equipments.map((equipment) => {
+      let actions = INITIAL_EQUIPMENT_ACTIONS_STATE;
       const categoryName = this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category);
       const statusName = this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status);
       if (categoryName) equipment.categoryName = categoryName;
       if (statusName) equipment.statusName = statusName;
       if (equipment.status === this.statusIdsDictionary.archived) {
-        (equipment as TableRow).disableActions = true;
+        actions = {
+          ...actions,
+          [EquipmentAction.Archivate]: {
+            tooltip: '',
+            disabled: true,
+          },
+          [EquipmentAction.Edit]: {
+            tooltip: '',
+            disabled: true,
+          },
+          [EquipmentAction.Block]: {
+            tooltip: '',
+            disabled: true,
+          },
+        };
       }
-      return equipment;
+
+      return { ...equipment, actions };
     });
   }
 

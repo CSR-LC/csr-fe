@@ -52,7 +52,6 @@ export const EquipmentColumns: TableColumn[] = [
     header: '',
     columnDef: EquipmentAction.Orders,
     action: EquipmentAction.Orders,
-    essentialAction: true,
     tooltip: 'Перейти к заявкам',
     style: { 'width.px': 32, 'padding.px': 0 },
   },

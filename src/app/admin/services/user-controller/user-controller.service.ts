@@ -15,7 +15,9 @@ import { UserStatus } from '@app/admin/constants/user-status.enum';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { ConfirmationModalComponent } from '@shared/components';
 import { UserModal } from '@app/admin/constants/user-modal.enum';
-import { BlockUserModalContentComponent } from '@app/admin/components/block-user-modal-content/block-user-modal-content.component';
+import { BlockUserModalContentComponent, DeleteUserModalContentComponent } from '@app/admin/components';
+import { INITIAL_USERS_ACTIONS_STATE } from '@app/admin/constants/initial-users-actions-state';
+import { UsersActionsTooltips } from '@app/admin/constants/users-actions-tooltips.enum';
 
 @UntilDestroy
 @Injectable()
@@ -37,7 +39,7 @@ export class UserControllerService {
     this.mainPageHeaderService.setPageTitle(title);
   }
 
-  fetchUsers() {
+  fetchUsers(): Observable<BaseItemsResponse<User>> {
     return this.api
       .getAllUsers()
       .pipe(tap((data: BaseItemsResponse<User>) => this.usersSubject$.next(this.createRows(data.items))));
@@ -51,6 +53,7 @@ export class UserControllerService {
         this.updateUserBlockingStatus(data);
         break;
       case UserAction.Delete:
+        this.deleteUser(data);
         break;
     }
   }
@@ -85,10 +88,49 @@ export class UserControllerService {
       .afterClosed();
   }
 
+  private deleteUser(data: TableAction<User>) {
+    const user = data.row;
+    this.openDeleteUserModal(user)
+      .pipe(
+        filter(Boolean),
+        switchMap(() => this.api.deleteUser(user.id)),
+        switchMap(() => this.fetchUsers()),
+        untilDestroyed(this),
+      )
+      .subscribe(() => {
+        this.notificationService.openSuccess(UserNotification.Deleted);
+      });
+  }
+
+  private openDeleteUserModal(user: User): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmationModalComponent, {
+        ...ADMIN_MODAL_CONFIG,
+        data: {
+          title: UserModal.DeleteTitle,
+          contentComponentData: user,
+          contentComponent: DeleteUserModalContentComponent,
+          applyButtonText: UserModal.DeleteButtonText,
+          cancelButtonText: UserModal.CancelButtonText,
+        },
+      })
+      .afterClosed();
+  }
+
   private createRows(users: User[]): TableRow[] {
     return users.map((user) => {
-      !user.is_readonly ? (user.status = UserStatus.Active) : (user.status = UserStatus.Blocked);
-      return user;
+      let actions = INITIAL_USERS_ACTIONS_STATE;
+      if (user.is_readonly) {
+        user.status = UserStatus.Blocked;
+        actions = {
+          ...actions,
+          [UserAction.Delete]: { tooltip: UsersActionsTooltips.Delete, disabled: false },
+        };
+      } else {
+        user.status = UserStatus.Active;
+      }
+
+      return { ...user, actions };
     });
   }
 }
