@@ -86,12 +86,13 @@ export class RolesController {
   }
 
   private createRows(users: User[]): TableRow[] {
-    return users
-      .filter((user: User) => user.role.id !== this.userRoleId)
-      .map((user: User) => {
+    return users.reduce((acc: User[], user: User) => {
+      if (user.role.id !== this.userRoleId) {
         user.roleName = user.role.name;
-        return user;
-      });
+        acc.push(user);
+      }
+      return acc;
+    }, []);
   }
 
   private get userRoleId(): number {
