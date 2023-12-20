@@ -1,0 +1,13 @@
+<lc-table
+  [columns]="columns"
+  [limit]="20"
+  [data]="(data$ | async) || []"
+  (action)="editRole($event)"
+></lc-table>
+<button
+  class="add-role"
+  (click)="addNewRole()"
+  mat-raised-button color="primary"
+>
+  <div class="content"><span>+</span>Добавить роль</div>
+</button>

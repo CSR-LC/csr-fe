@@ -1,6 +1,7 @@
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
 import { BaseKind, PetSize } from '@app/shared/models/management';
+import { Role } from '@app/auth/models/role';
 
 export class PetKindsAction {
   static readonly type = '[Application data] PetKindsAction';
@@ -20,4 +21,9 @@ export class EquipmentStatusesAction {
 export class EquipmentCategoriesAction {
   static readonly type = '[Application data] EquipmentCategories';
   constructor(public equipmentCategories: Category[]) {}
+}
+
+export class RolesAction {
+  static readonly type = '[Application data] Roles';
+  constructor(public roles: Role[]) {}
 }
