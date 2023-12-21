@@ -6,3 +6,4 @@ export * from './order-notification-modal/order-notification-modal.component';
 export * from './block-user-modal-content/block-user-modal-content.component';
 export * from './delete-user-modal-content/delete-user-modal-content.component';
 export * from './delete-role-modal-content/delete-role-modal-content.component';
+export * from './assign-role-modal/assign-role-modal.component';

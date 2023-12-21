@@ -29,5 +29,7 @@ export class RolesComponent implements OnInit {
     this.controller.manageEvent(data);
   }
 
-  addNewRole() {}
+  assignRole() {
+    this.controller.assignRole();
+  }
 }

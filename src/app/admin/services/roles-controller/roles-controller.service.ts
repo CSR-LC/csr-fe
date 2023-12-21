@@ -14,16 +14,18 @@ import { ConfirmationModalComponent } from '@shared/components';
 import { RoleAction } from '@shared/constants/role-action';
 import { RoleNotification } from '@app/admin/constants/role-notification';
 import { RoleModal } from '@app/admin/constants/role-modal.enum';
-import { DeleteRoleModalContentComponent } from '@app/admin/components';
+import { AssignRoleModalComponent, DeleteRoleModalContentComponent } from '@app/admin/components';
 import { Store } from '@ngxs/store';
 import { ApplicationDataState } from '@shared/store/application-data';
 import { Role } from '@app/auth/models/role';
+import { AssignRoleModalResult } from '@app/admin/types/assign-role-modal-result';
 
 @UntilDestroy
 @Injectable()
 export class RolesController {
   private rolesSubject$ = new BehaviorSubject<TableRow[]>([]);
   private roles = this.store.selectSnapshot(ApplicationDataState).roles;
+  private users: User[] = [];
 
   constructor(
     private api: AdminApi,
@@ -42,9 +44,12 @@ export class RolesController {
   }
 
   fetchRoles() {
-    return this.api
-      .getAllUsers()
-      .pipe(tap((data: BaseItemsResponse<User>) => this.rolesSubject$.next(this.createRows(data.items))));
+    return this.api.getAllUsers().pipe(
+      tap((data: BaseItemsResponse<User>) => {
+        this.users = data.items;
+        this.rolesSubject$.next(this.createRows(data.items));
+      }),
+    );
   }
 
   manageEvent(data: TableAction<User>) {
@@ -53,6 +58,31 @@ export class RolesController {
         this.deleteRole(data);
         break;
     }
+  }
+
+  assignRole() {
+    this.openAssignRoleModal()
+      .pipe(
+        filter(Boolean),
+        switchMap((res: AssignRoleModalResult) => this.api.assignRoleToUser(res.userId, res.roleId)),
+        switchMap(() => this.fetchRoles()),
+        untilDestroyed(this),
+      )
+      .subscribe(() => {
+        this.notificationService.openSuccess(RoleNotification.Assigned);
+      });
+  }
+
+  private openAssignRoleModal(): Observable<AssignRoleModalResult | false> {
+    return this.dialog
+      .open(AssignRoleModalComponent, {
+        ...ADMIN_MODAL_CONFIG,
+        data: {
+          roles: this.roles,
+          users: this.users,
+        },
+      })
+      .afterClosed();
   }
 
   private deleteRole(data: TableAction<User>) {
@@ -88,8 +118,8 @@ export class RolesController {
   private createRows(users: User[]): TableRow[] {
     return users.reduce((acc: User[], user: User) => {
       if (user.role.id !== this.userRoleId) {
-        user.roleName = user.role.name;
-        acc.push(user);
+        const userWithRole = { ...user, roleName: user.role.name };
+        acc.push(userWithRole);
       }
       return acc;
     }, []);
