@@ -23,6 +23,7 @@ import { UsersActionsTooltips } from '@app/admin/constants/users-actions-tooltip
 @Injectable()
 export class UserControllerService {
   private usersSubject$ = new BehaviorSubject<TableRow[]>([]);
+  private _users: TableRow[] = [];
 
   constructor(
     private api: AdminApi,
@@ -35,14 +36,30 @@ export class UserControllerService {
     return this.usersSubject$.asObservable();
   }
 
+  get users(): TableRow[] {
+    return this._users;
+  }
+
+  set users(users: TableRow[]) {
+    this._users = users;
+  }
+
   setPageTitle(title: string) {
     this.mainPageHeaderService.setPageTitle(title);
   }
 
+  setUsers(users: TableRow[]) {
+    this.usersSubject$.next(users.length > 0 ? users : this.users);
+  }
+
   fetchUsers(): Observable<BaseItemsResponse<User>> {
-    return this.api
-      .getAllUsers()
-      .pipe(tap((data: BaseItemsResponse<User>) => this.usersSubject$.next(this.createRows(data.items))));
+    return this.api.getAllUsers().pipe(
+      tap((data: BaseItemsResponse<User>) => {
+        const rows = this.createRows(data.items);
+        this.usersSubject$.next(rows);
+        this.users = rows;
+      }),
+    );
   }
 
   editUser(data: TableAction<User>) {
@@ -117,7 +134,7 @@ export class UserControllerService {
       .afterClosed();
   }
 
-  private createRows(users: User[]): TableRow[] {
+  public createRows(users: User[]): TableRow[] {
     return users.map((user) => {
       let actions = INITIAL_USERS_ACTIONS_STATE;
       if (user.is_readonly) {
@@ -130,7 +147,7 @@ export class UserControllerService {
         user.status = UserStatus.Active;
       }
 
-      return { ...user, actions };
+      return { ...user, actions, selected: false };
     });
   }
 }

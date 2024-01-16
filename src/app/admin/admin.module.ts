@@ -13,9 +13,10 @@ import { UsersComponent } from './containers/users/users.component';
 import { RolesComponent } from '@app/admin/containers/roles/roles.component';
 import { adminComponents } from './components/components';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TableSearchFilterComponent } from './components/table-search-filter/table-search-filter.component';
 
 @NgModule({
-  declarations: [EquipmentsComponent, UsersComponent, adminComponents, RolesComponent],
+  declarations: [EquipmentsComponent, UsersComponent, adminComponents, RolesComponent, TableSearchFilterComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

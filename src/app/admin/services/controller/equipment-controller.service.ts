@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, filter, of, map, switchMap, tap, forkJoin } from 'rxjs';
+import { BehaviorSubject, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary, ItemTranslated } from '@app/shared/types';
@@ -98,7 +98,7 @@ export class EquipmentController {
         };
       }
 
-      return { ...equipment, actions };
+      return { ...equipment, actions, selected: false };
     });
   }
 

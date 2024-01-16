@@ -86,10 +86,10 @@ export class RolesController {
   }
 
   private createRows(users: User[]): TableRow[] {
-    return users.reduce((acc: User[], user: User) => {
+    return users.reduce((acc: TableRow[], user: User) => {
       if (user.role.id !== this.userRoleId) {
         user.roleName = user.role.name;
-        acc.push(user);
+        acc.push({ ...user, selected: false });
       }
       return acc;
     }, []);

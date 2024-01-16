@@ -1,0 +1,38 @@
+<div (click)="$event.stopPropagation()">
+  <mat-form-field appearance="fill" class="field">
+    <input
+      type="text"
+      matInput
+      [formControl]="searchControl"
+      placeholder="{{placeholder}}"
+      [matAutocomplete]="auto"
+    >
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <ng-container *ngIf="filteredOptions$ | async as options">
+        <mat-option *ngIf="options.length">
+          <div class="option" (click)="optionClicked($event, selectAllOption)">
+            <p class="option-title">
+              <mat-checkbox [checked]="selectAllOption.selected"
+                            (change)="toggleSelection(selectAllOption)"
+                            (click)="$event.stopPropagation()">
+                Выбрать все
+              </mat-checkbox>
+            </p>
+          </div>
+        </mat-option>
+        <mat-divider></mat-divider>
+        <mat-option *ngFor="let option of options">
+          <div class="option" (click)="optionClicked($event, option)">
+            <p class="option-title">
+              <mat-checkbox [checked]="option.selected"
+                            (change)="toggleSelection(option)"
+                            (click)="$event.stopPropagation()">
+                {{option[property]}}
+              </mat-checkbox>
+            </p>
+          </div>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

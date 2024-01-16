@@ -21,6 +21,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
 
 export const materialModules = [
   A11yModule,
@@ -46,4 +47,5 @@ export const materialModules = [
   MatSnackBarModule,
   MatSortModule,
   MatFormFieldModule,
+  MatMenuModule,
 ];
