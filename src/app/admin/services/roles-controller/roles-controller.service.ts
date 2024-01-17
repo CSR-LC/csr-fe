@@ -43,7 +43,7 @@ export class RolesController {
     this.mainPageHeaderService.setPageTitle('Роли');
   }
 
-  fetchRoles() {
+  fetchRoles(): Observable<BaseItemsResponse<User>> {
     return this.api.getAllUsers().pipe(
       tap((data: BaseItemsResponse<User>) => {
         this.users = data.items;

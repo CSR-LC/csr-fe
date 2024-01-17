@@ -18,12 +18,12 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
 export class AssignRoleModalComponent implements OnInit {
   formName = 'role_assignment_form';
   labels = RoleModal;
-  roles!: Role[];
+  roles: Role[] = [];
   form = this.formBuilder.group({
     user: [null, Validators.required],
     role: [null, Validators.required],
   });
-  filteredOptions: Observable<User[]> | undefined;
+  filteredUserOptions$: Observable<User[]> | undefined;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: AssignRoleModalData,
@@ -34,21 +34,21 @@ export class AssignRoleModalComponent implements OnInit {
 
   ngOnInit() {
     this.roles = this.data.roles;
-    this.filteredOptions = this.form.get('user')?.valueChanges.pipe(
+    this.filteredUserOptions$ = this.form.get('user')?.valueChanges.pipe(
       startWith(''),
       map((value) => {
         const name = typeof value === 'string' ? value : value && (value as User)?.name;
-        return name ? this.filter(name as string) : this.data.users.slice();
+        return name ? this.filterUsersByName(name as string) : this.data.users.slice();
       }),
       untilDestroyed(this),
     );
   }
 
-  displayFn(user: User): string {
+  getUserName(user: User): string {
     return user && user.name ? `${user.name} ${user.surname}` : '';
   }
 
-  private filter(name: string): User[] {
+  private filterUsersByName(name: string): User[] {
     const filterValue = name.toLowerCase();
 
     return this.data.users.filter((option) => {

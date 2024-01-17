@@ -10,8 +10,8 @@
           [matAutocomplete]="auto"
           [lcValidationErrors]="formName"
         >
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let user of filteredOptions | async" [value]="user">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getUserName">
+          <mat-option *ngFor="let user of filteredUserOptions$ | async" [value]="user">
             <div class="option">
               <p class="option-title">{{user.name}} {{user.surname}}</p>
               <p class="option-subtitle">{{user.email}}</p>
