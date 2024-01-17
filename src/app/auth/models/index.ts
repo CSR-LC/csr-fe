@@ -4,3 +4,4 @@ export * from './user-type';
 export * from './new-user-info';
 export * from './signup-response';
 export * from './user';
+export * from './role';
