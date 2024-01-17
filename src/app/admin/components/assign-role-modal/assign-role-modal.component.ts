@@ -51,11 +51,11 @@ export class AssignRoleModalComponent implements OnInit {
   private filterUsersByName(name: string): User[] {
     const filterValue = name.toLowerCase();
 
-    return this.data.users.filter((option) => {
+    return this.data.users.filter((user) => {
       return (
-        option.name.toLowerCase().includes(filterValue) ||
-        option.surname.toLowerCase().includes(filterValue) ||
-        option.email.toLowerCase().includes(filterValue)
+        user.name.toLowerCase().includes(filterValue) ||
+        user.surname.toLowerCase().includes(filterValue) ||
+        user.email.toLowerCase().includes(filterValue)
       );
     });
   }
