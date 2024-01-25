@@ -26,12 +26,12 @@ export class AuthService {
 
   isRequestNeedsTokens(request: HttpRequest<any>): boolean {
     if (request.url === USERS_ENDPOINT) {
-      return this.isUSersRequestNeedsTokens(request);
+      return this.isUsersRequestNeedsTokens(request);
     }
     return !this.freeEndpoints.includes(request.url);
   }
 
-  private isUSersRequestNeedsTokens(request: HttpRequest<any>): boolean {
+  private isUsersRequestNeedsTokens(request: HttpRequest<any>): boolean {
     return !(request.method === 'POST');
   }
 
