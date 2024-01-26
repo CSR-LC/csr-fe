@@ -3,7 +3,7 @@ import { ApplicationAction } from './application-action';
 
 export const ApplicationColumns: TableColumn[] = [
   {
-    header: 'Стаеус',
+    header: 'Статус',
     columnDef: 'status',
     style: { 'width.px': 150 },
   },

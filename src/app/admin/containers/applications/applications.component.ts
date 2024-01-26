@@ -20,6 +20,6 @@ export class ApplicationsComponent implements OnInit {
   constructor(private readonly controller: ApplicationsControllerService) {}
 
   ngOnInit() {
-    this.controller.fetchEquipments().subscribe();
+    this.controller.fetchApplications().subscribe();
   }
 }

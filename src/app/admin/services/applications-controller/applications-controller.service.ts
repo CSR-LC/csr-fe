@@ -21,7 +21,7 @@ export class ApplicationsControllerService {
 
   constructor(private readonly api: AdminApi) {}
 
-  fetchEquipments() {
+  fetchApplications(): Observable<TableRow[]> {
     return this.api.getAllOrders().pipe(
       map((res) => this.createRows(res.items)),
       tap((res) => this.applicationsSub.next(res)),
