@@ -1,0 +1,5 @@
+<lc-table
+  [columns]="columns"
+  [limit]="20"
+  [data]="(applications$ | async) || []"
+></lc-table>
