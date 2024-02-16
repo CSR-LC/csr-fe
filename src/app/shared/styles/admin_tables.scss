@@ -49,10 +49,6 @@ lc-table {
     &.active {
       opacity: 1;
       transform: translateY(0);
-
-      & + .filter-reset {
-        display: flex;
-      }
     }
   }
 }
