@@ -1,3 +1,58 @@
 lc-table mat-paginator .mat-mdc-paginator-container {
   justify-content: flex-start !important;
 }
+
+lc-table {
+  .mat-sort-header:hover {
+    .filter-button:not(.active) {
+      opacity: 0.54;
+      transition: transform 50ms;
+      transform: translateY(0);
+    }
+  }
+
+  .mat-sort-header-content {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-button {
+    opacity: 0;
+    transform: translateY(25%);
+    width: 24px !important;
+    height: 24px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    & > *[role=img] {
+      width: 16px;
+      height: 16px;
+      font-size: 16px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .mat-mdc-button-touch-target {
+      width: 24px !important;
+      height: 24px !important;
+    }
+
+    .material-icons {
+      color: #757575;
+    }
+
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+
+      & + .filter-reset {
+        display: flex;
+      }
+    }
+  }
+}

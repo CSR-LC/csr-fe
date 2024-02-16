@@ -1,3 +1,7 @@
+<button mat-flat-button class="reset-filters-btn" (click)="resetFilters()">
+  <mat-icon>filter_alt_off</mat-icon>
+  Сбросить фильтры
+</button>
 <table
   mat-table
   matSort
@@ -12,7 +16,28 @@
       <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
     </ng-container>
     <ng-container *ngIf="!column.action">
-      <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ column.header }}</th>
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        {{ column.header }}
+       <div class="filter-buttons">
+         <button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
+                 (click)="$event.stopPropagation()"
+                 [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(column.columnDef)}">
+           <mat-icon>
+             filter_alt
+           </mat-icon>
+         </button>
+       </div>
+
+        <mat-menu #filterMenu="matMenu" class="menu">
+          <lc-table-filter
+            [data]="data"
+            [columnDef]="column.columnDef"
+            [placeholder]="column.header"
+            [isAllFiltersReset]="isAllFiltersReset"
+            (dataFiltered)="filterTableData($event)"
+          ></lc-table-filter>
+        </mat-menu>
+      </th>
     </ng-container>
 
     <td mat-cell *matCellDef="let row" [ngStyle]="column.style">

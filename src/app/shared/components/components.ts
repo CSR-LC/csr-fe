@@ -1,21 +1,22 @@
 import {
-  MainHeaderComponent,
-  InfoModalComponent,
-  FakeInputComponent,
-  ConfirmationModalComponent,
-  CatalogFilterComponent,
   BlockUiComponent,
-  PageNotFoundComponent,
+  CatalogFilterComponent,
+  ConfirmationModalComponent,
+  ErrorPageLayoutComponent,
+  FakeInputComponent,
+  InfoModalComponent,
+  MainHeaderComponent,
+  MainNavComponent,
+  ModalLayoutComponent,
   NotificationComponent,
+  PageForbiddenComponent,
+  PageNotFoundComponent,
   PersonalInfoModalComponent,
   PublicOfferComponent,
   TableComponent,
-  MainNavComponent,
-  ModalLayoutComponent,
-  PageForbiddenComponent,
-  ErrorPageLayoutComponent,
 } from '../components';
 import { CatalogSearchComponent } from '@shared/components/catalog-search/catalog-search.component';
+import { TableFilterComponent } from '@shared/components/table-filter/table-filter.component';
 
 export const sharedComponents = [
   BlockUiComponent,
@@ -34,4 +35,5 @@ export const sharedComponents = [
   CatalogFilterComponent,
   CatalogSearchComponent,
   ErrorPageLayoutComponent,
+  TableFilterComponent,
 ];
