@@ -2,4 +2,5 @@
   [columns]="columns"
   [limit]="20"
   [data]="(applications$ | async) || []"
+  (action)="editApplication($event)"
 ></lc-table>

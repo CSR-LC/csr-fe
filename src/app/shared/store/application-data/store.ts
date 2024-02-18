@@ -2,6 +2,7 @@ import { BaseKind, PetSize } from '@app/shared/models/management';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import {
+  ApplicationStatusesAction,
   EquipmentCategoriesAction,
   EquipmentStatusesAction,
   PetKindsAction,
@@ -11,6 +12,7 @@ import {
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
 import { Role } from '@app/auth/models/role';
+import { ItemTranslated } from '@app/shared/types';
 
 export type ApplicationData = {
   petKinds: BaseKind[] | null;
@@ -18,6 +20,7 @@ export type ApplicationData = {
   equipmentStatuses: EquipmentStatus[] | null;
   equipmentCategories: Category[] | null;
   roles: Role[] | null;
+  applicationStatuses: ItemTranslated[] | null;
 };
 
 const defaults: ApplicationData = {
@@ -26,6 +29,7 @@ const defaults: ApplicationData = {
   equipmentStatuses: null,
   equipmentCategories: null,
   roles: null,
+  applicationStatuses: null,
 };
 
 @State<ApplicationData>({
@@ -59,6 +63,11 @@ export class ApplicationDataState {
   @Selector()
   static roles(state: ApplicationData): Role[] | null {
     return state.roles;
+  }
+
+  @Selector()
+  static applicationStatuses(state: ApplicationData): ItemTranslated[] | null {
+    return state.applicationStatuses;
   }
 
   @Action(PetKindsAction)
@@ -98,6 +107,14 @@ export class ApplicationDataState {
     const roles = action.roles;
     ctx.patchState({
       roles,
+    });
+  }
+
+  @Action(ApplicationStatusesAction)
+  applicationStatuses(ctx: StateContext<ApplicationData>, action: ApplicationStatusesAction) {
+    const applicationStatuses = action.applicationStatuses;
+    ctx.patchState({
+      applicationStatuses,
     });
   }
 }

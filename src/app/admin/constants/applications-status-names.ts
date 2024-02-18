@@ -1,7 +1,7 @@
 export enum ApplicationStatusName {
   inReview = 'in review',
   approved = 'approved',
-  inProgres = 'in progres',
+  inProgress = 'in progress',
   rejected = 'rejected',
   closed = 'closed',
   prepared = 'prepared',
