@@ -76,7 +76,7 @@ export class TableFilterComponent {
     this.currentFilteredOptions =
       filter.length > 0
         ? this.options.filter((option) => {
-            return (option.row[this.columnDef] as string).toLowerCase().includes(filter.toLowerCase());
+            return option.row[this.columnDef].toString().toLowerCase().includes(filter.toLowerCase());
           })
         : this.options.slice();
 
