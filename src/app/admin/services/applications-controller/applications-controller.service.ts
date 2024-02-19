@@ -5,7 +5,7 @@ import { Application } from '@app/admin/types/application';
 import { TableRow } from '@app/shared/models/table-row';
 import { User } from '@app/auth/models';
 import { Equipment } from '@app/catalog/models/equipment';
-import { BehaviorSubject, filter, Observable } from 'rxjs';
+import { BehaviorSubject, filter, Observable, of } from 'rxjs';
 import { ApplicationStatus } from '@app/admin/types/application-status';
 import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
 import { ApplicationUsersInfo } from '@app/admin/types/application-user-info';
@@ -20,6 +20,9 @@ import { ItemTranslated } from '@app/shared/types';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { ChangeStatusBody } from '@app/admin/types';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
+import { InfoModalComponent } from '@app/shared/components';
+import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
+import { RowAction } from '@app/shared/models';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -61,8 +64,23 @@ export class ApplicationsControllerService {
         ...this.getEquipmentInfo(application.equipments),
         rentPeriod: this.getRentPeriodValue(application),
         status: this.getApplicationStatusName(application.last_status),
+        actions: this.getRowActions(application),
       };
     });
+  }
+
+  private getRowActions(application: Application): RowAction {
+    const status = application.last_status.status;
+    return {
+      [ApplicationAction.more]: {
+        tooltip: '',
+        disabled: false,
+      },
+      [ApplicationAction.edit]: {
+        tooltip: '',
+        disabled: status === ApplicationStatusName.closed || status === ApplicationStatusName.rejected,
+      },
+    };
   }
 
   private getApplicationStatusName(status: ApplicationStatus): string {
@@ -102,11 +120,17 @@ export class ApplicationsControllerService {
   }
 
   private editApplicationStatus(application: Application) {
+    let newStatus: string;
     this.openEditApplicationStatusModal(application)
       .pipe(
         filter(Boolean),
-        switchMap((newStatusId) => {
-          const body = this.getChangeStatusBody(application, newStatusId);
+        switchMap((newStatusName) => {
+          newStatus = newStatusName;
+          return this.checkNonChangeableStatuses(newStatusName);
+        }),
+        filter(Boolean),
+        switchMap(() => {
+          const body = this.getChangeStatusBody(application, newStatus);
           return this.api.editApplicationStatus(body);
         }),
         switchMap(() => this.fetchApplications()),
@@ -114,21 +138,57 @@ export class ApplicationsControllerService {
       .subscribe(() => this.notificationsService.openSuccess('Статус заявки изменен'));
   }
 
-  private getStatusNameById(id: number): string {
-    const ststus = this.applicationStatuses.find((status) => status.id === id);
-    return ststus?.name || '';
+  private checkNonChangeableStatuses(statusName: string): Observable<boolean> {
+    switch (statusName) {
+      case ApplicationStatusName.rejected:
+        return this.openNotificationRejectedStatus();
+      case ApplicationStatusName.closed:
+        return this.openNotificationAboutClosedStatus();
+      default:
+        return of(true);
+    }
   }
 
-  private getChangeStatusBody(application: Application, newStatusId: number): ChangeStatusBody {
+  private openNotificationAboutClosedStatus(): Observable<boolean> {
+    return this.dialog
+      .open(InfoModalComponent, {
+        width: '472px',
+        data: {
+          headerText: 'Статус "Закрыто"',
+          infoMessage:
+            'Если Вы сохраните заявку в статусе "Закрыто", то изменить статус этой заявки в будущем будет невозможно.',
+          buttonOkText: 'Сохранить',
+          buttonCancelText: 'Отменить',
+        },
+      })
+      .afterClosed();
+  }
+
+  private openNotificationRejectedStatus(): Observable<boolean> {
+    return this.dialog
+      .open(InfoModalComponent, {
+        width: '472px',
+        data: {
+          headerText: 'Статус "Отклонено"',
+          infoMessage:
+            'Если Вы сохраните заявку в статусе "Отклонено", то изменить статус этой заявки в будущем будет невозможно.',
+          buttonOkText: 'Сохранить',
+          buttonCancelText: 'Отменить',
+        },
+      })
+      .afterClosed();
+  }
+
+  private getChangeStatusBody(application: Application, newStatusName: string): ChangeStatusBody {
     return {
       comment: 'comment',
       created_at: new Date(),
       order_id: application.id,
-      status: this.getStatusNameById(newStatusId),
+      status: newStatusName,
     };
   }
 
-  private openEditApplicationStatusModal(application: Application): Observable<number> {
+  private openEditApplicationStatusModal(application: Application): Observable<string> {
     return this.dialog
       .open(EditApplicationStatusComponent, {
         ...ADMIN_MODAL_CONFIG,

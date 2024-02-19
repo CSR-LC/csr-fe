@@ -1,9 +1,7 @@
-import { TableActionState } from '@shared/models/table-action-state';
+import { RowAction } from './row-action';
 
 export type TableRow = {
   entity?: any;
   [key: string]: any;
-  actions?: {
-    [key: string]: TableActionState;
-  };
+  actions?: RowAction;
 };

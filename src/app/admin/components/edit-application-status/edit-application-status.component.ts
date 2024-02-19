@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
 import { ApplicationStatusModalData } from '@app/admin/types';
 import { Equipment } from '@app/catalog/models/equipment';
 import { ValidationService } from '@app/shared/services/validation/validation.service';
@@ -35,7 +36,14 @@ export class EditApplicationStatusComponent implements OnInit {
     this.equipment = data.application.equipments[0];
     this.rentPeriod = data.rentPeriod;
     this.statusName = data.statusTranslation;
-    this.statuses = data.statuses.filter((status) => status.name !== data.application.last_status.status);
+    this.statuses = this.getStatuses(data.statuses, data.application.last_status.status);
+  }
+
+  getStatuses(statuses: ItemTranslated[], currentStatus: string): ItemTranslated[] {
+    return statuses.filter((status) => {
+      const name = status.name;
+      return name !== currentStatus && name !== ApplicationStatusName.inProgress;
+    });
   }
 
   saveStatus() {
