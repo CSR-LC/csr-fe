@@ -13,6 +13,7 @@ import { NewEquipment } from '@app/shared/models/equipment';
 import { Role } from '@app/auth/models/role';
 import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
+import { ChangeStatusBody } from '@app/admin/types';
 
 @Injectable()
 export class ApiService {
@@ -105,7 +106,11 @@ export class ApiService {
     return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
   }
 
-  getApplicationStatuses(): Observable<Item> {
-    return this.http.get<Item>('/v1/status_names');
+  getApplicationStatuses(): Observable<Item[]> {
+    return this.http.get<Item[]>('/v1/status_names');
+  }
+
+  editApplicationStatus(statusInfo: ChangeStatusBody): Observable<string> {
+    return this.http.post<string>('/v1/order_statuses/', statusInfo);
   }
 }
