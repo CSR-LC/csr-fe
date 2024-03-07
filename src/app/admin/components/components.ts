@@ -5,6 +5,10 @@ import {
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,
+  DeleteUserModalContentComponent,
+  DeleteRoleModalContentComponent,
+  AssignRoleModalComponent,
+  EditApplicationStatusComponent,
 } from '.';
 
 export const adminComponents = [
@@ -14,4 +18,8 @@ export const adminComponents = [
   EquipmentInfoComponent,
   OrderNotificationModalComponent,
   BlockUserModalContentComponent,
+  DeleteUserModalContentComponent,
+  DeleteRoleModalContentComponent,
+  AssignRoleModalComponent,
+  EditApplicationStatusComponent,
 ];

@@ -2,19 +2,25 @@ import { BaseKind, PetSize } from '@app/shared/models/management';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import {
+  ApplicationStatusesAction,
   EquipmentCategoriesAction,
   EquipmentStatusesAction,
   PetKindsAction,
   PetSizesAction,
+  RolesAction,
 } from '@shared/store/application-data/actions';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Category } from '@app/catalog/models';
+import { Role } from '@app/auth/models/role';
+import { ItemTranslated } from '@app/shared/types';
 
 export type ApplicationData = {
   petKinds: BaseKind[] | null;
   petSizes: PetSize[] | null;
   equipmentStatuses: EquipmentStatus[] | null;
   equipmentCategories: Category[] | null;
+  roles: Role[] | null;
+  applicationStatuses: ItemTranslated[] | null;
 };
 
 const defaults: ApplicationData = {
@@ -22,6 +28,8 @@ const defaults: ApplicationData = {
   petSizes: null,
   equipmentStatuses: null,
   equipmentCategories: null,
+  roles: null,
+  applicationStatuses: null,
 };
 
 @State<ApplicationData>({
@@ -52,9 +60,18 @@ export class ApplicationDataState {
     return state.equipmentCategories;
   }
 
+  @Selector()
+  static roles(state: ApplicationData): Role[] | null {
+    return state.roles;
+  }
+
+  @Selector()
+  static applicationStatuses(state: ApplicationData): ItemTranslated[] | null {
+    return state.applicationStatuses;
+  }
+
   @Action(PetKindsAction)
   petKinds(ctx: StateContext<ApplicationData>, action: PetKindsAction) {
-    const state = ctx.getState();
     const petKinds = action.petKinds;
     ctx.patchState({
       petKinds,
@@ -63,7 +80,6 @@ export class ApplicationDataState {
 
   @Action(PetSizesAction)
   petSizes(ctx: StateContext<ApplicationData>, action: PetSizesAction) {
-    const state = ctx.getState();
     const petSizes = action.petSizes;
     ctx.patchState({
       petSizes,
@@ -72,7 +88,6 @@ export class ApplicationDataState {
 
   @Action(EquipmentStatusesAction)
   equipmentStatuses(ctx: StateContext<ApplicationData>, action: EquipmentStatusesAction) {
-    const state = ctx.getState();
     const equipmentStatuses = action.equipmentStatuses;
     ctx.patchState({
       equipmentStatuses,
@@ -81,10 +96,25 @@ export class ApplicationDataState {
 
   @Action(EquipmentCategoriesAction)
   equpmentCategories(ctx: StateContext<ApplicationData>, action: EquipmentCategoriesAction) {
-    const state = ctx.getState();
     const equipmentCategories = action.equipmentCategories;
     ctx.patchState({
       equipmentCategories,
+    });
+  }
+
+  @Action(RolesAction)
+  roles(ctx: StateContext<ApplicationData>, action: RolesAction) {
+    const roles = action.roles;
+    ctx.patchState({
+      roles,
+    });
+  }
+
+  @Action(ApplicationStatusesAction)
+  applicationStatuses(ctx: StateContext<ApplicationData>, action: ApplicationStatusesAction) {
+    const applicationStatuses = action.applicationStatuses;
+    ctx.patchState({
+      applicationStatuses,
     });
   }
 }
