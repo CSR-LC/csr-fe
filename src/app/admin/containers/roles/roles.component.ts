@@ -5,7 +5,6 @@ import { TableRow } from '@shared/models/table-row';
 import { TableAction } from '@shared/models/table-action';
 import { RolesController } from '@app/admin/services';
 import { ROLES_COLUMNS } from '@app/admin/constants/roles-columns';
-import { User } from '@app/auth/models';
 
 @Component({
   selector: 'lc-roles',
@@ -25,8 +24,11 @@ export class RolesComponent implements OnInit {
     this.controller.fetchRoles().subscribe();
   }
 
-  editRole(data: TableAction<User>) {
-    this.controller.manageEvent(data);
+  editRole(data: TableAction<TableRow>) {
+    this.controller.manageEvent({
+      ...data,
+      row: data.row.entity,
+    });
   }
 
   assignRole() {

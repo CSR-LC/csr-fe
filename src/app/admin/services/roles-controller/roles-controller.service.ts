@@ -26,6 +26,7 @@ export class RolesController {
   private rolesSubject$ = new BehaviorSubject<TableRow[]>([]);
   private roles = this.store.selectSnapshot(ApplicationDataState).roles;
   private users: User[] = [];
+  private userRoleIdSaved?: number;
 
   constructor(
     private api: AdminApi,
@@ -116,16 +117,27 @@ export class RolesController {
   }
 
   private createRows(users: User[]): TableRow[] {
-    return users.reduce((acc: User[], user: User) => {
+    return users.reduce((acc: TableRow[], user: User) => {
       if (user.role.id !== this.userRoleId) {
-        const userWithRole = { ...user, roleName: user.role.name };
-        acc.push(userWithRole);
+        acc.push(this.createTableRow(user));
       }
       return acc;
     }, []);
   }
 
+  private createTableRow(user: User): TableRow {
+    return {
+      entity: user,
+      email: user.email,
+      surname: user.surname,
+      name: user.name,
+      roleName: user.role.name,
+    };
+  }
+
   private get userRoleId(): number {
-    return this.roles.find((role: Role) => role.slug === 'user').id;
+    if (this.userRoleIdSaved !== undefined) return this.userRoleIdSaved;
+    this.userRoleIdSaved = this.roles.find((role: Role) => role.slug === 'user').id;
+    return this.userRoleIdSaved as number;
   }
 }
