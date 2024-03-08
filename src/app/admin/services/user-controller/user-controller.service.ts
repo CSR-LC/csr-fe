@@ -18,6 +18,7 @@ import { UserModal } from '@app/admin/constants/user-modal.enum';
 import { BlockUserModalContentComponent, DeleteUserModalContentComponent } from '@app/admin/components';
 import { INITIAL_USERS_ACTIONS_STATE } from '@app/admin/constants/initial-users-actions-state';
 import { UsersActionsTooltips } from '@app/admin/constants/users-actions-tooltips.enum';
+import { RowAction } from '@app/shared/models';
 
 @UntilDestroy
 @Injectable()
@@ -119,18 +120,29 @@ export class UserControllerService {
 
   private createRows(users: User[]): TableRow[] {
     return users.map((user) => {
-      let actions = INITIAL_USERS_ACTIONS_STATE;
-      if (user.is_readonly) {
-        user.status = UserStatus.Blocked;
-        actions = {
-          ...actions,
-          [UserAction.Delete]: { tooltip: UsersActionsTooltips.Delete, disabled: false },
-        };
-      } else {
-        user.status = UserStatus.Active;
-      }
-
-      return { ...user, actions };
+      return {
+        ...user,
+        entity: user,
+        email: user.email,
+        name: user.name,
+        surname: user.surname,
+        phone_number: user.phone_number,
+        statusName: this.getUserStatus(user),
+        actions: this.getActions(user),
+      };
     });
+  }
+
+  private getUserStatus(user: User): string {
+    return user.is_readonly ? UserStatus.Blocked : UserStatus.Active;
+  }
+
+  private getActions(user: User): RowAction {
+    return user.is_readonly
+      ? {
+          ...INITIAL_USERS_ACTIONS_STATE,
+          [UserAction.Delete]: { tooltip: UsersActionsTooltips.Delete, disabled: false },
+        }
+      : { ...INITIAL_USERS_ACTIONS_STATE };
   }
 }

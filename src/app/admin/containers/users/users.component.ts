@@ -26,7 +26,10 @@ export class UsersComponent implements OnInit {
     this.controller.setPageTitle(AdminPagesTitles.Users);
   }
 
-  editUser(data: TableAction<User>) {
-    this.controller.editUser(data);
+  editUser(data: TableAction<TableRow>) {
+    this.controller.editUser({
+      ...data,
+      row: data.row.entity,
+    });
   }
 }
