@@ -41,8 +41,11 @@ export class EquipmentsComponent implements OnInit {
     });
   }
 
-  editEquipment(data: TableAction<Equipment>) {
-    this.controller.manageEvent(data);
+  editEquipment(data: TableAction<TableRow>) {
+    this.controller.manageEvent({
+      ...data,
+      row: data.row.entity,
+    });
   }
 
   addNewEquipment() {

@@ -26,6 +26,7 @@ import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
+import { RowAction } from '@app/shared/models';
 
 @UntilDestroy
 @Injectable()
@@ -75,14 +76,30 @@ export class EquipmentController {
 
   private createRows(equipments: Equipment[]): TableRow[] {
     return equipments.map((equipment) => {
-      let actions = INITIAL_EQUIPMENT_ACTIONS_STATE;
-      const categoryName = this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category);
-      const statusName = this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status);
-      if (categoryName) equipment.categoryName = categoryName;
-      if (statusName) equipment.statusName = statusName;
-      if (equipment.status === this.statusIdsDictionary.archived) {
-        actions = {
-          ...actions,
+      return {
+        entity: equipment,
+        name: equipment.name,
+        title: equipment.title,
+        inventoryNumber: equipment.inventoryNumber,
+        categoryName: this.getCategoryName(equipment),
+        statusName: this.getStatusName(equipment),
+        actions: this.getActions(equipment),
+      };
+    });
+  }
+
+  private getStatusName(equipment: Equipment): string {
+    return this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status) || '';
+  }
+
+  private getCategoryName(equipment: Equipment): string {
+    return this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category) || '';
+  }
+
+  private getActions(equipment: Equipment): RowAction {
+    return equipment.status === this.statusIdsDictionary.archived
+      ? {
+          ...INITIAL_EQUIPMENT_ACTIONS_STATE,
           [EquipmentAction.Archivate]: {
             tooltip: '',
             disabled: true,
@@ -95,11 +112,10 @@ export class EquipmentController {
             tooltip: '',
             disabled: true,
           },
+        }
+      : {
+          ...INITIAL_EQUIPMENT_ACTIONS_STATE,
         };
-      }
-
-      return { ...equipment, actions };
-    });
   }
 
   private blockEquipment(data: TableAction<Equipment>) {
