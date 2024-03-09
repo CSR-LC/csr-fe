@@ -23,7 +23,7 @@ import { TableRow } from '@app/shared/models/table-row';
 })
 export class TableComponent<T> implements OnChanges {
   @Input() columns: TableColumn[] = [];
-  @Input() data: TableRow[] = [];
+  @Input() data: TableRow<T>[] = [];
   @Input() limit = 10;
 
   @Output() action = new EventEmitter<TableAction>();
@@ -32,7 +32,7 @@ export class TableComponent<T> implements OnChanges {
   @ViewChild(MatSort) sort?: MatSort;
 
   total = 0;
-  dataSource!: MatTableDataSource<TableRow>;
+  dataSource!: MatTableDataSource<TableRow<T>>;
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
@@ -49,7 +49,7 @@ export class TableComponent<T> implements OnChanges {
     this.action.emit(data);
   }
 
-  private getMatTableData(data: TableRow[]): MatTableDataSource<TableRow> {
+  private getMatTableData(data: TableRow<T>[]): MatTableDataSource<TableRow<T>> {
     const matData = new MatTableDataSource(data);
 
     if (this.sort && this.dataSource) {

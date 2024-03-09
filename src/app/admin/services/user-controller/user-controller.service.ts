@@ -23,7 +23,7 @@ import { RowAction } from '@app/shared/models';
 @UntilDestroy
 @Injectable()
 export class UserControllerService {
-  private usersSubject$ = new BehaviorSubject<TableRow[]>([]);
+  private usersSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
 
   constructor(
     private api: AdminApi,
@@ -32,7 +32,7 @@ export class UserControllerService {
     private mainPageHeaderService: MainPageHeaderService,
   ) {}
 
-  get users$(): Observable<TableRow[]> {
+  get users$(): Observable<TableRow<User>[]> {
     return this.usersSubject$.asObservable();
   }
 
@@ -46,7 +46,7 @@ export class UserControllerService {
       .pipe(tap((data: BaseItemsResponse<User>) => this.usersSubject$.next(this.createRows(data.items))));
   }
 
-  editUser(data: TableAction) {
+  editUser(data: TableAction<User>) {
     switch (data.action) {
       case UserAction.Profile:
         break;
@@ -59,7 +59,7 @@ export class UserControllerService {
     }
   }
 
-  private updateUserBlockingStatus(data: TableAction) {
+  private updateUserBlockingStatus(data: TableAction<User>) {
     const user = data.row.entity;
 
     this.openBlockUserModal(user)
@@ -89,7 +89,7 @@ export class UserControllerService {
       .afterClosed();
   }
 
-  private deleteUser(data: TableAction) {
+  private deleteUser(data: TableAction<User>) {
     const user = data.row.entity;
     this.openDeleteUserModal(user)
       .pipe(
@@ -118,7 +118,7 @@ export class UserControllerService {
       .afterClosed();
   }
 
-  private createRows(users: User[]): TableRow[] {
+  private createRows(users: User[]): TableRow<User>[] {
     return users.map((user) => {
       return {
         ...user,

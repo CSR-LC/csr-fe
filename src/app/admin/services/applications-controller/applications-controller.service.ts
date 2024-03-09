@@ -26,9 +26,9 @@ import { RowAction } from '@app/shared/models';
 
 @Injectable()
 export class ApplicationsControllerService {
-  private readonly applicationsSub = new BehaviorSubject<TableRow[]>([]);
+  private readonly applicationsSub = new BehaviorSubject<TableRow<Application>[]>([]);
 
-  get applicationsData$(): Observable<TableRow[]> {
+  get applicationsData$(): Observable<TableRow<Application>[]> {
     return this.applicationsSub.asObservable();
   }
 
@@ -48,14 +48,14 @@ export class ApplicationsControllerService {
     this.mainPageHeaderService.setPageTitle('Заявки');
   }
 
-  fetchApplications(): Observable<TableRow[]> {
+  fetchApplications(): Observable<TableRow<Application>[]> {
     return this.api.getAllOrders().pipe(
       map((res) => this.createRows(res.items)),
       tap((res) => this.applicationsSub.next(res)),
     );
   }
 
-  createRows(applications: Application[]): TableRow[] {
+  createRows(applications: Application[]): TableRow<Application>[] {
     return applications.map((application) => {
       return {
         entity: application,
@@ -111,7 +111,7 @@ export class ApplicationsControllerService {
     };
   }
 
-  editApplication(event: TableAction) {
+  editApplication(event: TableAction<Application>) {
     const application = event.row.entity;
     const action = event.action;
     if (action === ApplicationAction.edit) {

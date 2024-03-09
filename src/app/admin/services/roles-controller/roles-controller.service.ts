@@ -23,7 +23,7 @@ import { AssignRoleModalResult } from '@app/admin/types/assign-role-modal-result
 @UntilDestroy
 @Injectable()
 export class RolesController {
-  private rolesSubject$ = new BehaviorSubject<TableRow[]>([]);
+  private rolesSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
   private roles = this.store.selectSnapshot(ApplicationDataState).roles;
   private users: User[] = [];
   private userRoleIdSaved?: number;
@@ -36,7 +36,7 @@ export class RolesController {
     private store: Store,
   ) {}
 
-  get roles$(): Observable<TableRow[]> {
+  get roles$(): Observable<TableRow<User>[]> {
     return this.rolesSubject$.asObservable();
   }
 
@@ -53,7 +53,7 @@ export class RolesController {
     );
   }
 
-  manageEvent(data: TableAction) {
+  manageEvent(data: TableAction<User>) {
     switch (data.action) {
       case RoleAction.Delete:
         this.deleteRole(data);
@@ -86,7 +86,7 @@ export class RolesController {
       .afterClosed();
   }
 
-  private deleteRole(data: TableAction) {
+  private deleteRole(data: TableAction<User>) {
     const user = data.row.entity;
 
     this.openDeleteRoleModal(user)
@@ -116,8 +116,8 @@ export class RolesController {
       .afterClosed();
   }
 
-  private createRows(users: User[]): TableRow[] {
-    return users.reduce((acc: TableRow[], user: User) => {
+  private createRows(users: User[]): TableRow<User>[] {
+    return users.reduce((acc: TableRow<User>[], user: User) => {
       if (user.role.id !== this.userRoleId) {
         acc.push(this.createTableRow(user));
       }
@@ -125,7 +125,7 @@ export class RolesController {
     }, []);
   }
 
-  private createTableRow(user: User): TableRow {
+  private createTableRow(user: User): TableRow<User> {
     return {
       entity: user,
       email: user.email,

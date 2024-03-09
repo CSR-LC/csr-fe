@@ -31,7 +31,7 @@ import { RowAction } from '@app/shared/models';
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
-  private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
+  private equipmentDataSubj$ = new BehaviorSubject<TableRow<Equipment>[]>([]);
   private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
@@ -39,7 +39,7 @@ export class EquipmentController {
     ...equipmentStatusIdDefaultValue,
   };
 
-  get equipmentData$(): Observable<TableRow[]> {
+  get equipmentData$(): Observable<TableRow<Equipment>[]> {
     return this.equipmentDataSubj$.asObservable();
   }
 
@@ -52,7 +52,7 @@ export class EquipmentController {
     private readonly store: Store,
   ) {}
 
-  manageEvent(data: TableAction) {
+  manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
         this.blockEquipment(data);
@@ -70,11 +70,11 @@ export class EquipmentController {
     return this.api.getAllEquipment().pipe(
       tap((res) => (this.inventoryNumbers = res.items.map((i) => i.inventoryNumber))),
       map((res) => this.createRows(res.items)),
-      tap((data: TableRow[]) => this.equipmentDataSubj$.next(data)),
+      tap((data: TableRow<Equipment>[]) => this.equipmentDataSubj$.next(data)),
     );
   }
 
-  private createRows(equipments: Equipment[]): TableRow[] {
+  private createRows(equipments: Equipment[]): TableRow<Equipment>[] {
     return equipments.map((equipment) => {
       return {
         entity: equipment,
@@ -118,7 +118,7 @@ export class EquipmentController {
         };
   }
 
-  private blockEquipment(data: TableAction) {
+  private blockEquipment(data: TableAction<Equipment>) {
     const equipment = data.row.entity;
     let unavailableDates: UnavailableDates[];
     let blockPeriod: Period;
@@ -165,7 +165,7 @@ export class EquipmentController {
     return date >= startUnavailable && date <= endUnavailable;
   }
 
-  private archivateEquipment(data: TableAction) {
+  private archivateEquipment(data: TableAction<Equipment>) {
     const equipment = data.row.entity;
     this.openArchiveEquipmentModal(equipment)
       .pipe(

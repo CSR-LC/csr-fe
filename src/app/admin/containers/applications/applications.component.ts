@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ApplicationsComponent implements OnInit {
   readonly columns = ApplicationColumns;
-  get applications$(): Observable<TableRow[]> {
+  get applications$(): Observable<TableRow<Application>[]> {
     return this.controller.applicationsData$;
   }
 
@@ -26,7 +26,7 @@ export class ApplicationsComponent implements OnInit {
     this.controller.setPageTitle();
   }
 
-  editApplication(event: TableAction) {
+  editApplication(event: TableAction<Application>) {
     this.controller.editApplication(event);
   }
 }

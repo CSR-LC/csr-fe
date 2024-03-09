@@ -22,7 +22,7 @@ import { TableRow } from '@app/shared/models/table-row';
 })
 export class EquipmentsComponent implements OnInit {
   columns: TableColumn[] = EquipmentColumns;
-  data$: Observable<TableRow[]> = this.controller.equipmentData$;
+  data$: Observable<TableRow<Equipment>[]> = this.controller.equipmentData$;
 
   @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
   @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<EquipmentStatus[]>;
@@ -41,7 +41,7 @@ export class EquipmentsComponent implements OnInit {
     });
   }
 
-  editEquipment(data: TableAction) {
+  editEquipment(data: TableAction<Equipment>) {
     this.controller.manageEvent(data);
   }
 

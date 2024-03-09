@@ -17,7 +17,7 @@ import { AdminPagesTitles } from '@app/admin/constants/admin-pages-titles.enum';
 })
 export class UsersComponent implements OnInit {
   columns: TableColumn[] = USER_COLUMNS;
-  users$: Observable<TableRow[]> = this.controller.users$;
+  users$: Observable<TableRow<User>[]> = this.controller.users$;
 
   constructor(private controller: UserControllerService) {}
 
@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
     this.controller.setPageTitle(AdminPagesTitles.Users);
   }
 
-  editUser(data: TableAction) {
+  editUser(data: TableAction<User>) {
     this.controller.editUser(data);
   }
 }
