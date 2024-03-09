@@ -24,11 +24,8 @@ export class RolesComponent implements OnInit {
     this.controller.fetchRoles().subscribe();
   }
 
-  editRole(data: TableAction<TableRow>) {
-    this.controller.manageEvent({
-      ...data,
-      row: data.row.entity,
-    });
+  editRole(data: TableAction) {
+    this.controller.manageEvent(data);
   }
 
   assignRole() {

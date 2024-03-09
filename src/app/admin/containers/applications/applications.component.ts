@@ -26,7 +26,7 @@ export class ApplicationsComponent implements OnInit {
     this.controller.setPageTitle();
   }
 
-  editApplication(event: TableAction<Application>) {
+  editApplication(event: TableAction) {
     this.controller.editApplication(event);
   }
 }

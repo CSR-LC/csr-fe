@@ -26,7 +26,7 @@ export class TableComponent<T> implements OnChanges {
   @Input() data: TableRow[] = [];
   @Input() limit = 10;
 
-  @Output() action = new EventEmitter<TableAction<T>>();
+  @Output() action = new EventEmitter<TableAction>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
@@ -45,7 +45,7 @@ export class TableComponent<T> implements OnChanges {
     return this.columns.map((column: TableColumn) => column.columnDef);
   }
 
-  editRow(data: TableAction<T>) {
+  editRow(data: TableAction) {
     this.action.emit(data);
   }
 

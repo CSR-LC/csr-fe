@@ -111,8 +111,8 @@ export class ApplicationsControllerService {
     };
   }
 
-  editApplication(event: TableAction<Application>) {
-    const application = event.row;
+  editApplication(event: TableAction) {
+    const application = event.row.entity;
     const action = event.action;
     if (action === ApplicationAction.edit) {
       this.editApplicationStatus(application);

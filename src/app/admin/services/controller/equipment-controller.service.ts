@@ -52,13 +52,13 @@ export class EquipmentController {
     private readonly store: Store,
   ) {}
 
-  manageEvent(data: TableAction<Equipment>) {
+  manageEvent(data: TableAction) {
     switch (data.action) {
       case EquipmentAction.Block:
         this.blockEquipment(data);
         break;
       case EquipmentAction.Edit:
-        this.manageEquipment(data.row);
+        this.manageEquipment(data.row.entity);
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
@@ -118,8 +118,8 @@ export class EquipmentController {
         };
   }
 
-  private blockEquipment(data: TableAction<Equipment>) {
-    const equipment = data.row;
+  private blockEquipment(data: TableAction) {
+    const equipment = data.row.entity;
     let unavailableDates: UnavailableDates[];
     let blockPeriod: Period;
 
@@ -165,8 +165,8 @@ export class EquipmentController {
     return date >= startUnavailable && date <= endUnavailable;
   }
 
-  private archivateEquipment(data: TableAction<Equipment>) {
-    const equipment = data.row;
+  private archivateEquipment(data: TableAction) {
+    const equipment = data.row.entity;
     this.openArchiveEquipmentModal(equipment)
       .pipe(
         filter(Boolean),

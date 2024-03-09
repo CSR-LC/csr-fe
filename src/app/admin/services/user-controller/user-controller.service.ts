@@ -46,7 +46,7 @@ export class UserControllerService {
       .pipe(tap((data: BaseItemsResponse<User>) => this.usersSubject$.next(this.createRows(data.items))));
   }
 
-  editUser(data: TableAction<User>) {
+  editUser(data: TableAction) {
     switch (data.action) {
       case UserAction.Profile:
         break;
@@ -59,8 +59,8 @@ export class UserControllerService {
     }
   }
 
-  private updateUserBlockingStatus(data: TableAction<User>) {
-    const user = data.row;
+  private updateUserBlockingStatus(data: TableAction) {
+    const user = data.row.entity;
 
     this.openBlockUserModal(user)
       .pipe(
@@ -89,8 +89,8 @@ export class UserControllerService {
       .afterClosed();
   }
 
-  private deleteUser(data: TableAction<User>) {
-    const user = data.row;
+  private deleteUser(data: TableAction) {
+    const user = data.row.entity;
     this.openDeleteUserModal(user)
       .pipe(
         filter(Boolean),

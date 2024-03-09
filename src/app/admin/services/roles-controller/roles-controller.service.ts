@@ -53,7 +53,7 @@ export class RolesController {
     );
   }
 
-  manageEvent(data: TableAction<User>) {
+  manageEvent(data: TableAction) {
     switch (data.action) {
       case RoleAction.Delete:
         this.deleteRole(data);
@@ -86,8 +86,8 @@ export class RolesController {
       .afterClosed();
   }
 
-  private deleteRole(data: TableAction<User>) {
-    const user = data.row;
+  private deleteRole(data: TableAction) {
+    const user = data.row.entity;
 
     this.openDeleteRoleModal(user)
       .pipe(
