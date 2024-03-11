@@ -18,19 +18,19 @@
     <ng-container *ngIf="!column.action">
       <th mat-header-cell mat-sort-header *matHeaderCellDef>
         {{ column.header }}
-       <div class="filter-buttons">
-         <button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
-                 (click)="$event.stopPropagation()"
-                 [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(column.columnDef)}">
-           <mat-icon>
-             filter_alt
-           </mat-icon>
-         </button>
-       </div>
+        <div class="filter-buttons">
+          <button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
+                  (click)="$event.stopPropagation()"
+                  [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(column.columnDef)}">
+            <mat-icon>
+              filter_alt
+            </mat-icon>
+          </button>
+        </div>
 
         <mat-menu #filterMenu="matMenu" class="menu">
           <lc-table-filter
-            [data]="data"
+            [options]="filterOptions.get(column.columnDef) || []"
             [columnDef]="column.columnDef"
             [placeholder]="column.header"
             [isAllFiltersReset]="isAllFiltersReset"

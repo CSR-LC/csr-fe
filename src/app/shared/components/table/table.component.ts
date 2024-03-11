@@ -15,6 +15,7 @@ import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
 import { FilteredData } from '@shared/models/filter-data';
+import { TableFilterOption } from '@shared/models/table-filter-option';
 
 @Component({
   selector: 'lc-table',
@@ -36,9 +37,13 @@ export class TableComponent<T> implements OnChanges {
   dataSource!: MatTableDataSource<TableRow>;
   activeFilters: Map<keyof TableRow, Set<string>> = new Map();
   isAllFiltersReset = false;
+  filterOptions: Map<keyof TableRow, TableFilterOption[]> = new Map();
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
+      if (this.data && this.data.length > 0) {
+        this.setFilterOptions();
+      }
       this.total = this.data.length;
       this.dataSource = this.getMatTableData(this.data);
     }
@@ -97,5 +102,39 @@ export class TableComponent<T> implements OnChanges {
       }
     }
     return true;
+  }
+
+  private getUniqueValues(
+    data: TableRow[],
+    columnDef: keyof TableRow,
+    emptyValue: string,
+  ): Map<string, TableFilterOption> {
+    const map = new Map();
+
+    for (const row of data) {
+      let value = row[columnDef];
+
+      if (!value) {
+        value = row[columnDef] = emptyValue;
+      }
+
+      if (!map.has(value)) {
+        map.set(value, { row, selected: false });
+      }
+    }
+
+    return map;
+  }
+
+  private createFilterOptions(data: TableRow[], columnDef: keyof TableRow, emptyValue: string): TableFilterOption[] {
+    const uniqueValues = this.getUniqueValues(data, columnDef, emptyValue);
+    return Array.from(uniqueValues.values());
+  }
+
+  private setFilterOptions() {
+    this.columns.forEach((column) => {
+      if (!column.action)
+        this.filterOptions.set(column.columnDef, this.createFilterOptions(this.data, column.columnDef, 'Пусто'));
+    });
   }
 }

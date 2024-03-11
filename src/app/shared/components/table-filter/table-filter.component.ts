@@ -21,13 +21,13 @@ export class TableFilterComponent {
       this.searchControl.setValue('');
       this.currentFilteredOptions = [];
       this.selectedOptions = [];
-      this.options.forEach((option) => (option.selected = false));
+      this.initialOptions.forEach((option) => (option.selected = false));
     }
   }
 
   @Input()
-  set data(data: TableRow[]) {
-    this.options = this.createOptions(data, this.columnDef, this.emptyValue);
+  set options(options: TableFilterOption[]) {
+    this.initialOptions = options;
 
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
@@ -50,11 +50,10 @@ export class TableFilterComponent {
   searchControl = new FormControl();
   filteredOptions: Observable<TableFilterOption[]> | undefined;
   selectedOptions: TableFilterOption[] = [];
-  options: TableFilterOption[] = [];
+  initialOptions: TableFilterOption[] = [];
   filterString = '';
   selectAllOption: TableFilterOption = { row: { [this.columnDef]: 'Выбрать все' }, selected: false };
   currentFilteredOptions: TableFilterOption[] = [];
-  emptyValue = 'Пусто';
 
   constructor() {}
 
@@ -67,10 +66,10 @@ export class TableFilterComponent {
 
     this.currentFilteredOptions =
       filter.length > 0
-        ? this.options.filter((option) => {
+        ? this.initialOptions.filter((option) => {
             return option.row[this.columnDef].toString().toLowerCase().includes(filter.toLowerCase());
           })
-        : this.options.slice();
+        : this.initialOptions.slice();
 
     return this.currentFilteredOptions;
   }
@@ -118,33 +117,6 @@ export class TableFilterComponent {
   private passFilteredData() {
     const rows = this.selectedOptions.map((option) => option.row);
     this.dataFiltered.emit({ rows, columnDef: this.columnDef });
-  }
-
-  private getUniqueValues(
-    data: TableRow[],
-    columnDef: keyof TableRow,
-    emptyValue: string,
-  ): Map<string, TableFilterOption> {
-    const map = new Map();
-
-    for (const row of data) {
-      let value = row[columnDef];
-
-      if (!value) {
-        value = row[columnDef] = emptyValue;
-      }
-
-      if (!map.has(value)) {
-        map.set(value, { row, selected: false });
-      }
-    }
-
-    return map;
-  }
-
-  private createOptions(data: TableRow[], columnDef: keyof TableRow, emptyValue: string): TableFilterOption[] {
-    const uniqueValues = this.getUniqueValues(data, columnDef, emptyValue);
-    return Array.from(uniqueValues.values());
   }
 
   resetFilter() {
