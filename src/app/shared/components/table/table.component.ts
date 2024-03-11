@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
-import { FilteredData } from '@shared/components/table-filter/table-filter.component';
+import { FilteredData } from '@shared/models/filter-data';
 
 @Component({
   selector: 'lc-table',

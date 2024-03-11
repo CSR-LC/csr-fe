@@ -3,16 +3,8 @@ import { TableRow } from '@shared/models/table-row';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, startWith, tap } from 'rxjs';
-
-export type TableFilterOption = {
-  row: TableRow;
-  selected: boolean;
-};
-
-export type FilteredData = {
-  rows: TableRow[];
-  columnDef: keyof TableRow;
-};
+import { TableFilterOption } from '@shared/models/table-filter-option';
+import { FilteredData } from '@shared/models/filter-data';
 
 @UntilDestroy
 @Component({
