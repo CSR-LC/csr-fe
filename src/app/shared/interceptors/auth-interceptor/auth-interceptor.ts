@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private readonly authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authService.isRequestNeedsTokens(request.url)) {
+    if (this.authService.isRequestNeedsTokens(request)) {
       request = this.addTokenHeader(request);
     }
     return next.handle(request).pipe(

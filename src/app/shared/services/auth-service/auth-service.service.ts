@@ -3,15 +3,16 @@ import { Store } from '@ngxs/store';
 import { AuthState, AuthStore, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
 import { Router } from '@angular/router';
-import { LocalStorageKey } from '../../constants';
+import { LocalStorageKey, USERS_ENDPOINT } from '../../constants';
 import { AuthApi } from '@app/auth/services';
 import { Observable, of, switchMap } from 'rxjs';
+import { HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', 'v1/users', 'password_reset'];
+  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', USERS_ENDPOINT, 'password_reset'];
 
   constructor(private readonly store: Store, private readonly router: Router, private readonly authApi: AuthApi) {}
 
@@ -23,8 +24,15 @@ export class AuthService {
     return this.store.dispatch(new Logout());
   }
 
-  isRequestNeedsTokens(url: string): boolean {
-    return !this.freeEndpoints.includes(url);
+  isRequestNeedsTokens(request: HttpRequest<any>): boolean {
+    if (request.url === USERS_ENDPOINT) {
+      return this.isUsersRequestNeedsTokens(request);
+    }
+    return !this.freeEndpoints.includes(request.url);
+  }
+
+  private isUsersRequestNeedsTokens(request: HttpRequest<any>): boolean {
+    return !(request.method === 'POST');
   }
 
   getAccessToken(): string | null {
