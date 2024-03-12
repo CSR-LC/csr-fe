@@ -10,6 +10,7 @@ import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-pu
 import { UnavailableDates, DateRangeData } from '@app/features/date-range/models';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Period } from '@app/shared/models/period';
+import { DateRange } from '@angular/material/datepicker';
 
 @UntilDestroy
 @Component({
@@ -42,6 +43,17 @@ export class BlockEquipmentModalComponent implements OnInit {
     this.equipment = this.dialogData.equipment;
     this.unavailablePeriods = this.dialogData.unavailablePeriods;
     this.minDate = new Date();
+    this.setInitialFormValue(this.equipment);
+  }
+
+  private setInitialFormValue(equipment: Equipment | undefined) {
+    if (!equipment?.blockingPeriods?.length) return;
+    const period = equipment.blockingPeriods[0];
+
+    this.setFormValue({
+      startDate: new Date(period.start_date),
+      endDate: new Date(period.end_date),
+    });
   }
 
   blockEquipment() {
@@ -73,10 +85,18 @@ export class BlockEquipmentModalComponent implements OnInit {
   private get dateRangeConfig(): DateRangeData {
     return {
       headerText: 'Выберите период блокировки',
-      buttonText: 'выбрать',
+      buttonText: 'Выбрать',
       maxRentalPeriod: 14,
       unavailableDates: this.unavailablePeriods,
       purpose: DateRangePurpose.block,
+      selectedPeriod: this.blockPeriodForModal,
     };
+  }
+
+  private get blockPeriodForModal(): DateRange<Date> | undefined {
+    const formValue = this.form.value;
+    if (!formValue.endDate || !formValue.startDate) return undefined;
+
+    return new DateRange<Date>(new Date(formValue.startDate), new Date(formValue.endDate));
   }
 }

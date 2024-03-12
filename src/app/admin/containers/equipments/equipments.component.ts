@@ -22,7 +22,7 @@ import { TableRow } from '@app/shared/models/table-row';
 })
 export class EquipmentsComponent implements OnInit {
   columns: TableColumn[] = EquipmentColumns;
-  data$: Observable<TableRow[]> = this.controller.equipmentData$;
+  equipments$: Observable<TableRow[]> = this.controller.equipmentData$;
 
   @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
   @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<EquipmentStatus[]>;

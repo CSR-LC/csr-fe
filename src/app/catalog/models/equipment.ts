@@ -1,5 +1,8 @@
+import { UnavailableDates } from '@app/features/date-range/models';
+
 // necessary to be corrected
 export type Equipment = {
+  blockingPeriods: UnavailableDates[] | null;
   category: number;
   categoryName?: string;
   compensationCost: number;

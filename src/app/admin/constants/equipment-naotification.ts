@@ -3,4 +3,5 @@ export enum EquipmentNotification {
   archived = 'было заархивировано!',
   blocked = 'было заблокировано!',
   edited = 'Оборудование отредактировано',
+  unblocked = 'Оборудование разблокировано',
 }
