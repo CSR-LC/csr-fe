@@ -133,7 +133,7 @@ export class EquipmentController {
     period: Period,
     unavailableDates: UnavailableDates[],
     action: string,
-  ): Observable<unknown> {
+  ): Observable<void> {
     return of(this.isPeriodsIntersect(period, unavailableDates)).pipe(
       switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(action) : of(true))),
       filter(Boolean),
@@ -142,7 +142,7 @@ export class EquipmentController {
     );
   }
 
-  unblockEquipment(equipment: Equipment): Observable<null> {
+  unblockEquipment(equipment: Equipment): Observable<void> {
     return this.api.unblockEquipment(equipment.id).pipe(
       tap(() => {
         this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.unblocked}`);
@@ -188,7 +188,7 @@ export class EquipmentController {
       });
   }
 
-  private openOrderNotificationModal(action: string): Observable<unknown> {
+  private openOrderNotificationModal(action: string): Observable<boolean | undefined> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
         ...ADMIN_MODAL_CONFIG,
