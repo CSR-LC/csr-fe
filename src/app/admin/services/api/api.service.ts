@@ -104,9 +104,12 @@ export class ApiService {
     return this.http.post<string>(`${ApiService.MANAGEMENT_BASE_URL}/users/${userId}/role`, body);
   }
 
-  getAllOrders(): Observable<BaseItemsResponse<Application>> {
-    // TODO: remove when solved
-    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+  getAllOrders(equipmentId?: string | null): Observable<BaseItemsResponse<Application>> {
+    // TODO: remove limit and has_equipments when solved
+    const params = equipmentId
+      ? new HttpParams().set('limit', 1000).set('has_equipments', 'true').set('equipment_id', equipmentId)
+      : new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+
     return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
   }
 

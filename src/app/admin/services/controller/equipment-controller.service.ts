@@ -22,11 +22,16 @@ import { EquipmentModalComponent } from '@app/admin/components';
 import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
 import { Store } from '@ngxs/store';
 import { BaseKind } from '@app/shared/models/management';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
-import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
+import {
+  EquipmentNotification,
+  INITIAL_EQUIPMENT_ACTIONS_STATE,
+  ADMIN_MODAL_CONFIG,
+  AdminQueryParams,
+} from '@app/admin/constants';
 import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
-import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
 
 @UntilDestroy
 @Injectable()
@@ -50,6 +55,7 @@ export class EquipmentController {
     private readonly mainHeaderService: MainPageHeaderService,
     private readonly dictionaryService: DictionaryService,
     private readonly store: Store,
+    private readonly router: Router,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -62,6 +68,9 @@ export class EquipmentController {
         break;
       case EquipmentAction.Archivate:
         this.archiveEquipment(data);
+        break;
+      case EquipmentAction.Orders:
+        this.redirectToApplications(data);
         break;
     }
   }
@@ -101,6 +110,12 @@ export class EquipmentController {
 
       return { ...equipment, actions };
     });
+  }
+
+  private redirectToApplications(data: TableAction<Equipment>) {
+    const equipment = data.row;
+    const paramName = AdminQueryParams.equipmentId;
+    this.router.navigate([AppRoutes.Admin, AppRoutes.Applications], { queryParams: { [paramName]: equipment.id } });
   }
 
   private manageBlock(data: TableAction<Equipment>) {

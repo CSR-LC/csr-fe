@@ -7,22 +7,26 @@ import { User } from '@app/auth/models';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BehaviorSubject, filter, Observable, of } from 'rxjs';
 import { ApplicationStatus } from '@app/admin/types/application-status';
-import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
 import { ApplicationUsersInfo } from '@app/admin/types/application-user-info';
-import { ApplicationEquipmentInfo } from '@app/admin/constants/application-equipment-info';
 import { TableAction } from '@app/shared/models/table-action';
-import { ApplicationAction } from '@app/admin/constants/application-action';
 import { MatDialog } from '@angular/material/dialog';
 import { EditApplicationStatusComponent } from '@app/admin/components';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { Store } from '@ngxs/store';
 import { ItemTranslated } from '@app/shared/types';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { ChangeStatusBody } from '@app/admin/types';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { InfoModalComponent } from '@app/shared/components';
-import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
 import { RowAction } from '@app/shared/models';
+import { ActivatedRoute } from '@angular/router';
+import {
+  AdminQueryParams,
+  ApplicationStatusName,
+  ADMIN_MODAL_CONFIG,
+  ApplicationAction,
+  ApplicationEquipmentInfo,
+  ApplicationStatusNamesTranslation,
+} from '@app/admin/constants';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -38,6 +42,7 @@ export class ApplicationsControllerService {
     private readonly store: Store,
     private readonly notificationsService: NotificationsService,
     private readonly mainPageHeaderService: MainPageHeaderService,
+    private readonly activatedRout: ActivatedRoute,
   ) {}
 
   get applicationStatuses(): ItemTranslated[] {
@@ -49,7 +54,9 @@ export class ApplicationsControllerService {
   }
 
   fetchApplications(): Observable<TableRow[]> {
-    return this.api.getAllOrders().pipe(
+    return this.activatedRout.queryParamMap.pipe(
+      map((map) => map.get(AdminQueryParams.equipmentId)),
+      switchMap((equipmentId) => this.api.getAllOrders(equipmentId)),
       map((res) => this.createRows(res.items)),
       tap((res) => this.applicationsSub.next(res)),
     );
