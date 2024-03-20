@@ -1,6 +1,6 @@
 import { TableRow } from './table-row';
 
-export interface TableAction<T = any> {
+export interface TableAction<T> {
   row: TableRow<T>;
   action: string;
 }
