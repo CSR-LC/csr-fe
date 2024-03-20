@@ -23,9 +23,10 @@ import { AssignRoleModalResult } from '@app/admin/types/assign-role-modal-result
 @UntilDestroy
 @Injectable()
 export class RolesController {
-  private rolesSubject$ = new BehaviorSubject<TableRow[]>([]);
+  private rolesSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
   private roles = this.store.selectSnapshot(ApplicationDataState).roles;
   private users: User[] = [];
+  private userRoleIdSaved?: number;
 
   constructor(
     private api: AdminApi,
@@ -35,7 +36,7 @@ export class RolesController {
     private store: Store,
   ) {}
 
-  get roles$(): Observable<TableRow[]> {
+  get roles$(): Observable<TableRow<User>[]> {
     return this.rolesSubject$.asObservable();
   }
 
@@ -86,7 +87,7 @@ export class RolesController {
   }
 
   private deleteRole(data: TableAction<User>) {
-    const user = data.row;
+    const user = data.row.entity;
 
     this.openDeleteRoleModal(user)
       .pipe(
@@ -115,17 +116,28 @@ export class RolesController {
       .afterClosed();
   }
 
-  private createRows(users: User[]): TableRow[] {
-    return users.reduce((acc: User[], user: User) => {
+  private createRows(users: User[]): TableRow<User>[] {
+    return users.reduce((acc: TableRow<User>[], user: User) => {
       if (user.role.id !== this.userRoleId) {
-        const userWithRole = { ...user, roleName: user.role.name };
-        acc.push(userWithRole);
+        acc.push(this.createTableRow(user));
       }
       return acc;
     }, []);
   }
 
+  private createTableRow(user: User): TableRow<User> {
+    return {
+      entity: user,
+      email: user.email,
+      surname: user.surname,
+      name: user.name,
+      roleName: user.role.name,
+    };
+  }
+
   private get userRoleId(): number {
-    return this.roles.find((role: Role) => role.slug === 'user').id;
+    if (this.userRoleIdSaved !== undefined) return this.userRoleIdSaved;
+    this.userRoleIdSaved = this.roles.find((role: Role) => role.slug === 'user').id;
+    return this.userRoleIdSaved as number;
   }
 }

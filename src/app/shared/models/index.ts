@@ -11,3 +11,4 @@ export * from './table-action';
 export * from './table-action-state';
 export * from './table-column';
 export * from './table-row';
+export * from './entity';
