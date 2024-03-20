@@ -13,6 +13,7 @@ import { NewEquipment } from '@app/shared/models/equipment';
 import { Role } from '@app/auth/models/role';
 import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
+import { ChangeStatusBody } from '@app/admin/types';
 
 @Injectable()
 export class ApiService {
@@ -32,18 +33,22 @@ export class ApiService {
     return this.http.get<BaseItemsResponse<UnavailableDates>>(`/equipment/unavailability_periods/${equipmentId}`);
   }
 
-  archiveEquipment(equipmentId: number): Observable<unknown> {
-    return this.http.post(`/equipment/achive/${equipmentId}/`, {
+  archiveEquipment(equipmentId: number): Observable<void> {
+    return this.http.post<void>(`/equipment/achive/${equipmentId}/`, {
       equipmentId,
     });
   }
 
-  blockEquipment(id: number, period: Period) {
+  blockEquipment(id: number, period: Period): Observable<void> {
     const body = {
       end_date: period.endDate,
       start_date: period.startDate,
     };
-    return this.http.post<string>(`/equipment/${id}/blocking`, body);
+    return this.http.post<void>(`/equipment/${id}/blocking`, body);
+  }
+
+  unblockEquipment(id: number): Observable<void> {
+    return this.http.post<void>(`/equipment/${id}/unblocking`, {});
   }
 
   uploadPhoto(file: File): Observable<UploadPhotoResponse> {
@@ -56,8 +61,8 @@ export class ApiService {
     return this.http.post<Equipment>('equipment', equipment);
   }
 
-  editEquipment(equipment: NewEquipment, id: number): Observable<unknown> {
-    return this.http.put(`equipment/${id}`, equipment);
+  editEquipment(equipment: NewEquipment, id: number): Observable<Equipment> {
+    return this.http.put<Equipment>(`equipment/${id}`, equipment);
   }
 
   getEquipmentStatuses(): Observable<EquipmentStatus[]> {
@@ -105,7 +110,11 @@ export class ApiService {
     return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
   }
 
-  getApplicationStatuses(): Observable<Item> {
-    return this.http.get<Item>('/v1/status_names');
+  getApplicationStatuses(): Observable<Item[]> {
+    return this.http.get<Item[]>('/v1/status_names');
+  }
+
+  editApplicationStatus(statusInfo: ChangeStatusBody): Observable<string> {
+    return this.http.post<string>('/v1/order_statuses/', statusInfo);
   }
 }

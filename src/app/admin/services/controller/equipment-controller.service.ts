@@ -25,12 +25,14 @@ import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
+import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
+import { RowAction } from '@app/shared/models';
 
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
-  private equipmentDataSubj$ = new BehaviorSubject<TableRow[]>([]);
+  private equipmentDataSubj$ = new BehaviorSubject<TableRow<Equipment>[]>([]);
   private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
   statusDictionary: Dictionary<string> = {};
@@ -38,7 +40,7 @@ export class EquipmentController {
     ...equipmentStatusIdDefaultValue,
   };
 
-  get equipmentData$(): Observable<TableRow[]> {
+  get equipmentData$(): Observable<TableRow<Equipment>[]> {
     return this.equipmentDataSubj$.asObservable();
   }
 
@@ -54,10 +56,10 @@ export class EquipmentController {
   manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
-        this.blockEquipment(data);
+        this.manageBlock(data);
         break;
       case EquipmentAction.Edit:
-        this.manageEquipment(data.row);
+        this.manageEquipment(data.row.entity);
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
@@ -69,20 +71,36 @@ export class EquipmentController {
     return this.api.getAllEquipment().pipe(
       tap((res) => (this.inventoryNumbers = res.items.map((i) => i.inventoryNumber))),
       map((res) => this.createRows(res.items)),
-      tap((data: TableRow[]) => this.equipmentDataSubj$.next(data)),
+      tap((data: TableRow<Equipment>[]) => this.equipmentDataSubj$.next(data)),
     );
   }
 
-  private createRows(equipments: Equipment[]): TableRow[] {
+  private createRows(equipments: Equipment[]): TableRow<Equipment>[] {
     return equipments.map((equipment) => {
-      let actions = INITIAL_EQUIPMENT_ACTIONS_STATE;
-      const categoryName = this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category);
-      const statusName = this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status);
-      if (categoryName) equipment.categoryName = categoryName;
-      if (statusName) equipment.statusName = statusName;
-      if (equipment.status === this.statusIdsDictionary.archived) {
-        actions = {
-          ...actions,
+      return {
+        entity: equipment,
+        name: equipment.name,
+        title: equipment.title,
+        inventoryNumber: equipment.inventoryNumber,
+        categoryName: this.getCategoryName(equipment),
+        statusName: this.getStatusName(equipment),
+        actions: this.getActions(equipment),
+      };
+    });
+  }
+
+  private getStatusName(equipment: Equipment): string {
+    return this.dictionaryService.getDictionaryValue(this.statusDictionary, equipment.status) || '';
+  }
+
+  private getCategoryName(equipment: Equipment): string {
+    return this.dictionaryService.getDictionaryValue(this.categoryDictionary, equipment.category) || '';
+  }
+
+  private getActions(equipment: Equipment): RowAction {
+    return equipment.status === this.statusIdsDictionary.archived
+      ? {
+          ...INITIAL_EQUIPMENT_ACTIONS_STATE,
           [EquipmentAction.Archivate]: {
             tooltip: '',
             disabled: true,
@@ -95,15 +113,14 @@ export class EquipmentController {
             tooltip: '',
             disabled: true,
           },
+        }
+      : {
+          ...INITIAL_EQUIPMENT_ACTIONS_STATE,
         };
-      }
-
-      return { ...equipment, actions };
-    });
   }
 
-  private blockEquipment(data: TableAction<Equipment>) {
-    const equipment = data.row;
+  private manageBlock(data: TableAction<Equipment>) {
+    const equipment = data.row.entity;
     let unavailableDates: UnavailableDates[];
     let blockPeriod: Period;
 
@@ -116,18 +133,37 @@ export class EquipmentController {
         }),
         switchMap((unavailablePeriods) => this.openBlockEquipmentModal(equipment, unavailablePeriods)),
         filter(Boolean),
-        map((period) => {
-          blockPeriod = period;
-          return this.isPeriodsIntersect(period, unavailableDates);
+        switchMap((res) => {
+          return res === 'unblock equipment'
+            ? this.unblockEquipment(equipment)
+            : this.blockEquipment(equipment, res, unavailableDates, data.action);
         }),
-        switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(data.action) : of(true))),
-        filter(Boolean),
-        switchMap(() => this.api.blockEquipment(equipment.id, blockPeriod)),
+        switchMap(() => this.fetchEquipments()),
         untilDestroyed(this),
       )
-      .subscribe((res) => {
-        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`);
-      });
+      .subscribe();
+  }
+
+  blockEquipment(
+    equipment: Equipment,
+    period: Period,
+    unavailableDates: UnavailableDates[],
+    action: string,
+  ): Observable<void> {
+    return of(this.isPeriodsIntersect(period, unavailableDates)).pipe(
+      switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(action) : of(true))),
+      filter(Boolean),
+      switchMap(() => this.api.blockEquipment(equipment.id, period)),
+      tap(() => this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`)),
+    );
+  }
+
+  unblockEquipment(equipment: Equipment): Observable<void> {
+    return this.api.unblockEquipment(equipment.id).pipe(
+      tap(() => {
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.unblocked}`);
+      }),
+    );
   }
 
   private isPeriodsIntersect(blockPeiod: Period, unavailablePeriods: UnavailableDates[]): boolean {
@@ -150,7 +186,7 @@ export class EquipmentController {
   }
 
   private archivateEquipment(data: TableAction<Equipment>) {
-    const equipment = data.row;
+    const equipment = data.row.entity;
     this.openArchiveEquipmentModal(equipment)
       .pipe(
         filter(Boolean),
@@ -168,7 +204,7 @@ export class EquipmentController {
       });
   }
 
-  private openOrderNotificationModal(action: string): Observable<unknown> {
+  private openOrderNotificationModal(action: string): Observable<boolean | undefined> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
         ...ADMIN_MODAL_CONFIG,
@@ -185,8 +221,10 @@ export class EquipmentController {
       })
       .afterClosed();
   }
-
-  private openBlockEquipmentModal(equipment: Equipment, unavailablePeriods: UnavailableDates[]): Observable<Period> {
+  private openBlockEquipmentModal(
+    equipment: Equipment,
+    unavailablePeriods: UnavailableDates[],
+  ): Observable<BlockEquipmentModalResponse> {
     return this.dialog
       .open(BlockEquipmentModalComponent, {
         ...ADMIN_MODAL_CONFIG,

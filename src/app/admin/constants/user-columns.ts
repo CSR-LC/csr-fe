@@ -25,7 +25,7 @@ export const USER_COLUMNS: TableColumn[] = [
   },
   {
     header: 'Статус',
-    columnDef: 'status',
+    columnDef: 'statusName',
     style: { 'width.px': 150 },
   },
   {

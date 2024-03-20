@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, startWith, tap } from 'rxjs';
 import { TableFilterOption } from '@shared/models/table-filter-option';
 import { SelectedFilters } from '@shared/models/selected-filters';
+import { Entity } from '@shared/models';
 
 @UntilDestroy
 @Component({
@@ -13,7 +14,7 @@ import { SelectedFilters } from '@shared/models/selected-filters';
   styleUrls: ['./table-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableFilterComponent {
+export class TableFilterComponent<T> {
   @Input()
   set isAllFiltersReset(isAllFiltersReset: boolean) {
     if (!isAllFiltersReset) return;
@@ -26,7 +27,7 @@ export class TableFilterComponent {
   }
 
   @Input()
-  set data(data: TableRow[]) {
+  set data(data: TableRow<T>[]) {
     this.options = this.createOptions(data, this.columnDef, this.emptyValue);
 
     this.filteredOptions = this.searchControl.valueChanges.pipe(
@@ -53,7 +54,10 @@ export class TableFilterComponent {
   selectedOptions: TableFilterOption[] = [];
   options: TableFilterOption[] = [];
   filterString = '';
-  selectAllOption: TableFilterOption = { row: { [this.columnDef]: 'Выбрать все' }, selected: false };
+  selectAllOption: TableFilterOption = {
+    row: { entity: { id: 0 }, [this.columnDef]: 'Выбрать все' },
+    selected: false,
+  };
   currentFilteredOptions: TableFilterOption[] = [];
   emptyValue = 'Пусто';
 
@@ -120,7 +124,7 @@ export class TableFilterComponent {
   }
 
   private getUniqueValues(
-    data: TableRow[],
+    data: TableRow<T>[],
     columnDef: keyof TableRow,
     emptyValue: string,
   ): Map<string, TableFilterOption> {
@@ -137,7 +141,7 @@ export class TableFilterComponent {
     return map;
   }
 
-  private createOptions(data: TableRow[], columnDef: keyof TableRow, emptyValue: string): TableFilterOption[] {
+  private createOptions(data: TableRow<T>[], columnDef: keyof TableRow, emptyValue: string): TableFilterOption[] {
     const uniqueValues = this.getUniqueValues(data, columnDef, emptyValue);
     return Array.from(uniqueValues.values());
   }

@@ -1,10 +1,10 @@
 export enum ApplicationStatusNamesTranslation {
-  'in review' = 'Ревью',
-  approved = 'Одобрена',
-  'in progres' = 'В обработке',
-  rejected = 'Отклонена',
-  closed = 'Закрыта',
-  prepared = 'Подготовлена',
-  overdue = 'Просрочена',
-  blocked = 'Заблокирована',
+  'in review' = 'Ожидает',
+  approved = 'Одобрено',
+  'in progress' = 'Используется',
+  rejected = 'Отклонено',
+  closed = 'Закрыто',
+  prepared = 'Готово к выдаче',
+  overdue = 'Просрочено',
+  blocked = 'Заблокировано',
 }

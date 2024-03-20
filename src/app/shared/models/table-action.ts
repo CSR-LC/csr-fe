@@ -1,4 +1,6 @@
+import { TableRow } from './table-row';
+
 export interface TableAction<T> {
-  row: T;
+  row: TableRow<T>;
   action: string;
 }

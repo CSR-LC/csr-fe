@@ -16,7 +16,7 @@ import { User } from '@app/auth/models';
 })
 export class RolesComponent implements OnInit {
   columns: TableColumn[] = ROLES_COLUMNS;
-  data$: Observable<TableRow[]> = this.controller.roles$;
+  data$: Observable<TableRow<User>[]> = this.controller.roles$;
 
   constructor(private readonly controller: RolesController) {}
 

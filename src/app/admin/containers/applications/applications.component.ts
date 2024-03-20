@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ApplicationColumns } from '@app/admin/constants/application-columns';
 import { ApplicationsControllerService } from '@app/admin/services/applications-controller/applications-controller.service';
+import { Application } from '@app/admin/types/application';
+import { TableAction } from '@app/shared/models/table-action';
 import { TableRow } from '@app/shared/models/table-row';
 import { Observable } from 'rxjs';
 
@@ -13,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ApplicationsComponent implements OnInit {
   readonly columns = ApplicationColumns;
-  get applications$(): Observable<TableRow[]> {
+  get applications$(): Observable<TableRow<Application>[]> {
     return this.controller.applicationsData$;
   }
 
@@ -21,5 +23,10 @@ export class ApplicationsComponent implements OnInit {
 
   ngOnInit() {
     this.controller.fetchApplications().subscribe();
+    this.controller.setPageTitle();
+  }
+
+  editApplication(event: TableAction<Application>) {
+    this.controller.editApplication(event);
   }
 }

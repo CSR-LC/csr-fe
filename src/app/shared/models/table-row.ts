@@ -1,8 +1,8 @@
-import { TableActionState } from '@shared/models/table-action-state';
+import { Entity } from './entity';
+import { RowAction } from './row-action';
 
-export type TableRow = {
+export type TableRow<T = Entity> = {
+  entity: T;
   [key: string]: any;
-  actions?: {
-    [key: string]: TableActionState;
-  };
+  actions?: RowAction;
 };
