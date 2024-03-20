@@ -14,6 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
+import { SelectedFilters } from '@shared/models/selected-filters';
 
 @Component({
   selector: 'lc-table',
@@ -33,6 +34,8 @@ export class TableComponent<T> implements OnChanges {
 
   total = 0;
   dataSource!: MatTableDataSource<TableRow<T>>;
+  activeFilters: Map<keyof TableRow, Set<string>> = new Map();
+  isAllFiltersReset = false;
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
@@ -60,5 +63,38 @@ export class TableComponent<T> implements OnChanges {
       matData.paginator = this.paginator;
     }
     return matData;
+  }
+
+  filterTableData(selectedFilters: SelectedFilters) {
+    this.updateActiveFilters(selectedFilters);
+    this.applyActiveFilters();
+  }
+
+  resetFilters() {
+    this.activeFilters.clear();
+    this.dataSource = this.getMatTableData(this.data);
+    this.isAllFiltersReset = true;
+  }
+
+  private updateActiveFilters(selectedFilters: SelectedFilters) {
+    if (selectedFilters.selectedValues.size > 0) {
+      this.activeFilters.set(selectedFilters.columnDef, selectedFilters.selectedValues);
+    } else {
+      this.activeFilters.delete(selectedFilters.columnDef);
+    }
+  }
+
+  private applyActiveFilters() {
+    const filteredData = this.data.filter((row) => this.rowPassesFilters(row));
+    this.dataSource = this.getMatTableData(filteredData);
+  }
+
+  private rowPassesFilters(row: TableRow<T>) {
+    for (const [columnDef, selectedValues] of this.activeFilters) {
+      if (!selectedValues.has(row[columnDef])) {
+        return false;
+      }
+    }
+    return true;
   }
 }
