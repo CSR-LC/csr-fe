@@ -5,7 +5,6 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, startWith, tap } from 'rxjs';
 import { TableFilterOption } from '@shared/models/table-filter-option';
 import { SelectedFilters } from '@shared/models/selected-filters';
-import { Entity } from '@shared/models';
 
 @UntilDestroy
 @Component({
