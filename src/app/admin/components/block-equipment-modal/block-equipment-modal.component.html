@@ -30,7 +30,11 @@
   <ng-container footer>
     <div class="buttons-wrapper">
       <div class="buttons">
-        <button mat-button class="cancel" [mat-dialog-close]="false">
+        <button
+          *ngIf="equipment?.blockingPeriods"
+          mat-button class="cancel"
+          [mat-dialog-close]="'unblock equipment'"
+        >
           {{ ModalEnum.BlockCancelButtonText }}
         </button>
         <button mat-raised-button color="primary" (click)="blockEquipment()">

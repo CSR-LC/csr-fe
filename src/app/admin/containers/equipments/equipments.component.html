@@ -1,7 +1,7 @@
 <lc-table
   [columns]="columns"
   [limit]="20"
-  [data]="(data$ | async) || []"
+  [data]="(equipments$ | async) || []"
   (action)="editEquipment($event)"
 ></lc-table>
 <button

@@ -25,6 +25,7 @@ import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
+import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
 import { RowAction } from '@app/shared/models';
 
@@ -55,7 +56,7 @@ export class EquipmentController {
   manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
       case EquipmentAction.Block:
-        this.blockEquipment(data);
+        this.manageBlock(data);
         break;
       case EquipmentAction.Edit:
         this.manageEquipment(data.row.entity);
@@ -118,7 +119,7 @@ export class EquipmentController {
         };
   }
 
-  private blockEquipment(data: TableAction<Equipment>) {
+  private manageBlock(data: TableAction<Equipment>) {
     const equipment = data.row.entity;
     let unavailableDates: UnavailableDates[];
     let blockPeriod: Period;
@@ -132,18 +133,37 @@ export class EquipmentController {
         }),
         switchMap((unavailablePeriods) => this.openBlockEquipmentModal(equipment, unavailablePeriods)),
         filter(Boolean),
-        map((period) => {
-          blockPeriod = period;
-          return this.isPeriodsIntersect(period, unavailableDates);
+        switchMap((res) => {
+          return res === 'unblock equipment'
+            ? this.unblockEquipment(equipment)
+            : this.blockEquipment(equipment, res, unavailableDates, data.action);
         }),
-        switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(data.action) : of(true))),
-        filter(Boolean),
-        switchMap(() => this.api.blockEquipment(equipment.id, blockPeriod)),
+        switchMap(() => this.fetchEquipments()),
         untilDestroyed(this),
       )
-      .subscribe((res) => {
-        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`);
-      });
+      .subscribe();
+  }
+
+  blockEquipment(
+    equipment: Equipment,
+    period: Period,
+    unavailableDates: UnavailableDates[],
+    action: string,
+  ): Observable<void> {
+    return of(this.isPeriodsIntersect(period, unavailableDates)).pipe(
+      switchMap((isIntersect) => (isIntersect ? this.openOrderNotificationModal(action) : of(true))),
+      filter(Boolean),
+      switchMap(() => this.api.blockEquipment(equipment.id, period)),
+      tap(() => this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.blocked}`)),
+    );
+  }
+
+  unblockEquipment(equipment: Equipment): Observable<void> {
+    return this.api.unblockEquipment(equipment.id).pipe(
+      tap(() => {
+        this.notificationService.openSuccess(`${equipment.title} ${EquipmentNotification.unblocked}`);
+      }),
+    );
   }
 
   private isPeriodsIntersect(blockPeiod: Period, unavailablePeriods: UnavailableDates[]): boolean {
@@ -184,7 +204,7 @@ export class EquipmentController {
       });
   }
 
-  private openOrderNotificationModal(action: string): Observable<unknown> {
+  private openOrderNotificationModal(action: string): Observable<boolean | undefined> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
         ...ADMIN_MODAL_CONFIG,
@@ -201,8 +221,10 @@ export class EquipmentController {
       })
       .afterClosed();
   }
-
-  private openBlockEquipmentModal(equipment: Equipment, unavailablePeriods: UnavailableDates[]): Observable<Period> {
+  private openBlockEquipmentModal(
+    equipment: Equipment,
+    unavailablePeriods: UnavailableDates[],
+  ): Observable<BlockEquipmentModalResponse> {
     return this.dialog
       .open(BlockEquipmentModalComponent, {
         ...ADMIN_MODAL_CONFIG,
