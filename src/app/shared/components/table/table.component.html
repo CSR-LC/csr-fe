@@ -24,7 +24,7 @@
            [columnDef]="column.columnDef"
            [placeholder]="column.header"
            [isAllFiltersReset]="isAllFiltersReset"
-           (dataFiltered)="filterTableData($event)"
+           (filterSelected)="filterTableData($event)"
            [activeFilters]="activeFilters"
          ></lc-table-filter>
        </div>

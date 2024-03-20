@@ -14,7 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
-import { FilteredData } from '@shared/models/filter-data';
+import { SelectedFilters } from '@shared/models/selected-filters';
 
 @Component({
   selector: 'lc-table',
@@ -65,8 +65,8 @@ export class TableComponent<T> implements OnChanges {
     return matData;
   }
 
-  filterTableData(filteredData: FilteredData) {
-    this.updateActiveFilters(filteredData);
+  filterTableData(selectedFilters: SelectedFilters) {
+    this.updateActiveFilters(selectedFilters);
     this.applyActiveFilters();
   }
 
@@ -76,11 +76,11 @@ export class TableComponent<T> implements OnChanges {
     this.isAllFiltersReset = true;
   }
 
-  private updateActiveFilters(filteredData: FilteredData) {
-    if (filteredData.selectedValues.size > 0) {
-      this.activeFilters.set(filteredData.columnDef, filteredData.selectedValues);
+  private updateActiveFilters(selectedFilters: SelectedFilters) {
+    if (selectedFilters.selectedValues.size > 0) {
+      this.activeFilters.set(selectedFilters.columnDef, selectedFilters.selectedValues);
     } else {
-      this.activeFilters.delete(filteredData.columnDef);
+      this.activeFilters.delete(selectedFilters.columnDef);
     }
   }
 

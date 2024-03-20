@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
 import { FormControl } from '@angular/forms';
 import { debounceTime, map, Observable, startWith, tap } from 'rxjs';
 import { TableFilterOption } from '@shared/models/table-filter-option';
-import { FilteredData } from '@shared/models/filter-data';
+import { SelectedFilters } from '@shared/models/selected-filters';
 
 @UntilDestroy
 @Component({
@@ -16,13 +16,13 @@ import { FilteredData } from '@shared/models/filter-data';
 export class TableFilterComponent {
   @Input()
   set isAllFiltersReset(isAllFiltersReset: boolean) {
-    if (isAllFiltersReset) {
-      this.filterString = '';
-      this.searchControl.setValue('');
-      this.currentFilteredOptions = [];
-      this.selectedOptions = [];
-      this.options.forEach((option) => (option.selected = false));
-    }
+    if (!isAllFiltersReset) return;
+
+    this.filterString = '';
+    this.searchControl.setValue('');
+    this.currentFilteredOptions = [];
+    this.selectedOptions = [];
+    this.options.forEach((option) => (option.selected = false));
   }
 
   @Input()
@@ -46,7 +46,7 @@ export class TableFilterComponent {
   @Input()
   activeFilters!: Map<keyof TableRow, Set<string>>;
   @Output()
-  dataFiltered = new EventEmitter<FilteredData>();
+  filterSelected = new EventEmitter<SelectedFilters>();
 
   searchControl = new FormControl();
   filteredOptions: Observable<TableFilterOption[]> | undefined;
@@ -56,8 +56,6 @@ export class TableFilterComponent {
   selectAllOption: TableFilterOption = { row: { [this.columnDef]: 'Выбрать все' }, selected: false };
   currentFilteredOptions: TableFilterOption[] = [];
   emptyValue = 'Пусто';
-
-  constructor() {}
 
   displayOption(option: TableFilterOption): string {
     return option && option.row && option.row[this.columnDef] ? `${option.row[this.columnDef]}` : '';
@@ -118,7 +116,7 @@ export class TableFilterComponent {
 
   private passFilteredData() {
     const selectedValues = new Set(this.selectedOptions.map((option) => option.row[this.columnDef]));
-    this.dataFiltered.emit({ selectedValues, columnDef: this.columnDef });
+    this.filterSelected.emit({ selectedValues, columnDef: this.columnDef });
   }
 
   private getUniqueValues(
