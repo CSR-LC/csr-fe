@@ -1,6 +1,6 @@
 import { TableRow } from '@shared/models/table-row';
 
 export type FilteredData = {
-  rows: TableRow[];
+  selectedValues: Set<string>;
   columnDef: keyof TableRow;
 };

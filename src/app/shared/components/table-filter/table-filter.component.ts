@@ -43,7 +43,8 @@ export class TableFilterComponent {
   columnDef: keyof TableRow = '';
   @Input()
   placeholder: string = '';
-
+  @Input()
+  activeFilters!: Map<keyof TableRow, Set<string>>;
   @Output()
   dataFiltered = new EventEmitter<FilteredData>();
 
@@ -116,8 +117,8 @@ export class TableFilterComponent {
   }
 
   private passFilteredData() {
-    const rows = this.selectedOptions.map((option) => option.row);
-    this.dataFiltered.emit({ rows, columnDef: this.columnDef });
+    const selectedValues = new Set(this.selectedOptions.map((option) => option.row[this.columnDef]));
+    this.dataFiltered.emit({ selectedValues, columnDef: this.columnDef });
   }
 
   private getUniqueValues(
@@ -128,14 +129,10 @@ export class TableFilterComponent {
     const map = new Map();
 
     for (const row of data) {
-      let value = row[columnDef];
-
-      if (!value) {
-        value = row[columnDef] = emptyValue;
-      }
+      const value = row[columnDef];
 
       if (!map.has(value)) {
-        map.set(value, { row, selected: false });
+        map.set(value, { row, displayValue: value ? value : emptyValue, selected: false });
       }
     }
 

@@ -1,13 +1,21 @@
-<div class="table-filter" (click)="$event.stopPropagation()">
-  <mat-form-field appearance="fill" class="field">
-    <input
-      type="text"
-      matInput
-      [formControl]="searchControl"
-      placeholder="{{placeholder}}"
-      [matAutocomplete]="auto"
-      autofocus
-    >
+<button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
+        (click)="$event.stopPropagation()"
+        [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(this.columnDef)}">
+  <mat-icon>
+    filter_alt
+  </mat-icon>
+</button>
+<mat-menu #filterMenu="matMenu" class="menu">
+  <div class="table-filter" (click)="$event.stopPropagation()">
+    <mat-form-field appearance="fill" class="field">
+      <input
+        type="text"
+        matInput
+        [formControl]="searchControl"
+        placeholder="{{placeholder}}"
+        [matAutocomplete]="auto"
+        autofocus
+      >
       <mat-autocomplete class="auto-complete" #auto="matAutocomplete" [displayWith]="displayOption">
         <mat-option *ngIf="currentFilteredOptions.length > 0">
           <div class="option" (click)="optionClicked($event, selectAllOption)">
@@ -24,13 +32,14 @@
             <mat-checkbox [checked]="option.selected"
                           (change)="toggleSelection(option)"
                           (click)="$event.stopPropagation()">
-              {{option.row[columnDef]}}
+              {{option.displayValue}}
             </mat-checkbox>
           </div>
         </mat-option>
       </mat-autocomplete>
-  </mat-form-field>
-  <button mat-icon-button (click)="resetFilter()">
+    </mat-form-field>
+    <button mat-icon-button (click)="resetFilter()">
       <mat-icon>filter_alt_off</mat-icon>
-  </button>
-</div>
+    </button>
+  </div>
+</mat-menu>

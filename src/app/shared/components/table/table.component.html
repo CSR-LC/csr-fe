@@ -19,24 +19,15 @@
       <th mat-header-cell mat-sort-header *matHeaderCellDef>
         {{ column.header }}
        <div class="filter-buttons">
-         <button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
-                 (click)="$event.stopPropagation()"
-                 [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(column.columnDef)}">
-           <mat-icon>
-             filter_alt
-           </mat-icon>
-         </button>
+         <lc-table-filter
+           [data]="data"
+           [columnDef]="column.columnDef"
+           [placeholder]="column.header"
+           [isAllFiltersReset]="isAllFiltersReset"
+           (dataFiltered)="filterTableData($event)"
+           [activeFilters]="activeFilters"
+         ></lc-table-filter>
        </div>
-
-        <mat-menu #filterMenu="matMenu" class="menu">
-          <lc-table-filter
-            [data]="data"
-            [columnDef]="column.columnDef"
-            [placeholder]="column.header"
-            [isAllFiltersReset]="isAllFiltersReset"
-            (dataFiltered)="filterTableData($event)"
-          ></lc-table-filter>
-        </mat-menu>
       </th>
     </ng-container>
 
@@ -62,6 +53,11 @@
   <!-- Set the displayed columns -->
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr *matNoDataRow>
+    <td class="no-data-message"  [attr.colspan]="displayedColumns.length">
+      Нет данных соответствующих выбранным критериям
+    </td>
+  </tr>
 </table>
 <mat-paginator
   class="paginator"

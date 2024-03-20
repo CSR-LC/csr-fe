@@ -77,9 +77,8 @@ export class TableComponent<T> implements OnChanges {
   }
 
   private updateActiveFilters(filteredData: FilteredData) {
-    const selectedSet = new Set(filteredData.rows.map((row) => row[filteredData.columnDef]));
-    if (selectedSet.size > 0) {
-      this.activeFilters.set(filteredData.columnDef, selectedSet);
+    if (filteredData.selectedValues.size > 0) {
+      this.activeFilters.set(filteredData.columnDef, filteredData.selectedValues);
     } else {
       this.activeFilters.delete(filteredData.columnDef);
     }
