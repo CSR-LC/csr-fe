@@ -8,7 +8,6 @@ import {
   SimpleChanges,
   OnChanges,
   inject,
-  AfterViewInit,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,17 +17,14 @@ import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
 import { SelectedFilters } from '@shared/models/selected-filters';
 import { DOCUMENT } from '@angular/common';
-import { fromEvent } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 
-@UntilDestroy
 @Component({
   selector: 'lc-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T> implements AfterViewInit, OnChanges {
+export class TableComponent<T> implements OnChanges {
   @Input() columns: TableColumn[] = [];
   @Input() data: TableRow<T>[] = [];
   @Input() limit = 10;
@@ -50,23 +46,6 @@ export class TableComponent<T> implements AfterViewInit, OnChanges {
       this.total = this.data.length;
       this.dataSource = this.getMatTableData(this.data);
     }
-  }
-
-  ngAfterViewInit() {
-    // prevent clicks by mat-options in mat-autocomplete in filter
-    // remove after stop using mat-autocomplete in filters
-    this.preventAutocompleteClick();
-  }
-
-  private preventAutocompleteClick() {
-    if (!this.document) return;
-    fromEvent(this.document, 'click', { capture: true })
-      .pipe(untilDestroyed(this))
-      .subscribe((event) => {
-        if ((event.target as HTMLElement).classList.contains('mat-mdc-option')) {
-          event.stopPropagation();
-        }
-      });
   }
 
   get displayedColumns() {
