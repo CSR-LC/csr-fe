@@ -1,6 +1,6 @@
 {
     "/api/*": {
-      "target": "https://stage.csr.golangforall.com",
+      "target": "http://localhost:8080/api/",
       "secure": true,
       "changeOrigin": true,
       "logLevel": "debug"
