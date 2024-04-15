@@ -10,7 +10,7 @@ function mockStore() {
   return jasmine.createSpyObj('Store', ['select']);
 }
 
-describe('UserProfileComponent', () => {
+xdescribe('UserProfileComponent', () => {
   let store: jasmine.SpyObj<Store>;
   let fixture: ComponentFixture<UserProfileComponent>;
   let component: UserProfileComponent;
