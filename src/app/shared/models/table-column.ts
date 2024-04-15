@@ -1,9 +1,7 @@
-import { ActionEnum } from '@shared/constants/action.enum';
-
-export interface TableColumn {
+export type TableColumn = {
   header: string;
   columnDef: string;
   tooltip?: string;
-  action?: ActionEnum;
+  action?: string;
   style: { [klass: string]: any } | null;
-}
+};

@@ -30,6 +30,10 @@ const adminRoutes: NavigationLink[] = [
     name: 'Оборудование',
     route: `${AppRoutes.Admin}/${AppRoutes.Equipments}`,
   },
+  {
+    name: 'Заявки',
+    route: `${AppRoutes.Admin}/${AppRoutes.Applications}`,
+  },
 ];
 
 export const navLinksMap = new Map([

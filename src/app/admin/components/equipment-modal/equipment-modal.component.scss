@@ -1,0 +1,79 @@
+form {
+  width: 789px;
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .column {
+    width: 370px;
+    mat-form-field {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+  }
+
+  .condition {
+    height: 56px;
+  }
+
+  mat-form-field {
+    width: 370px;
+  }
+}
+
+textarea {
+  resize: none;
+  height: 157px;
+}
+
+.photo-field {
+  button {
+    height: 54px;
+    margin-right: 5px;
+
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  mat-form-field {
+    width: 188px;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .cancel{
+    margin-right: 24px;
+    font-style: normal;
+    font-weight: 500;
+    color: #00677F;
+  }
+
+  button{
+    height: 56px;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 16px;
+    text-transform: uppercase;
+  }
+}
+
+.hidden {
+  display: none;
+}

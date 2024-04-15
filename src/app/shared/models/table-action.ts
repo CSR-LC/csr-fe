@@ -1,6 +1,6 @@
-import { ActionEnum } from '../constants/action.enum';
+import { TableRow } from './table-row';
 
 export interface TableAction<T> {
-  row: T;
-  action: ActionEnum;
+  row: TableRow<T>;
+  action: string;
 }

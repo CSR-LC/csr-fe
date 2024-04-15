@@ -1,0 +1,45 @@
+@import '/src/app/shared/styles/variables';
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.8;
+  padding: 10px 0;
+
+  &-subtitle {
+    font-size: 14px;
+    color: $color-text-gray;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .cancel {
+    margin-right: 24px;
+    font-style: normal;
+    font-weight: 500;
+    color: #00677F;
+  }
+
+  button {
+    height: 56px;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 16px;
+    text-transform: uppercase;
+  }
+}
+
+.field {
+  margin-bottom: 22px;
+}

@@ -1,32 +1,17 @@
-<div class="header">
-  <h3>{{title}}</h3>
-  <i
-    [mat-dialog-close]="false"
-  ></i>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="content">
-  <span>В эти даты оборудование забронировано пользователем</span>
-  <strong><u>{{name}}</u></strong>
-  <span>{{reason}} сбросит данное бронирование.</span>
-</div>
-<mat-divider class="separator"></mat-divider>
-<div class="buttons-wrapper">
-  <div class="buttons">
-    <button
-      mat-button
-      class="cancel"
-      [mat-dialog-close]="false"
-
-    >
-      {{cancelButtonText}}
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      [mat-dialog-close]="true"
-    >
-      {{applyButtonText}}
-    </button>
-  </div>
-</div>
+<lc-modal-layout [headerTitle]="title">
+  <ng-container body>
+    <p *ngIf="body">{{body}}</p>
+    <ng-container *ngComponentOutlet="contentComponent; inputs: {data: contentComponentData}">
+    </ng-container>
+  </ng-container>
+  <ng-container footer>
+    <div class="buttons">
+      <button mat-button color="primary" [mat-dialog-close]="false" *ngIf="cancelButtonText">
+        {{ cancelButtonText }}
+      </button>
+      <button mat-raised-button color="primary" [mat-dialog-close]="true" *ngIf="applyButtonText">
+        {{ applyButtonText }}
+      </button>
+    </div>
+  </ng-container>
+</lc-modal-layout>

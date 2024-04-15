@@ -1,43 +1,5 @@
 @import 'src/app/shared/styles/variables';
 
-%padding {
-  padding-left: 24px;
-  padding-right: 24px;
-}
-
-:host {
-  width: 342px;
-  padding-top: 24px;
-  padding-bottom: 24px;
-  max-width: 390px;
-  margin: 0 auto;
-  display: block;
-}
-
-.header-container {
-  @extend %padding;
-
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  border-bottom: 1px solid #CFDBE6;
-
-  i {
-    position: relative;
-    &::before {
-      position: absolute;
-      top: 7px;
-      left: -12px;
-      display: block;
-      content: '';
-      width: 14px;
-      height: 14px;
-      background-image: url("../../../../assets/img/icons/cross.svg");
-      cursor: pointer;
-    }
-  }
-}
-
 h3 {
   //font-family: 'Roboto';
   font-style: normal;
@@ -49,8 +11,6 @@ h3 {
 }
 
 .message {
-  @extend %padding;
-  //font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -59,31 +19,12 @@ h3 {
   color: $color-text-gray;
 }
 
-.message-container {
-  min-height: 53px;
-  padding-top: 12px;
-}
-
-.message-text {
-  max-width: 295px;
-  margin: 0 auto;
-  font-weight: 700;
-  font-size: 20px;
-  color: $color-title;
-  letter-spacing: 0.25px;
-}
-
-form {
-  @extend %padding;
-  padding-top: 35px;
-}
-
 mat-form-field {
   width: 100%;
 }
 
 .offer {
-  color: $color-title;
+  color: $color-text-gray;
   text-align: center;
   margin-top: 50px;
   margin-bottom: 10px;
@@ -98,8 +39,5 @@ mat-form-field {
 .btn {
   width: 100%;
   height: 56px;
-  margin-top: 10px;
-  &-cancel {
-    background-color: #a9a9a9;
-  }
+  border-radius: 10px;
 }

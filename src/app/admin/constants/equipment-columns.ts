@@ -1,4 +1,4 @@
-import { ActionEnum } from '@shared/constants/action.enum';
+import { EquipmentAction } from '@shared/constants';
 import { TableColumn } from '@shared/models/table-column';
 
 export const EquipmentColumns: TableColumn[] = [
@@ -19,31 +19,40 @@ export const EquipmentColumns: TableColumn[] = [
   },
   {
     header: 'Категория',
-    columnDef: 'category',
+    columnDef: 'categoryName',
     style: { 'width.px': 150 },
   },
   {
     header: 'Статус',
-    columnDef: 'status',
-    tooltip: 'Тултип',
+    columnDef: 'statusName',
     style: { 'width.px': 150 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Block,
-    action: ActionEnum.Block,
-    style: { 'width.px': 32 },
+    columnDef: EquipmentAction.Block,
+    action: EquipmentAction.Block,
+    tooltip: 'Блокировка',
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Edit,
-    action: ActionEnum.Edit,
-    style: { 'width.px': 32 },
+    columnDef: EquipmentAction.Edit,
+    action: EquipmentAction.Edit,
+    tooltip: 'Редактирование',
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
   {
     header: '',
-    columnDef: ActionEnum.Archivate,
-    action: ActionEnum.Archivate,
-    style: { 'width.px': 32 },
+    columnDef: EquipmentAction.Archivate,
+    action: EquipmentAction.Archivate,
+    tooltip: 'Архивирование',
+    style: { 'width.px': 32, 'padding.px': 0 },
+  },
+  {
+    header: '',
+    columnDef: EquipmentAction.Orders,
+    action: EquipmentAction.Orders,
+    tooltip: 'Перейти к заявкам',
+    style: { 'width.px': 32, 'padding.px': 0 },
   },
 ];

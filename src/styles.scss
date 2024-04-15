@@ -5,7 +5,11 @@
 @import "app/shared/styles/modal-windows";
 @import "app/shared/styles/mixins";
 @import "app/shared/styles/material_snack_bar.scss";
-@import "app/shared//styles/validation-errors.scss";
+@import "app/shared/styles/validation-errors.scss";
+@import "app/shared/styles/date-range-marked-dates.scss";
+@import "app/shared/styles/catalog_search.scss";
+@import "app/shared/styles/catalog_filter.scss";
+@import "app/shared/styles/admin_tables.scss";
 
 * {
   box-sizing: border-box;

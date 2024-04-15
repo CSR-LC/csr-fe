@@ -5,14 +5,16 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  AfterViewInit,
   SimpleChanges,
   OnChanges,
 } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
+import { TableRow } from '@app/shared/models/table-row';
+import { SelectedFilters } from '@shared/models/selected-filters';
 
 @Component({
   selector: 'lc-table',
@@ -20,37 +22,79 @@ import { TableColumn } from '@shared/models/table-column';
   styleUrls: ['./table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T> implements AfterViewInit, OnChanges {
-  @Input() columns!: TableColumn[];
-  @Input() data: T[] = [];
-  @Input() total = 0;
-  @Input() page = 0;
+export class TableComponent<T> implements OnChanges {
+  @Input() columns: TableColumn[] = [];
+  @Input() data: TableRow<T>[] = [];
   @Input() limit = 10;
-  @Output() setPage = new EventEmitter<number>();
-  @Output() action = new EventEmitter<TableAction<T>>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSource = new MatTableDataSource<T>();
+  @Output() action = new EventEmitter<TableAction<T>>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort?: MatSort;
+
+  total = 0;
+  dataSource!: MatTableDataSource<TableRow<T>>;
+  activeFilters: Map<keyof TableRow, Set<string>> = new Map();
+  isAllFiltersReset = false;
 
   ngOnChanges(simpleChanges: SimpleChanges) {
     if (simpleChanges['data']) {
-      this.dataSource = new MatTableDataSource(this.data);
+      this.total = this.data.length;
+      this.dataSource = this.getMatTableData(this.data);
     }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  onSetPage(e: PageEvent) {
-    this.setPage.emit(e.pageIndex);
-  }
-
-  get displayColumns() {
+  get displayedColumns() {
     return this.columns.map((column: TableColumn) => column.columnDef);
   }
 
-  onEditCell(data: TableAction<T>) {
+  editRow(data: TableAction<T>) {
     this.action.emit(data);
+  }
+
+  private getMatTableData(data: TableRow<T>[]): MatTableDataSource<TableRow<T>> {
+    const matData = new MatTableDataSource(data);
+
+    if (this.sort && this.dataSource) {
+      matData.sort = this.sort;
+    }
+
+    if (this.paginator) {
+      matData.paginator = this.paginator;
+    }
+    return matData;
+  }
+
+  filterTableData(selectedFilters: SelectedFilters) {
+    this.updateActiveFilters(selectedFilters);
+    this.applyActiveFilters();
+  }
+
+  resetFilters() {
+    this.activeFilters.clear();
+    this.dataSource = this.getMatTableData(this.data);
+    this.isAllFiltersReset = true;
+  }
+
+  private updateActiveFilters(selectedFilters: SelectedFilters) {
+    if (selectedFilters.selectedValues.size > 0) {
+      this.activeFilters.set(selectedFilters.columnDef, selectedFilters.selectedValues);
+    } else {
+      this.activeFilters.delete(selectedFilters.columnDef);
+    }
+  }
+
+  private applyActiveFilters() {
+    const filteredData = this.data.filter((row) => this.rowPassesFilters(row));
+    this.dataSource = this.getMatTableData(filteredData);
+  }
+
+  private rowPassesFilters(row: TableRow<T>) {
+    for (const [columnDef, selectedValues] of this.activeFilters) {
+      if (!selectedValues.has(row[columnDef])) {
+        return false;
+      }
+    }
+    return true;
   }
 }

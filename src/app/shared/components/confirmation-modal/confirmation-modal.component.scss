@@ -1,77 +1,23 @@
-@import 'src/app/shared/styles/variables';
-
-%padding {
-  padding: 0 24px;
-  font-family: 'Roboto', serif;
-}
-
-:host {
-  padding: 24px 0;
-  display: block;
-}
-
-.header {
-  @extend %padding;
+.buttons {
   display: flex;
-  justify-content: space-between;
-  i {
-    position: relative;
-    &::before {
-      position: absolute;
-      top: 7px;
-      left: -12px;
-      display: block;
-      content: '';
-      width: 14px;
-      height: 14px;
-      background-image: url("../../../../assets/img/icons/cross.svg");
-      cursor: pointer;
+  align-items: center;
+  gap: 8px;
+
+  button {
+    text-transform: uppercase;
+    height: 56px;
+    border-radius: 10px;
+    width: 100%;
+
+    &:last-child {
+      margin-right: 0;
     }
   }
 }
 
-h3 {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: 0.25px;
-  color: #005F75;
-  margin: 0;
-}
-
-.content {
-  @extend %padding;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: 0.5px;
-  color: $color-text-gray;
-}
-
-.separator {
-  margin: 24px 0;
-}
-
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  .cancel{
-    font-family: 'Roboto', serif;
-    font-style: normal;
-    font-weight: 500;
-    color: #00677F;
-  ;
-  }
-  button{
-    font-family: 'Roboto', serif;
-    font-style: normal;
-    font-weight: 400;
-    margin-right: 24px;
-    line-height: 20px;
-    padding: 16px;
-    text-transform: uppercase;
+@media screen and (min-width: 768px) {
+  .buttons {
+    justify-content: flex-end;
+    width: initial;
   }
 }

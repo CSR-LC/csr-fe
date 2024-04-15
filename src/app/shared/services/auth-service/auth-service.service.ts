@@ -3,24 +3,19 @@ import { Store } from '@ngxs/store';
 import { AuthState, AuthStore, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
 import { Router } from '@angular/router';
-import { LocalStorageKey } from '../../constants';
+import { LocalStorageKey, USERS_ENDPOINT } from '../../constants';
 import { AuthApi } from '@app/auth/services';
-import { Observable, finalize, of, switchMap, take } from 'rxjs';
-import { BlockUiService } from '../block-ui/block-ui.service';
-import { AppRoutes } from '@app/shared/constants/routes.enum';
+import { Observable, of, switchMap } from 'rxjs';
+import { HttpRequest } from '@angular/common/http';
+import { AppRoutes } from '@shared/constants/routes.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', 'v1/users', 'password_reset'];
+  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', USERS_ENDPOINT, 'password_reset'];
 
-  constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly authApi: AuthApi,
-    private readonly blockUiService: BlockUiService,
-  ) {}
+  constructor(private readonly store: Store, private readonly router: Router, private readonly authApi: AuthApi) {}
 
   login(credentials: LoginInformation): Observable<AuthStore> {
     return this.store.dispatch(new Login(credentials));
@@ -30,18 +25,15 @@ export class AuthService {
     return this.store.dispatch(new Logout());
   }
 
-  logoutWithNavigation(): void {
-    this.blockUiService.block();
-    this.logout()
-      .pipe(
-        take(1),
-        finalize(() => this.blockUiService.unBlock()),
-      )
-      .subscribe(() => this.router.navigate([AppRoutes.Auth]));
+  isRequestNeedsTokens(request: HttpRequest<any>): boolean {
+    if (request.url === USERS_ENDPOINT) {
+      return this.isUsersRequestNeedsTokens(request);
+    }
+    return !this.freeEndpoints.includes(request.url);
   }
 
-  isRequestNeedsTokens(url: string): boolean {
-    return !this.freeEndpoints.includes(url);
+  private isUsersRequestNeedsTokens(request: HttpRequest<any>): boolean {
+    return !(request.method === 'POST');
   }
 
   getAccessToken(): string | null {
@@ -90,5 +82,9 @@ export class AuthService {
 
   navigateToLogin() {
     this.router.navigate(['/auth']);
+  }
+
+  navigateToEmailConfirmation() {
+    this.router.navigate([`/${AppRoutes.EmailConfirmation}`]);
   }
 }

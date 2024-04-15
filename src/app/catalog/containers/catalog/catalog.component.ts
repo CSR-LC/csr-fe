@@ -21,19 +21,15 @@ export class CatalogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.controller.filterEquipment();
 
-    this.controller.displayCatalogFilterButton(true);
+    this.controller.displayCatalogActions(true);
 
     this.controller.equipmentFilter$.pipe(untilDestroyed(this)).subscribe(() => {
       this.controller.filterEquipment();
     });
   }
 
-  onSearch(term: string) {
-    this.controller.searchInput = term;
-    this.controller.filterEquipment();
-  }
-
   ngOnDestroy() {
-    this.controller.displayCatalogFilterButton(false);
+    this.controller.displayCatalogActions(false);
+    this.controller.displayPageTitle(true);
   }
 }

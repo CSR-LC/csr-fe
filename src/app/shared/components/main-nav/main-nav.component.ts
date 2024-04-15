@@ -35,6 +35,7 @@ export class MainNavComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService.logoutWithNavigation();
+    this.authService.logout();
+    this.authService.navigateToLogin();
   }
 }

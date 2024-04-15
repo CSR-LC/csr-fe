@@ -1,0 +1,55 @@
+<lc-modal-layout [headerTitle]="labels.AssignTitle">
+  <ng-container body>
+    <form [formGroup]="form" class="form">
+      <mat-form-field appearance="fill" class="field">
+        <input
+          type="text"
+          matInput
+          formControlName="user"
+          placeholder="{{labels.User}}"
+          [matAutocomplete]="auto"
+          [lcValidationErrors]="formName"
+        >
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getUserName">
+          <mat-option *ngFor="let user of filteredUserOptions$ | async" [value]="user">
+            <div class="option">
+              <p class="option-title">{{user.name}} {{user.surname}}</p>
+              <p class="option-subtitle">{{user.email}}</p>
+            </div>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="field">
+        <mat-select
+          formControlName="role"
+          placeholder="{{labels.Role}}"
+          [lcValidationErrors]="formName"
+        >
+          <mat-option
+            *ngFor="let role of roles"
+            [value]="role.id"
+          >{{ role.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <div class="buttons">
+      <button
+        mat-button
+        class="cancel"
+        [mat-dialog-close]="false"
+      >
+        {{ labels.CancelButtonText }}
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="assignRole()"
+      >
+        {{labels.AssignButtonText}}
+      </button>
+    </div>
+  </ng-container>
+</lc-modal-layout>
+

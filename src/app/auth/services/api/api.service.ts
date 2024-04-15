@@ -41,4 +41,12 @@ export class ApiService {
   addContactInfo(data: UserPersonalInfo): Observable<void> {
     return this.http.patch<void>('v1/users/me', data);
   }
+
+  changeEmail(new_email: string): Observable<void> {
+    return this.http.patch<void>('v1/users/me/email', { new_email });
+  }
+
+  deleteProfile(): Observable<void> {
+    return this.http.delete<void>('v1/users/me');
+  }
 }

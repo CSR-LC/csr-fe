@@ -1,7 +1,9 @@
-div {
-  margin: 16px;
+@import "./src/app/shared/styles/mixins";
+
+lc-table {
+  margin-bottom: 30px;
 }
 
-.wrap {
-  width: 300px;
+.add-equipment {
+  @include admin-add-button()
 }

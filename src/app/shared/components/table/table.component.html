@@ -1,33 +1,68 @@
-<div *ngIf="data.length" class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
-    <!-- Generate the columns dynamically -->
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+<button mat-flat-button class="reset-filters-btn" (click)="resetFilters()">
+  <mat-icon>filter_alt_off</mat-icon>
+  Сбросить фильтры
+</button>
+<table
+  mat-table
+  matSort
+  [dataSource]="dataSource"
+>
+  <!-- Generate the columns dynamically -->
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.columnDef"
+  >
+    <ng-container *ngIf="column.action">
       <th mat-header-cell *matHeaderCellDef>{{ column.header }}</th>
-      <td mat-cell *matCellDef="let row" [ngStyle]="column.style">
+    </ng-container>
+    <ng-container *ngIf="!column.action">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        {{ column.header }}
+       <div class="filter-buttons">
+         <lc-table-filter
+           [data]="data"
+           [columnDef]="column.columnDef"
+           [placeholder]="column.header"
+           [isAllFiltersReset]="isAllFiltersReset"
+           (filterSelected)="filterTableData($event)"
+           [activeFilters]="activeFilters"
+         ></lc-table-filter>
+       </div>
+      </th>
+    </ng-container>
+
+    <td mat-cell *matCellDef="let row" [ngStyle]="column.style">
+      <span [matTooltip]="column | tableActionTooltip: row">
         <ng-container *ngIf="!column.action">
-          <span *ngIf="!column.tooltip">{{ row[column.columnDef] }}</span>
-          <span *ngIf="column.tooltip" [matTooltip]="column.tooltip">{{ row[column.columnDef] }}</span>
+            {{ row[column.columnDef] }}
         </ng-container>
 
         <ng-container *ngIf="column.action">
-          <button mat-icon-button (click)="onEditCell({row, action:column.action })">
-            <mat-icon fontSet="material-icons-outlined">{{ column.action }}</mat-icon>
-          </button>
+            <button
+              mat-icon-button
+              [disabled]="column | tableDisableAction: row"
+              (click)="editRow({row, action:column.action })"
+            >
+              <mat-icon fontSet="material-icons-outlined">{{ column.action }}</mat-icon>
+            </button>
         </ng-container>
-      </td>
-    </ng-container>
+      </span>
+    </td>
+  </ng-container>
 
-    <!-- Set the displayed columns -->
-    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
-  </table>
-  <mat-paginator
-    class="paginator"
-    #paginator
-    hidePageSize
-    [length]="total"
-    [pageIndex]="page"
-    [pageSize]="limit"
-    (page)="onSetPage($event)"
-  ></mat-paginator>
-</div>
+  <!-- Set the displayed columns -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  <tr *matNoDataRow>
+    <td class="no-data-message"  [attr.colspan]="displayedColumns.length">
+      Нет данных соответствующих выбранным критериям
+    </td>
+  </tr>
+</table>
+<mat-paginator
+  class="paginator"
+  #paginator
+  hidePageSize
+  [length]="total"
+  [pageSize]="limit"
+></mat-paginator>

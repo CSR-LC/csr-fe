@@ -1,0 +1,37 @@
+<lc-modal-layout [headerTitle]="header">
+  <ng-container body>
+    <div class="content">
+      <p>
+        <ng-container *ngIf="action === actions.Block">
+          В эти даты оборудование забронировано. Блокировка сбросит данное бронирование.
+        </ng-container>
+        <ng-container *ngIf="action === actions.Archivate">
+          Архивирование сбросит все бронирования данного оборудования.
+        </ng-container>
+      </p>
+      <p>
+        Для просмотра списка заявок на данное оборудование, воспользуйтесь кнопкой
+        <mat-icon fontSet="material-icons-outlined">list_alt</mat-icon>
+        в таблице оборудования.
+      </p>
+    </div>
+  </ng-container>
+  <ng-container footer>
+    <div class="buttons">
+      <button
+        mat-button
+        class="cancel"
+        [mat-dialog-close]="false"
+      >
+        Отменить
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        [mat-dialog-close]="true"
+      >
+        {{actionText}}
+      </button>
+    </div>
+  </ng-container>
+</lc-modal-layout>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
-import { BaseKind } from '@app/management/models/management';
+import { BaseKind } from '@app/shared/models/management';
 import { ApplicationResolverService } from '@shared/services/application-resolver/application-resolver.service';
 
 @Injectable()

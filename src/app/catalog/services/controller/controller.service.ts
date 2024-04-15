@@ -14,6 +14,7 @@ import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
 
 @Injectable()
 export class ControllerService {
@@ -55,6 +56,7 @@ export class ControllerService {
           buttonText: 'Подтвердить период аренды',
           maxRentalPeriod,
           unavailableDates: periods.items,
+          purpose: DateRangePurpose.rent,
         };
 
         return this.dateRangeService.openDateRangeModal(dateRangeData);
@@ -108,15 +110,12 @@ export class ControllerService {
     );
   }
 
-  displayCatalogFilterButton(isDisplayed: boolean): void {
-    this.catalogFilterService.setFiltersButtonDisplayed(isDisplayed);
+  displayCatalogActions(isDisplayed: boolean): void {
+    this.catalogFilterService.setActionsDisplayed(isDisplayed);
   }
 
   filterEquipment(): void {
-    const payload = this.catalogFilterService.equipmentFilterRequest;
-    this.api.filterEquipment(payload).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
+    this.catalogFilterService.filterEquipment();
   }
 
   set selectedCategoryId(categoryId: number) {
@@ -137,5 +136,9 @@ export class ControllerService {
 
   setPageTitle(title: string): void {
     this.mainPageHeaderService.setPageTitle(title);
+  }
+
+  displayPageTitle(isDisplayed: boolean) {
+    this.mainPageHeaderService.setPageTitleDisplayed(isDisplayed);
   }
 }
