@@ -8,6 +8,7 @@ import { NavigationLink } from '@app/shared/types/navigation-link';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { AppRoutes } from '@shared/constants/routes.enum';
 
 @UntilDestroy
 @Component({
@@ -22,6 +23,7 @@ export class MainNavComponent implements OnInit {
   @Select(AuthState.isEmailConfirmed) isEmailConfirmed$!: Observable<boolean>;
   public userLinks: NavigationLink[] = [];
   public adminLinks: NavigationLink[] = [];
+  public profileLink!: NavigationLink | undefined;
 
   constructor(private readonly authService: AuthService) {}
 
@@ -31,6 +33,7 @@ export class MainNavComponent implements OnInit {
 
       this.userLinks = <NavigationLink[]>navLinksMap.get(UserRole.user);
       this.adminLinks = role && role !== UserRole.user ? <NavigationLink[]>navLinksMap.get(role) : [];
+      this.profileLink = this.userLinks.find((link) => link.route === AppRoutes.Profile);
     });
   }
 

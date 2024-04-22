@@ -10,7 +10,7 @@
           <mat-icon class="close-icon">close</mat-icon>
         </button>
       </mat-toolbar>
-      <mat-nav-list *ngIf="isEmailConfirmed$ | async" class="nav-list">
+      <mat-nav-list *ngIf="isEmailConfirmed$ | async else emailNotConfirmed" class="nav-list">
         <a *ngFor="let link of userLinks"
            class="nav-link"
            mat-list-item
@@ -41,3 +41,15 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<ng-template #emailNotConfirmed>
+  <mat-nav-list class="nav-list" *ngIf="profileLink">
+    <a
+      class="nav-link"
+      mat-list-item
+      [routerLink]="profileLink.route"
+      [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="drawer.toggle()"
+    >{{profileLink.name}}</a>
+  </mat-nav-list>
+</ng-template>
