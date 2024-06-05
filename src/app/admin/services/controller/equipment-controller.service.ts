@@ -27,7 +27,8 @@ import { MainPageHeaderService } from '@app/shared/services/main-page-header.ser
 import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
 import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
-import { RowAction } from '@app/shared/models';
+import { RowAction, TableActionState } from '@app/shared/models';
+import { DatePipe } from '@angular/common';
 
 @UntilDestroy
 @Injectable()
@@ -51,6 +52,7 @@ export class EquipmentController {
     private readonly mainHeaderService: MainPageHeaderService,
     private readonly dictionaryService: DictionaryService,
     private readonly store: Store,
+    private readonly datePipe: DatePipe,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -99,30 +101,51 @@ export class EquipmentController {
 
   private getActions(equipment: Equipment): RowAction {
     return equipment.status === this.statusIdsDictionary.archived
-      ? {
-          ...INITIAL_EQUIPMENT_ACTIONS_STATE,
-          [EquipmentAction.Archivate]: {
-            tooltip: '',
-            disabled: true,
-          },
-          [EquipmentAction.Edit]: {
-            tooltip: '',
-            disabled: true,
-          },
-          [EquipmentAction.Block]: {
-            tooltip: '',
-            disabled: true,
-          },
-        }
+      ? this.getArchivedEquipmentActions()
       : {
           ...INITIAL_EQUIPMENT_ACTIONS_STATE,
+          [EquipmentAction.Block]: this.getBlockEquipmentAction(equipment),
         };
+  }
+
+  private getBlockEquipmentAction(equipment: Equipment): TableActionState {
+    return equipment.blockingPeriods
+      ? {
+          ...INITIAL_EQUIPMENT_ACTIONS_STATE[EquipmentAction.Block],
+          tooltip: this.getBlockedEquipmentActionTooltip(equipment.blockingPeriods[0]),
+        }
+      : INITIAL_EQUIPMENT_ACTIONS_STATE[EquipmentAction.Block];
+  }
+
+  private getBlockedEquipmentActionTooltip(period: UnavailableDates): string {
+    return `Заблокировано ${this.getDate(period.start_date)} - ${this.getDate(period.end_date)}`;
+  }
+
+  private getDate(date: string): string {
+    return this.datePipe.transform(date, 'dd.MM.YYYY') || '';
+  }
+
+  private getArchivedEquipmentActions(): RowAction {
+    return {
+      ...INITIAL_EQUIPMENT_ACTIONS_STATE,
+      [EquipmentAction.Archivate]: {
+        tooltip: '',
+        disabled: true,
+      },
+      [EquipmentAction.Edit]: {
+        tooltip: '',
+        disabled: true,
+      },
+      [EquipmentAction.Block]: {
+        tooltip: '',
+        disabled: true,
+      },
+    };
   }
 
   private manageBlock(data: TableAction<Equipment>) {
     const equipment = data.row.entity;
     let unavailableDates: UnavailableDates[];
-    let blockPeriod: Period;
 
     this.api
       .getUnavailablePeriodsById(equipment.id)
