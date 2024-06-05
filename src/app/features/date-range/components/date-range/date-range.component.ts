@@ -62,7 +62,7 @@ export class DateRangeComponent implements OnInit {
   selectedDateRange(selectedDate: Date | null) {
     if (!selectedDate) return;
 
-    const selectedUTCDate = this.getUTCTime(selectedDate);
+    const selectedUTCDate = new Date(this.removeTime(selectedDate));
 
     if (!this.selectedRangeValue?.start || this.selectedRangeValue?.end) {
       return this.setStartDate(selectedUTCDate);
@@ -100,11 +100,6 @@ export class DateRangeComponent implements OnInit {
 
   private removeTime(date: Date | string): number {
     return new Date(date).setHours(0, 0, 0, 0);
-  }
-
-  private getUTCTime(date: Date): Date {
-    const timeZone = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-    return new Date(timeZone);
   }
 
   private isPeriodAvailable(start: Date, end: Date): boolean {
