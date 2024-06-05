@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { EquipmentsComponent } from './containers/equipments/equipments.component';
 import { SharedModule } from '@shared/shared.module';
@@ -32,6 +32,7 @@ import { ApplicationsComponent } from './containers/applications/applications.co
     EquipmentCategoriesResolver,
     RolesResolverService,
     ApplicationResolverService,
+    DatePipe,
   ],
 })
 export class AdminModule {}
