@@ -1,25 +1,23 @@
 .buttons {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-
-  .cancel {
-    font-style: normal;
-    font-weight: 500;
-    color: #00677F;
-  }
+  gap: 8px;
 
   button {
-    font-style: normal;
-    font-weight: 400;
-    margin-right: 24px;
-    line-height: 20px;
     text-transform: uppercase;
     height: 56px;
     border-radius: 10px;
+    width: 100%;
 
     &:last-child {
       margin-right: 0;
     }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .buttons {
+    justify-content: flex-end;
+    width: initial;
   }
 }

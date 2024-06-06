@@ -1,5 +1,5 @@
 export interface UserPersonalInfo {
   name: string;
   surname: string;
-  phone: string;
+  phone_number: string;
 }

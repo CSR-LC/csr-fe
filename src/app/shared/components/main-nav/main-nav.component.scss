@@ -94,3 +94,14 @@
   cursor: pointer;
   background: 10px center url("../../../../assets/img/icons/logout.svg") no-repeat;
 }
+
+.main-content {
+  padding: 24px;
+  height: calc(100% - 56px);
+}
+
+@media screen and (min-width: 1024px) {
+  .main-content {
+    height: calc(100% - 64px);
+  }
+}

@@ -20,4 +20,8 @@ export class ControllerService {
   loadActiveAreas(): Observable<ActiveArea[]> {
     return this.api.getWorkArias();
   }
+
+  getUserInfo(): Observable<User> {
+    return this.api.getUserInfo();
+  }
 }

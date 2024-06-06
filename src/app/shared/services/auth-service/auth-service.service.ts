@@ -7,6 +7,7 @@ import { LocalStorageKey, USERS_ENDPOINT } from '../../constants';
 import { AuthApi } from '@app/auth/services';
 import { Observable, of, switchMap } from 'rxjs';
 import { HttpRequest } from '@angular/common/http';
+import { AppRoutes } from '@shared/constants/routes.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -81,5 +82,9 @@ export class AuthService {
 
   navigateToLogin() {
     this.router.navigate(['/auth']);
+  }
+
+  navigateToEmailConfirmation() {
+    this.router.navigate([`/${AppRoutes.EmailConfirmation}`]);
   }
 }

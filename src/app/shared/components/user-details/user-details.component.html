@@ -1,0 +1,8 @@
+<div class="header">
+  <h3 class="title">{{ title }}</h3>
+  <button mat-icon-button class="edit" (click)="edit()">
+    <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
+  </button>
+</div>
+<lc-fake-input *ngFor="let detail of details" [label]="detail.label" [text]="detail.text" class="detail"></lc-fake-input>
+

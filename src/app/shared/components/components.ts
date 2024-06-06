@@ -14,16 +14,17 @@ import {
   PersonalInfoModalComponent,
   PublicOfferComponent,
   TableComponent,
+  CatalogSearchComponent,
+  TableFilterComponent,
+  ChangeEmailModalComponent,
+  UserDetailsComponent,
 } from '../components';
-import { CatalogSearchComponent } from '@shared/components/catalog-search/catalog-search.component';
-import { TableFilterComponent } from '@shared/components/table-filter/table-filter.component';
 
 export const sharedComponents = [
   BlockUiComponent,
   MainHeaderComponent,
   PageNotFoundComponent,
   NotificationComponent,
-  PersonalInfoModalComponent,
   PublicOfferComponent,
   ConfirmationModalComponent,
   FakeInputComponent,
@@ -36,4 +37,7 @@ export const sharedComponents = [
   CatalogSearchComponent,
   ErrorPageLayoutComponent,
   TableFilterComponent,
+  PersonalInfoModalComponent,
+  ChangeEmailModalComponent,
+  UserDetailsComponent,
 ];

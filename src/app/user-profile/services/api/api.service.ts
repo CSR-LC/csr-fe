@@ -17,4 +17,8 @@ export class ApiService {
   public getWorkArias(): Observable<ActiveArea[]> {
     return this.httpClient.get<ActiveArea[]>('/api/v1/active_areas');
   }
+
+  public getUserInfo(): Observable<User> {
+    return this.httpClient.get<User>('v1/users/me');
+  }
 }

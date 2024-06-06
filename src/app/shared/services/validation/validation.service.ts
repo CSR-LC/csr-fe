@@ -12,7 +12,7 @@ export class ValidationService {
   private readonly errorMessages: Dictionary<string> = {
     required: 'Обязательное поле',
     maxlength: 'Слишком большое знанеие, уменьшите количество символов',
-    minlength: 'Слишком короткое значение, добавтесимволы',
+    minlength: 'Слишком короткое значение, добавьте символы',
     email: 'Значение должно быть типа: example@mail.com',
   };
 
