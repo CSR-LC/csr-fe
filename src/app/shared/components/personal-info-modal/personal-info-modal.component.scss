@@ -41,3 +41,9 @@ mat-form-field {
   height: 56px;
   border-radius: 10px;
 }
+
+#personalInfoForm {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}

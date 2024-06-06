@@ -10,6 +10,7 @@ import { InfoService } from '@app/shared/services/info/info.service';
 import { User } from '@app/auth/models';
 import { BlockUiService } from '@app/shared/services/block-ui/block-ui.service';
 import { UserPersonalInfo } from '@shared/constants/personal-info';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 
 @Injectable()
 export class EmailConfirmationController {
@@ -22,6 +23,7 @@ export class EmailConfirmationController {
     private readonly infoService: InfoService,
     private readonly router: Router,
     private readonly blockUiService: BlockUiService,
+    private mainPageHeaderService: MainPageHeaderService,
   ) {}
 
   get user(): User | undefined {

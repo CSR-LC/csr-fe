@@ -33,7 +33,7 @@ export class UserProfileComponent {
   public editUserDetails(user: User) {
     const { name, phone_number, surname } = user;
     this.controller
-      .openPersonalInfoModal({ name, surname, phone: phone_number })
+      .openPersonalInfoModal({ name, surname, phone_number })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
