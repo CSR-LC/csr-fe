@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { UntilDestroy } from '@shared/until-destroy/until-destroy';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
@@ -19,9 +19,11 @@ export class MainHeaderComponent {
   constructor(
     private readonly mainPageHeaderService: MainPageHeaderService,
     private readonly catalogFilterService: CatalogFilterService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   toggleTitle(inputDisplayed: boolean) {
     this.mainPageHeaderService.setPageTitleDisplayed(!inputDisplayed);
+    this.cdr.detectChanges();
   }
 }

@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { TableRow } from '@shared/models/table-row';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { FormControl } from '@angular/forms';
-import { debounceTime, map, Observable, startWith, tap } from 'rxjs';
+import { debounceTime, fromEvent, map, Observable, startWith, Subscription, tap } from 'rxjs';
 import { TableFilterOption } from '@shared/models/table-filter-option';
 import { SelectedFilters } from '@shared/models/selected-filters';
-import { Entity } from '@shared/models';
 
 @UntilDestroy
 @Component({
@@ -49,6 +48,8 @@ export class TableFilterComponent<T> {
   @Output()
   filterSelected = new EventEmitter<SelectedFilters>();
 
+  @ViewChild('optionsContainer') optionsContainer?: ElementRef;
+
   searchControl = new FormControl();
   filteredOptions: Observable<TableFilterOption[]> | undefined;
   selectedOptions: TableFilterOption[] = [];
@@ -60,6 +61,27 @@ export class TableFilterComponent<T> {
   };
   currentFilteredOptions: TableFilterOption[] = [];
   emptyValue = 'Пусто';
+
+  private preventOptionClickSub?: Subscription;
+
+  // prevent clicks by mat-options in mat-autocomplete in filter
+  // remove after stop using mat-autocomplete in filters
+  menuOpened() {
+    if (!this.optionsContainer) return;
+    this.preventOptionClickSub = fromEvent(this.optionsContainer.nativeElement as HTMLDivElement, 'click', {
+      capture: true,
+    })
+      .pipe(untilDestroyed(this))
+      .subscribe((event) => {
+        if ((event.target as HTMLElement).classList.contains('mat-mdc-option')) {
+          event.stopPropagation();
+        }
+      });
+  }
+
+  menuClosed() {
+    this.preventOptionClickSub?.unsubscribe();
+  }
 
   displayOption(option: TableFilterOption): string {
     return option && option.row && option.row[this.columnDef] ? `${option.row[this.columnDef]}` : '';

@@ -38,7 +38,7 @@
           {{ ModalEnum.BlockCancelButtonText }}
         </button>
         <button mat-raised-button color="primary" (click)="blockEquipment()">
-          {{ ModalEnum.BlockApplyButtonText }}
+          {{ equipment?.blockingPeriods ? ModalEnum.EditEquipmentModalButtonText : ModalEnum.BlockApplyButtonText }}
         </button>
       </div>
     </div>
