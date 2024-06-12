@@ -152,7 +152,10 @@ export class EquipmentController {
       .pipe(
         map((res) => {
           unavailableDates = res.items ? res.items : [];
-          return res.items;
+
+          return equipment.blockingPeriods && equipment.blockingPeriods[0]
+            ? this.removeBlockPeriod(res.items, equipment.blockingPeriods[0])
+            : res.items;
         }),
         switchMap((unavailablePeriods) => this.openBlockEquipmentModal(equipment, unavailablePeriods)),
         filter(Boolean),
@@ -165,6 +168,12 @@ export class EquipmentController {
         untilDestroyed(this),
       )
       .subscribe();
+  }
+
+  private removeBlockPeriod(unavailablePeriods: UnavailableDates[], blockPeriod: UnavailableDates): UnavailableDates[] {
+    return unavailablePeriods.filter((period) => {
+      return !(period.start_date === blockPeriod.start_date && period.end_date === blockPeriod.end_date);
+    });
   }
 
   blockEquipment(

@@ -14,6 +14,7 @@ export class ValidationService {
     maxlength: 'Слишком большое знанеие, уменьшите количество символов',
     minlength: 'Слишком короткое значение, добавтесимволы',
     email: 'Значение должно быть типа: example@mail.com',
+    controlChanged: 'Измените значение',
   };
 
   getSubmitObservable(): Observable<string | undefined> {
@@ -51,6 +52,13 @@ export class ValidationService {
     return (control: AbstractControl): ValidationErrors | null => {
       const isValid = callback(control.value);
       return isValid ? null : { custom: { message: options.message } };
+    };
+  }
+
+  getControlChangedValidator(options?: ErrorOptions): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = control.dirty;
+      return isValid ? null : { controlChanged: { message: options?.message || this.errorMessages['controlChanged'] } };
     };
   }
 
