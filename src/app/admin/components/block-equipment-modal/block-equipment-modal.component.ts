@@ -27,15 +27,15 @@ export class BlockEquipmentModalComponent implements OnInit {
   LabelEnum = Label;
   minDate: Date | null = null;
   form: UntypedFormGroup = this.fb.group({
-    startDate: [null, Validators.required],
-    endDate: [null, Validators.required],
+    startDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
+    endDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
   });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private dialogRef: MatDialogRef<BlockEquipmentModalComponent>,
-    private fb: UntypedFormBuilder,
-    private validationService: ValidationService,
+    private readonly dialogRef: MatDialogRef<BlockEquipmentModalComponent>,
+    private readonly fb: UntypedFormBuilder,
+    private readonly validationService: ValidationService,
     private readonly dateRangeService: DateRangeService,
   ) {}
 
@@ -50,7 +50,7 @@ export class BlockEquipmentModalComponent implements OnInit {
     if (!equipment?.blockingPeriods?.length) return;
     const period = equipment.blockingPeriods[0];
 
-    this.setFormValue({
+    this.form.setValue({
       startDate: new Date(period.start_date),
       endDate: new Date(period.end_date),
     });
@@ -60,8 +60,6 @@ export class BlockEquipmentModalComponent implements OnInit {
     this.validationService.emitSubmit(this.formName);
     if (this.form.valid) {
       this.dialogRef.close(this.form.getRawValue());
-    } else {
-      this.form.markAllAsTouched();
     }
   }
 
@@ -79,6 +77,13 @@ export class BlockEquipmentModalComponent implements OnInit {
   }
 
   private setFormValue(value: Period) {
+    this.form.markAllAsTouched();
+    this.form.markAsDirty();
+    for (let controlName in this.form.controls) {
+      const control = this.form.controls[controlName];
+      control?.markAllAsTouched();
+      control?.markAsDirty();
+    }
     this.form.setValue(value);
   }
 
