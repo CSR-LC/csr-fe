@@ -151,11 +151,12 @@ export class EquipmentController {
       .getUnavailablePeriodsById(equipment.id)
       .pipe(
         map((res) => {
-          unavailableDates = res.items ? res.items : [];
+          unavailableDates =
+            equipment.blockingPeriods && equipment.blockingPeriods[0]
+              ? this.removeBlockPeriod(res.items || [], equipment.blockingPeriods[0])
+              : res.items || [];
 
-          return equipment.blockingPeriods && equipment.blockingPeriods[0]
-            ? this.removeBlockPeriod(res.items, equipment.blockingPeriods[0])
-            : res.items;
+          return unavailableDates;
         }),
         switchMap((unavailablePeriods) => this.openBlockEquipmentModal(equipment, unavailablePeriods)),
         filter(Boolean),
