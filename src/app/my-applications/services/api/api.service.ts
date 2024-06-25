@@ -6,13 +6,13 @@ import { BaseItemsResponse } from '@shared/types';
 
 @Injectable()
 export class ApiService {
-  private static ORDERS_BASE_URL = '/v1/orders';
+  private static ORDERS_BASE_URL = 'v1/orders';
 
   constructor(private readonly http: HttpClient) {}
 
   getOrders(status = 'all', limit = 10, offset = 0): Observable<BaseItemsResponse<Application>> {
     return this.http.get<BaseItemsResponse<Application>>(
-      `${ApiService.ORDERS_BASE_URL}?status=${status}&limit=${limit}&${offset}`,
+      `${ApiService.ORDERS_BASE_URL}?status=${status}&limit=${limit}&offset=${offset}`,
     );
   }
 }

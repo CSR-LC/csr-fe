@@ -1,5 +1,9 @@
-<lc-dropdown-filter *ngIf="filter$ | async as filter" [label]="'Показать'" [options]="filter.options"
-                    (selectionChange)="applyFilter($event)"></lc-dropdown-filter>
+<lc-dropdown-filter
+  *ngIf="filter$ | async as filter"
+  [label]="'Показать'"
+  [options]="filter.options"
+  (selectionChange)="applyFilter($event)">
+</lc-dropdown-filter>
 <section class="my-applications-container" *ngIf="applications$ | async as applications else loader">
   <div class="my-application-container"
        *ngFor="let application of applications; let i = index; let last = last; trackBy: trackMyApplication">
