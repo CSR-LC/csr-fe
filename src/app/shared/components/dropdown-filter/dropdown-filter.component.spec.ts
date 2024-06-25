@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DropdownFilterComponent } from './dropdown-filter.component';
+import { DropdownFilterComponent } from '@shared/components';
 
 xdescribe('DropdownFilterComponent', () => {
   let component: DropdownFilterComponent;

@@ -9,7 +9,6 @@ import { UsersComponent } from '@app/admin/containers/users/users.component';
 import { RolesComponent } from '@app/admin/containers/roles/roles.component';
 import { rolesResolver } from '@app/admin/resolvers/roles/roles.resolver';
 import { ApplicationsComponent } from './containers/applications/applications.component';
-import { applicationStatusResolver } from './resolvers/application-status/application-status.resolver';
 
 const routes: Routes = [
   {

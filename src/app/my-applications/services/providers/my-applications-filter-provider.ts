@@ -1,5 +1,5 @@
 import { DropdownFilterProvider } from '@shared/models/dropdown-filter-provider';
-import { map, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DropdownFilter } from '@shared/models/dropdown-filter';
 import { DropdownFilterOption } from '@shared/models/dropdown-filter-option';
 import { Injectable } from '@angular/core';
