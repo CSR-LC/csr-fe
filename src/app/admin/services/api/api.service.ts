@@ -15,7 +15,9 @@ import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
 import { ChangeStatusBody } from '@app/admin/types';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiService {
   private static USERS_BASE_URL = 'v1/users';
   private static ROLES_BASE_URL = 'v1/roles';

@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px;
+}
+
+
+.my-applications-container, .my-application-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

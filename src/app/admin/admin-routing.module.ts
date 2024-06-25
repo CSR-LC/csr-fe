@@ -42,9 +42,6 @@ const routes: Routes = [
   {
     path: AppRoutes.Applications,
     pathMatch: 'full',
-    resolve: {
-      applicationStatuses: applicationStatusResolver,
-    },
     component: ApplicationsComponent,
   },
 ];

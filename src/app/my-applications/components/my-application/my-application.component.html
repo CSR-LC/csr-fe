@@ -1,0 +1,21 @@
+<article class="my-application" *ngIf="application && petSizesAndApplicationStatuses$ | async as sizesAndStatuses">
+  <a [routerLink]="[route, application.id]" class="my-application__link">
+    <div class="my-application__header">
+      <button mat-button color="primary" class="my-application__status">
+        {{getStatus(sizesAndStatuses.applicationStatuses, application.last_status.status)}}
+      </button>
+      <span class="my-application__period">на период {{application.rent_start | date:'dd.MM.yy'}}
+        — {{application.rent_end | date:'dd.MM.yy'}}</span>
+    </div>
+    <div class="my-application__body">
+      <div class="my-application__text">
+        <p class="my-application__title">{{application.equipments[0].title}}</p>
+        <p class="my-application__description">{{application.equipments[0].description}}
+          , {{getPetSize(sizesAndStatuses.petSizes, application.equipments[0].petSize)}}</p>
+      </div>
+      <button mat-icon-button>
+        <mat-icon class="my-application__icon">keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </a>
+</article>
