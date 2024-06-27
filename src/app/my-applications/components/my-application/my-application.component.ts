@@ -19,6 +19,6 @@ export class MyApplicationComponent {
   @Select(ApplicationDataState.applicationStatuses) applicationStatuses$!: Observable<ItemTranslated[]>;
 
   getStatus(statuses: ItemTranslated[], statusName: ApplicationStatusName): string {
-    return statuses.find((status) => status.name === statusName)?.translation || '';
+    return statuses.find((status) => status.name === statusName)?.translation ?? '';
   }
 }
