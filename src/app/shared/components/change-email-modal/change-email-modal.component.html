@@ -7,7 +7,7 @@
     <form id="loginInfoForm" [formGroup]="loginInfoForm" class="login-info-form">
       <mat-form-field floatLabel="auto" appearance="fill" class="email-field">
         <mat-label>Эл. почта</mat-label>
-        <input type="text" matInput formControlName="email" lcValidationErrors/>
+        <input type="text" matInput formControlName="email" [lcValidationErrors]="formName"/>
       </mat-form-field>
     </form>
   </ng-container>
@@ -22,12 +22,11 @@
         ОТМЕНИТЬ
       </button>
       <button
-        [disabled]="loginInfoForm.invalid"
         class="btn"
         mat-raised-button
         color="primary"
-        [mat-dialog-close]="loginInfoForm.value.email"
         form="loginInfoForm"
+        (click)="submit()"
       >
         СОХРАНИТЬ
       </button>
