@@ -10,11 +10,10 @@ import { mat_date_locale, mat_form_field_config, materialModules } from './mater
 import { sharedComponents } from './components/components';
 import { sharedDirectives } from './directives/directives';
 import { sharedPipes } from './pipes/pipes';
-import { InfiniteScrollDirective } from './directives/infinite-scroll/infinite-scroll.directive';
 
 @NgModule({
   imports: [CommonModule, RouterModule, materialModules, ReactiveFormsModule, LayoutModule, NgxsFormPluginModule],
-  declarations: [sharedComponents, sharedDirectives, sharedPipes, InfiniteScrollDirective],
+  declarations: [sharedComponents, sharedDirectives, sharedPipes],
   exports: [
     sharedComponents,
     sharedDirectives,
