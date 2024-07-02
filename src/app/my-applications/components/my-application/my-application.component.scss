@@ -1,0 +1,56 @@
+@import '../../../shared/styles/variables';
+
+.my-application {
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $main;
+    font-size: 32px;
+  }
+
+  &__period, &__description {
+    color: $color-text-gray;
+  }
+
+  &__title {
+    font-weight: 700;
+    color: $main;
+  }
+
+  &__status {
+    background-color: $color-bg-base;
+    border: 2px solid $chip-border-color;
+    border-radius: 16px;
+    padding: 6px 12px;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-decoration: none;
+  }
+}

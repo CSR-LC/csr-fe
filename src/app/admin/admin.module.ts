@@ -4,7 +4,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { EquipmentsComponent } from './containers/equipments/equipments.component';
 import { SharedModule } from '@shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AdminApi, ApplicationResolverService, RolesResolverService } from '@app/admin/services';
+import { AdminApi, RolesResolverService } from '@app/admin/services';
 import { EquipmentsStatusesResolver } from './resolvers/equipment-statuses/equipment-statuses.resolver';
 import { EquipmentResolverService } from './services/equipment-resolver/equipment-resolver.service';
 import { EquipmentCategoriesResolver } from './resolvers/equipment-categories/equipment-categories';
@@ -31,7 +31,6 @@ import { ApplicationsComponent } from './containers/applications/applications.co
     EquipmentsStatusesResolver,
     EquipmentCategoriesResolver,
     RolesResolverService,
-    ApplicationResolverService,
     DatePipe,
   ],
 })

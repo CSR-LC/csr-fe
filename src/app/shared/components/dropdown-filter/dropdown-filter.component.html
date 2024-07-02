@@ -1,0 +1,10 @@
+<div class="dropdown-filter">
+  <mat-form-field class="dropdown-filter__field" appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [formControl]="control" (selectionChange)="onSelectionChange($event)">
+      <mat-option *ngFor="let option of options" [value]="option.value">
+        {{ option.label }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
