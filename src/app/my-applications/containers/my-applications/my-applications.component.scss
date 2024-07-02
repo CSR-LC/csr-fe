@@ -1,12 +1,13 @@
-:host {
+.my-applications-container {
   display: flex;
   flex-direction: column;
   gap: 40px;
   padding: 24px;
+  height: calc(100% - 64px);
+  overflow: auto;
 }
 
-
-.my-applications-container, .my-application-container {
+.my-applications-list, .my-application-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
