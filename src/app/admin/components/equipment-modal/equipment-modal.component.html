@@ -15,6 +15,7 @@
             <mat-label>{{ labels.title }}</mat-label>
             <input
               matInput
+              maxlength="150"
               formControlName="title"
               [lcValidationErrors]="formName"
             >
@@ -25,6 +26,7 @@
           <textarea
             rows="4"
             matInput
+            maxlength="500"
             formControlName="description"
             [lcValidationErrors]="formName"
           ></textarea>
@@ -85,6 +87,7 @@
           <input
             matInput
             type="number"
+            [max]="maxCompensationCost"
             formControlName="compensationCost"
             [lcValidationErrors]="formName"
           >
@@ -95,6 +98,7 @@
           <mat-label>{{ labels.supplier }}</mat-label>
           <input
             matInput
+            maxlength="50"
             formControlName="supplier"
             [lcValidationErrors]="formName"
           >
@@ -104,6 +108,7 @@
           <input
             matInput
             type="url"
+            maxlength="250"
             formControlName="termsOfUse"
             [lcValidationErrors]="formName"
           >

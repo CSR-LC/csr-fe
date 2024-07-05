@@ -11,7 +11,8 @@ export class ValidationService {
 
   private readonly errorMessages: Dictionary<string> = {
     required: 'Обязательное поле',
-    maxlength: 'Слишком большое значение, уменьшите количество символов',
+    max: 'Превышено максимальное значение',
+    maxlength: 'Превышено максимальное значение',
     minlength: 'Слишком короткое значение, добавьте символы',
     email: 'Значение должно быть типа: example@mail.com',
     controlChanged: 'Измените значение',
