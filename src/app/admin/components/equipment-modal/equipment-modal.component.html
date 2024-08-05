@@ -14,22 +14,24 @@
           <mat-form-field appearance="fill" floatLabel="auto">
             <mat-label>{{ labels.title }}</mat-label>
             <input
+              #title
               matInput
-              maxlength="150"
               formControlName="title"
               [lcValidationErrors]="formName"
             >
+            <mat-hint align="end">{{title.value.length}} / {{maxValue.title}}</mat-hint>
           </mat-form-field>
         </div>
         <mat-form-field width="370px" appearance="fill">
           <mat-label>{{ labels.description }}</mat-label>
           <textarea
+            #description
             rows="4"
             matInput
-            maxlength="500"
             formControlName="description"
             [lcValidationErrors]="formName"
           ></textarea>
+          <mat-hint align="end">{{description.value.length}} / {{maxValue.description}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
@@ -64,11 +66,13 @@
         <mat-form-field appearance="fill">
           <mat-label>{{ labels.condition }}</mat-label>
           <textarea
+            #condition
             matInput
             rows="4"
-            [maxlength]="1000"
             formControlName="condition"
+            [lcValidationErrors]="formName"
           ></textarea>
+          <mat-hint align="end">{{condition.value.length}} / {{maxValue.condition}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
@@ -97,21 +101,23 @@
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.supplier }}</mat-label>
           <input
+            #supplier
             matInput
-            maxlength="50"
             formControlName="supplier"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{supplier.value.length}} / {{maxValue.supplier}}</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.termsOfUse }}</mat-label>
           <input
+            #termsOfUse
             matInput
             type="url"
-            maxlength="250"
             formControlName="termsOfUse"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{termsOfUse.value.length}} / {{maxValue.termsOfUse}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
@@ -190,7 +196,6 @@
               #photoInput
               class="registration-form-field-input"
               type="file"
-        
               (change)="addPhoto($event)"
             />
           </div>

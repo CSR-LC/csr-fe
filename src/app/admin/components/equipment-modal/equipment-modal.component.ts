@@ -33,6 +33,22 @@ export class EquipmentModalComponent implements OnInit {
   private readonly inventoryNumberErrorOptions: ErrorOptions = {
     message: 'Инвентарный номер уже существует',
   };
+
+  readonly maxValue = {
+    condition: 1000,
+    description: 500,
+    maximumDays: 14,
+    supplier: 50,
+    termsOfUse: 250,
+    title: 150,
+  };
+
+  readonly minValue = {
+    maximumDays: 1,
+  };
+
+  private readonly conditionValidators = [Validators.required, Validators.maxLength(this.maxValue.condition)];
+
   technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
   equipmentCategories: EquipmentKind[] = [];
   petKinds: BaseKind[] = [];
@@ -65,9 +81,11 @@ export class EquipmentModalComponent implements OnInit {
       ],
       condition: [
         { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
-        Validators.maxLength(1000),
       ],
-      description: [equipment?.description || '', Validators.required],
+      description: [
+        equipment?.description || '',
+        [Validators.required, Validators.maxLength(this.maxValue.description)],
+      ],
       inventoryNumber: [
         equipment?.inventoryNumber || null,
         [
@@ -78,20 +96,23 @@ export class EquipmentModalComponent implements OnInit {
       ],
       // temporary is not used. there is no control on ui
       location: [1, Validators.required],
-      maximumDays: [equipment?.maximumDays || null, [Validators.required, Validators.min(1)]],
+      maximumDays: [
+        equipment?.maximumDays || null,
+        [Validators.required, Validators.min(this.minValue.maximumDays), Validators.max(this.maxValue.maximumDays)],
+      ],
       name: [equipment?.name || '', Validators.required],
       nameSubstring: [''],
-      petKinds: [equipment?.petKinds || [null], Validators.required],
+      petKinds: [equipment?.petKinds || null, Validators.required],
       petSize: [equipment?.petSize ? equipment.petSize : null, Validators.required],
       photoID: [equipment?.photoID || null, Validators.required],
       receiptDate: [equipment?.receiptDate ? new Date(equipment.receiptDate) : '', Validators.required],
       // unnecessary  remove when the changed
       status: [1, Validators.required],
       subCategory: [1],
-      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(50)]],
+      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(this.maxValue.supplier)]],
       technicalIssues: [equipment ? this.getTechnicalIssuesValue(equipment) : null, [Validators.required]],
-      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(250)]],
-      title: [equipment?.title || '', [Validators.required, Validators.maxLength(150)]],
+      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(this.maxValue.termsOfUse)]],
+      title: [equipment?.title || '', [Validators.required, Validators.maxLength(this.maxValue.title)]],
     });
   }
 
@@ -142,7 +163,7 @@ export class EquipmentModalComponent implements OnInit {
       control?.setValue(null);
     }
 
-    control?.setValidators(enabled ? Validators.required : null);
+    control?.setValidators(enabled ? this.conditionValidators : null);
   }
 
   choosePhoto() {
