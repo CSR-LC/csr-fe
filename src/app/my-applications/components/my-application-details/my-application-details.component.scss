@@ -1,0 +1,69 @@
+@import '/src/app/shared/styles/variables';
+
+.my-application-details {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+
+  p {
+    margin: 0;
+  }
+
+  &__title {
+    margin: 0;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: $color-text-gray;
+  }
+
+  &__image {
+    position: relative;
+    min-height: 30%;
+    flex-grow: 1;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  &__rent-period {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    background: $info-box-bg-color;
+    vertical-align: center;
+  }
+
+  &__info-icon {
+    color: $info-icon-color;
+  }
+
+  &__desc {
+    color: $color-text-gray;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 5px 15px 0 #0000004D;
+    padding: 24px;
+
+    button {
+      height: 56px;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 1.25px;
+      font-weight: 500;
+    }
+  }
+}

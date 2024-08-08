@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MyApplicationsComponent } from '@app/my-applications/containers';
 import { MyApplicationComponent, MyApplicationDetailsComponent } from '@app/my-applications/components';
 import { MyApplicationsApi, MyApplicationsController } from '@app/my-applications/services';
@@ -12,7 +12,14 @@ import { InfiniteScrollService } from '@shared/services/infinite-scroll/infinite
 
 @NgModule({
   declarations: [MyApplicationsComponent, MyApplicationComponent, MyApplicationDetailsComponent],
-  imports: [CommonModule, MyApplicationsRoutingModule, SharedModule, DropdownFilterComponent, LoaderComponent],
+  imports: [
+    CommonModule,
+    MyApplicationsRoutingModule,
+    SharedModule,
+    DropdownFilterComponent,
+    LoaderComponent,
+    NgOptimizedImage,
+  ],
   providers: [MyApplicationsApi, MyApplicationsController, MyApplicationsFilterProvider, InfiniteScrollService],
 })
 export class MyApplicationsModule {}
