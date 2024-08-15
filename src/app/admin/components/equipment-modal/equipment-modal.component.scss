@@ -1,3 +1,5 @@
+$fieldMargin: 16px;
+
 form {
   width: 789px;
 
@@ -5,13 +7,13 @@ form {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: $fieldMargin;
   }
 
   .column {
     width: 370px;
     mat-form-field {
-      margin-bottom: 16px;
+      margin-bottom: $fieldMargin;
 
       &:last-child {
         margin-bottom: 0;

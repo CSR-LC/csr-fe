@@ -7,6 +7,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  inject,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,6 +16,7 @@ import { TableAction } from '@shared/models/table-action';
 import { TableColumn } from '@shared/models/table-column';
 import { TableRow } from '@app/shared/models/table-row';
 import { SelectedFilters } from '@shared/models/selected-filters';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'lc-table',
@@ -31,6 +33,8 @@ export class TableComponent<T> implements OnChanges {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
+
+  private readonly document = inject(DOCUMENT);
 
   total = 0;
   dataSource!: MatTableDataSource<TableRow<T>>;

@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AdminApi } from '..';
-import { Observable, switchMap, tap, map } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
 import { Item, ItemTranslated } from '@app/shared/types';
 import { Store } from '@ngxs/store';
 import { ApplicationStatusesAction } from '@app/shared/store/application-data';
 
-@Injectable()
-export class ApplicationResolverService {
+@Injectable({
+  providedIn: 'root',
+})
+export class OrdersResolverService {
   constructor(private readonly api: AdminApi, private readonly store: Store) {}
 
   getApplicationStatusNames(): Observable<ItemTranslated[]> {

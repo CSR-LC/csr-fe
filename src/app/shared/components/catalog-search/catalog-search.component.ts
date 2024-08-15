@@ -18,24 +18,33 @@ export class CatalogSearchComponent implements OnInit {
 
   constructor(private catalogFilterService: CatalogFilterService) {}
 
+  ngOnInit() {
+    this.updateFormValue(this.catalogFilterService.searchInput);
+    if (this.catalogFilterService.searchInput) {
+      this.toggle();
+    }
+  }
+
   onSearch() {
     this.catalogFilterService.searchInput = this.form.value.searchValue || '';
     this.catalogFilterService.filterEquipment();
   }
 
   toggle() {
-    this.updateFormValue();
     this.showSearchInput = !this.showSearchInput;
+    if (!this.showSearchInput) this.resetSearch();
     this.inputDisplayed.emit(this.showSearchInput);
   }
 
-  ngOnInit() {
-    this.updateFormValue();
+  private resetSearch() {
+    if (!this.catalogFilterService.searchInput) return;
+    this.updateFormValue('');
+    this.onSearch();
   }
 
-  private updateFormValue() {
+  private updateFormValue(value: string) {
     this.form.setValue({
-      searchValue: this.catalogFilterService.searchInput,
+      searchValue: value,
     });
   }
 }

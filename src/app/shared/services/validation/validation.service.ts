@@ -11,9 +11,12 @@ export class ValidationService {
 
   private readonly errorMessages: Dictionary<string> = {
     required: 'Обязательное поле',
-    maxlength: 'Слишком большое знанеие, уменьшите количество символов',
+    max: 'Превышено максимальное значение',
+    min: 'Увеличьте значение',
+    maxlength: 'Превышено максимальное значение',
     minlength: 'Слишком короткое значение, добавьте символы',
     email: 'Значение должно быть типа: example@mail.com',
+    controlChanged: 'Измените значение',
   };
 
   getSubmitObservable(): Observable<string | undefined> {
@@ -51,6 +54,13 @@ export class ValidationService {
     return (control: AbstractControl): ValidationErrors | null => {
       const isValid = callback(control.value);
       return isValid ? null : { custom: { message: options.message } };
+    };
+  }
+
+  getControlChangedValidator(options?: ErrorOptions): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = control.dirty;
+      return isValid ? null : { controlChanged: { message: options?.message || this.errorMessages['controlChanged'] } };
     };
   }
 

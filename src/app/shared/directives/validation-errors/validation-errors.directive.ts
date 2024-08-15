@@ -13,6 +13,10 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
 
   private errorsElement?: Element;
   private readonly destroy$ = new Subject();
+  private readonly additionalMArgin = {
+    withLabel: 2,
+    withoutLabel: 10,
+  };
   private controlWrapper?: Element | null;
 
   constructor(
@@ -75,6 +79,7 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
     if (!errors.length) return;
     const errorsContainer = this.renderer.createElement('div');
     this.renderer.addClass(errorsContainer, 'lc-error');
+    this.renderer.setStyle(errorsContainer, 'top', `${this.getErrorContainerPosition()}px`);
 
     errors.forEach((errorText) => {
       this.renderer.appendChild(errorsContainer, this.createError(errorText));
@@ -95,5 +100,15 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
     if (!this.errorsElement || !this.controlWrapper) return;
     this.renderer.removeChild(this.controlWrapper, this.errorsElement);
     this.errorsElement = undefined;
+  }
+
+  private getErrorContainerPosition(): number {
+    if (!this.controlWrapper) return 0;
+
+    const inputBottom = this.element?.nativeElement.getBoundingClientRect()?.bottom;
+    const wrapperTop = this.controlWrapper.getBoundingClientRect()?.top;
+    const hasLabel = !!this.controlWrapper.querySelector('label');
+
+    return inputBottom - wrapperTop + (hasLabel ? this.additionalMArgin.withLabel : this.additionalMArgin.withoutLabel);
   }
 }

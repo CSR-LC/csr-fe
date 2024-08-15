@@ -12,6 +12,7 @@ import { AdminGuard } from '@shared/guards/admin.guard';
 import { EmailConfirmationComponent } from './stand-alone/email-confirmation/component/email-confirmation.component';
 import { EmailGuard } from '@shared/guards/email.guard';
 import { ConfirmedEmail } from '@shared/guards/confirmed-email.guard';
+import { applicationStatusResolver } from '@app/admin/resolvers/application-status/application-status.resolver';
 
 const routes: Routes = [
   {
@@ -47,11 +48,16 @@ const routes: Routes = [
         resolve: {
           petKinds: PetKindsResolver,
           petSizes: PetSizeResolver,
+          applicationStatuses: applicationStatusResolver,
         },
         children: [
           {
             path: AppRoutes.Catalog,
             loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
+          },
+          {
+            path: AppRoutes.MyApplications,
+            loadChildren: () => import('./my-applications/my-applications.module').then((m) => m.MyApplicationsModule),
           },
           {
             path: AppRoutes.Admin,
@@ -62,7 +68,10 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.Profile,
-        loadComponent: () => import('./user-profile/components/user-profile/user-profile.component').then((m) => m.UserProfileComponent),
+        loadComponent: async () => {
+          const m = await import('./user-profile/components/user-profile/user-profile.component');
+          return m.UserProfileComponent;
+        },
       },
     ],
   },
