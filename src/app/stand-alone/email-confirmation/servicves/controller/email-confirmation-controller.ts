@@ -11,6 +11,7 @@ import { User } from '@app/auth/models';
 import { BlockUiService } from '@app/shared/services/block-ui/block-ui.service';
 import { UserPersonalInfo } from '@shared/constants/personal-info';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { AuthService } from '@shared/services/auth-service/auth-service.service';
 
 @Injectable()
 export class EmailConfirmationController {
@@ -24,6 +25,7 @@ export class EmailConfirmationController {
     private readonly router: Router,
     private readonly blockUiService: BlockUiService,
     private mainPageHeaderService: MainPageHeaderService,
+    private readonly authService: AuthService,
   ) {}
 
   get user(): User | undefined {
@@ -91,5 +93,14 @@ export class EmailConfirmationController {
 
   unblockUi() {
     this.blockUiService.unBlock();
+  }
+
+  setPageTitle() {
+    this.mainPageHeaderService.setPageTitle('Профиль');
+  }
+
+  logout() {
+    this.authService.logout();
+    this.authService.navigateToLogin();
   }
 }

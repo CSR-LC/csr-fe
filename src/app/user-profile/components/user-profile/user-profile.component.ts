@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
 import { AuthState } from '@app/auth/store/store';
-import { AuthService } from '@shared/services/auth-service/auth-service.service';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { EmailConfirmationController } from '@app/stand-alone/email-confirmation/servicves/controller/email-confirmation-controller';
@@ -19,15 +18,18 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule, CommonModule],
   standalone: true,
 })
-export class UserProfileComponent {
+export class UserProfileComponent implements OnInit {
   @Select(AuthState.user) user$!: Observable<User>;
   private destroyRef = inject(DestroyRef);
 
-  constructor(private readonly authService: AuthService, private readonly controller: EmailConfirmationController) {}
+  constructor(private readonly controller: EmailConfirmationController) {}
+
+  ngOnInit() {
+    this.controller.setPageTitle();
+  }
 
   public logout(): void {
-    this.authService.logout();
-    this.authService.navigateToLogin();
+    this.controller.logout();
   }
 
   public editUserDetails(user: User) {
