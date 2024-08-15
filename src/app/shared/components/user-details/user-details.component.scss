@@ -4,15 +4,28 @@
   display: block;
 }
 
-.header {
+.user-details {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
+  &__title {
+    margin: 0;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__edit {
+    color: $main;
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
 }
 
-.edit {
-  color: $main;
-}
-
-.detail {
-  margin-bottom: 30px;
-}

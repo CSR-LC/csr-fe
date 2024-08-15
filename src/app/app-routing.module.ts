@@ -68,10 +68,8 @@ const routes: Routes = [
       },
       {
         path: AppRoutes.Profile,
-        loadComponent: async () => {
-          const m = await import('./user-profile/components/user-profile/user-profile.component');
-          return m.UserProfileComponent;
-        },
+        loadComponent: () =>
+          import('./user-profile/components/user-profile/user-profile.component').then((m) => m.UserProfileComponent),
       },
     ],
   },
