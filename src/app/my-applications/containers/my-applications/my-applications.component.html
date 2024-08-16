@@ -17,5 +17,5 @@
   </section>
 </div>
 <ng-template #noApplicationsMessage>
-  <p class="no-applications-message">Не найдено заявок, соответствующих выбранному критерию</p>
+  <p *ngIf="applications$().length === 0" class="no-applications-message">Не найдено заявок, соответствующих выбранному критерию</p>
 </ng-template>
