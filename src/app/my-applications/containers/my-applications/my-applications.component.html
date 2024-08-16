@@ -5,17 +5,17 @@
     [options]="filter.options"
     (selectionChange)="applyFilter($event)">
   </lc-dropdown-filter>
-  <section class="my-applications-list">
+  <section class="my-applications-list" *ngIf="applications$().length > 0 else noApplicationsMessage">
     <div class="my-application-container"
          *ngFor="let application of applications$(); let i = index; let last = last; trackBy: trackMyApplication">
       <lc-my-application [application]="application"></lc-my-application>
       <mat-divider *ngIf="!last"></mat-divider>
     </div>
-    <ng-container *ngIf="loading$() else noApplicationsMessage">
+    <ng-container *ngIf="loading$()">
       <lc-loader></lc-loader>
     </ng-container>
   </section>
 </div>
 <ng-template #noApplicationsMessage>
-  <p *ngIf="applications$().length === 0" class="no-applications-message">Не найдено заявок, соответствующих выбранному критерию</p>
+  <p class="no-applications-message">Не найдено заявок, соответствующих выбранному критерию.</p>
 </ng-template>
