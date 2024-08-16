@@ -11,8 +11,11 @@
       <lc-my-application [application]="application"></lc-my-application>
       <mat-divider *ngIf="!last"></mat-divider>
     </div>
-    <ng-container *ngIf="loading$()">
+    <ng-container *ngIf="loading$() else noApplicationsMessage">
       <lc-loader></lc-loader>
     </ng-container>
   </section>
 </div>
+<ng-template #noApplicationsMessage>
+  <p class="no-applications-message">Не найдено заявок, соответствующих выбранному критерию</p>
+</ng-template>
