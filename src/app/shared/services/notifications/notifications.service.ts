@@ -56,6 +56,18 @@ export class NotificationsService {
     this.notification.openFromComponent(NotificationComponent, config);
   }
 
+  openInfo(message: string) {
+    const config = {
+      ...this.config,
+      data: {
+        type: NotificationTypes.Info,
+        message,
+      },
+      duration: this.durationTime,
+    };
+    this.notification.openFromComponent(NotificationComponent, config);
+  }
+
   handleErrorResponse(response: HttpErrorResponse) {
     if (response.status === 403) {
       this.router.navigate([`${AppRoutes.Forbidden}`]);

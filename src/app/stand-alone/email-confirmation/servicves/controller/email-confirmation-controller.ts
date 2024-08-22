@@ -66,7 +66,9 @@ export class EmailConfirmationController {
   changeEmail(email: string): Observable<void> {
     return this.personalInfoService
       .changeEmail(email)
-      .pipe(tap(() => this.notificationService.openSuccess('Данные входа обновлены')));
+      .pipe(
+        tap(() => this.notificationService.openInfo('Подтвердите новый адрес эл. почты, перейдя по ссылке в письме.')),
+      );
   }
 
   deleteUserProfile(): Observable<void> {
