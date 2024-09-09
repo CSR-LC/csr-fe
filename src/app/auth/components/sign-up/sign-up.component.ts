@@ -8,7 +8,7 @@ import { NewUserInfo, UserType } from '../../models';
 import { Router } from '@angular/router';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
-import { catchError, finalize, switchMap, throwError } from 'rxjs';
+import { finalize, switchMap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
 
@@ -76,13 +76,11 @@ export class SignUpComponent implements OnInit {
   }
 
   private getNewUserInfo(): NewUserInfo {
-    // TODO: correct the value when back remove required fields
     const formValue = this.formValue;
     return {
       login: formValue.email,
       email: formValue.email,
       password: formValue.password,
-      name: formValue.email,
       type: UserType.person,
     };
   }

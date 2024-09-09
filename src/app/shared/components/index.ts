@@ -16,3 +16,5 @@ export * from './error-page-layout/error-page-layout.component';
 export * from './catalog-search/catalog-search.component';
 export * from './table-filter/table-filter.component';
 export * from './dropdown-filter/dropdown-filter.component';
+export * from './change-email-modal/change-email-modal.component';
+export * from './user-details/user-details.component';

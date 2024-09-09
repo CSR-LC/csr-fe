@@ -56,10 +56,6 @@ const routes: Routes = [
             loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
           },
           {
-            path: AppRoutes.Profile,
-            loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
-          },
-          {
             path: AppRoutes.MyApplications,
             loadChildren: () => import('./my-applications/my-applications.module').then((m) => m.MyApplicationsModule),
           },
@@ -69,6 +65,11 @@ const routes: Routes = [
             loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
           },
         ],
+      },
+      {
+        path: AppRoutes.Profile,
+        loadComponent: () =>
+          import('./user-profile/components/user-profile/user-profile.component').then((m) => m.UserProfileComponent),
       },
     ],
   },

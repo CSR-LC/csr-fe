@@ -1,0 +1,35 @@
+<lc-modal-layout [headerTitle]="'Данные входа'">
+  <ng-container body>
+    <p class="message">
+      При изменении адреса эл. почты необходимо подтвердить новый адрес.
+    </p>
+    <form id="loginInfoForm" [formGroup]="loginInfoForm" class="login-info-form">
+      <mat-form-field floatLabel="auto" appearance="fill" class="email-field">
+        <mat-label>Эл. почта</mat-label>
+        <input type="text" matInput formControlName="email" [lcValidationErrors]="formName"/>
+      </mat-form-field>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <div class="actions">
+      <button
+        class="btn"
+        mat-button
+        [mat-dialog-close]="false"
+        color="primary"
+      >
+        ОТМЕНИТЬ
+      </button>
+      <button
+        class="btn"
+        mat-raised-button
+        color="primary"
+        form="loginInfoForm"
+        (click)="submit()"
+      >
+        СОХРАНИТЬ
+      </button>
+    </div>
+
+  </ng-container>
+</lc-modal-layout>

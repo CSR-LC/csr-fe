@@ -8,6 +8,10 @@
       *ngSwitchCase="notificationTypes.Success"
       class="icon-success"
     >check_circle</mat-icon>
+    <mat-icon
+      *ngSwitchCase="notificationTypes.Info"
+      class="icon-info"
+    >info</mat-icon>
   </ng-container>
   <div class="message">
     <span>{{ data.message }}</span>

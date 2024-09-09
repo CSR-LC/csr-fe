@@ -113,10 +113,10 @@ export class ApiService {
   }
 
   getApplicationStatuses(): Observable<Item[]> {
-    return this.http.get<Item[]>('/v1/status_names');
+    return this.http.get<Item[]>('v1/status_names');
   }
 
   editApplicationStatus(statusInfo: ChangeStatusBody): Observable<string> {
-    return this.http.post<string>('/v1/order_statuses/', statusInfo);
+    return this.http.post<string>('v1/order_statuses/', statusInfo);
   }
 }
