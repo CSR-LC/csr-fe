@@ -1,0 +1,30 @@
+@import 'src/app/shared/styles/variables';
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+}
+
+.message {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: $color-text-gray;
+  margin-bottom: 24px;
+}
+
+.login-info-form {
+  margin-bottom: 24px;
+}
+
+.email-field {
+  width: 100%;
+}

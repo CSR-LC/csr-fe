@@ -10,4 +10,5 @@ export enum EquipmentModal {
   EditEquipmentHeader = 'Редактирование оборудования',
   EditEquipmentModalButtonText = 'Редактировать',
   AddEquipmentModalButtonText = 'Зарегистрировать',
+  Save = 'Сохранить',
 }

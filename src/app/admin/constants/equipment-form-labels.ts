@@ -1,4 +1,4 @@
-export enum EqipmentFormLabel {
+export enum EquipmentFormLabel {
   name = 'Название',
   title = 'Наименование',
   description = 'Описание',

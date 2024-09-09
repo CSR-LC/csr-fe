@@ -1,0 +1,21 @@
+@import 'src/app/shared/styles/variables';
+
+.my-applications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 24px;
+  height: 100%;
+  overflow: auto;
+}
+
+.my-applications-list, .my-application-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.no-applications-message {
+  text-align: center;
+  color: $color-text-gray;
+}

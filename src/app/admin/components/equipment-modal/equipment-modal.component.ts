@@ -11,7 +11,7 @@ import { ErrorOptions } from '@app/shared/types';
 import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
 import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
-import { EqipmentFormLabel } from '@app/admin/constants';
+import { EquipmentFormLabel } from '@app/admin/constants';
 
 @Component({
   selector: 'lc-equipment',
@@ -23,7 +23,8 @@ export class EquipmentModalComponent implements OnInit {
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
   readonly maxInventoryNumber = maxInventoryNumber;
-  readonly labels = EqipmentFormLabel;
+  readonly labels = EquipmentFormLabel;
+  readonly maxCompensationCost = maxCompensationCost;
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;
@@ -32,6 +33,22 @@ export class EquipmentModalComponent implements OnInit {
   private readonly inventoryNumberErrorOptions: ErrorOptions = {
     message: 'Инвентарный номер уже существует',
   };
+
+  readonly maxValue = {
+    condition: 1000,
+    description: 500,
+    maximumDays: 14,
+    supplier: 50,
+    termsOfUse: 250,
+    title: 150,
+  };
+
+  readonly minValue = {
+    maximumDays: 1,
+  };
+
+  private readonly conditionValidators = [Validators.required, Validators.maxLength(this.maxValue.condition)];
+
   technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
   equipmentCategories: EquipmentKind[] = [];
   petKinds: BaseKind[] = [];
@@ -49,23 +66,10 @@ export class EquipmentModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.data.equipment) {
-      this.equipment = { ...this.data.equipment };
-    }
-    this.inventoryNumbers = this.data.inventoryNumbers;
-
-    this.petSizes = this.data.petSizes || [];
-    this.petKinds = this.data.petKinds || [];
-    this.equipmentCategories = this.data.categories || [];
-    this.modalHeader = this.equipment ? EquipmentModal.EditEquipmentHeader : EquipmentModal.AddEquipmentHeader;
-    this.actionButtonText = this.equipment
-      ? EquipmentModal.EditEquipmentModalButtonText
-      : EquipmentModal.AddEquipmentModalButtonText;
-
+    this.setValues();
+    this.setTexts();
     this.createForm(this.equipment);
-
-    this.conditionControl = this.form?.get('condition');
-    this.photoIdControl = this.form?.get('photoID');
+    this.getControls();
   }
 
   createForm(equipment?: Equipment) {
@@ -77,9 +81,11 @@ export class EquipmentModalComponent implements OnInit {
       ],
       condition: [
         { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
-        Validators.maxLength(1000),
       ],
-      description: [equipment?.description || '', Validators.required],
+      description: [
+        equipment?.description || '',
+        [Validators.required, Validators.maxLength(this.maxValue.description)],
+      ],
       inventoryNumber: [
         equipment?.inventoryNumber || null,
         [
@@ -90,20 +96,23 @@ export class EquipmentModalComponent implements OnInit {
       ],
       // temporary is not used. there is no control on ui
       location: [1, Validators.required],
-      maximumDays: [equipment?.maximumDays || null, [Validators.required, Validators.min(1)]],
+      maximumDays: [
+        equipment?.maximumDays || null,
+        [Validators.required, Validators.min(this.minValue.maximumDays), Validators.max(this.maxValue.maximumDays)],
+      ],
       name: [equipment?.name || '', Validators.required],
       nameSubstring: [''],
-      petKinds: [equipment?.petKinds || [null], Validators.required],
+      petKinds: [equipment?.petKinds || null, Validators.required],
       petSize: [equipment?.petSize ? equipment.petSize : null, Validators.required],
       photoID: [equipment?.photoID || null, Validators.required],
       receiptDate: [equipment?.receiptDate ? new Date(equipment.receiptDate) : '', Validators.required],
       // unnecessary  remove when the changed
       status: [1, Validators.required],
       subCategory: [1],
-      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(50)]],
+      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(this.maxValue.supplier)]],
       technicalIssues: [equipment ? this.getTechnicalIssuesValue(equipment) : null, [Validators.required]],
-      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(249)]],
-      title: [equipment?.title || '', [Validators.required, Validators.maxLength(49)]],
+      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(this.maxValue.termsOfUse)]],
+      title: [equipment?.title || '', [Validators.required, Validators.maxLength(this.maxValue.title)]],
     });
   }
 
@@ -112,6 +121,27 @@ export class EquipmentModalComponent implements OnInit {
     if (!this.inventoryNumbers) return true;
     return !this.inventoryNumbers.includes(inventoryNumber);
   };
+
+  private getControls() {
+    this.conditionControl = this.form?.get('condition');
+    this.photoIdControl = this.form?.get('photoID');
+  }
+
+  private setValues() {
+    if (this.data.equipment) {
+      this.equipment = { ...this.data.equipment };
+    }
+    this.inventoryNumbers = this.data.inventoryNumbers;
+
+    this.petSizes = this.data.petSizes || [];
+    this.petKinds = this.data.petKinds || [];
+    this.equipmentCategories = this.data.categories || [];
+  }
+
+  private setTexts() {
+    this.modalHeader = this.equipment ? EquipmentModal.EditEquipmentHeader : EquipmentModal.AddEquipmentHeader;
+    this.actionButtonText = this.equipment ? EquipmentModal.Save : EquipmentModal.AddEquipmentModalButtonText;
+  }
 
   getTechnicalIssuesValue(equipment: Equipment): TechnicalIssues {
     return equipment.technicalIssues ? TechnicalIssues.is : TechnicalIssues.not;
@@ -133,7 +163,7 @@ export class EquipmentModalComponent implements OnInit {
       control?.setValue(null);
     }
 
-    control?.setValidators(enabled ? Validators.required : null);
+    control?.setValidators(enabled ? this.conditionValidators : null);
   }
 
   choosePhoto() {
