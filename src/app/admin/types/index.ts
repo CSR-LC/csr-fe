@@ -8,3 +8,6 @@ export * from './equipment-modal-data';
 export * from './equipment-modal-response';
 export * from './equipment-status';
 export * from './change-status-body';
+export * from './equipments-list';
+export * from './block-equipment-modal-response';
+export * from './equipment-rows';

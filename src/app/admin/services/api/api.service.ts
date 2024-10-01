@@ -27,7 +27,8 @@ export class ApiService {
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
     // TODO: remove when solved
-    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+    const params = new HttpParams().set('limit', 2000);
+
     return this.http.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
 

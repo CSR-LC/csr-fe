@@ -48,4 +48,8 @@ export class EquipmentsComponent implements OnInit {
   addNewEquipment() {
     this.controller.addNewEquipment();
   }
+
+  setIsArchiveShown(isShown: boolean) {
+    this.controller.setIsArchiveShown(isShown);
+  }
 }
