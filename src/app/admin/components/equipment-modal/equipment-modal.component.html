@@ -1,4 +1,8 @@
-<lc-modal-layout [headerTitle]="modalHeader">
+<lc-modal-layout
+  [handleCloseByMainLayout]="true"
+  [headerTitle]="modalHeader"
+  (closed)="close()"
+>
   <ng-container body>
     <form *ngIf="form" [formGroup]="form">
       <div class="row">
@@ -208,7 +212,7 @@
       <button
         mat-button
         class="cancel"
-        [mat-dialog-close]="false"
+        (click)="close()"
       >
       {{ labels.cancel }}
       </button>

@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'lc-modal-layout',
@@ -8,11 +9,14 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from 
 })
 export class ModalLayoutComponent {
   @Input() headerTitle!: string;
+  @Input() activeCloseIcon = true;
+  @Input() handleCloseByMainLayout = false;
   @Output() closed = new EventEmitter<boolean>();
 
-  constructor() {}
+  constructor(private readonly dialogRef: MatDialogRef<any>) {}
 
   close() {
+    if (!this.handleCloseByMainLayout) this.dialogRef.close(false);
     this.closed.next(true);
   }
 }
