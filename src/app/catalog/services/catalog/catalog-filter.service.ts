@@ -16,6 +16,7 @@ import { CatalogApi } from '..';
 import { map } from 'rxjs/operators';
 import { UpdateForm } from '@ngxs/form-plugin';
 import { FilterModalResult } from '@app/catalog/models/filter-modal-result';
+import { EquipmentStatusIds } from '@app/admin/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -98,8 +99,11 @@ export class CatalogFilterService {
 
   filterEquipment(): void {
     const payload = this.equipmentFilterRequest;
-    this.api.filterEquipment(payload).subscribe((res) => {
-      this.store.dispatch(new GetCatalog(res.items));
-    });
+    this.api
+      .filterEquipment(payload)
+      .pipe(map((res) => res.items.filter((item) => item.status !== EquipmentStatusIds.archived)))
+      .subscribe((catalog) => {
+        this.store.dispatch(new GetCatalog(catalog));
+      });
   }
 }

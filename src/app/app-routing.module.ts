@@ -6,12 +6,13 @@ import { TokensGuard } from '@shared/guards/tokens.guard';
 import { PetKindsResolver } from '@shared/resolvers/pet-kinds.resolver';
 import { PetSizeResolver } from '@shared/resolvers/pet-size.resolver';
 import { PublicOfferComponent } from '@app/shared/components/public-offer/public-offer.component';
-import { PageForbiddenComponent } from './shared/components/page-forbidden/page-forbidden.component';
-import { AppRoutes } from './shared/constants/routes.enum';
-import { AdminGuard } from './shared/guards/admin.guard';
+import { PageForbiddenComponent } from '@shared/components';
+import { AppRoutes } from '@shared/constants/routes.enum';
+import { AdminGuard } from '@shared/guards/admin.guard';
 import { EmailConfirmationComponent } from './stand-alone/email-confirmation/component/email-confirmation.component';
-import { EmailGuard } from './shared/guards/email.guard';
-import { ConfirmedEmail } from './shared/guards/confirmed-email.guard';
+import { EmailGuard } from '@shared/guards/email.guard';
+import { ConfirmedEmail } from '@shared/guards/confirmed-email.guard';
+import { applicationStatusResolver } from '@app/admin/resolvers/application-status/application-status.resolver';
 
 const routes: Routes = [
   {
@@ -47,6 +48,7 @@ const routes: Routes = [
         resolve: {
           petKinds: PetKindsResolver,
           petSizes: PetSizeResolver,
+          applicationStatuses: applicationStatusResolver,
         },
         children: [
           {
@@ -54,8 +56,8 @@ const routes: Routes = [
             loadChildren: () => import('./catalog/catalog.module').then((m) => m.CatalogModule),
           },
           {
-            path: AppRoutes.Profile,
-            loadChildren: () => import('./user-profile/user-profile.module').then((m) => m.UserProfile),
+            path: AppRoutes.MyApplications,
+            loadChildren: () => import('./my-applications/my-applications.module').then((m) => m.MyApplicationsModule),
           },
           {
             path: AppRoutes.Admin,
@@ -63,6 +65,14 @@ const routes: Routes = [
             loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
           },
         ],
+      },
+      {
+        path: AppRoutes.Profile,
+        loadComponent: () => {
+          return import('./user-profile/components/user-profile/user-profile.component').then(
+            (m) => m.UserProfileComponent,
+          );
+        },
       },
     ],
   },

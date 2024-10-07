@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EmailConfirmationApi } from '../api/email-confirmation-api';
 import { Store } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,9 @@ import { PersonalInfoService } from '@app/shared/services/personal-info/personal
 import { InfoService } from '@app/shared/services/info/info.service';
 import { User } from '@app/auth/models';
 import { BlockUiService } from '@app/shared/services/block-ui/block-ui.service';
+import { UserPersonalInfo } from '@shared/constants/personal-info';
+import { MainPageHeaderService } from '@shared/services/main-page-header.service';
+import { AuthService } from '@shared/services/auth-service/auth-service.service';
 
 @Injectable()
 export class EmailConfirmationController {
@@ -21,6 +24,8 @@ export class EmailConfirmationController {
     private readonly infoService: InfoService,
     private readonly router: Router,
     private readonly blockUiService: BlockUiService,
+    private mainPageHeaderService: MainPageHeaderService,
+    private readonly authService: AuthService,
   ) {}
 
   get user(): User | undefined {
@@ -52,8 +57,24 @@ export class EmailConfirmationController {
     this.notificationService.openSuccess(NotificationSuccess.EmailConfirmationMailResent);
   }
 
-  openPersonalInfoModal(): Observable<void> {
-    return this.personalInfoService.openPersonalInfoModal();
+  openPersonalInfoModal(contactInfo?: UserPersonalInfo): Observable<void> {
+    return this.personalInfoService
+      .openPersonalInfoModal(contactInfo)
+      .pipe(tap(() => this.notificationService.openSuccess('Персональные данные обновлены')));
+  }
+
+  changeEmail(email: string): Observable<void> {
+    return this.personalInfoService
+      .changeEmail(email)
+      .pipe(
+        tap(() => this.notificationService.openInfo('Подтвердите новый адрес эл. почты, перейдя по ссылке в письме.')),
+      );
+  }
+
+  deleteUserProfile(): Observable<void> {
+    return this.personalInfoService
+      .deleteUserProfile()
+      .pipe(tap(() => this.notificationService.openSuccess('Профиль успешно удалён')));
   }
 
   navigateToApplication() {
@@ -74,5 +95,14 @@ export class EmailConfirmationController {
 
   unblockUi() {
     this.blockUiService.unBlock();
+  }
+
+  setPageTitle() {
+    this.mainPageHeaderService.setPageTitle('Профиль');
+  }
+
+  logout() {
+    this.authService.logout();
+    this.authService.navigateToLogin();
   }
 }

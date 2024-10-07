@@ -15,7 +15,9 @@ import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
 import { ChangeStatusBody } from '@app/admin/types';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiService {
   private static USERS_BASE_URL = 'v1/users';
   private static ROLES_BASE_URL = 'v1/roles';
@@ -25,7 +27,8 @@ export class ApiService {
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
     // TODO: remove when solved
-    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+    const params = new HttpParams().set('limit', 2000);
+
     return this.http.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
 
@@ -111,10 +114,10 @@ export class ApiService {
   }
 
   getApplicationStatuses(): Observable<Item[]> {
-    return this.http.get<Item[]>('/v1/status_names');
+    return this.http.get<Item[]>('v1/status_names');
   }
 
   editApplicationStatus(statusInfo: ChangeStatusBody): Observable<string> {
-    return this.http.post<string>('/v1/order_statuses/', statusInfo);
+    return this.http.post<string>('v1/order_statuses/', statusInfo);
   }
 }

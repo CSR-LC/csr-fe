@@ -24,11 +24,12 @@ import { Store } from '@ngxs/store';
 import { BaseKind } from '@app/shared/models/management';
 import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
-import { EquipmentNotification } from '@app/admin/constants/equipment-naotification';
-import { BlockEquipmentModalResponse } from '@app/admin/types/block-equipment-modal-response';
+import { EquipmentNotification } from '@app/admin/constants/equipment-notification';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
 import { RowAction, TableActionState } from '@app/shared/models';
 import { DatePipe } from '@angular/common';
+import { EquipmentLists, BlockEquipmentModalResponse, EquipmentRows } from '@app/admin/types';
+import { EquipmentStatusIds } from '@app/admin/constants';
 
 @UntilDestroy
 @Injectable()
@@ -40,6 +41,13 @@ export class EquipmentController {
   statusIdsDictionary: EquipmentStatusId = {
     ...equipmentStatusIdDefaultValue,
   };
+
+  private tableRows: EquipmentRows = {
+    active: [],
+    archived: [],
+  };
+
+  private isArchiveShown = false;
 
   get equipmentData$(): Observable<TableRow<Equipment>[]> {
     return this.equipmentDataSubj$.asObservable();
@@ -72,9 +80,25 @@ export class EquipmentController {
   fetchEquipments() {
     return this.api.getAllEquipment().pipe(
       tap((res) => (this.inventoryNumbers = res.items.map((i) => i.inventoryNumber))),
-      map((res) => this.createRows(res.items)),
-      tap((data: TableRow<Equipment>[]) => this.equipmentDataSubj$.next(data)),
+      tap((res) => this.createTableRows(res.items)),
+      tap(() => this.displayTable()),
     );
+  }
+
+  private createTableRows(equipment: Equipment[]) {
+    const lists = equipment.reduce(
+      (acc: EquipmentLists, item) => {
+        const list = item.status === EquipmentStatusIds.archived ? acc.archived : acc.active;
+        list.push(item);
+        return acc;
+      },
+      { active: [], archived: [] },
+    );
+
+    this.tableRows = {
+      active: this.createRows(lists.active),
+      archived: this.createRows(lists.archived),
+    };
   }
 
   private createRows(equipments: Equipment[]): TableRow<Equipment>[] {
@@ -89,6 +113,11 @@ export class EquipmentController {
         actions: this.getActions(equipment),
       };
     });
+  }
+
+  private displayTable() {
+    const listToDisplay = this.isArchiveShown ? this.tableRows.archived : this.tableRows.active;
+    this.equipmentDataSubj$.next(listToDisplay);
   }
 
   private getStatusName(equipment: Equipment): string {
@@ -316,6 +345,7 @@ export class EquipmentController {
     return this.dialog
       .open(EquipmentModalComponent, {
         autoFocus: false,
+        disableClose: true,
         data: {
           inventoryNumbers: this.inventoryNumbers || [],
           equipment: equipment ? this.prepareEquipmentForModal(equipment) : undefined,
@@ -345,5 +375,10 @@ export class EquipmentController {
 
   setPageHeader() {
     this.mainHeaderService.setPageTitle('Оборудование');
+  }
+
+  setIsArchiveShown(isShown: boolean) {
+    this.isArchiveShown = isShown;
+    this.displayTable();
   }
 }

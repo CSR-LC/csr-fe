@@ -1,8 +1,8 @@
 <div class="modal">
   <section class="modal-header">
     <h3>{{ headerTitle }}</h3>
-    <div class="cross-container">
-      <button mat-icon-button class="close-button" [mat-dialog-close]="false" (click)="close()">
+    <div *ngIf="activeCloseIcon" class="cross-container">
+      <button mat-icon-button class="close-button" (click)="close()">
         <i class="cross"></i>
       </button>
     </div>

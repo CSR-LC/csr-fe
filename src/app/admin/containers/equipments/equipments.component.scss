@@ -1,5 +1,15 @@
 @import "./src/app/shared/styles/mixins";
 
+section {
+  position: relative;
+}
+
+mat-slide-toggle {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+}
+
 lc-table {
   margin-bottom: 30px;
 }

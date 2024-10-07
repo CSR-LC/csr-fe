@@ -6,6 +6,8 @@
   .wrapper {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
   }
 
   .title {
@@ -16,6 +18,9 @@
     &-success {
       color: $success-icon;
     }
+    &-info {
+      color: $info-icon;
+    }
     &-error {
       color: $error-icon;
     }
@@ -23,8 +28,7 @@
 
 
   .message {
-    color: black;
-    padding: 3px 5px 0px 5px;
+    color: $color-text-gray;
     max-width: 265px;
   }
 
@@ -34,5 +38,7 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
+    padding: 0;
+    color: $close-icon-color;
   }
 }

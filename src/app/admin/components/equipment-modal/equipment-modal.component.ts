@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseKind, EquipmentKind, EquipmentOptions, PetSize } from '@app/shared/models/management';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,9 +9,10 @@ import { NewEquipment } from '@app/shared/models/equipment';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { ErrorOptions } from '@app/shared/types';
 import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
-import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
+import { maxInventoryNumber, maxInventoryNumberLength } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
-import { EqipmentFormLabel } from '@app/admin/constants';
+import { EquipmentFormLabel } from '@app/admin/constants';
+import { InfoModalComponent } from '@app/shared/components';
 
 @Component({
   selector: 'lc-equipment',
@@ -23,7 +24,8 @@ export class EquipmentModalComponent implements OnInit {
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
   readonly maxInventoryNumber = maxInventoryNumber;
-  readonly labels = EqipmentFormLabel;
+  readonly labels = EquipmentFormLabel;
+  readonly maxCompensationCost = maxCompensationCost;
   private conditionControl?: AbstractControl | null;
   private photoIdControl?: AbstractControl | null;
   private file?: File;
@@ -32,6 +34,27 @@ export class EquipmentModalComponent implements OnInit {
   private readonly inventoryNumberErrorOptions: ErrorOptions = {
     message: 'Инвентарный номер уже существует',
   };
+
+  readonly maxValue = {
+    condition: 1000,
+    compensationCost: maxCompensationCost,
+    compensationCostLength: String(maxCompensationCost).length,
+    description: 500,
+    inventoryNumber: maxInventoryNumber,
+    inventoryNumberLength: maxInventoryNumberLength,
+    maximumDays: 14,
+    supplier: 50,
+    termsOfUse: 250,
+    title: 150,
+    name: 150,
+  };
+
+  readonly minValue = {
+    maximumDays: 1,
+  };
+
+  private readonly conditionValidators = [Validators.required, Validators.maxLength(this.maxValue.condition)];
+
   technicalIssuesOptions = [TechnicalIssues.is, TechnicalIssues.not];
   equipmentCategories: EquipmentKind[] = [];
   petKinds: BaseKind[] = [];
@@ -43,29 +66,17 @@ export class EquipmentModalComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EquipmentModalData,
+    private readonly dialog: MatDialog,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<EquipmentModalComponent>,
     private readonly validationService: ValidationService,
   ) {}
 
   ngOnInit() {
-    if (this.data.equipment) {
-      this.equipment = { ...this.data.equipment };
-    }
-    this.inventoryNumbers = this.data.inventoryNumbers;
-
-    this.petSizes = this.data.petSizes || [];
-    this.petKinds = this.data.petKinds || [];
-    this.equipmentCategories = this.data.categories || [];
-    this.modalHeader = this.equipment ? EquipmentModal.EditEquipmentHeader : EquipmentModal.AddEquipmentHeader;
-    this.actionButtonText = this.equipment
-      ? EquipmentModal.EditEquipmentModalButtonText
-      : EquipmentModal.AddEquipmentModalButtonText;
-
+    this.setValues();
+    this.setTexts();
     this.createForm(this.equipment);
-
-    this.conditionControl = this.form?.get('condition');
-    this.photoIdControl = this.form?.get('photoID');
+    this.getControls();
   }
 
   createForm(equipment?: Equipment) {
@@ -73,13 +84,15 @@ export class EquipmentModalComponent implements OnInit {
       category: [equipment?.category || null, Validators.required],
       compensationCost: [
         this.equipment?.compensationCost || null,
-        [Validators.required, Validators.max(maxCompensationCost)],
+        [Validators.required, Validators.max(this.maxValue.compensationCost)],
       ],
       condition: [
         { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
-        Validators.maxLength(1000),
       ],
-      description: [equipment?.description || '', Validators.required],
+      description: [
+        equipment?.description || '',
+        [Validators.required, Validators.maxLength(this.maxValue.description)],
+      ],
       inventoryNumber: [
         equipment?.inventoryNumber || null,
         [
@@ -90,20 +103,23 @@ export class EquipmentModalComponent implements OnInit {
       ],
       // temporary is not used. there is no control on ui
       location: [1, Validators.required],
-      maximumDays: [equipment?.maximumDays || null, [Validators.required, Validators.min(1)]],
-      name: [equipment?.name || '', Validators.required],
+      maximumDays: [
+        equipment?.maximumDays || null,
+        [Validators.required, Validators.min(this.minValue.maximumDays), Validators.max(this.maxValue.maximumDays)],
+      ],
+      name: [equipment?.name || '', [Validators.required, Validators.maxLength(this.maxValue.name)]],
       nameSubstring: [''],
-      petKinds: [equipment?.petKinds || [null], Validators.required],
+      petKinds: [equipment?.petKinds || null, Validators.required],
       petSize: [equipment?.petSize ? equipment.petSize : null, Validators.required],
       photoID: [equipment?.photoID || null, Validators.required],
       receiptDate: [equipment?.receiptDate ? new Date(equipment.receiptDate) : '', Validators.required],
       // unnecessary  remove when the changed
       status: [1, Validators.required],
       subCategory: [1],
-      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(50)]],
+      supplier: [equipment?.supplier || '', [Validators.required, Validators.maxLength(this.maxValue.supplier)]],
       technicalIssues: [equipment ? this.getTechnicalIssuesValue(equipment) : null, [Validators.required]],
-      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(249)]],
-      title: [equipment?.title || '', [Validators.required, Validators.maxLength(49)]],
+      termsOfUse: [equipment?.termsOfUse || '', [Validators.required, Validators.maxLength(this.maxValue.termsOfUse)]],
+      title: [equipment?.title || '', [Validators.required, Validators.maxLength(this.maxValue.title)]],
     });
   }
 
@@ -112,6 +128,27 @@ export class EquipmentModalComponent implements OnInit {
     if (!this.inventoryNumbers) return true;
     return !this.inventoryNumbers.includes(inventoryNumber);
   };
+
+  private getControls() {
+    this.conditionControl = this.form?.get('condition');
+    this.photoIdControl = this.form?.get('photoID');
+  }
+
+  private setValues() {
+    if (this.data.equipment) {
+      this.equipment = { ...this.data.equipment };
+    }
+    this.inventoryNumbers = this.data.inventoryNumbers;
+
+    this.petSizes = this.data.petSizes || [];
+    this.petKinds = this.data.petKinds || [];
+    this.equipmentCategories = this.data.categories || [];
+  }
+
+  private setTexts() {
+    this.modalHeader = this.equipment ? EquipmentModal.EditEquipmentHeader : EquipmentModal.AddEquipmentHeader;
+    this.actionButtonText = this.equipment ? EquipmentModal.Save : EquipmentModal.AddEquipmentModalButtonText;
+  }
 
   getTechnicalIssuesValue(equipment: Equipment): TechnicalIssues {
     return equipment.technicalIssues ? TechnicalIssues.is : TechnicalIssues.not;
@@ -133,7 +170,7 @@ export class EquipmentModalComponent implements OnInit {
       control?.setValue(null);
     }
 
-    control?.setValidators(enabled ? Validators.required : null);
+    control?.setValidators(enabled ? this.conditionValidators : null);
   }
 
   choosePhoto() {
@@ -162,5 +199,35 @@ export class EquipmentModalComponent implements OnInit {
       file: this.file,
       equipment: new NewEquipment(this.form.value as unknown as EquipmentOptions),
     });
+  }
+
+  close() {
+    if (this.form?.pristine) {
+      return this.dialogRef.close(false);
+    }
+
+    this.dialog
+      .open(InfoModalComponent, {
+        data: {
+          headerText: this.closeNotificationHeader,
+          infoMessage: this.closeNotificationMessage,
+          buttonOkText: 'Удалить',
+          buttonCancelText: 'Вернуться',
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) this.dialogRef.close(false);
+      });
+  }
+
+  get closeNotificationMessage(): string {
+    return this.equipment
+      ? 'Если отменить редактирование, то все изменения будут удалены.'
+      : 'Если отменить регистрацию, то все внесенные данные будут удалены';
+  }
+
+  get closeNotificationHeader(): string {
+    return this.equipment ? 'Изменения будут удалены.' : 'Данные будут удалены.';
   }
 }

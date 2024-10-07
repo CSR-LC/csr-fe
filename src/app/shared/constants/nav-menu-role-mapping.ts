@@ -13,7 +13,7 @@ const userRoutes: NavigationLink[] = [
   },
   {
     name: 'Мои заявки',
-    route: 'profile/requests', //TBD
+    route: AppRoutes.MyApplications,
   },
 ];
 

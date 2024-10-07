@@ -1,70 +1,47 @@
 @import "./src/app/shared/styles/variables";
 
-.info-modal {
+.body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  margin: 24px 24px 8px 24px;
+
+  .message {
+    display: inline;
+    color: $color-text-gray;
+    white-space: pre-line;
+  }
+
+  .link {
+    color: $color-title;
+    text-decoration: underline;
+    cursor: pointer;
+    white-space: pre-line;
+  }
+}
+
+.buttons {
+  gap: 20px;
   display: flex;
-  flex-direction: column;
-  padding: 0px;
+  justify-content: space-between;
+  margin: 24px;
 
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #CFDBE5;
-    padding: 24px 24px 17px 24px;
-    height: 81px;
-
-    .title {
-      margin: 0;
-    }
-
-    .icon {
-      cursor: pointer;
-    }
-  }
-
-  &-container {
-    font-size: 16px;
+  .button-cancel {
+    text-transform: uppercase;
+    height: 56px;
+    width: 100%;
+    letter-spacing: 1.25px;
     font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0.5px;
-    margin: 24px 24px 8px 24px;
-
-    .message {
-      display: inline;
-      color: $color-text-gray;
-      white-space: pre-line;
-    }
-
-    .link {
-      color: $color-title;
-      text-decoration: underline;
-      cursor: pointer;
-      white-space: pre-line;
-    }
+    border-radius: 10px;
   }
 
-  &-buttons {
-    gap: 20px;
-    display: flex;
-    justify-content: space-between;
-    margin: 24px;
-
-    .button-cancel {
-      text-transform: uppercase;
-      height: 56px;
-      width: 100%;
-      letter-spacing: 1.25px;
-      font-weight: 400;
-      border-radius: 10px;
-    }
-
-    .button-confirm {
-      text-transform: uppercase;
-      height: 56px;
-      width: 100%;
-      letter-spacing: 1.25px;
-      font-weight: 400;
-      border-radius: 10px;
-    }
+  .button-confirm {
+    text-transform: uppercase;
+    height: 56px;
+    width: 100%;
+    letter-spacing: 1.25px;
+    font-weight: 400;
+    border-radius: 10px;
   }
 }

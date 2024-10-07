@@ -14,4 +14,5 @@ export enum AppRoutes {
   Forbidden = 'forbidden',
   Roles = 'roles',
   EmailConfirmation = 'email-confirmation',
+  MyApplications = 'my-applications',
 }

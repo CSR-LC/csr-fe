@@ -1,4 +1,8 @@
-<lc-modal-layout [headerTitle]="modalHeader">
+<lc-modal-layout
+  [handleCloseByMainLayout]="true"
+  [headerTitle]="modalHeader"
+  (closed)="close()"
+>
   <ng-container body>
     <form *ngIf="form" [formGroup]="form">
       <div class="row">
@@ -6,28 +10,34 @@
           <mat-form-field appearance="fill" floatLabel="auto">
             <mat-label>{{ labels.name }}</mat-label>
             <input
+              #name
               matInput
               formControlName="name"
               [lcValidationErrors]="formName"
             />
+            <mat-hint align="end">{{name.value.length}} / {{maxValue.name}}</mat-hint>
           </mat-form-field>
           <mat-form-field appearance="fill" floatLabel="auto">
             <mat-label>{{ labels.title }}</mat-label>
             <input
+              #title
               matInput
               formControlName="title"
               [lcValidationErrors]="formName"
             >
+            <mat-hint align="end">{{title.value.length}} / {{maxValue.title}}</mat-hint>
           </mat-form-field>
         </div>
         <mat-form-field width="370px" appearance="fill">
           <mat-label>{{ labels.description }}</mat-label>
           <textarea
+            #description
             rows="4"
             matInput
             formControlName="description"
             [lcValidationErrors]="formName"
           ></textarea>
+          <mat-hint align="end">{{description.value.length}} / {{maxValue.description}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
@@ -62,51 +72,62 @@
         <mat-form-field appearance="fill">
           <mat-label>{{ labels.condition }}</mat-label>
           <textarea
+            #condition
             matInput
             rows="4"
-            [maxlength]="1000"
             formControlName="condition"
+            [lcValidationErrors]="formName"
           ></textarea>
+          <mat-hint align="end">{{condition.value.length}} / {{maxValue.condition}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.inventoryNumber }}</mat-label>
           <input
+            #inventoryNumber
             matInput
             type="number"
             [max]="maxInventoryNumber"
             formControlName="inventoryNumber"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{inventoryNumber.value.length}} / {{maxValue.inventoryNumberLength}}</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.compensationCost }}</mat-label>
           <input
+            #compensationCost
             matInput
             type="number"
+            [max]="maxCompensationCost"
             formControlName="compensationCost"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{compensationCost.value.length}} / {{maxValue.compensationCostLength}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.supplier }}</mat-label>
           <input
+            #supplier
             matInput
             formControlName="supplier"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{supplier.value.length}} / {{maxValue.supplier}}</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.termsOfUse }}</mat-label>
           <input
+            #termsOfUse
             matInput
             type="url"
             formControlName="termsOfUse"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{termsOfUse.value.length}} / {{maxValue.termsOfUse}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
@@ -185,7 +206,6 @@
               #photoInput
               class="registration-form-field-input"
               type="file"
-        
               (change)="addPhoto($event)"
             />
           </div>
@@ -198,7 +218,7 @@
       <button
         mat-button
         class="cancel"
-        [mat-dialog-close]="false"
+        (click)="close()"
       >
       {{ labels.cancel }}
       </button>
