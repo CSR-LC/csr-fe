@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseKind, EquipmentKind, EquipmentOptions, PetSize } from '@app/shared/models/management';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,6 +12,7 @@ import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
 import { maxInventoryNumber, maxInventoryNumberLength } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
 import { EquipmentFormLabel } from '@app/admin/constants';
+import { InfoModalComponent } from '@app/shared/components';
 
 @Component({
   selector: 'lc-equipment',
@@ -65,6 +66,7 @@ export class EquipmentModalComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: EquipmentModalData,
+    private readonly dialog: MatDialog,
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<EquipmentModalComponent>,
     private readonly validationService: ValidationService,
@@ -197,5 +199,35 @@ export class EquipmentModalComponent implements OnInit {
       file: this.file,
       equipment: new NewEquipment(this.form.value as unknown as EquipmentOptions),
     });
+  }
+
+  close() {
+    if (this.form?.pristine) {
+      return this.dialogRef.close(false);
+    }
+
+    this.dialog
+      .open(InfoModalComponent, {
+        data: {
+          headerText: this.closeNotificationHeader,
+          infoMessage: this.closeNotificationMessage,
+          buttonOkText: 'Удалить',
+          buttonCancelText: 'Вернуться',
+        },
+      })
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) this.dialogRef.close(false);
+      });
+  }
+
+  get closeNotificationMessage(): string {
+    return this.equipment
+      ? 'Если отменить редактирование, то все изменения будут удалены.'
+      : 'Если отменить регистрацию, то все внесенные данные будут удалены';
+  }
+
+  get closeNotificationHeader(): string {
+    return this.equipment ? 'Изменения будут удалены.' : 'Данные будут удалены.';
   }
 }

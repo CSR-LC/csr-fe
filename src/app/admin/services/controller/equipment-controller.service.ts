@@ -345,6 +345,7 @@ export class EquipmentController {
     return this.dialog
       .open(EquipmentModalComponent, {
         autoFocus: false,
+        disableClose: true,
         data: {
           inventoryNumbers: this.inventoryNumbers || [],
           equipment: equipment ? this.prepareEquipmentForModal(equipment) : undefined,
