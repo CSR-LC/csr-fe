@@ -9,7 +9,7 @@ import { NewEquipment } from '@app/shared/models/equipment';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { ErrorOptions } from '@app/shared/types';
 import { EquipmentModalData } from '@app/admin/types/equipment-modal-data';
-import { maxInventoryNumber } from '@app/admin/constants/max-inventory-number';
+import { maxInventoryNumber, maxInventoryNumberLength } from '@app/admin/constants/max-inventory-number';
 import { maxCompensationCost } from '@app/admin/constants/max-compensation-cost';
 import { EquipmentFormLabel } from '@app/admin/constants';
 
@@ -36,11 +36,16 @@ export class EquipmentModalComponent implements OnInit {
 
   readonly maxValue = {
     condition: 1000,
+    compensationCost: maxCompensationCost,
+    compensationCostLength: String(maxCompensationCost).length,
     description: 500,
+    inventoryNumber: maxInventoryNumber,
+    inventoryNumberLength: maxInventoryNumberLength,
     maximumDays: 14,
     supplier: 50,
     termsOfUse: 250,
     title: 150,
+    name: 150,
   };
 
   readonly minValue = {
@@ -77,7 +82,7 @@ export class EquipmentModalComponent implements OnInit {
       category: [equipment?.category || null, Validators.required],
       compensationCost: [
         this.equipment?.compensationCost || null,
-        [Validators.required, Validators.max(maxCompensationCost)],
+        [Validators.required, Validators.max(this.maxValue.compensationCost)],
       ],
       condition: [
         { value: equipment?.condition || null, disabled: equipment ? this.getConditionDisableState(equipment) : true },
@@ -100,7 +105,7 @@ export class EquipmentModalComponent implements OnInit {
         equipment?.maximumDays || null,
         [Validators.required, Validators.min(this.minValue.maximumDays), Validators.max(this.maxValue.maximumDays)],
       ],
-      name: [equipment?.name || '', Validators.required],
+      name: [equipment?.name || '', [Validators.required, Validators.maxLength(this.maxValue.name)]],
       nameSubstring: [''],
       petKinds: [equipment?.petKinds || null, Validators.required],
       petSize: [equipment?.petSize ? equipment.petSize : null, Validators.required],

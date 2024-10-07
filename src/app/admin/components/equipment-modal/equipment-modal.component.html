@@ -6,10 +6,12 @@
           <mat-form-field appearance="fill" floatLabel="auto">
             <mat-label>{{ labels.name }}</mat-label>
             <input
+              #name
               matInput
               formControlName="name"
               [lcValidationErrors]="formName"
             />
+            <mat-hint align="end">{{name.value.length}} / {{maxValue.name}}</mat-hint>
           </mat-form-field>
           <mat-form-field appearance="fill" floatLabel="auto">
             <mat-label>{{ labels.title }}</mat-label>
@@ -79,22 +81,26 @@
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.inventoryNumber }}</mat-label>
           <input
+            #inventoryNumber
             matInput
             type="number"
             [max]="maxInventoryNumber"
             formControlName="inventoryNumber"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{inventoryNumber.value.length}} / {{maxValue.inventoryNumberLength}}</mat-hint>
         </mat-form-field>
         <mat-form-field appearance="fill" floatLabel="auto">
           <mat-label>{{ labels.compensationCost }}</mat-label>
           <input
+            #compensationCost
             matInput
             type="number"
             [max]="maxCompensationCost"
             formControlName="compensationCost"
             [lcValidationErrors]="formName"
           >
+          <mat-hint align="end">{{compensationCost.value.length}} / {{maxValue.compensationCostLength}}</mat-hint>
         </mat-form-field>
       </div>
       <div class="row">
