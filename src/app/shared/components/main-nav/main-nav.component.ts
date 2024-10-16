@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
-import { AuthState, Logout } from '@app/auth/store';
+import { AuthState } from '@app/auth/store';
 import { navLinksMap } from '@app/shared/constants/nav-menu-role-mapping';
 import { UserRole } from '@app/shared/constants/user-role.enum';
 import { AuthService } from '@app/shared/services/auth-service/auth-service.service';
 import { NavigationLink } from '@app/shared/types/navigation-link';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { AppRoutes } from '@shared/constants/routes.enum';
 
 @UntilDestroy
@@ -38,7 +38,12 @@ export class MainNavComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService.logout();
-    this.authService.navigateToLogin();
+    this.authService
+      .openLogoutConfirmationModal()
+      .pipe(filter(Boolean), untilDestroyed(this))
+      .subscribe(() => {
+        this.authService.logout();
+        this.authService.navigateToLogin();
+      });
   }
 }

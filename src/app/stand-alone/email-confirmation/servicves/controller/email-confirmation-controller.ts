@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EmailConfirmationApi } from '../api/email-confirmation-api';
 import { Store } from '@ngxs/store';
-import { Observable, of, tap } from 'rxjs';
+import { filter, Observable, of, tap } from 'rxjs';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
 import { NotificationSuccess } from '@app/shared/constants/notification-success.enum';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,7 @@ import { BlockUiService } from '@app/shared/services/block-ui/block-ui.service';
 import { UserPersonalInfo } from '@shared/constants/personal-info';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
+import { untilDestroyed } from '@shared/until-destroy/until-destroy';
 
 @Injectable()
 export class EmailConfirmationController {
@@ -102,7 +103,12 @@ export class EmailConfirmationController {
   }
 
   logout() {
-    this.authService.logout();
-    this.authService.navigateToLogin();
+    this.authService
+      .openLogoutConfirmationModal()
+      .pipe(filter(Boolean), untilDestroyed(this))
+      .subscribe(() => {
+        this.authService.logout();
+        this.authService.navigateToLogin();
+      });
   }
 }

@@ -14,8 +14,6 @@ export class DateRangeService {
     return this.dialog
       .open(DateRangeComponent, {
         data: dateRangeData,
-        width: '390px',
-        maxWidth: '390px',
         autoFocus: false,
       })
       .afterClosed()
