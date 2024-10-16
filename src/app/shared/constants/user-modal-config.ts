@@ -6,6 +6,6 @@ export const MODAL_CONFIG_MOBILE = {
 
 export const MODAL_CONFIG_DESKTOP = {
   maxWidth: 472,
-  minWidth: 360,
+  minWidth: 472,
   autoFocus: false,
 };

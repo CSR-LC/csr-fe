@@ -13,6 +13,7 @@ export class DateRangeService {
   openDateRangeModal(dateRangeData: DateRangeData): Observable<UnavailableDates | null> {
     return this.dialog
       .open(DateRangeComponent, {
+        minWidth: 320,
         data: dateRangeData,
         autoFocus: false,
       })
