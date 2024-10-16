@@ -11,11 +11,11 @@ import { mat_date_locale, mat_form_field_config, materialModules } from './mater
 import { sharedComponents } from './components/components';
 import { sharedDirectives } from './directives/directives';
 import { sharedPipes } from './pipes/pipes';
-import { USER_MODAL_CONFIG_DESKTOP, USER_MODAL_CONFIG_MOBILE } from '@shared/constants/user-modal-config';
+import { MODAL_CONFIG_DESKTOP, MODAL_CONFIG_MOBILE } from '@shared/constants/user-modal-config';
 
 function matDialogDefaultOptionsFactory(breakpointObserver: BreakpointObserver) {
   const isMobile = breakpointObserver.isMatched(Breakpoints.Handset);
-  return isMobile ? USER_MODAL_CONFIG_MOBILE : USER_MODAL_CONFIG_DESKTOP;
+  return isMobile ? MODAL_CONFIG_MOBILE : MODAL_CONFIG_DESKTOP;
 }
 
 @NgModule({
