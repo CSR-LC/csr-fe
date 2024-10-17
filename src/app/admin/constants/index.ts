@@ -1,4 +1,3 @@
-export * from './admin-modal-config';
 export * from './admin-pages-titles.enum';
 export * from './application-action';
 export * from './application-columns';

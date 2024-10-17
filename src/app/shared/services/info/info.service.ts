@@ -14,8 +14,6 @@ export class InfoService {
     return this.dialog
       .open(InfoModalComponent, {
         data: infoData,
-        width: '390px',
-        maxWidth: '390px',
         autoFocus: false,
       })
       .afterClosed()

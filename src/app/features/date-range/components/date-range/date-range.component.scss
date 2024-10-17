@@ -9,6 +9,7 @@
     font-size: 20px;
     .icon {
       cursor: pointer;
+      color: $color-title;
     }
   }
   &-title {
@@ -20,7 +21,8 @@
     justify-content: center;
     padding-top: 17px;
     &-card {
-      background: #F7F7F7;;
+      width: 360px;
+      background: #F7F7F7;
     }
     .date-period {
       display: flex;
@@ -59,9 +61,5 @@
       background-color: $color-title;
       color: $color-bg-base;
     }
-  }
-  .mat-calendar {
-    width: 360px;
-    height: 405px;
   }
 }

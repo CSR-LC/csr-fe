@@ -7,7 +7,6 @@ import { TableAction } from '@shared/models/table-action';
 import { UserAction } from '@shared/constants';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { UserNotification } from '@app/admin/constants/user-notification.enum';
 import { TableRow } from '@shared/models/table-row';
@@ -77,7 +76,6 @@ export class UserControllerService {
   private openBlockUserModal(user: User): Observable<boolean> {
     return this.dialog
       .open(ConfirmationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           title: user.is_readonly ? UserModal.UnblockTitle : UserModal.BlockTitle,
           contentComponentData: user,
@@ -106,7 +104,6 @@ export class UserControllerService {
   private openDeleteUserModal(user: User): Observable<boolean> {
     return this.dialog
       .open(ConfirmationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           title: UserModal.DeleteTitle,
           contentComponentData: user,

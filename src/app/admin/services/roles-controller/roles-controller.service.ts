@@ -9,7 +9,7 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 import { BaseItemsResponse } from '@shared/types';
 import { User } from '@app/auth/models';
 import { TableAction } from '@shared/models/table-action';
-import { ADMIN_MODAL_CONFIG, UserModal } from '@app/admin/constants';
+import { UserModal } from '@app/admin/constants';
 import { ConfirmationModalComponent } from '@shared/components';
 import { RoleAction } from '@shared/constants/role-action';
 import { RoleNotification } from '@app/admin/constants/role-notification';
@@ -77,7 +77,6 @@ export class RolesController {
   private openAssignRoleModal(): Observable<AssignRoleModalResult | false> {
     return this.dialog
       .open(AssignRoleModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           roles: this.roles,
           users: this.users,
@@ -104,7 +103,6 @@ export class RolesController {
   private openDeleteRoleModal(user: User): Observable<boolean> {
     return this.dialog
       .open(ConfirmationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           title: RoleModal.DeleteTitle,
           contentComponentData: user,
