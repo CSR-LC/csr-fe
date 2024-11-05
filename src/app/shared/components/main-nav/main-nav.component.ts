@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
 import { AuthState } from '@app/auth/store';
 import { navLinksMap } from '@app/shared/constants/nav-menu-role-mapping';
@@ -7,9 +7,8 @@ import { AuthService } from '@app/shared/services/auth-service/auth-service.serv
 import { NavigationLink } from '@app/shared/types/navigation-link';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Select } from '@ngxs/store';
-import { filter, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppRoutes } from '@shared/constants/routes.enum';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @UntilDestroy
 @Component({
@@ -25,7 +24,6 @@ export class MainNavComponent implements OnInit {
   public userLinks: NavigationLink[] = [];
   public adminLinks: NavigationLink[] = [];
   public profileLink!: NavigationLink | undefined;
-  private readonly destroyRef = inject(DestroyRef);
 
   constructor(private readonly authService: AuthService) {}
 
@@ -40,12 +38,6 @@ export class MainNavComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService
-      .openLogoutConfirmationModal()
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.authService.logout();
-        this.authService.navigateToLogin();
-      });
+    this.authService.logoutFromUI();
   }
 }
