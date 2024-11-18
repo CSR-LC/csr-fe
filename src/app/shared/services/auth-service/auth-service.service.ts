@@ -1,13 +1,15 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AuthState, AuthStore, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
 import { Router } from '@angular/router';
 import { LocalStorageKey, USERS_ENDPOINT } from '../../constants';
 import { AuthApi } from '@app/auth/services';
-import { Observable, of, switchMap } from 'rxjs';
+import { filter, Observable, of, switchMap } from 'rxjs';
 import { HttpRequest } from '@angular/common/http';
-import { AppRoutes } from '@shared/constants/routes.enum';
+import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,13 @@ import { AppRoutes } from '@shared/constants/routes.enum';
 export class AuthService {
   private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', USERS_ENDPOINT, 'password_reset'];
 
-  constructor(private readonly store: Store, private readonly router: Router, private readonly authApi: AuthApi) {}
+  constructor(
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly authApi: AuthApi,
+    private readonly dialog: MatDialog,
+    private readonly destroyRef: DestroyRef,
+  ) {}
 
   login(credentials: LoginInformation): Observable<AuthStore> {
     return this.store.dispatch(new Login(credentials));
@@ -84,7 +92,25 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
 
-  navigateToEmailConfirmation() {
-    this.router.navigate([`/${AppRoutes.EmailConfirmation}`]);
+  logoutFromUI() {
+    this.openLogoutConfirmationModal()
+      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.logout();
+        this.navigateToLogin();
+      });
+  }
+
+  private openLogoutConfirmationModal(): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmationModalComponent, {
+        data: {
+          title: 'Выход',
+          body: 'Вы уверены, что хотите выйти?',
+          applyButtonText: 'Выйти',
+          cancelButtonText: 'Остаться',
+        },
+      })
+      .afterClosed();
   }
 }

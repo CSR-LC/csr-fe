@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AdminApi } from '..';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Application } from '@app/admin/types/application';
 import { TableRow } from '@app/shared/models/table-row';
 import { User } from '@app/auth/models';
@@ -14,7 +14,6 @@ import { TableAction } from '@app/shared/models/table-action';
 import { ApplicationAction } from '@app/admin/constants/application-action';
 import { MatDialog } from '@angular/material/dialog';
 import { EditApplicationStatusComponent } from '@app/admin/components';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { Store } from '@ngxs/store';
 import { ItemTranslated } from '@app/shared/types';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
@@ -191,7 +190,6 @@ export class ApplicationsControllerService {
   private openEditApplicationStatusModal(application: Application): Observable<string> {
     return this.dialog
       .open(EditApplicationStatusComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           application,
           statuses: this.applicationStatuses,
