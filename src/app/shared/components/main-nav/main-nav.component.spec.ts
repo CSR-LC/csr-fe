@@ -6,7 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainNavComponent } from '@shared/components';
 import { NgxsModule, Store } from '@ngxs/store';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { AuthState } from '@app/auth/store';
 import { ngxsConfig } from '@app/ngxs.config';
@@ -25,6 +25,7 @@ xdescribe('MainNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [MainNavComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -34,15 +35,14 @@ xdescribe('MainNavComponent', () => {
         MatSidenavModule,
         MatToolbarModule,
         RouterModule.forRoot([]),
-        HttpClientModule,
         NgxsModule.forRoot([AuthState], ngxsConfig),
       ],
-      declarations: [MainNavComponent],
       providers: [
         {
           provide: Store,
           useValue: mockStore(),
         },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

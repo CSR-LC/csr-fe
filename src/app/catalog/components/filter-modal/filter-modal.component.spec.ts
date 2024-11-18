@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FilterModalComponent } from './filter-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CatalogController } from '@app/catalog/services';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 xdescribe('FilterModalComponent', () => {
   let component: FilterModalComponent;
@@ -14,7 +15,7 @@ xdescribe('FilterModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FilterModalComponent],
-      imports: [ReactiveFormsModule, HttpClientTestingModule],
+      imports: [ReactiveFormsModule],
       providers: [
         {
           provide: MAT_DIALOG_DATA,
@@ -28,6 +29,8 @@ xdescribe('FilterModalComponent', () => {
           provide: CatalogController,
           useValue: {},
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
   });
