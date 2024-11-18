@@ -3,7 +3,7 @@ import { Router, UrlTree } from '@angular/router';
 import { AuthState } from '@app/auth/store';
 import { Store } from '@ngxs/store';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class AuthGuard {
@@ -15,11 +15,11 @@ export class AuthGuard {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.authService.checkTokens().pipe(
-      switchMap((state) => {
-        return state?.auth.tokens ? this.authService.setCurrentUser() : of(null);
+      switchMap(() => {
+        return this.store.selectSnapshot(AuthState.tokens) ? this.authService.setCurrentUser() : of(null);
       }),
-      switchMap((res) => {
-        return res?.auth.user ? of(true) : of(this.router.parseUrl('/auth'));
+      switchMap(() => {
+        return this.store.selectSnapshot(AuthState.user) ? of(true) : of(this.router.parseUrl('/auth'));
       }),
     );
   }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, switchMap, tap, timer } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { BaseKind, PetSize } from '@app/shared/models/management';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngxs/store';
-import { PetKindsAction, PetSizesAction } from '@shared/store/application-data';
+import { ApplicationDataState, PetKindsAction, PetSizesAction } from '@shared/store/application-data';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +14,14 @@ export class ApplicationResolverService {
   resolvePetKinds(): Observable<BaseKind[]> {
     return this.getPetKinds().pipe(
       switchMap((res) => this.store.dispatch(new PetKindsAction(res))),
-      map((res) => res.application_data.petKinds),
+      map(() => this.store.selectSnapshot(ApplicationDataState.petKinds) || []),
     );
   }
 
   resolvePetSizes(): Observable<PetSize[]> {
     return this.getPetSizes().pipe(
       switchMap((res) => this.store.dispatch(new PetSizesAction(res))),
-      map((res) => res.application_data.petSizes),
+      map(() => this.store.selectSnapshot(ApplicationDataState.petSizes) || []),
     );
   }
 

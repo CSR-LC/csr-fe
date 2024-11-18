@@ -22,6 +22,7 @@ import { MainPageHeaderService } from '@app/shared/services/main-page-header.ser
 import { InfoModalComponent } from '@app/shared/components';
 import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
 import { RowAction } from '@app/shared/models';
+import { ApplicationDataState } from '@shared/store/application-data';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -40,7 +41,7 @@ export class ApplicationsControllerService {
   ) {}
 
   get applicationStatuses(): ItemTranslated[] {
-    return this.store.snapshot().application_data?.applicationStatuses || [];
+    return this.store.selectSnapshot(ApplicationDataState.applicationStatuses) || [];
   }
 
   setPageTitle() {

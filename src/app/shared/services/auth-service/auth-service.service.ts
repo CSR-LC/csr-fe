@@ -1,6 +1,6 @@
 import { DestroyRef, Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { AuthState, AuthStore, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
+import { AuthState, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
 import { Router } from '@angular/router';
 import { LocalStorageKey, USERS_ENDPOINT } from '../../constants';
@@ -25,7 +25,7 @@ export class AuthService {
     private readonly destroyRef: DestroyRef,
   ) {}
 
-  login(credentials: LoginInformation): Observable<AuthStore> {
+  login(credentials: LoginInformation): Observable<void> {
     return this.store.dispatch(new Login(credentials));
   }
 
@@ -68,7 +68,7 @@ export class AuthService {
     return savedTokens ? JSON.parse(savedTokens) : savedTokens;
   }
 
-  checkTokens(): Observable<{ auth: AuthStore } | null> {
+  checkTokens(): Observable<void | null> {
     let tokens: Tokens | null = this.store.selectSnapshot(AuthState.tokens);
     if (tokens) return of(this.store.snapshot());
 
@@ -76,7 +76,7 @@ export class AuthService {
     return tokens ? this.saveTokens(tokens) : of(null);
   }
 
-  setCurrentUser(): Observable<{ auth: AuthStore }> {
+  setCurrentUser(): Observable<void> {
     return this.authApi.getCurrentUser().pipe(
       switchMap((user) => {
         return this.store.dispatch(new UserAction(user));
@@ -84,7 +84,7 @@ export class AuthService {
     );
   }
 
-  saveTokens(tokens: Tokens): Observable<{ auth: AuthStore }> {
+  saveTokens(tokens: Tokens): Observable<void> {
     return this.store.dispatch(new TokensAction(tokens));
   }
 
