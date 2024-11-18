@@ -1,18 +1,18 @@
 import { LayoutModule } from '@angular/cdk/layout';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MainNavComponent } from './main-nav.component';
+import { MainNavComponent } from '@shared/components';
 import { NgxsModule, Store } from '@ngxs/store';
-import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { AuthState } from '@app/auth/store';
 import { ngxsConfig } from '@app/ngxs.config';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
 
 function mockStore() {
   return jasmine.createSpyObj('Store', ['select']);
@@ -33,7 +33,7 @@ xdescribe('MainNavComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
-        RouterTestingModule,
+        RouterModule.forRoot([]),
         HttpClientModule,
         NgxsModule.forRoot([AuthState], ngxsConfig),
       ],
