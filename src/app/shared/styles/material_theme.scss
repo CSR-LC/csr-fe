@@ -87,5 +87,5 @@ $lc-theme: mat.define-light-theme((
   )
 ));
 
-@include mat.legacy-core-theme($lc-theme);
+@include mat.core-theme($lc-theme);
 @include mat.all-component-themes($lc-theme);
