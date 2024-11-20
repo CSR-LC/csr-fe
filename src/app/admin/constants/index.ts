@@ -16,3 +16,4 @@ export * from './user-columns';
 export * from './user-modal.enum';
 export * from './user-notification.enum';
 export * from './user-status.enum';
+export * from './equipment-router-params';

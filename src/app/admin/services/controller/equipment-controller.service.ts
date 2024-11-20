@@ -29,6 +29,9 @@ import { RowAction, TableActionState } from '@app/shared/models';
 import { DatePipe } from '@angular/common';
 import { BlockEquipmentModalResponse, EquipmentLists, EquipmentRows } from '@app/admin/types';
 import { EquipmentStatusIds } from '@app/admin/constants';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
+import { EquipmentRouterParams } from '@app/admin/constants/equipment-router-params';
 
 @UntilDestroy
 @Injectable()
@@ -60,6 +63,7 @@ export class EquipmentController {
     private readonly dictionaryService: DictionaryService,
     private readonly store: Store,
     private readonly datePipe: DatePipe,
+    private readonly router: Router,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -72,6 +76,9 @@ export class EquipmentController {
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
+        break;
+      case EquipmentAction.Orders:
+        this.goToOrders(data.row.entity);
         break;
     }
   }
@@ -244,6 +251,13 @@ export class EquipmentController {
     const endUnavailable = new Date(period.end_date);
     const dateTime = date.getTime();
     return date >= startUnavailable && date <= endUnavailable;
+  }
+
+  private goToOrders(equipment: Equipment) {
+    const { id } = equipment;
+    this.router.navigate([AppRoutes.Admin, AppRoutes.Applications], {
+      queryParams: { [EquipmentRouterParams.equipmentId]: id },
+    });
   }
 
   private archivateEquipment(data: TableAction<Equipment>) {

@@ -23,6 +23,8 @@ import { InfoModalComponent } from '@app/shared/components';
 import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
 import { RowAction } from '@app/shared/models';
 import { ApplicationDataState } from '@shared/store/application-data';
+import { ActivatedRoute } from '@angular/router';
+import { EquipmentRouterParams } from '@app/admin/constants';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -38,6 +40,7 @@ export class ApplicationsControllerService {
     private readonly store: Store,
     private readonly notificationsService: NotificationsService,
     private readonly mainPageHeaderService: MainPageHeaderService,
+    private readonly activatedRoute: ActivatedRoute,
   ) {}
 
   get applicationStatuses(): ItemTranslated[] {
@@ -49,7 +52,8 @@ export class ApplicationsControllerService {
   }
 
   fetchApplications(): Observable<TableRow<Application>[]> {
-    return this.api.getAllOrders().pipe(
+    const equipmentId = this.activatedRoute.snapshot.queryParamMap.get(EquipmentRouterParams.equipmentId);
+    return this.api.getAllOrders(equipmentId).pipe(
       map((res) => this.createRows(res.items)),
       tap((res) => this.applicationsSub.next(res)),
     );

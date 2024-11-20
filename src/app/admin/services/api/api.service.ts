@@ -14,6 +14,7 @@ import { Role } from '@app/auth/models/role';
 import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
 import { ChangeStatusBody } from '@app/admin/types';
+import { EquipmentRouterParams } from '@app/admin/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -107,9 +108,10 @@ export class ApiService {
     return this.http.post<string>(`${ApiService.MANAGEMENT_BASE_URL}/users/${userId}/role`, body);
   }
 
-  getAllOrders(): Observable<BaseItemsResponse<Application>> {
-    // TODO: remove when solved
-    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+  getAllOrders(equipmentId?: string | null): Observable<BaseItemsResponse<Application>> {
+    // TODO: remove limit when solved
+    const params = new HttpParams().set('limit', 1000).set(EquipmentRouterParams.equipmentId, equipmentId || '');
+
     return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
   }
 
