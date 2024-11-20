@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserProfileComponent } from './user-profile.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthState } from '@app/auth/store';
 
 function mockStore() {
@@ -17,13 +17,14 @@ xdescribe('UserProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientModule, NgxsModule.forRoot([AuthState])],
       declarations: [UserProfileComponent],
+      imports: [RouterTestingModule, NgxsModule.forRoot([AuthState])],
       providers: [
         {
           provide: Store,
           useValue: mockStore(),
         },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

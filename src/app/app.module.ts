@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgxsModule } from '@ngxs/store';
 
@@ -19,9 +19,9 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    HttpClientModule,
     NgxsModule.forRoot([AuthState, ApplicationDataState], ngxsConfig),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsFormPluginModule.forRoot(),
@@ -30,7 +30,6 @@ import { NgxsFormPluginModule } from '@ngxs/form-plugin';
     SharedModule,
     AppRoutingModule,
   ],
-  providers: [...guards, ...interceptors, ...resolvers],
-  bootstrap: [AppComponent],
+  providers: [...guards, ...interceptors, ...resolvers, provideHttpClient(withInterceptorsFromDi())],
 })
 export class AppModule {}

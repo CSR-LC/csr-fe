@@ -9,5 +9,5 @@ export const applicationStatusResolver: ResolveFn<Observable<ItemTranslated[]>> 
   state: RouterStateSnapshot,
   applicationResolverService: OrdersResolverService = inject(OrdersResolverService),
 ) => {
-  return applicationResolverService.getApplicationStatusNames();
+  return applicationResolverService.getApplicationStatusNames() || [];
 };
