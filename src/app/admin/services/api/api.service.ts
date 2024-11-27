@@ -27,8 +27,7 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
-    // TODO: remove when solved
-    const params = new HttpParams().set('limit', 2000);
+    const params = new HttpParams().set('limit', 0);
 
     return this.http.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
@@ -109,8 +108,7 @@ export class ApiService {
   }
 
   getAllOrders(equipmentId?: string | null): Observable<BaseItemsResponse<Application>> {
-    // TODO: remove limit when solved
-    const params = new HttpParams().set('limit', 1000).set(EquipmentRouterParams.equipmentId, equipmentId || '');
+    const params = new HttpParams().set('limit', 0).set(EquipmentRouterParams.equipmentId, equipmentId || '');
 
     return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
   }
