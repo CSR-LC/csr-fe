@@ -17,8 +17,7 @@ export class ApiService {
   }
 
   getCatalog(): Observable<BaseItemsResponse<Equipment>> {
-    // TODO: remove prams, when pagination is ready
-    const params = new HttpParams().set('limit', 1000);
+    const params = new HttpParams().set('limit', 0);
     return this.httpClient.get<BaseItemsResponse<Equipment>>('equipment', { params });
   }
 
@@ -29,14 +28,12 @@ export class ApiService {
   }
 
   getCategoriesContainEquipment(): Observable<BaseItemsResponse<Category>> {
-    // TODO: remove params, when pagination is ready
-    const params = new HttpParams().set('limit', 1000).set('has_equipments', 'true');
+    const params = new HttpParams().set('limit', 0).set('has_equipments', 'true');
     return this.httpClient.get<BaseItemsResponse<Category>>(`equipment/categories`, { params });
   }
 
   filterEquipment(payload: EquipmentFilterRequest): Observable<BaseItemsResponse<Equipment>> {
-    // TODO: remove prams, when pagination is ready
-    const params = new HttpParams().set('limit', 1000);
+    const params = new HttpParams().set('limit', 0);
     return this.httpClient.post<BaseItemsResponse<Equipment>>(`equipment/search`, payload, { params });
   }
 
