@@ -4,7 +4,7 @@ import { map, Observable, switchMap } from 'rxjs';
 import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
 import { Item, ItemTranslated } from '@app/shared/types';
 import { Store } from '@ngxs/store';
-import { ApplicationStatusesAction } from '@app/shared/store/application-data';
+import { ApplicationDataState, ApplicationStatusesAction } from '@app/shared/store/application-data';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class OrdersResolverService {
     return this.api.getApplicationStatuses().pipe(
       map((statuses) => this.translateStatuses(statuses)),
       switchMap((statuses) => this.store.dispatch(new ApplicationStatusesAction(statuses))),
-      map((store) => store.application_data?.applicationStatuses),
+      map(() => this.store.selectSnapshot(ApplicationDataState.applicationStatuses) || []),
     );
   }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AdminApi } from '..';
-import { tap, map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Application } from '@app/admin/types/application';
 import { TableRow } from '@app/shared/models/table-row';
 import { User } from '@app/auth/models';
@@ -14,7 +14,6 @@ import { TableAction } from '@app/shared/models/table-action';
 import { ApplicationAction } from '@app/admin/constants/application-action';
 import { MatDialog } from '@angular/material/dialog';
 import { EditApplicationStatusComponent } from '@app/admin/components';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { Store } from '@ngxs/store';
 import { ItemTranslated } from '@app/shared/types';
 import { NotificationsService } from '@app/shared/services/notifications/notifications.service';
@@ -23,6 +22,9 @@ import { MainPageHeaderService } from '@app/shared/services/main-page-header.ser
 import { InfoModalComponent } from '@app/shared/components';
 import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
 import { RowAction } from '@app/shared/models';
+import { ApplicationDataState } from '@shared/store/application-data';
+import { ActivatedRoute } from '@angular/router';
+import { EquipmentRouterParams } from '@app/admin/constants';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -38,10 +40,11 @@ export class ApplicationsControllerService {
     private readonly store: Store,
     private readonly notificationsService: NotificationsService,
     private readonly mainPageHeaderService: MainPageHeaderService,
+    private readonly activatedRoute: ActivatedRoute,
   ) {}
 
   get applicationStatuses(): ItemTranslated[] {
-    return this.store.snapshot().application_data?.applicationStatuses || [];
+    return this.store.selectSnapshot(ApplicationDataState.applicationStatuses) || [];
   }
 
   setPageTitle() {
@@ -49,7 +52,8 @@ export class ApplicationsControllerService {
   }
 
   fetchApplications(): Observable<TableRow<Application>[]> {
-    return this.api.getAllOrders().pipe(
+    const equipmentId = this.activatedRoute.snapshot.queryParamMap.get(EquipmentRouterParams.equipmentId);
+    return this.api.getAllOrders(equipmentId).pipe(
       map((res) => this.createRows(res.items)),
       tap((res) => this.applicationsSub.next(res)),
     );
@@ -191,7 +195,6 @@ export class ApplicationsControllerService {
   private openEditApplicationStatusModal(application: Application): Observable<string> {
     return this.dialog
       .open(EditApplicationStatusComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           application,
           statuses: this.applicationStatuses,

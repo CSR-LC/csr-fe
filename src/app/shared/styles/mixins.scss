@@ -1,6 +1,6 @@
 @import "./src/app/shared/styles/variables";
 
-@mixin cross($bg-color: $color-title-lite) {
+@mixin cross($bg-color: $color-title) {
   i.cross {
     position: relative;
 

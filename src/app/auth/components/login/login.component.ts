@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AuthController } from '../../services';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { LoginInformation } from '../../models';
@@ -58,10 +58,8 @@ export class LoginComponent {
         finalize(() => this.blockUiService.unBlock()),
         untilDestroyed(this),
       )
-      .subscribe((res) => {
-        if (res) {
-          this.router.navigate(['/']);
-        }
+      .subscribe(() => {
+        this.router.navigate(['/']);
       });
   }
 

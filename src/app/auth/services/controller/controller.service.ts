@@ -6,7 +6,7 @@ import { ApiService } from '../api/api.service';
 import { LoginInformation, NewUserInfo, SignupResponse, User } from '../../models';
 import { Store } from '@ngxs/store';
 import { AuthService } from '@shared/services/auth-service/auth-service.service';
-import { AuthState, AuthStore, rememberMeAction, UserAction } from '@app/auth/store';
+import { AuthState, rememberMeAction, UserAction } from '@app/auth/store';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordResetComponent } from '@app/auth/components/password-reset/password-reset.component';
 import { PersonalInfoService } from '@shared/services/personal-info/personal-info.service';
@@ -35,7 +35,7 @@ export class ControllerService {
     return this.api.signUp(personalData);
   }
 
-  login(credentials: LoginInformation): Observable<AuthStore> {
+  login(credentials: LoginInformation): Observable<void> {
     return this.authService.login(credentials);
   }
 

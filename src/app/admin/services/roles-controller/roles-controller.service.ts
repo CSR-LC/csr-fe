@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
-import { BehaviorSubject, filter, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
 import { TableRow } from '@shared/models/table-row';
 import { AdminApi } from '@app/admin/services';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
@@ -9,7 +9,7 @@ import { MainPageHeaderService } from '@shared/services/main-page-header.service
 import { BaseItemsResponse } from '@shared/types';
 import { User } from '@app/auth/models';
 import { TableAction } from '@shared/models/table-action';
-import { ADMIN_MODAL_CONFIG, UserModal } from '@app/admin/constants';
+import { UserModal } from '@app/admin/constants';
 import { ConfirmationModalComponent } from '@shared/components';
 import { RoleAction } from '@shared/constants/role-action';
 import { RoleNotification } from '@app/admin/constants/role-notification';
@@ -24,7 +24,7 @@ import { AssignRoleModalResult } from '@app/admin/types/assign-role-modal-result
 @Injectable()
 export class RolesController {
   private rolesSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
-  private roles = this.store.selectSnapshot(ApplicationDataState).roles;
+  private roles = this.store.selectSnapshot(ApplicationDataState.roles);
   private users: User[] = [];
   private userRoleIdSaved?: number;
 
@@ -77,7 +77,6 @@ export class RolesController {
   private openAssignRoleModal(): Observable<AssignRoleModalResult | false> {
     return this.dialog
       .open(AssignRoleModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           roles: this.roles,
           users: this.users,
@@ -92,7 +91,7 @@ export class RolesController {
     this.openDeleteRoleModal(user)
       .pipe(
         filter(Boolean),
-        switchMap(() => this.api.assignRoleToUser(user.id, this.userRoleId)),
+        switchMap(() => (this.userRoleId ? this.api.assignRoleToUser(user.id, this.userRoleId) : EMPTY)),
         switchMap(() => this.fetchRoles()),
         untilDestroyed(this),
       )
@@ -104,7 +103,6 @@ export class RolesController {
   private openDeleteRoleModal(user: User): Observable<boolean> {
     return this.dialog
       .open(ConfirmationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           title: RoleModal.DeleteTitle,
           contentComponentData: user,
@@ -135,9 +133,9 @@ export class RolesController {
     };
   }
 
-  private get userRoleId(): number {
+  private get userRoleId(): number | undefined {
     if (this.userRoleIdSaved !== undefined) return this.userRoleIdSaved;
-    this.userRoleIdSaved = this.roles.find((role: Role) => role.slug === 'user').id;
-    return this.userRoleIdSaved as number;
+    this.userRoleIdSaved = (this.roles && this.roles.find((role: Role) => role.slug === 'user')?.id) || undefined;
+    return this.userRoleIdSaved;
   }
 }

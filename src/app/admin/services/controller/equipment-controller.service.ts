@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { AdminApi } from '@app/admin/services';
-import { BehaviorSubject, Observable, filter, of, map, switchMap, tap, forkJoin } from 'rxjs';
+import { BehaviorSubject, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BlockEquipmentModalComponent } from '@app/admin/components/block-equipment-modal/block-equipment-modal.component';
 import { Dictionary, ItemTranslated } from '@app/shared/types';
@@ -22,14 +22,16 @@ import { EquipmentModalComponent } from '@app/admin/components';
 import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
 import { Store } from '@ngxs/store';
 import { BaseKind } from '@app/shared/models/management';
-import { ADMIN_MODAL_CONFIG } from '@app/admin/constants/admin-modal-config';
 import { MainPageHeaderService } from '@app/shared/services/main-page-header.service';
 import { EquipmentNotification } from '@app/admin/constants/equipment-notification';
 import { INITIAL_EQUIPMENT_ACTIONS_STATE } from '@app/admin/constants/initial-equipment-actions-state';
 import { RowAction, TableActionState } from '@app/shared/models';
 import { DatePipe } from '@angular/common';
-import { EquipmentLists, BlockEquipmentModalResponse, EquipmentRows } from '@app/admin/types';
+import { BlockEquipmentModalResponse, EquipmentLists, EquipmentRows } from '@app/admin/types';
 import { EquipmentStatusIds } from '@app/admin/constants';
+import { Router } from '@angular/router';
+import { AppRoutes } from '@app/shared/constants/routes.enum';
+import { EquipmentRouterParams } from '@app/admin/constants/equipment-router-params';
 
 @UntilDestroy
 @Injectable()
@@ -61,6 +63,7 @@ export class EquipmentController {
     private readonly dictionaryService: DictionaryService,
     private readonly store: Store,
     private readonly datePipe: DatePipe,
+    private readonly router: Router,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -73,6 +76,9 @@ export class EquipmentController {
         break;
       case EquipmentAction.Archivate:
         this.archivateEquipment(data);
+        break;
+      case EquipmentAction.Orders:
+        this.goToOrders(data.row.entity);
         break;
     }
   }
@@ -247,6 +253,13 @@ export class EquipmentController {
     return date >= startUnavailable && date <= endUnavailable;
   }
 
+  private goToOrders(equipment: Equipment) {
+    const { id } = equipment;
+    this.router.navigate([AppRoutes.Admin, AppRoutes.Applications], {
+      queryParams: { [EquipmentRouterParams.equipmentId]: id },
+    });
+  }
+
   private archivateEquipment(data: TableAction<Equipment>) {
     const equipment = data.row.entity;
     this.openArchiveEquipmentModal(equipment)
@@ -269,7 +282,6 @@ export class EquipmentController {
   private openOrderNotificationModal(action: string): Observable<boolean | undefined> {
     return this.dialog
       .open(OrderNotificationModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: action,
       })
       .afterClosed();
@@ -278,7 +290,6 @@ export class EquipmentController {
   private openArchiveEquipmentModal(equipment: Equipment) {
     return this.dialog
       .open(ArchiveEquipmentModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: equipment,
       })
       .afterClosed();
@@ -289,7 +300,6 @@ export class EquipmentController {
   ): Observable<BlockEquipmentModalResponse> {
     return this.dialog
       .open(BlockEquipmentModalComponent, {
-        ...ADMIN_MODAL_CONFIG,
         data: {
           equipment,
           unavailablePeriods: unavailablePeriods ? unavailablePeriods : [],
@@ -344,6 +354,7 @@ export class EquipmentController {
     const appData = this.store.snapshot().application_data;
     return this.dialog
       .open(EquipmentModalComponent, {
+        maxWidth: '',
         autoFocus: false,
         disableClose: true,
         data: {

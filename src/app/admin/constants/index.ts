@@ -1,4 +1,3 @@
-export * from './admin-modal-config';
 export * from './admin-pages-titles.enum';
 export * from './application-action';
 export * from './application-columns';
@@ -17,3 +16,4 @@ export * from './user-columns';
 export * from './user-modal.enum';
 export * from './user-notification.enum';
 export * from './user-status.enum';
+export * from './equipment-router-params';

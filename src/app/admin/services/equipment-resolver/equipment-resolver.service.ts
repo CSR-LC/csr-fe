@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { Observable, map, tap, switchMap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { equipmentStatuses } from '@app/admin/constants/equipment-statuses';
 import { EquipmentStatus } from '@app/admin/types/equipment-status';
-import { BaseItemsResponse } from '@app/shared/types';
 import { Category } from '@app/catalog/models';
 import { Store } from '@ngxs/store';
-import { EquipmentCategoriesAction, EquipmentStatusesAction } from '@app/shared/store/application-data';
+import {
+  ApplicationDataState,
+  EquipmentCategoriesAction,
+  EquipmentStatusesAction,
+} from '@app/shared/store/application-data';
 
 @Injectable()
 export class EquipmentResolverService {
@@ -16,7 +19,7 @@ export class EquipmentResolverService {
     return this.api.getEquipmentStatuses().pipe(
       map((res) => this.fillInStatusesTranslations(res)),
       switchMap((statuses) => this.store.dispatch(new EquipmentStatusesAction(statuses))),
-      map((store) => store.application_data?.equipmentStatuses),
+      map(() => this.store.selectSnapshot(ApplicationDataState.equipmentStatuses) || []),
     );
   }
 
@@ -28,10 +31,10 @@ export class EquipmentResolverService {
     });
   }
 
-  getEquipmentCategories(): Observable<BaseItemsResponse<Category>> {
+  getEquipmentCategories(): Observable<Category[]> {
     return this.api.getEquipmentCategories().pipe(
       switchMap((res) => this.store.dispatch(new EquipmentCategoriesAction(res.items))),
-      map((store) => store.application_data?.equipmentCategories),
+      map(() => this.store.selectSnapshot(ApplicationDataState.equipmentCategories) || []),
     );
   }
 }

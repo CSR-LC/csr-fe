@@ -75,11 +75,11 @@ $lc-white-palette: (
   )
 );
 
-$lc-primary: mat.define-palette($lc-primary-palette, 600);
-$lc-warn: mat.define-palette($lc-warn-palette, 500);
-$lc-white: mat.define-palette($lc-white-palette);
+$lc-primary: mat.m2-define-palette($lc-primary-palette, 600);
+$lc-warn: mat.m2-define-palette($lc-warn-palette, 500);
+$lc-white: mat.m2-define-palette($lc-white-palette);
 
-$lc-theme: mat.define-light-theme((
+$lc-theme: mat.m2-define-light-theme((
   color: (
     primary: $lc-primary,
     accent: $lc-white,
@@ -87,5 +87,5 @@ $lc-theme: mat.define-light-theme((
   )
 ));
 
-@include mat.legacy-core-theme($lc-theme);
+@include mat.core-theme($lc-theme);
 @include mat.all-component-themes($lc-theme);

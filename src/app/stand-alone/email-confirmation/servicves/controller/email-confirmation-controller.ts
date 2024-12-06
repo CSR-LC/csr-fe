@@ -102,7 +102,6 @@ export class EmailConfirmationController {
   }
 
   logout() {
-    this.authService.logout();
-    this.authService.navigateToLogin();
+    this.authService.logoutFromUI();
   }
 }

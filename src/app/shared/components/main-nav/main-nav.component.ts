@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { User } from '@app/auth/models';
-import { AuthState, Logout } from '@app/auth/store';
+import { AuthState } from '@app/auth/store';
 import { navLinksMap } from '@app/shared/constants/nav-menu-role-mapping';
 import { UserRole } from '@app/shared/constants/user-role.enum';
 import { AuthService } from '@app/shared/services/auth-service/auth-service.service';
@@ -38,7 +38,6 @@ export class MainNavComponent implements OnInit {
   }
 
   public logout(): void {
-    this.authService.logout();
-    this.authService.navigateToLogin();
+    this.authService.logoutFromUI();
   }
 }
