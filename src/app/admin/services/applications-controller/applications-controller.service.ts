@@ -25,6 +25,7 @@ import { RowAction } from '@app/shared/models';
 import { ApplicationDataState } from '@shared/store/application-data';
 import { ActivatedRoute } from '@angular/router';
 import { EquipmentRouterParams } from '@app/admin/constants';
+import { DateService } from '@app/shared/services/date/date.service';
 
 @Injectable()
 export class ApplicationsControllerService {
@@ -41,6 +42,7 @@ export class ApplicationsControllerService {
     private readonly notificationsService: NotificationsService,
     private readonly mainPageHeaderService: MainPageHeaderService,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly dateService: DateService,
   ) {}
 
   get applicationStatuses(): ItemTranslated[] {
@@ -186,7 +188,7 @@ export class ApplicationsControllerService {
   private getChangeStatusBody(application: Application, newStatusName: string): ChangeStatusBody {
     return {
       comment: 'comment',
-      created_at: new Date(),
+      created_at: this.dateService.date,
       order_id: application.id,
       status: newStatusName,
     };

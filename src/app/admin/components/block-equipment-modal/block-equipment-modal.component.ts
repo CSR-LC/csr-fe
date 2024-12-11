@@ -6,11 +6,12 @@ import { Equipment } from '@app/catalog/models/equipment';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ValidationService } from '@app/shared/services/validation/validation.service';
 import { DateRangeService } from '@app/features/date-range/services';
-import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
+import { DateRangePurpose } from '@app/features/date-range/models/date-range-purpose';
 import { UnavailableDates, DateRangeData } from '@app/features/date-range/models';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Period } from '@app/shared/models/period';
 import { DateRange } from '@angular/material/datepicker';
+import { DateService } from '@app/shared/services/date/date.service';
 
 @UntilDestroy
 @Component({
@@ -37,12 +38,13 @@ export class BlockEquipmentModalComponent implements OnInit {
     private readonly fb: UntypedFormBuilder,
     private readonly validationService: ValidationService,
     private readonly dateRangeService: DateRangeService,
+    private readonly dateService: DateService,
   ) {}
 
   ngOnInit() {
     this.equipment = this.dialogData.equipment;
     this.unavailablePeriods = this.dialogData.unavailablePeriods;
-    this.minDate = new Date();
+    this.minDate = this.dateService.date;
     this.setInitialFormValue(this.equipment);
   }
 

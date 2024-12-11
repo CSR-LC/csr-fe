@@ -9,18 +9,6 @@ import { Observable } from 'rxjs';
 export class ControllerService {
   constructor(private readonly api: UserApi) {}
 
-  cancel(form: UntypedFormGroup) {
-    form.reset();
-  }
-
-  fillProfile(user: User) {
-    this.api.updateUserInfo(user).subscribe(() => {});
-  }
-
-  loadActiveAreas(): Observable<ActiveArea[]> {
-    return this.api.getWorkArias();
-  }
-
   getUserInfo(): Observable<User> {
     return this.api.getUserInfo();
   }

@@ -3,7 +3,7 @@ import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { Equipment } from '../../models/equipment';
 import { dayCases } from '@shared/constants/day-cases';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap, tap } from 'rxjs';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Select } from '@ngxs/store';
