@@ -32,6 +32,7 @@ import { EquipmentStatusIds } from '@app/admin/constants';
 import { Router } from '@angular/router';
 import { AppRoutes } from '@app/shared/constants/routes.enum';
 import { EquipmentRouterParams } from '@app/admin/constants/equipment-router-params';
+import { DateService } from '@app/shared/services/date/date.service';
 
 @UntilDestroy
 @Injectable()
@@ -64,6 +65,7 @@ export class EquipmentController {
     private readonly store: Store,
     private readonly datePipe: DatePipe,
     private readonly router: Router,
+    private readonly dateService: DateService,
   ) {}
 
   manageEvent(data: TableAction<Equipment>) {
@@ -237,20 +239,13 @@ export class EquipmentController {
   private isPeriodsIntersect(blockPeiod: Period, unavailablePeriods: UnavailableDates[]): boolean {
     for (const unavailablePeriod of unavailablePeriods) {
       if (
-        this.isDateInPeriod(blockPeiod.startDate, unavailablePeriod) ||
-        this.isDateInPeriod(blockPeiod.endDate, unavailablePeriod)
+        this.dateService.isDateInPeriod(blockPeiod.startDate, unavailablePeriod) ||
+        this.dateService.isDateInPeriod(blockPeiod.endDate, unavailablePeriod)
       ) {
         return true;
       }
     }
     return false;
-  }
-
-  private isDateInPeriod(date: Date, period: UnavailableDates) {
-    const startUnavailable = new Date(period.start_date);
-    const endUnavailable = new Date(period.end_date);
-    const dateTime = date.getTime();
-    return date >= startUnavailable && date <= endUnavailable;
   }
 
   private goToOrders(equipment: Equipment) {

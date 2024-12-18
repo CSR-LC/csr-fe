@@ -6,7 +6,7 @@ import { map, Observable, of, switchMap } from 'rxjs';
 import { CatalogApi } from '..';
 import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
-import { UnavailableDates } from '@app/features/date-range/models';
+import { DateRangeData, UnavailableDates } from '@app/features/date-range/models';
 import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
 import { User } from '@app/auth/models';
 import { AuthState, UserAction } from '@app/auth/store';
@@ -14,7 +14,7 @@ import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
-import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
+import { DateRangePurpose } from '@app/features/date-range/models/date-range-purpose';
 
 @Injectable()
 export class ControllerService {
@@ -51,25 +51,29 @@ export class ControllerService {
 
     return this.api.getUnavailablePeriods(equipmentId).pipe(
       switchMap((periods) => {
-        const dateRangeData = {
-          headerText: 'Период аренды',
-          buttonText: 'Подтвердить период аренды',
-          maxRentalPeriod,
-          unavailableDates: periods.items,
-          purpose: DateRangePurpose.rent,
-        };
+        const dateRangeData = this.getDateRangeModalData(maxRentalPeriod, periods.items);
 
         return this.dateRangeService.openDateRangeModal(dateRangeData);
       }),
     );
   }
 
+  private getDateRangeModalData(maxRentalPeriod: number, unavailableDates: UnavailableDates[]): DateRangeData {
+    return {
+      headerText: 'Период аренды',
+      buttonText: 'Подтвердить период аренды',
+      maxRentalPeriod,
+      unavailableDates,
+      purpose: DateRangePurpose.rent,
+    };
+  }
+
   orderEquipment(selectedRentPeriod: UnavailableDates, equipmentId: number): Observable<EquipmentOrder> {
     const payload: EquipmentRentalInfo = {
       description: 'description',
       equipment_id: equipmentId,
-      rent_end: selectedRentPeriod.end_date,
-      rent_start: selectedRentPeriod.start_date,
+      rent_end: new Date(selectedRentPeriod.end_date).getTime(),
+      rent_start: new Date(selectedRentPeriod.start_date).getTime(),
     };
 
     return this.api.getCreatedOrder(payload);

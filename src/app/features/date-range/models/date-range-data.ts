@@ -1,5 +1,5 @@
 import { UnavailableDates } from '.';
-import { DateRangePurpose } from './date-rrange-purpose';
+import { DateRangePurpose } from './date-range-purpose';
 import { DateRange } from '@angular/material/datepicker';
 
 export type DateRangeData = {

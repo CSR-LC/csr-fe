@@ -3,7 +3,8 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DateRange, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
-import { DateRangePurpose } from '../../models/date-rrange-purpose';
+import { DateRangePurpose } from '../../models/date-range-purpose';
+import { DateService } from '@app/shared/services/date/date.service';
 
 @Component({
   selector: 'lc-date-range',
@@ -16,9 +17,9 @@ export class DateRangeComponent implements OnInit {
 
   readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
   readonly cellClassName = 'marked-date';
-  readonly currentDay = new Date().getDate();
-  readonly currentMonth = new Date().getMonth();
-  readonly currentYear = new Date().getFullYear();
+  readonly currentDay = this.dateService.currentDate;
+  readonly currentMonth = this.dateService.currentMonth;
+  readonly currentYear = this.dateService.currentYear;
   purpose: DateRangePurpose = DateRangePurpose.rent;
 
   dateRangeForm = new UntypedFormGroup({
@@ -26,12 +27,15 @@ export class DateRangeComponent implements OnInit {
     toDate: new UntypedFormControl(null),
   });
 
-  minDate = new Date();
+  minDate = this.dateService.date;
   maxDate = new Date(this.currentYear + 1, this.currentMonth, this.currentDay - 1);
 
   private unavailableDates: UnavailableDates[] = this.dateRangeData.unavailableDates;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData,
+    private readonly dateService: DateService,
+  ) {}
 
   ngOnInit() {
     this.purpose = this.dateRangeData.purpose;
@@ -53,8 +57,8 @@ export class DateRangeComponent implements OnInit {
   private hasIntersection(date: Date): undefined | UnavailableDates {
     return this.unavailableDates.find((unavailableDate) => {
       return (
-        this.removeTime(unavailableDate.start_date) <= this.removeTime(date) &&
-        this.removeTime(unavailableDate.end_date) >= this.removeTime(date)
+        this.dateService.removeTime(unavailableDate.start_date) <= this.dateService.removeTime(date) &&
+        this.dateService.removeTime(unavailableDate.end_date) >= this.dateService.removeTime(date)
       );
     });
   }
@@ -62,7 +66,7 @@ export class DateRangeComponent implements OnInit {
   selectedDateRange(selectedDate: Date | null) {
     if (!selectedDate) return;
 
-    const selectedUTCDate = new Date(this.removeTime(selectedDate));
+    const selectedUTCDate = new Date(this.dateService.removeTime(selectedDate));
 
     if (!this.selectedRangeValue?.start || this.selectedRangeValue?.end) {
       return this.setStartDate(selectedUTCDate);
@@ -88,18 +92,14 @@ export class DateRangeComponent implements OnInit {
     if (!dateRange?.start || !dateRange.end) return;
 
     return {
-      end_date: dateRange.end.toISOString(),
-      start_date: dateRange.start.toISOString(),
+      end_date: dateRange.end.toString(),
+      start_date: dateRange.start.toString(),
     };
   }
 
   resetSelectedPeriod() {
     this.maxDate = new Date(this.currentYear + 1, this.currentMonth, this.currentDay - 1);
     this.selectedRangeValue = new DateRange<Date>(null, null);
-  }
-
-  private removeTime(date: Date | string): number {
-    return new Date(date).setHours(0, 0, 0, 0);
   }
 
   private isPeriodAvailable(start: Date, end: Date): boolean {
@@ -119,13 +119,13 @@ export class DateRangeComponent implements OnInit {
   }
 
   private setMaxDate(date: Date) {
-    const lastPeriodOfTheYear = new Date(
+    const lastAvailableStartDate = new Date(
       this.currentYear + 1,
       this.currentMonth,
       this.currentDay - this.maxRentalPeriod,
     );
 
-    if (date > lastPeriodOfTheYear) return;
+    if (date > lastAvailableStartDate) return;
 
     const endDate = new Date(date);
 

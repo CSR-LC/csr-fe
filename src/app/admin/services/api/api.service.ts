@@ -33,25 +33,25 @@ export class ApiService {
   }
 
   getUnavailablePeriodsById(equipmentId: number): Observable<BaseItemsResponse<UnavailableDates>> {
-    return this.http.get<BaseItemsResponse<UnavailableDates>>(`/equipment/unavailability_periods/${equipmentId}`);
+    return this.http.get<BaseItemsResponse<UnavailableDates>>(`equipment/unavailability_periods/${equipmentId}`);
   }
 
   archiveEquipment(equipmentId: number): Observable<void> {
-    return this.http.post<void>(`/equipment/achive/${equipmentId}/`, {
+    return this.http.post<void>(`equipment/achive/${equipmentId}/`, {
       equipmentId,
     });
   }
 
   blockEquipment(id: number, period: Period): Observable<void> {
     const body = {
-      end_date: period.endDate,
-      start_date: period.startDate,
+      end_date: period.endDate.getTime(),
+      start_date: period.startDate.getTime(),
     };
-    return this.http.post<void>(`/equipment/${id}/blocking`, body);
+    return this.http.post<void>(`equipment/${id}/blocking`, body);
   }
 
   unblockEquipment(id: number): Observable<void> {
-    return this.http.post<void>(`/equipment/${id}/unblocking`, {});
+    return this.http.post<void>(`equipment/${id}/unblocking`, {});
   }
 
   uploadPhoto(file: File): Observable<UploadPhotoResponse> {
@@ -69,15 +69,15 @@ export class ApiService {
   }
 
   getEquipmentStatuses(): Observable<EquipmentStatus[]> {
-    return this.http.get<EquipmentStatus[]>('/equipment/status_names');
+    return this.http.get<EquipmentStatus[]>('equipment/status_names');
   }
 
   getEquipmentCategories(): Observable<BaseItemsResponse<Category>> {
-    return this.http.get<BaseItemsResponse<Category>>('/equipment/categories');
+    return this.http.get<BaseItemsResponse<Category>>('equipment/categories');
   }
 
   getEquipmentUnavailabilityPeriods(equipmentId: number): Observable<BaseItemsResponse<UnavailableDates[]>> {
-    return this.http.get<BaseItemsResponse<UnavailableDates[]>>(`/equipment/unavailability_periods/${equipmentId}`);
+    return this.http.get<BaseItemsResponse<UnavailableDates[]>>(`equipment/unavailability_periods/${equipmentId}`);
   }
 
   getAllUsers(): Observable<BaseItemsResponse<User>> {
@@ -110,7 +110,7 @@ export class ApiService {
   getAllOrders(equipmentId?: string | null): Observable<BaseItemsResponse<Application>> {
     const params = new HttpParams().set('limit', 0).set(EquipmentRouterParams.equipmentId, equipmentId || '');
 
-    return this.http.get<BaseItemsResponse<Application>>('/management/orders', { params });
+    return this.http.get<BaseItemsResponse<Application>>('management/orders', { params });
   }
 
   getApplicationStatuses(): Observable<Item[]> {
