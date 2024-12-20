@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { PetSize } from '@app/shared/models/management';
@@ -6,7 +6,8 @@ import { ApplicationResolverService } from '@shared/services/application-resolve
 
 @Injectable()
 export class PetSizeResolver {
-  constructor(private readonly applicationResolverService: ApplicationResolverService) {}
+  private readonly applicationResolverService = inject(ApplicationResolverService);
+
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PetSize[]> {
     return this.applicationResolverService.resolvePetSizes();
   }

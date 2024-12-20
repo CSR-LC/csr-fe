@@ -4,13 +4,17 @@
     aria-label="toggle side navigation"
     mat-icon-button
     (click)="toggleMenu.emit()"
-  >
+    >
     <mat-icon>menu</mat-icon>
   </button>
-  <h1 class="main-header__title" *ngIf="(pageTitleDisplayed$ | async) === true">{{pageTitle$ | async}}</h1>
-  <section class="actions" *ngIf="(actionsDisplayed$ | async) === true"
-           [ngClass]="{'no-title': (pageTitleDisplayed$ | async) === false}">
-    <lc-catalog-search (inputDisplayed)="toggleTitle($event)"></lc-catalog-search>
-    <lc-catalog-filter></lc-catalog-filter>
-  </section>
+  @if ((pageTitleDisplayed$ | async) === true) {
+    <h1 class="main-header__title">{{pageTitle$ | async}}</h1>
+  }
+  @if ((actionsDisplayed$ | async) === true) {
+    <section class="actions"
+      [ngClass]="{'no-title': (pageTitleDisplayed$ | async) === false}">
+      <lc-catalog-search (inputDisplayed)="toggleTitle($event)"></lc-catalog-search>
+      <lc-catalog-filter></lc-catalog-filter>
+    </section>
+  }
 </header>

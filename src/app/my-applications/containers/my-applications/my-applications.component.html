@@ -1,21 +1,27 @@
 <div lcInfiniteScroll (scrolled)="loadMore()" class="my-applications-container">
-  <lc-dropdown-filter
-    *ngIf="filter$ | async as filter"
-    [label]="'Показать'"
-    [options]="filter.options"
-    (selectionChange)="applyFilter($event)">
-  </lc-dropdown-filter>
+  @if (filter$ | async; as filter) {
+    <lc-dropdown-filter
+      [label]="'Показать'"
+      [options]="filter.options"
+      (selectionChange)="applyFilter($event)">
+    </lc-dropdown-filter>
+  }
   <section class="my-applications-list">
-    <div class="my-application-container"
-         *ngFor="let application of applications$(); let i = index; let last = last; trackBy: trackMyApplication">
-      <lc-my-application [application]="application"></lc-my-application>
-      <mat-divider *ngIf="!last"></mat-divider>
-    </div>
-    <ng-container *ngIf="loading$() else noApplicationsMessage">
+    @for (application of applications$(); track trackMyApplication(i, application); let i = $index; let last = $last) {
+      <div class="my-application-container"
+        >
+        <lc-my-application [application]="application"></lc-my-application>
+        @if (!last) {
+          <mat-divider></mat-divider>
+        }
+      </div>
+    }
+    @if (loading$()) {
       <lc-loader></lc-loader>
-    </ng-container>
+    } @else {
+      @if (applications$().length === 0) {
+        <p class="no-applications-message">Извините, по вашему запросу ничего не найдено. Попробуйте изменить критерии запроса.</p>
+      }
+    }
   </section>
 </div>
-<ng-template #noApplicationsMessage>
-  <p class="no-applications-message" *ngIf="applications$().length === 0">Извините, по вашему запросу ничего не найдено. Попробуйте изменить критерии запроса.</p>
-</ng-template>

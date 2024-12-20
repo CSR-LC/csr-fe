@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, catchError, EMPTY, filter, Observable, switchMap, take, tap, throwError } from 'rxjs';
 import { AuthService } from '../../services/auth-service/auth-service.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private readonly authService = inject(AuthService);
+
   private isRefreshing = false;
   private refreshToken$ = new BehaviorSubject<boolean>(false);
-
-  constructor(private readonly authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.authService.isRequestNeedsTokens(request)) {

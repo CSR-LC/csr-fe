@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BlockUiService } from '@shared/services/block-ui/block-ui.service';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { BlockUi } from '@shared/constants';
@@ -10,9 +10,9 @@ import { BlockUi } from '@shared/constants';
   styleUrls: ['./block-ui.component.scss'],
 })
 export class BlockUiComponent implements OnInit {
-  blocked = false;
+  private readonly blockUiService = inject(BlockUiService);
 
-  constructor(private readonly blockUiService: BlockUiService) {}
+  blocked = false;
 
   ngOnInit(): void {
     this.blockUiService.stream.pipe(untilDestroyed(this)).subscribe((value) => {

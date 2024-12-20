@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { TableColumn } from '@shared/models/table-column';
 import { USER_COLUMNS } from '@app/admin/constants/user-columns';
 import { Observable } from 'rxjs';
@@ -16,10 +16,10 @@ import { AdminPagesTitles } from '@app/admin/constants/admin-pages-titles.enum';
   providers: [UserControllerService],
 })
 export class UsersComponent implements OnInit {
+  private controller = inject(UserControllerService);
+
   columns: TableColumn[] = USER_COLUMNS;
   users$: Observable<TableRow<User>[]> = this.controller.users$;
-
-  constructor(private controller: UserControllerService) {}
 
   ngOnInit() {
     this.controller.fetchUsers().subscribe();

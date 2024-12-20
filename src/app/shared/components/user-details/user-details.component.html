@@ -6,7 +6,9 @@
     </button>
   </div>
   <div class="user-details__details">
-    <lc-fake-input *ngFor="let detail of details" [label]="detail.label" [text]="detail.text"></lc-fake-input>
+    @for (detail of details; track detail) {
+      <lc-fake-input [label]="detail.label" [text]="detail.text"></lc-fake-input>
+    }
   </div>
 </div>
 

@@ -1,7 +1,9 @@
 <section class="categories">
   <div class="categories-list">
-    <div *ngFor="let item of categories">
-      <lc-category-item (categorySelected)="selectCategory($event)" [item]="item"></lc-category-item>
-    </div>
+    @for (item of categories; track item) {
+      <div>
+        <lc-category-item (categorySelected)="selectCategory($event)" [item]="item"></lc-category-item>
+      </div>
+    }
   </div>
 </section>

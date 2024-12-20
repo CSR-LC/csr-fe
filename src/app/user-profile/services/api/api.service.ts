@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { ActiveArea, User } from '../../models/user';
@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public updateUserInfo(user: User): Observable<User> {
     // TODO: uncomment http request once BE implements the logic

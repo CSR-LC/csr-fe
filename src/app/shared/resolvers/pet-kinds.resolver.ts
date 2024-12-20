@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 import { BaseKind } from '@app/shared/models/management';
@@ -6,7 +6,7 @@ import { ApplicationResolverService } from '@shared/services/application-resolve
 
 @Injectable()
 export class PetKindsResolver {
-  constructor(private readonly applicationResolverService: ApplicationResolverService) {}
+  private readonly applicationResolverService = inject(ApplicationResolverService);
 
   resolve(): Observable<BaseKind[]> {
     return this.applicationResolverService.resolvePetKinds();

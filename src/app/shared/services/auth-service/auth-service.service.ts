@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AuthState, Login, Logout, TokensAction, UserAction } from '@app/auth/store';
 import { LoginInformation, Tokens } from '@app/auth/models';
@@ -15,15 +15,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', USERS_ENDPOINT, 'password_reset'];
+  private readonly store = inject(Store);
+  private readonly router = inject(Router);
+  private readonly authApi = inject(AuthApi);
+  private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
 
-  constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly authApi: AuthApi,
-    private readonly dialog: MatDialog,
-    private readonly destroyRef: DestroyRef,
-  ) {}
+  private readonly freeEndpoints = ['v1/login', 'v1/logout', 'v1/refresh', USERS_ENDPOINT, 'password_reset'];
 
   login(credentials: LoginInformation): Observable<void> {
     return this.store.dispatch(new Login(credentials));

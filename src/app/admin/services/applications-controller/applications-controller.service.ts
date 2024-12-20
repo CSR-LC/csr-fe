@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AdminApi } from '..';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Application } from '@app/admin/types/application';
@@ -28,20 +28,18 @@ import { EquipmentRouterParams } from '@app/admin/constants';
 
 @Injectable()
 export class ApplicationsControllerService {
+  private readonly api = inject(AdminApi);
+  private readonly dialog = inject(MatDialog);
+  private readonly store = inject(Store);
+  private readonly notificationsService = inject(NotificationsService);
+  private readonly mainPageHeaderService = inject(MainPageHeaderService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+
   private readonly applicationsSub = new BehaviorSubject<TableRow<Application>[]>([]);
 
   get applicationsData$(): Observable<TableRow<Application>[]> {
     return this.applicationsSub.asObservable();
   }
-
-  constructor(
-    private readonly api: AdminApi,
-    private readonly dialog: MatDialog,
-    private readonly store: Store,
-    private readonly notificationsService: NotificationsService,
-    private readonly mainPageHeaderService: MainPageHeaderService,
-    private readonly activatedRoute: ActivatedRoute,
-  ) {}
 
   get applicationStatuses(): ItemTranslated[] {
     return this.store.selectSnapshot(ApplicationDataState.applicationStatuses) || [];

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CatalogController } from '../../services';
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 
@@ -11,10 +11,12 @@ import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-de
   providers: [CatalogController],
 })
 export class CatalogComponent implements OnInit, OnDestroy {
+  private controller = inject(CatalogController);
+
   catalog$ = this.controller.catalog$;
   noResultMessage: string = 'Извините, по вашему запросу ничего не найдено. Попробуйте изменить критерии запроса.';
 
-  constructor(private controller: CatalogController) {
+  constructor() {
     this.controller.setPageTitle('Каталог');
   }
 

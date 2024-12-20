@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of, Subject, switchMap } from 'rxjs';
 import { FilterModalComponent } from '@app/catalog/components/filter-modal/filter-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,10 +22,12 @@ import { EquipmentStatusIds } from '@app/admin/constants';
   providedIn: 'root',
 })
 export class CatalogFilterService {
+  private readonly dialog = inject(MatDialog);
+  private readonly store = inject(Store);
+  private api = inject(CatalogApi);
+
   @Select(CatalogState.equipmentFilterCount) equipmentFilterCount$!: Observable<number>;
   private actionsDisplayed = new Subject<boolean>();
-
-  constructor(private readonly dialog: MatDialog, private readonly store: Store, private api: CatalogApi) {}
 
   getActionsDisplayed(): Observable<boolean> {
     return this.actionsDisplayed.asObservable();

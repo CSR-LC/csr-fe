@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { InfoData } from '@app/shared/models';
 
@@ -9,5 +9,5 @@ import { InfoData } from '@app/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InfoModalComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public infoData: InfoData) {}
+  infoData = inject<InfoData>(MAT_DIALOG_DATA);
 }

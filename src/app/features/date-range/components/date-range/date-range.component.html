@@ -8,17 +8,20 @@
       <div class="date-period">
         <div class="period">
           <span>{{ selectedRangeValue?.start | date: 'dd.MM.yyyy' }}</span>
-          <span *ngIf="selectedRangeValue?.start"> - </span>
+          @if (selectedRangeValue?.start) {
+            <span> - </span>
+          }
           <span>{{ selectedRangeValue?.end | date: 'dd.MM.yyyy' }}</span>
         </div>
-        <button
-        *ngIf="selectedRangeValue?.start"
-          mat-flat-button
-          class="reset-period"
-          (click)="resetSelectedPeriod()"
-        >
-          Сбросить
-        </button>
+        @if (selectedRangeValue?.start) {
+          <button
+            mat-flat-button
+            class="reset-period"
+            (click)="resetSelectedPeriod()"
+            >
+            Сбросить
+          </button>
+        }
       </div>
       <mat-calendar
         [dateFilter]="isDateUnavailable"
@@ -27,7 +30,7 @@
         [maxDate]="maxDate"
         [selected]="selectedRangeValue"
         (selectedChange)="selectedDateRange($event)"
-      >
+        >
       </mat-calendar>
     </div>
   </div>
@@ -38,7 +41,7 @@
       class="button-confirm"
       [mat-dialog-close]="getSelectedRentalDate(selectedRangeValue)"
       type="button"
-    >
+      >
       {{ dateRangeData.buttonText }}
     </button>
   </div>

@@ -2,12 +2,12 @@
   <ng-container body>
     <div class="content">
       <p>
-        <ng-container *ngIf="action === actions.Block">
+        @if (action === actions.Block) {
           В эти даты оборудование забронировано. Блокировка сбросит данное бронирование.
-        </ng-container>
-        <ng-container *ngIf="action === actions.Archivate">
+        }
+        @if (action === actions.Archivate) {
           Архивирование сбросит все бронирования данного оборудования.
-        </ng-container>
+        }
       </p>
       <p>
         Для просмотра списка заявок на данное оборудование, воспользуйтесь кнопкой
@@ -22,14 +22,14 @@
         mat-button
         class="cancel"
         [mat-dialog-close]="false"
-      >
+        >
         Отменить
       </button>
       <button
         mat-raised-button
         color="primary"
         [mat-dialog-close]="true"
-      >
+        >
         {{actionText}}
       </button>
     </div>

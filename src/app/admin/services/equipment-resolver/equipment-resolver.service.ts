@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { map, Observable, switchMap } from 'rxjs';
 import { equipmentStatuses } from '@app/admin/constants/equipment-statuses';
@@ -13,7 +13,8 @@ import {
 
 @Injectable()
 export class EquipmentResolverService {
-  constructor(private readonly api: ApiService, private readonly store: Store) {}
+  private readonly api = inject(ApiService);
+  private readonly store = inject(Store);
 
   getEquipmentStatuses(): Observable<EquipmentStatus[]> {
     return this.api.getEquipmentStatuses().pipe(

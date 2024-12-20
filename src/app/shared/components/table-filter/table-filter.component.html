@@ -1,6 +1,6 @@
 <button #menuTrigger="matMenuTrigger" class="filter-button" mat-icon-button [matMenuTriggerFor]="filterMenu"
-        (click)="$event.stopPropagation()"
-        [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(this.columnDef)}">
+  (click)="$event.stopPropagation()"
+  [ngClass]="{'active': menuTrigger.menuOpen || activeFilters.get(this.columnDef)}">
   <mat-icon>
     filter_alt
   </mat-icon>
@@ -15,39 +15,43 @@
         placeholder="{{placeholder}}"
         [matAutocomplete]="auto"
         autofocus
-      >
-      <mat-autocomplete
-        class="auto-complete"
-        #auto="matAutocomplete"
-        [displayWith]="displayOption"
-        (opened)="menuOpened()"
-        (closed)="menuClosed()"
-      >
-        <div #optionsContainer>
-          <mat-option *ngIf="currentFilteredOptions.length > 0">
-            <div class="option" (click)="optionClicked($event, selectAllOption)">
-              <mat-checkbox [checked]="selectAllOption.selected"
-                            (change)="toggleSelection(selectAllOption)"
-                            (click)="$event.stopPropagation()"
-              >
-                Выбрать все
-              </mat-checkbox>
-            </div>
-          </mat-option>
-          <mat-option *ngFor="let option of filteredOptions | async">
-            <div class="option" (click)="optionClicked($event, option)">
-              <mat-checkbox [checked]="option.selected"
-                            (change)="toggleSelection(option)"
-                            (click)="$event.stopPropagation()">
-                {{option.displayValue}}
-              </mat-checkbox>
-            </div>
-          </mat-option>
-        </div>
-      </mat-autocomplete>
-    </mat-form-field>
-    <button mat-icon-button (click)="resetFilter()">
-      <mat-icon>filter_alt_off</mat-icon>
-    </button>
-  </div>
-</mat-menu>
+        >
+        <mat-autocomplete
+          class="auto-complete"
+          #auto="matAutocomplete"
+          [displayWith]="displayOption"
+          (opened)="menuOpened()"
+          (closed)="menuClosed()"
+          >
+          <div #optionsContainer>
+            @if (currentFilteredOptions.length > 0) {
+              <mat-option>
+                <div class="option" (click)="optionClicked($event, selectAllOption)">
+                  <mat-checkbox [checked]="selectAllOption.selected"
+                    (change)="toggleSelection(selectAllOption)"
+                    (click)="$event.stopPropagation()"
+                    >
+                    Выбрать все
+                  </mat-checkbox>
+                </div>
+              </mat-option>
+            }
+            @for (option of filteredOptions | async; track option) {
+              <mat-option>
+                <div class="option" (click)="optionClicked($event, option)">
+                  <mat-checkbox [checked]="option.selected"
+                    (change)="toggleSelection(option)"
+                    (click)="$event.stopPropagation()">
+                    {{option.displayValue}}
+                  </mat-checkbox>
+                </div>
+              </mat-option>
+            }
+          </div>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-icon-button (click)="resetFilter()">
+        <mat-icon>filter_alt_off</mat-icon>
+      </button>
+    </div>
+  </mat-menu>

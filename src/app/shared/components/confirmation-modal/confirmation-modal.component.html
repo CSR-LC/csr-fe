@@ -1,17 +1,23 @@
 <lc-modal-layout [headerTitle]="title">
   <ng-container body>
-    <p *ngIf="body">{{body}}</p>
+    @if (body) {
+      <p>{{body}}</p>
+    }
     <ng-container *ngComponentOutlet="contentComponent; inputs: {data: contentComponentData}">
     </ng-container>
   </ng-container>
   <ng-container footer>
     <div class="buttons">
-      <button mat-button color="primary" [mat-dialog-close]="false" *ngIf="cancelButtonText">
-        {{ cancelButtonText }}
-      </button>
-      <button mat-raised-button color="primary" [mat-dialog-close]="true" *ngIf="applyButtonText">
-        {{ applyButtonText }}
-      </button>
+      @if (cancelButtonText) {
+        <button mat-button color="primary" [mat-dialog-close]="false">
+          {{ cancelButtonText }}
+        </button>
+      }
+      @if (applyButtonText) {
+        <button mat-raised-button color="primary" [mat-dialog-close]="true">
+          {{ applyButtonText }}
+        </button>
+      }
     </div>
   </ng-container>
 </lc-modal-layout>

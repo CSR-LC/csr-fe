@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { EquipmentAction } from '@app/shared/constants/equipment-action.enum';
@@ -10,11 +10,11 @@ import { EquipmentAction } from '@app/shared/constants/equipment-action.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderNotificationModalComponent implements OnInit {
+  action = inject<EquipmentAction.Block | EquipmentAction.Archivate>(MAT_DIALOG_DATA);
+
   actions = EquipmentAction;
   header = '';
   actionText = '';
-
-  constructor(@Inject(MAT_DIALOG_DATA) public action: EquipmentAction.Block | EquipmentAction.Archivate) {}
 
   ngOnInit() {
     switch (this.action) {

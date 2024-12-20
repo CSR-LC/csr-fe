@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { User } from '@app/auth/models';
 import { AuthState } from '@app/auth/store';
 import { navLinksMap } from '@app/shared/constants/nav-menu-role-mapping';
@@ -18,14 +18,14 @@ import { AppRoutes } from '@shared/constants/routes.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainNavComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+
   @Select(AuthState.isAuthenticated) isAuthenticated$!: Observable<boolean>;
   @Select(AuthState.user) user$!: Observable<User>;
   @Select(AuthState.isEmailConfirmed) isEmailConfirmed$!: Observable<boolean>;
   public userLinks: NavigationLink[] = [];
   public adminLinks: NavigationLink[] = [];
   public profileLink!: NavigationLink | undefined;
-
-  constructor(private readonly authService: AuthService) {}
 
   public ngOnInit(): void {
     this.user$.pipe(untilDestroyed(this)).subscribe((user: User) => {

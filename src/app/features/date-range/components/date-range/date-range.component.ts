@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, Inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { DateRange, MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,6 +12,8 @@ import { DateRangePurpose } from '../../models/date-rrange-purpose';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateRangeComponent implements OnInit {
+  dateRangeData = inject<DateRangeData>(MAT_DIALOG_DATA);
+
   selectedRangeValue!: DateRange<Date> | null;
 
   readonly maxRentalPeriod: number = this.dateRangeData.maxRentalPeriod;
@@ -30,8 +32,6 @@ export class DateRangeComponent implements OnInit {
   maxDate = new Date(this.currentYear + 1, this.currentMonth, this.currentDay - 1);
 
   private unavailableDates: UnavailableDates[] = this.dateRangeData.unavailableDates;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public dateRangeData: DateRangeData) {}
 
   ngOnInit() {
     this.purpose = this.dateRangeData.purpose;

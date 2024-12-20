@@ -1,41 +1,46 @@
 <lc-modal-layout headerTitle="Изменить статус заявки">
   <ng-container body>
-    <div *ngIf="equipment" class="content">
-      <lc-fake-input
-        label="Название"
-        [text]="equipment.title"
-      ></lc-fake-input>
-      <lc-fake-input
-        label="Наименование"
-        [text]="equipment.name"
-      ></lc-fake-input>
-      <lc-fake-input
-        label="Инвентарный номер"
-        [text]="equipment.inventoryNumber"
-      ></lc-fake-input>
-      <lc-fake-input
-        label="Период бронирования"
-        [text]="rentPeriod"
-      ></lc-fake-input>
-      <div class="status" [formGroup]="form">
+    @if (equipment) {
+      <div class="content">
         <lc-fake-input
-          label="Актуальный статус"
-          [text]="statusName"
+          label="Название"
+          [text]="equipment.title"
         ></lc-fake-input>
-        <mat-form-field *ngIf="statuses" floatLabel="auto">
-          <mat-label>Новый статус</mat-label>
-          <mat-select
-            formControlName="newStatusId"
-            [lcValidationErrors]="formName"
-          >
-            <mat-option
-              *ngFor="let option of statuses"
-              [value]="option.name"
-            >{{ option.translation }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <lc-fake-input
+          label="Наименование"
+          [text]="equipment.name"
+        ></lc-fake-input>
+        <lc-fake-input
+          label="Инвентарный номер"
+          [text]="equipment.inventoryNumber"
+        ></lc-fake-input>
+        <lc-fake-input
+          label="Период бронирования"
+          [text]="rentPeriod"
+        ></lc-fake-input>
+        <div class="status" [formGroup]="form">
+          <lc-fake-input
+            label="Актуальный статус"
+            [text]="statusName"
+          ></lc-fake-input>
+          @if (statuses) {
+            <mat-form-field floatLabel="auto">
+              <mat-label>Новый статус</mat-label>
+              <mat-select
+                formControlName="newStatusId"
+                [lcValidationErrors]="formName"
+                >
+                @for (option of statuses; track option) {
+                  <mat-option
+                    [value]="option.name"
+                  >{{ option.translation }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          }
+        </div>
       </div>
-    </div>
+    }
   </ng-container>
   <ng-container footer>
     <div class="buttons">
@@ -43,14 +48,14 @@
         mat-button
         class="cancel"
         [mat-dialog-close]="false"
-      >
+        >
         Отменить
       </button>
       <button
         mat-raised-button
         color="primary"
         (click)="saveStatus()"
-      >
+        >
         Сохранить
       </button>
     </div>

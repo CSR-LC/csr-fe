@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import { AbstractControl, NgControl, ValidationErrors } from '@angular/forms';
 import { ValidationService } from '../../services/validation/validation.service';
 import { Subject } from 'rxjs';
@@ -9,6 +9,11 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
   selector: '[lcValidationErrors]',
 })
 export class ValidationErrorsDirective implements OnInit, OnDestroy {
+  private readonly element = inject(ElementRef);
+  private readonly ngControl = inject(NgControl);
+  private readonly renderer = inject(Renderer2);
+  private readonly validationService = inject(ValidationService);
+
   @Input() lcValidationErrors?: string;
 
   private errorsElement?: Element;
@@ -18,13 +23,6 @@ export class ValidationErrorsDirective implements OnInit, OnDestroy {
     withoutLabel: 10,
   };
   private controlWrapper?: Element | null;
-
-  constructor(
-    private readonly element: ElementRef,
-    private readonly ngControl: NgControl,
-    private readonly renderer: Renderer2,
-    private readonly validationService: ValidationService,
-  ) {}
 
   ngOnInit(): void {
     this.setControlWrapper();

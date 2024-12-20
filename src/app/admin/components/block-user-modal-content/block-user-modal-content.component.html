@@ -1,5 +1,5 @@
-<ng-container *ngIf="user">
+@if (user) {
   <p>{{ isUserBlocked ? ModalEnum.UnblockConfirmationText : ModalEnum.BlockConfirmationText }}
     <strong>{{user.name}}{{user.surname ? ' ' + user.surname : ''}}</strong>?</p>
-  <p>{{ isUserBlocked ? ModalEnum.UnblockDescriptionText : ModalEnum.BlockDescriptionText}}</p>
-</ng-container>
+    <p>{{ isUserBlocked ? ModalEnum.UnblockDescriptionText : ModalEnum.BlockDescriptionText}}</p>
+  }

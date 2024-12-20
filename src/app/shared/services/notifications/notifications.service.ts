@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatSnackBarConfig, MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationTypes } from '@shared/constants/notification.enum';
 import { NotificationComponent } from '@shared/components/notification/notification.component';
@@ -13,13 +13,14 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
   providedIn: 'root',
 })
 export class NotificationsService {
+  private readonly router = inject(Router);
+  private readonly notification = inject(MatSnackBar);
+
   private readonly config: MatSnackBarConfig = {
     verticalPosition: 'top',
     horizontalPosition: 'center',
   };
   private readonly durationTime = 5000;
-
-  constructor(private readonly router: Router, private readonly notification: MatSnackBar) {}
 
   openError(message: string) {
     const config = {

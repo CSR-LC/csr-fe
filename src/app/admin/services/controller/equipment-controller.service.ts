@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { AdminApi } from '@app/admin/services';
@@ -36,6 +36,15 @@ import { EquipmentRouterParams } from '@app/admin/constants/equipment-router-par
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
+  private readonly dialog = inject(MatDialog);
+  private readonly api = inject(AdminApi);
+  private readonly notificationService = inject(NotificationsService);
+  private readonly mainHeaderService = inject(MainPageHeaderService);
+  private readonly dictionaryService = inject(DictionaryService);
+  private readonly store = inject(Store);
+  private readonly datePipe = inject(DatePipe);
+  private readonly router = inject(Router);
+
   private equipmentDataSubj$ = new BehaviorSubject<TableRow<Equipment>[]>([]);
   private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
@@ -54,17 +63,6 @@ export class EquipmentController {
   get equipmentData$(): Observable<TableRow<Equipment>[]> {
     return this.equipmentDataSubj$.asObservable();
   }
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly api: AdminApi,
-    private readonly notificationService: NotificationsService,
-    private readonly mainHeaderService: MainPageHeaderService,
-    private readonly dictionaryService: DictionaryService,
-    private readonly store: Store,
-    private readonly datePipe: DatePipe,
-    private readonly router: Router,
-  ) {}
 
   manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {

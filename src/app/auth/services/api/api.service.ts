@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginInformation, NewUserInfo, SignupResponse, Tokens, User } from '../../models';
 import { Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { UserPersonalInfo } from '@app/shared/constants/personal-info';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   login(credentials: LoginInformation): Observable<Tokens> {
     return this.http.post<Tokens>('v1/login', credentials);

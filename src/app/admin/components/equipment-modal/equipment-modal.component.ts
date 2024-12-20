@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Equipment } from '@app/catalog/models/equipment';
 import { BaseKind, EquipmentKind, EquipmentOptions, PetSize } from '@app/shared/models/management';
@@ -21,6 +21,12 @@ import { InfoModalComponent } from '@app/shared/components';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EquipmentModalComponent implements OnInit {
+  private data = inject<EquipmentModalData>(MAT_DIALOG_DATA);
+  private readonly dialog = inject(MatDialog);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<EquipmentModalComponent>>(MatDialogRef);
+  private readonly validationService = inject(ValidationService);
+
   @ViewChild('photoInput') photoInput?: ElementRef;
   private equipment?: Equipment;
   readonly maxInventoryNumber = maxInventoryNumber;
@@ -63,14 +69,6 @@ export class EquipmentModalComponent implements OnInit {
   actionButtonText = '';
 
   form?: FormGroup;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private data: EquipmentModalData,
-    private readonly dialog: MatDialog,
-    private readonly formBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<EquipmentModalComponent>,
-    private readonly validationService: ValidationService,
-  ) {}
 
   ngOnInit() {
     this.setValues();

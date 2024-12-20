@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
@@ -14,6 +14,11 @@ import { ItemTranslated } from '@app/shared/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditApplicationStatusComponent implements OnInit {
+  data = inject<ApplicationStatusModalData>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<EditApplicationStatusComponent>>(MatDialogRef);
+  private readonly validationService = inject(ValidationService);
+  private readonly fb = inject(FormBuilder);
+
   readonly formName = 'application status form';
   equipment?: Equipment;
   statuses: ItemTranslated[] = [];
@@ -23,13 +28,6 @@ export class EditApplicationStatusComponent implements OnInit {
   form = this.fb.group({
     newStatusId: [null, Validators.required],
   });
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ApplicationStatusModalData,
-    private readonly dialogRef: MatDialogRef<EditApplicationStatusComponent>,
-    private readonly validationService: ValidationService,
-    private readonly fb: FormBuilder,
-  ) {}
 
   ngOnInit() {
     const data = this.data;

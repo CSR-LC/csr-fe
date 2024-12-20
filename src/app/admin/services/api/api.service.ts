@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Equipment } from '@app/catalog/models/equipment';
@@ -20,11 +20,11 @@ import { EquipmentRouterParams } from '@app/admin/constants';
   providedIn: 'root',
 })
 export class ApiService {
+  private http = inject(HttpClient);
+
   private static USERS_BASE_URL = 'v1/users';
   private static ROLES_BASE_URL = 'v1/roles';
   private static MANAGEMENT_BASE_URL = 'v1/management';
-
-  constructor(private http: HttpClient) {}
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
     const params = new HttpParams().set('limit', 0);

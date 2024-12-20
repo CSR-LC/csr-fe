@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -21,6 +21,12 @@ import { AppRoutes } from '@app/shared/constants/routes.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent implements OnInit {
+  private readonly controller = inject(AuthController);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly router = inject(Router);
+  private readonly validationService = inject(ValidationService);
+  private readonly blockUiService = inject(BlockUiService);
+
   userRegistrationForm = this.formBuilder.group({
     email: ['', [Validators.maxLength(49), Validators.email, Validators.required]],
     password: ['', [Validators.required, Validators.maxLength(49), Validators.minLength(6)]],
@@ -29,14 +35,6 @@ export class SignUpComponent implements OnInit {
 
   readonly formName = 'user_registration_form';
   readonly offerPath = `/${AppRoutes.PublicOffer}`;
-
-  constructor(
-    private readonly controller: AuthController,
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly router: Router,
-    private readonly validationService: ValidationService,
-    private readonly blockUiService: BlockUiService,
-  ) {}
 
   get formValue() {
     return this.userRegistrationForm.value;

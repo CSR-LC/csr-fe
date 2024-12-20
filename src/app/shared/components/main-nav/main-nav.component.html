@@ -1,55 +1,66 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
-               [autoFocus]="false"
-               [attr.role]="'dialog'"
-               [mode]="'over'"
-               [opened]="false">
+    [autoFocus]="false"
+    [attr.role]="'dialog'"
+    [mode]="'over'"
+    [opened]="false">
     <div class="nav-wrapper">
       <mat-toolbar class="nav-head">
         <button type="button" class="close" mat-icon-button (click)="drawer.toggle()">
           <mat-icon class="close-icon">close</mat-icon>
         </button>
       </mat-toolbar>
-      <mat-nav-list *ngIf="isEmailConfirmed$ | async else emailNotConfirmed" class="nav-list">
-        <a *ngFor="let link of userLinks"
-           class="nav-link"
-           mat-list-item
-           [routerLink]="link.route"
-           [routerLinkActive]="['active']"
-           [routerLinkActiveOptions]="{ exact: true }"
-           (click)="drawer.toggle()"
-        >{{link.name}}</a>
-        <mat-divider *ngIf="adminLinks.length" class="divider"></mat-divider>
-        <a *ngFor="let link of adminLinks"
-           class="nav-link"
-           mat-list-item
-           [routerLink]="link.route"
-           [routerLinkActive]="['active']"
-           [routerLinkActiveOptions]="{ exact: true }"
-           (click)="drawer.toggle()"
-        >{{link.name}}</a>
-      </mat-nav-list>
+      @if (isEmailConfirmed$ | async) {
+        <mat-nav-list class="nav-list">
+          @for (link of userLinks; track link) {
+            <a
+              class="nav-link"
+              mat-list-item
+              [routerLink]="link.route"
+              [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="drawer.toggle()"
+            >{{link.name}}</a>
+          }
+          @if (adminLinks.length) {
+            <mat-divider class="divider"></mat-divider>
+          }
+          @for (link of adminLinks; track link) {
+            <a
+              class="nav-link"
+              mat-list-item
+              [routerLink]="link.route"
+              [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="drawer.toggle()"
+            >{{link.name}}</a>
+          }
+        </mat-nav-list>
+      } @else {
+        @if (profileLink) {
+          <mat-nav-list class="nav-list">
+            <a
+              class="nav-link"
+              mat-list-item
+              [routerLink]="profileLink.route"
+              [routerLinkActive]="['active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="drawer.toggle()"
+            >{{profileLink.name}}</a>
+          </mat-nav-list>
+        }
+      }
       <button type="button" class="logout-btn" (click)="logout(); drawer.toggle()">Выйти</button>
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar *ngIf="isAuthenticated$ | async" color="primary">
-      <lc-main-header (toggleMenu)="drawer.toggle()"></lc-main-header>
-    </mat-toolbar>
+    @if (isAuthenticated$ | async) {
+      <mat-toolbar color="primary">
+        <lc-main-header (toggleMenu)="drawer.toggle()"></lc-main-header>
+      </mat-toolbar>
+    }
     <main class="main-content">
       <ng-content></ng-content>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<ng-template #emailNotConfirmed>
-  <mat-nav-list class="nav-list" *ngIf="profileLink">
-    <a
-      class="nav-link"
-      mat-list-item
-      [routerLink]="profileLink.route"
-      [routerLinkActive]="['active']"
-      [routerLinkActiveOptions]="{ exact: true }"
-      (click)="drawer.toggle()"
-    >{{profileLink.name}}</a>
-  </mat-nav-list>
-</ng-template>

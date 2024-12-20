@@ -2,233 +2,238 @@
   [handleCloseByMainLayout]="true"
   [headerTitle]="modalHeader"
   (closed)="close()"
->
+  >
   <ng-container body>
-    <form *ngIf="form" [formGroup]="form">
-      <div class="row">
-        <div class="column">
-          <mat-form-field appearance="fill" floatLabel="auto">
-            <mat-label>{{ labels.name }}</mat-label>
-            <input
-              #name
-              matInput
-              formControlName="name"
-              [lcValidationErrors]="formName"
-            />
-            <mat-hint align="end">{{name.value.length}} / {{maxValue.name}}</mat-hint>
-          </mat-form-field>
-          <mat-form-field appearance="fill" floatLabel="auto">
-            <mat-label>{{ labels.title }}</mat-label>
-            <input
-              #title
-              matInput
-              formControlName="title"
-              [lcValidationErrors]="formName"
-            >
-            <mat-hint align="end">{{title.value.length}} / {{maxValue.title}}</mat-hint>
-          </mat-form-field>
-        </div>
-        <mat-form-field width="370px" appearance="fill">
-          <mat-label>{{ labels.description }}</mat-label>
-          <textarea
-            #description
-            rows="4"
-            matInput
-            formControlName="description"
-            [lcValidationErrors]="formName"
-          ></textarea>
-          <mat-hint align="end">{{description.value.length}} / {{maxValue.description}}</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <div class="column">
-          <mat-form-field floatLabel="auto">
-            <mat-label>{{ labels.category }}</mat-label>
-            <mat-select
-              formControlName="category"
-              [lcValidationErrors]="formName"
-            >
-              <mat-option
-                *ngFor="let option of equipmentCategories"
-                [value]="option.id"
-              >{{ option.name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field floatLabel="auto" appearance="fill">
-            <mat-label>{{ labels.technicalIssues }}</mat-label>
-            <mat-select
-              formControlName="technicalIssues"
-              (valueChange)="setConditionState($event)"
-              [lcValidationErrors]="formName"
-            >
-              <mat-option
-                *ngFor="let item of technicalIssuesOptions"
-                [value]="item"
-              >{{ item }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-        </div>
-        <mat-form-field appearance="fill">
-          <mat-label>{{ labels.condition }}</mat-label>
-          <textarea
-            #condition
-            matInput
-            rows="4"
-            formControlName="condition"
-            [lcValidationErrors]="formName"
-          ></textarea>
-          <mat-hint align="end">{{condition.value.length}} / {{maxValue.condition}}</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>{{ labels.inventoryNumber }}</mat-label>
-          <input
-            #inventoryNumber
-            matInput
-            type="number"
-            [max]="maxInventoryNumber"
-            formControlName="inventoryNumber"
-            [lcValidationErrors]="formName"
-          >
-          <mat-hint align="end">{{inventoryNumber.value.length}} / {{maxValue.inventoryNumberLength}}</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>{{ labels.compensationCost }}</mat-label>
-          <input
-            #compensationCost
-            matInput
-            type="number"
-            [max]="maxCompensationCost"
-            formControlName="compensationCost"
-            [lcValidationErrors]="formName"
-          >
-          <mat-hint align="end">{{compensationCost.value.length}} / {{maxValue.compensationCostLength}}</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>{{ labels.supplier }}</mat-label>
-          <input
-            #supplier
-            matInput
-            formControlName="supplier"
-            [lcValidationErrors]="formName"
-          >
-          <mat-hint align="end">{{supplier.value.length}} / {{maxValue.supplier}}</mat-hint>
-        </mat-form-field>
-        <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>{{ labels.termsOfUse }}</mat-label>
-          <input
-            #termsOfUse
-            matInput
-            type="url"
-            formControlName="termsOfUse"
-            [lcValidationErrors]="formName"
-          >
-          <mat-hint align="end">{{termsOfUse.value.length}} / {{maxValue.termsOfUse}}</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field appearance="fill" floatLabel="auto">
-          <mat-label>{{ labels.petKinds }}</mat-label>
-          <mat-select
-            formControlName="petKinds"
-            multiple
-            [lcValidationErrors]="formName"
-          >
-            <mat-option
-              *ngFor="let kind of petKinds"
-              [value]="kind.id"
-            >
-              {{ kind.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field floatLabel="auto" appearance="fill">
-          <mat-label>{{ labels.petSize }}</mat-label>
-          <mat-select
-            formControlName="petSize"
-            [lcValidationErrors]="formName"
-          >
-            <mat-option
-              *ngFor="let size of petSizes"
-              [value]="size.id"
-            >{{ size.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field floatLabel="auto">
-          <mat-label>{{ labels.maximumDays }}</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="maximumDays"
-            [lcValidationErrors]="formName"
-          >
-        </mat-form-field>
-        <mat-form-field floatLabel="auto" appearance="fill" class="registration-form-field-input">
-          <mat-label>{{ labels.receiptDate }}</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker"
-            formControlName="receiptDate"
-            [lcValidationErrors]="formName"
-          />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <div class="photo-field">
-          <button
-            mat-flat-button
-            type="button"
-            class="registration-controls-button"
-            (click)="choosePhoto()"
-          >
-            <mat-icon color="primary">photo_camera</mat-icon> 
-            {{ labels.photoID }}
-          </button>
-          <mat-form-field>
-            <input
-              matInput
-              formControlName="photoID"
-              type="text"
-              [lcValidationErrors]="formName"
-              (keydown)="preventDefault($event)"
-            />
-          </mat-form-field>
-          <div class="hidden" >
-            <input
-              #photoInput
-              class="registration-form-field-input"
-              type="file"
-              (change)="addPhoto($event)"
-            />
-          </div>
-        </div>
-      </div>
-    </form>
-  </ng-container>
-  <ng-container footer>
-    <div class="buttons">
-      <button
-        mat-button
-        class="cancel"
-        (click)="close()"
-      >
-      {{ labels.cancel }}
-      </button>
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="returnEquipment()"
-      >
-        {{actionButtonText}}
-      </button>
-    </div>
-  </ng-container>
-</lc-modal-layout>
+    @if (form) {
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="column">
+            <mat-form-field appearance="fill" floatLabel="auto">
+              <mat-label>{{ labels.name }}</mat-label>
+              <input
+                #name
+                matInput
+                formControlName="name"
+                [lcValidationErrors]="formName"
+                />
+                <mat-hint align="end">{{name.value.length}} / {{maxValue.name}}</mat-hint>
+              </mat-form-field>
+              <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>{{ labels.title }}</mat-label>
+                <input
+                  #title
+                  matInput
+                  formControlName="title"
+                  [lcValidationErrors]="formName"
+                  >
+                  <mat-hint align="end">{{title.value.length}} / {{maxValue.title}}</mat-hint>
+                </mat-form-field>
+              </div>
+              <mat-form-field width="370px" appearance="fill">
+                <mat-label>{{ labels.description }}</mat-label>
+                <textarea
+                  #description
+                  rows="4"
+                  matInput
+                  formControlName="description"
+                  [lcValidationErrors]="formName"
+                ></textarea>
+                <mat-hint align="end">{{description.value.length}} / {{maxValue.description}}</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="column">
+                <mat-form-field floatLabel="auto">
+                  <mat-label>{{ labels.category }}</mat-label>
+                  <mat-select
+                    formControlName="category"
+                    [lcValidationErrors]="formName"
+                    >
+                    @for (option of equipmentCategories; track option) {
+                      <mat-option
+                        [value]="option.id"
+                      >{{ option.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field floatLabel="auto" appearance="fill">
+                  <mat-label>{{ labels.technicalIssues }}</mat-label>
+                  <mat-select
+                    formControlName="technicalIssues"
+                    (valueChange)="setConditionState($event)"
+                    [lcValidationErrors]="formName"
+                    >
+                    @for (item of technicalIssuesOptions; track item) {
+                      <mat-option
+                        [value]="item"
+                      >{{ item }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <mat-form-field appearance="fill">
+                <mat-label>{{ labels.condition }}</mat-label>
+                <textarea
+                  #condition
+                  matInput
+                  rows="4"
+                  formControlName="condition"
+                  [lcValidationErrors]="formName"
+                ></textarea>
+                <mat-hint align="end">{{condition.value.length}} / {{maxValue.condition}}</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field appearance="fill" floatLabel="auto">
+                <mat-label>{{ labels.inventoryNumber }}</mat-label>
+                <input
+                  #inventoryNumber
+                  matInput
+                  type="number"
+                  [max]="maxInventoryNumber"
+                  formControlName="inventoryNumber"
+                  [lcValidationErrors]="formName"
+                  >
+                  <mat-hint align="end">{{inventoryNumber.value.length}} / {{maxValue.inventoryNumberLength}}</mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="fill" floatLabel="auto">
+                  <mat-label>{{ labels.compensationCost }}</mat-label>
+                  <input
+                    #compensationCost
+                    matInput
+                    type="number"
+                    [max]="maxCompensationCost"
+                    formControlName="compensationCost"
+                    [lcValidationErrors]="formName"
+                    >
+                    <mat-hint align="end">{{compensationCost.value.length}} / {{maxValue.compensationCostLength}}</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field appearance="fill" floatLabel="auto">
+                    <mat-label>{{ labels.supplier }}</mat-label>
+                    <input
+                      #supplier
+                      matInput
+                      formControlName="supplier"
+                      [lcValidationErrors]="formName"
+                      >
+                      <mat-hint align="end">{{supplier.value.length}} / {{maxValue.supplier}}</mat-hint>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" floatLabel="auto">
+                      <mat-label>{{ labels.termsOfUse }}</mat-label>
+                      <input
+                        #termsOfUse
+                        matInput
+                        type="url"
+                        formControlName="termsOfUse"
+                        [lcValidationErrors]="formName"
+                        >
+                        <mat-hint align="end">{{termsOfUse.value.length}} / {{maxValue.termsOfUse}}</mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field appearance="fill" floatLabel="auto">
+                        <mat-label>{{ labels.petKinds }}</mat-label>
+                        <mat-select
+                          formControlName="petKinds"
+                          multiple
+                          [lcValidationErrors]="formName"
+                          >
+                          @for (kind of petKinds; track kind) {
+                            <mat-option
+                              [value]="kind.id"
+                              >
+                              {{ kind.name}}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field floatLabel="auto" appearance="fill">
+                        <mat-label>{{ labels.petSize }}</mat-label>
+                        <mat-select
+                          formControlName="petSize"
+                          [lcValidationErrors]="formName"
+                          >
+                          @for (size of petSizes; track size) {
+                            <mat-option
+                              [value]="size.id"
+                            >{{ size.name }}</mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field floatLabel="auto">
+                        <mat-label>{{ labels.maximumDays }}</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          formControlName="maximumDays"
+                          [lcValidationErrors]="formName"
+                          >
+                        </mat-form-field>
+                        <mat-form-field floatLabel="auto" appearance="fill" class="registration-form-field-input">
+                          <mat-label>{{ labels.receiptDate }}</mat-label>
+                          <input
+                            matInput
+                            [matDatepicker]="picker"
+                            formControlName="receiptDate"
+                            [lcValidationErrors]="formName"
+                            />
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+                        <div class="row">
+                          <div class="photo-field">
+                            <button
+                              mat-flat-button
+                              type="button"
+                              class="registration-controls-button"
+                              (click)="choosePhoto()"
+                              >
+                              <mat-icon color="primary">photo_camera</mat-icon>
+                              {{ labels.photoID }}
+                            </button>
+                            <mat-form-field>
+                              <input
+                                matInput
+                                formControlName="photoID"
+                                type="text"
+                                [lcValidationErrors]="formName"
+                                (keydown)="preventDefault($event)"
+                                />
+                              </mat-form-field>
+                              <div class="hidden" >
+                                <input
+                                  #photoInput
+                                  class="registration-form-field-input"
+                                  type="file"
+                                  (change)="addPhoto($event)"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        }
+                      </ng-container>
+                      <ng-container footer>
+                        <div class="buttons">
+                          <button
+                            mat-button
+                            class="cancel"
+                            (click)="close()"
+                            >
+                            {{ labels.cancel }}
+                          </button>
+                          <button
+                            mat-raised-button
+                            color="primary"
+                            (click)="returnEquipment()"
+                            >
+                            {{actionButtonText}}
+                          </button>
+                        </div>
+                      </ng-container>
+                    </lc-modal-layout>

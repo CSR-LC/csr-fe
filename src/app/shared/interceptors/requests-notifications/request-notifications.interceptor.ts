@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { NotificationsService } from '@shared/services/notifications/notifications.service';
 
 @Injectable()
 export class RequestNotificationsInterceptor implements HttpInterceptor {
-  constructor(private notificationsService: NotificationsService) {}
+  private notificationsService = inject(NotificationsService);
 
   intercept<T>(request: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<T>> {
     return next.handle(request).pipe(

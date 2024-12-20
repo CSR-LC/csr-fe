@@ -1,11 +1,13 @@
 <div class="modal">
   <section class="modal-header">
     <h3>{{ headerTitle }}</h3>
-    <div *ngIf="activeCloseIcon" class="cross-container">
-      <button mat-icon-button class="close-button" (click)="close()">
-        <i class="cross"></i>
-      </button>
-    </div>
+    @if (activeCloseIcon) {
+      <div class="cross-container">
+        <button mat-icon-button class="close-button" (click)="close()">
+          <i class="cross"></i>
+        </button>
+      </div>
+    }
   </section>
   <mat-divider></mat-divider>
   <section mat-dialog-content class="modal-body">

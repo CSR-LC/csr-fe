@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '@shared/services/validation/validation.service';
 import { ValidationPatterns } from '@shared/constants/validation-patterns';
@@ -13,6 +13,11 @@ import { UserPersonalInfo } from '@shared/constants/personal-info';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalInfoModalComponent {
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly validationService = inject(ValidationService);
+  private readonly dialogRef = inject<MatDialogRef<PersonalInfoModalComponent>>(MatDialogRef);
+  contactInfo? = inject<UserPersonalInfo>(MAT_DIALOG_DATA);
+
   readonly formName = 'personal_info_modal';
   readonly offerPath = `/${AppRoutes.PublicOffer}`;
   personalInfoForm = this.formBuilder.group({
@@ -34,13 +39,6 @@ export class PersonalInfoModalComponent {
       ],
     ],
   });
-
-  constructor(
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly validationService: ValidationService,
-    private readonly dialogRef: MatDialogRef<PersonalInfoModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public contactInfo?: UserPersonalInfo,
-  ) {}
 
   public submit() {
     this.validationService.emitSubmit(this.formName);

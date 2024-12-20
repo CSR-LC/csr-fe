@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, Signal } from '@angular/core';
 import { MyApplicationsController } from '@app/my-applications/services';
 import { Application } from '@app/admin/types';
 
@@ -9,13 +9,13 @@ import { Application } from '@app/admin/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyApplicationsComponent implements OnInit, OnDestroy {
-  applications$ = this.controller.applications$;
+  private readonly controller = inject(MyApplicationsController);
+
+  applications$: Signal<Application[]> = this.controller.applications$;
   loading$ = this.controller.loading$;
   hasMore$ = this.controller.hasMore$;
   filter$ = this.controller.getFilter();
   currentFilter = '';
-
-  constructor(private readonly controller: MyApplicationsController) {}
 
   ngOnInit(): void {
     this.controller.loadMoreApplications();

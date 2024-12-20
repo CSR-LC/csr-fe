@@ -1,13 +1,15 @@
 <section #listCategories class="category-equipment">
   <div #list class="category-equipment-list">
-    <div *ngFor="let item of categories"
-      #categoryElement
-      class="category-equipment-item"
-      (click)="scrollCategories(item.id, categoryElement)"
-      [class.active]="selectedCategoryId === item.id"
-      id="{{item.id}}"
-    >
-      <lc-category-tab [item]="item"></lc-category-tab>
-    </div>
+    @for (item of categories; track item) {
+      <div
+        #categoryElement
+        class="category-equipment-item"
+        (click)="scrollCategories(item.id, categoryElement)"
+        [class.active]="selectedCategoryId === item.id"
+        id="{{item.id}}"
+        >
+        <lc-category-tab [item]="item"></lc-category-tab>
+      </div>
+    }
   </div>
 </section>

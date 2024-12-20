@@ -4,24 +4,26 @@
   <div class="equipment-info-list">
     <div class="equipment-info-list__item">
       <div class="info-item">
-        <p
-          *ngIf="!selectedRentPeriod"
-          class="info-item__description"
-        >
-          {{ equipment?.description }}
-        </p>
-        <div
-          *ngIf="selectedRentPeriod"
-          class="info-item__rent"
-        >
-          <p class="info-item__rent-title">Период аренды:</p>
-          <div class="info-item__rent-period"
-            (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
-          >
-            {{ selectedRentPeriod.start_date | date: 'dd.MM.yyyy' }} -
-            {{ selectedRentPeriod.end_date | date: 'dd.MM.yyyy' }}
+        @if (!selectedRentPeriod) {
+          <p
+            class="info-item__description"
+            >
+            {{ equipment?.description }}
+          </p>
+        }
+        @if (selectedRentPeriod) {
+          <div
+            class="info-item__rent"
+            >
+            <p class="info-item__rent-title">Период аренды:</p>
+            <div class="info-item__rent-period"
+              (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
+              >
+              {{ selectedRentPeriod.start_date | date: 'dd.MM.yyyy' }} -
+              {{ selectedRentPeriod.end_date | date: 'dd.MM.yyyy' }}
+            </div>
           </div>
-        </div>
+        }
         <div class="info-item__wrapper">
           <div><img src="assets/img/icons/icon-term.svg" alt="term" /></div>
           <div>
@@ -39,15 +41,24 @@
           </div>
         </div>
       </div>
-      <div class="info-item" *ngIf="equipment?.technicalIssues === false; else new">
-        <div class="info-item__wrapper">
-          <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
-          <div>
-            <p class="info-item__used">Б/у состояние</p>
-            <p class="info-item__condition">{{ equipment?.condition }}</p>
+      @if (equipment?.technicalIssues === false) {
+        <div class="info-item">
+          <div class="info-item__wrapper">
+            <div><img src="assets/img/icons/icon-used.svg" alt="used" /></div>
+            <div>
+              <p class="info-item__used">Б/у состояние</p>
+              <p class="info-item__condition">{{ equipment?.condition }}</p>
+            </div>
           </div>
         </div>
-      </div>
+      } @else {
+        <div class="info-item">
+          <div class="info-item__wrapper">
+            <div><img src="assets/img/icons/icon-new.svg" alt="new" /></div>
+            <div>Новое</div>
+          </div>
+        </div>
+      }
       <ng-template #new>
         <div class="info-item">
           <div class="info-item__wrapper">
@@ -59,21 +70,23 @@
     </div>
   </div>
   <div class="actions">
-    <button
-      *ngIf="!selectedRentPeriod"
-      mat-raised-button color="primary"
-      class="equipment-item__calendar-btn"
-      (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
-    >
-      Выберите период заявки
-    </button>
-    <button
-      *ngIf="selectedRentPeriod"
-      mat-raised-button color="primary"
-      class="equipment-item__calendar-btn"
-      (click)="createOrder(selectedRentPeriod, equipment?.id)"
-    >
-      Подтвердить заявку
-    </button>
+    @if (!selectedRentPeriod) {
+      <button
+        mat-raised-button color="primary"
+        class="equipment-item__calendar-btn"
+        (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
+        >
+        Выберите период заявки
+      </button>
+    }
+    @if (selectedRentPeriod) {
+      <button
+        mat-raised-button color="primary"
+        class="equipment-item__calendar-btn"
+        (click)="createOrder(selectedRentPeriod, equipment?.id)"
+        >
+        Подтвердить заявку
+      </button>
+    }
   </div>
 </section>

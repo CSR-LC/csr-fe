@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 import { NotificationTypes } from '@shared/constants/notification.enum';
 import { NotificationData } from '@shared/constants/notification';
@@ -10,12 +10,10 @@ import { NotificationData } from '@shared/constants/notification';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent {
-  readonly notificationTypes = NotificationTypes;
+  data = inject<NotificationData>(MAT_SNACK_BAR_DATA);
+  private snackRef = inject<MatSnackBarRef<NotificationComponent>>(MatSnackBarRef);
 
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: NotificationData,
-    private snackRef: MatSnackBarRef<NotificationComponent>,
-  ) {}
+  readonly notificationTypes = NotificationTypes;
 
   dismiss() {
     this.snackRef.dismiss();

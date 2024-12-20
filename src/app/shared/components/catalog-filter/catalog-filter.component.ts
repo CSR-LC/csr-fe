@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 import { EquipmentFilter, EquipmentFilterForm } from '@app/catalog/models';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
@@ -14,9 +14,9 @@ import { FilterModalResult } from '@app/catalog/models/filter-modal-result';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CatalogFilterComponent implements OnInit {
-  public equipmentFilterCount$!: Observable<number>;
+  private catalogFilterService = inject(CatalogFilterService);
 
-  constructor(private catalogFilterService: CatalogFilterService) {}
+  public equipmentFilterCount$!: Observable<number>;
 
   ngOnInit(): void {
     this.equipmentFilterCount$ = this.catalogFilterService.equipmentFilterCount$;

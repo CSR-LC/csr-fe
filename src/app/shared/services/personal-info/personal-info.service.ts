@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonalInfoModalComponent } from '@shared/components/personal-info-modal/personal-info-modal.component';
 import { filter, Observable, switchMap } from 'rxjs';
@@ -13,7 +13,9 @@ import { ConfirmationModalComponent } from '@shared/components/confirmation-moda
   providedIn: 'root',
 })
 export class PersonalInfoService {
-  constructor(private readonly dialog: MatDialog, private readonly api: ApiService, private readonly store: Store) {}
+  private readonly dialog = inject(MatDialog);
+  private readonly api = inject(ApiService);
+  private readonly store = inject(Store);
 
   openPersonalInfoModal(contactInfo?: UserPersonalInfo): Observable<void> {
     return this.dialog
