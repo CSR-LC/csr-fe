@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
 import { PetSize } from '@app/shared/models/management';
 import { ApplicationResolverService } from '@shared/services/application-resolver/application-resolver.service';
 

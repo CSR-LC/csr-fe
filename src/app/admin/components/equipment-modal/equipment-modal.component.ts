@@ -153,7 +153,7 @@ export class EquipmentModalComponent implements OnInit {
   }
 
   getConditionDisableState(equipment: Equipment): boolean {
-    return equipment.technicalIssues ? false : true;
+    return !equipment.technicalIssues;
   }
 
   setConditionState(value: string) {

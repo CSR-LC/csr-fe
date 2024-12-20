@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BaseKind } from '@app/shared/models/management';
 import { ApplicationResolverService } from '@shared/services/application-resolver/application-resolver.service';
 
