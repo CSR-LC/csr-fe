@@ -49,7 +49,7 @@
                     formControlName="category"
                     [lcValidationErrors]="formName"
                     >
-                    @for (option of equipmentCategories; track option) {
+                    @for (option of equipmentCategories; track option.id) {
                       <mat-option
                         [value]="option.id"
                       >{{ option.name }}</mat-option>
@@ -140,7 +140,7 @@
                           multiple
                           [lcValidationErrors]="formName"
                           >
-                          @for (kind of petKinds; track kind) {
+                          @for (kind of petKinds; track kind.id) {
                             <mat-option
                               [value]="kind.id"
                               >
@@ -155,7 +155,7 @@
                           formControlName="petSize"
                           [lcValidationErrors]="formName"
                           >
-                          @for (size of petSizes; track size) {
+                          @for (size of petSizes; track size.id) {
                             <mat-option
                               [value]="size.id"
                             >{{ size.name }}</mat-option>

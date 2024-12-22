@@ -30,7 +30,7 @@
                 formControlName="newStatusId"
                 [lcValidationErrors]="formName"
                 >
-                @for (option of statuses; track option) {
+                @for (option of statuses; track option.id) {
                   <mat-option
                     [value]="option.name"
                   >{{ option.translation }}</mat-option>

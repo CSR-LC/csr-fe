@@ -1,6 +1,6 @@
 <section #listCategories class="category-equipment">
   <div #list class="category-equipment-list">
-    @for (item of categories; track item) {
+    @for (item of categories; track item.id) {
       <div
         #categoryElement
         class="category-equipment-item"

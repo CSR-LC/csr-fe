@@ -1,6 +1,6 @@
 <section class="categories">
   <div class="categories-list">
-    @for (item of categories; track item) {
+    @for (item of categories; track item.id) {
       <div>
         <lc-category-item (categorySelected)="selectCategory($event)" [item]="item"></lc-category-item>
       </div>

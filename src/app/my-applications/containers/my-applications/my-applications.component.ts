@@ -13,7 +13,6 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
 
   applications$: Signal<Application[]> = this.controller.applications$;
   loading$ = this.controller.loading$;
-  hasMore$ = this.controller.hasMore$;
   filter$ = this.controller.getFilter();
   currentFilter = '';
 
@@ -26,10 +25,6 @@ export class MyApplicationsComponent implements OnInit, OnDestroy {
     this.currentFilter = value as string;
     this.controller.resetApplications();
     this.controller.loadMoreApplications(this.currentFilter);
-  }
-
-  trackMyApplication(index: number, application: Application) {
-    return application.id;
   }
 
   loadMore() {

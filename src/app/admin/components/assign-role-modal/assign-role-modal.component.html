@@ -11,7 +11,7 @@
           [lcValidationErrors]="formName"
           >
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="getUserName">
-            @for (user of filteredUserOptions$ | async; track user) {
+            @for (user of filteredUserOptions$ | async; track user.id) {
               <mat-option [value]="user">
                 <div class="option">
                   <p class="option-title">{{user.name}} {{user.surname}}</p>
@@ -27,7 +27,7 @@
             placeholder="{{labels.Role}}"
             [lcValidationErrors]="formName"
             >
-            @for (role of roles; track role) {
+            @for (role of roles; track role.id) {
               <mat-option
                 [value]="role.id"
               >{{ role.name }}</mat-option>

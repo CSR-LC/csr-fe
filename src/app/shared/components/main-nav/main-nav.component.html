@@ -12,7 +12,7 @@
       </mat-toolbar>
       @if (isEmailConfirmed$ | async) {
         <mat-nav-list class="nav-list">
-          @for (link of userLinks; track link) {
+          @for (link of userLinks; track link.name) {
             <a
               class="nav-link"
               mat-list-item
@@ -25,7 +25,7 @@
           @if (adminLinks.length) {
             <mat-divider class="divider"></mat-divider>
           }
-          @for (link of adminLinks; track link) {
+          @for (link of adminLinks; track link.name) {
             <a
               class="nav-link"
               mat-list-item

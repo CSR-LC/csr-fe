@@ -8,7 +8,7 @@
   [dataSource]="dataSource"
   >
   <!-- Generate the columns dynamically -->
-  @for (column of columns; track column) {
+  @for (column of columns; track column.columnDef) {
     <ng-container
       [matColumnDef]="column.columnDef"
       >

@@ -3,7 +3,7 @@
   @if ((catalog$ | async); as equipmentList) {
     @if (equipmentList.length > 0) {
       <div class="catalog-list">
-        @for (equipment of catalog$ | async; track equipment) {
+        @for (equipment of catalog$ | async; track equipment.id) {
           <div>
             <lc-preview-equipment-card
               [equipment]="equipment"
