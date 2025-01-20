@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Category } from '@app/catalog/models';
 import { CatalogController } from '@app/catalog/services';
@@ -11,9 +11,10 @@ import { CatalogController } from '@app/catalog/services';
   providers: [CatalogController],
 })
 export class CategoriesComponent implements OnInit {
-  categories: Category[] = [];
+  private route = inject(ActivatedRoute);
+  private controller = inject(CatalogController);
 
-  constructor(private route: ActivatedRoute, private controller: CatalogController) {}
+  categories: Category[] = [];
 
   ngOnInit() {
     this.controller.setPageTitle('Категории оборудования');

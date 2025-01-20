@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { TableColumn } from '@shared/models/table-column';
 import { Observable } from 'rxjs/internal/Observable';
 import { TableRow } from '@shared/models/table-row';
@@ -15,10 +15,10 @@ import { User } from '@app/auth/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RolesComponent implements OnInit {
+  private readonly controller = inject(RolesController);
+
   columns: TableColumn[] = ROLES_COLUMNS;
   data$: Observable<TableRow<User>[]> = this.controller.roles$;
-
-  constructor(private readonly controller: RolesController) {}
 
   ngOnInit() {
     this.controller.setPageTitle();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { BaseKind, PetSize } from '@app/shared/models/management';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,8 @@ import { ApplicationDataState, PetKindsAction, PetSizesAction } from '@shared/st
   providedIn: 'root',
 })
 export class ApplicationResolverService {
-  constructor(private readonly http: HttpClient, private readonly store: Store) {}
+  private readonly http = inject(HttpClient);
+  private readonly store = inject(Store);
 
   resolvePetKinds(): Observable<BaseKind[]> {
     return this.getPetKinds().pipe(

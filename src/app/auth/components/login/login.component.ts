@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthController } from '../../services';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { LoginInformation } from '../../models';
@@ -17,6 +17,12 @@ import { finalize, switchMap } from 'rxjs';
   providers: [AuthController],
 })
 export class LoginComponent {
+  private readonly controller = inject(AuthController);
+  private readonly router = inject(Router);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly validationService = inject(ValidationService);
+  private readonly blockUiService = inject(BlockUiService);
+
   loginForm = this.formBuilder.group({
     login: ['', [Validators.required]],
     password: ['', [Validators.required]],
@@ -24,14 +30,6 @@ export class LoginComponent {
 
   readonly formName = 'login_form';
   readonly rememberMe = this.controller.rememberMe;
-
-  constructor(
-    private readonly controller: AuthController,
-    private readonly router: Router,
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly validationService: ValidationService,
-    private readonly blockUiService: BlockUiService,
-  ) {}
 
   onLogin() {
     this.validationService.emitSubmit(this.formName);

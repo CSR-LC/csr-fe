@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { BehaviorSubject, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
 import { TableRow } from '@shared/models/table-row';
@@ -23,18 +23,16 @@ import { AssignRoleModalResult } from '@app/admin/types/assign-role-modal-result
 @UntilDestroy
 @Injectable()
 export class RolesController {
+  private api = inject(AdminApi);
+  private notificationService = inject(NotificationsService);
+  private dialog = inject(MatDialog);
+  private mainPageHeaderService = inject(MainPageHeaderService);
+  private store = inject(Store);
+
   private rolesSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
   private roles = this.store.selectSnapshot(ApplicationDataState.roles);
   private users: User[] = [];
   private userRoleIdSaved?: number;
-
-  constructor(
-    private api: AdminApi,
-    private notificationService: NotificationsService,
-    private dialog: MatDialog,
-    private mainPageHeaderService: MainPageHeaderService,
-    private store: Store,
-  ) {}
 
   get roles$(): Observable<TableRow<User>[]> {
     return this.rolesSubject$.asObservable();

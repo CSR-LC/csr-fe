@@ -7,6 +7,7 @@ import {
   ViewChildren,
   QueryList,
   OnInit,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { categoryContainsAllEquipment } from '@app/catalog/constants';
@@ -20,6 +21,9 @@ import { CatalogController } from '@app/catalog/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategorySetComponent implements AfterViewInit, OnInit {
+  private route = inject(ActivatedRoute);
+  private controller = inject(CatalogController);
+
   @ViewChild('listCategories') listCategories?: ElementRef<HTMLDivElement>;
   @ViewChildren('categoryElement') categoriesElements?: QueryList<ElementRef<HTMLDivElement>>;
 
@@ -27,8 +31,6 @@ export class CategorySetComponent implements AfterViewInit, OnInit {
   selectedCategoryId: number = 0;
 
   readonly marginLeft = 25;
-
-  constructor(private route: ActivatedRoute, private controller: CatalogController) {}
 
   ngOnInit() {
     this.selectedCategoryId = this.controller.selectedCategoryId;

@@ -1,18 +1,21 @@
 <div class="wrapper">
-  <ng-container [ngSwitch]="data.type">
-    <mat-icon
-      *ngSwitchCase="notificationTypes.Error"
-      class="icon-error"
-    >error</mat-icon>
-    <mat-icon
-      *ngSwitchCase="notificationTypes.Success"
-      class="icon-success"
-    >check_circle</mat-icon>
-    <mat-icon
-      *ngSwitchCase="notificationTypes.Info"
-      class="icon-info"
-    >info</mat-icon>
-  </ng-container>
+  @switch (data.type) {
+    @case (notificationTypes.Error) {
+      <mat-icon
+        class="icon-error"
+      >error</mat-icon>
+    }
+    @case (notificationTypes.Success) {
+      <mat-icon
+        class="icon-success"
+      >check_circle</mat-icon>
+    }
+    @case (notificationTypes.Info) {
+      <mat-icon
+        class="icon-info"
+      >info</mat-icon>
+    }
+  }
   <div class="message">
     <span>{{ data.message }}</span>
   </div>

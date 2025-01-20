@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { Label } from '@app/admin/constants/label';
@@ -20,6 +20,12 @@ import { DateRange } from '@angular/material/datepicker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockEquipmentModalComponent implements OnInit {
+  dialogData = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<BlockEquipmentModalComponent>>(MatDialogRef);
+  private readonly fb = inject(UntypedFormBuilder);
+  private readonly validationService = inject(ValidationService);
+  private readonly dateRangeService = inject(DateRangeService);
+
   readonly formName = 'block_equipment_modal';
   equipment?: Equipment;
   unavailablePeriods: UnavailableDates[] = [];
@@ -30,14 +36,6 @@ export class BlockEquipmentModalComponent implements OnInit {
     startDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
     endDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
   });
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private readonly dialogRef: MatDialogRef<BlockEquipmentModalComponent>,
-    private readonly fb: UntypedFormBuilder,
-    private readonly validationService: ValidationService,
-    private readonly dateRangeService: DateRangeService,
-  ) {}
 
   ngOnInit() {
     this.equipment = this.dialogData.equipment;

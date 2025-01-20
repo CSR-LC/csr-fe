@@ -12,35 +12,36 @@
             formControlName="startDate"
             placeholder="Начало"
             [lcValidationErrors]="formName"
-          >
-          <input
-            matEndDate
-            formControlName="endDate"
-            placeholder="Конец"
-            [lcValidationErrors]="formName"
-          >
-        </mat-date-range-input>
-        <mat-datepicker-toggle
-          matIconSuffix
-          (click)="openDatePicker()"
-        ></mat-datepicker-toggle>
-      </mat-form-field>
-    </form>
-  </ng-container>
-  <ng-container footer>
-    <div class="buttons-wrapper">
-      <div class="buttons">
-        <button
-          *ngIf="equipment?.blockingPeriods"
-          mat-button class="cancel"
-          [mat-dialog-close]="'unblock equipment'"
-        >
-          {{ ModalEnum.BlockCancelButtonText }}
-        </button>
-        <button mat-raised-button color="primary" (click)="blockEquipment()">
-          {{ equipment?.blockingPeriods ? ModalEnum.EditEquipmentModalButtonText : ModalEnum.BlockApplyButtonText }}
-        </button>
-      </div>
-    </div>
-  </ng-container>
-</lc-modal-layout>
+            >
+            <input
+              matEndDate
+              formControlName="endDate"
+              placeholder="Конец"
+              [lcValidationErrors]="formName"
+              >
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matIconSuffix
+              (click)="openDatePicker()"
+            ></mat-datepicker-toggle>
+          </mat-form-field>
+        </form>
+      </ng-container>
+      <ng-container footer>
+        <div class="buttons-wrapper">
+          <div class="buttons">
+            @if (equipment?.blockingPeriods) {
+              <button
+                mat-button class="cancel"
+                [mat-dialog-close]="'unblock equipment'"
+                >
+                {{ ModalEnum.BlockCancelButtonText }}
+              </button>
+            }
+            <button mat-raised-button color="primary" (click)="blockEquipment()">
+              {{ equipment?.blockingPeriods ? ModalEnum.EditEquipmentModalButtonText : ModalEnum.BlockApplyButtonText }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </lc-modal-layout>

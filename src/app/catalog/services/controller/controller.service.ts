@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EquipmentFilter, EquipmentOrder, EquipmentRentalInfo } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
@@ -18,19 +18,17 @@ import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-pu
 
 @Injectable()
 export class ControllerService {
+  private api = inject(CatalogApi);
+  private store = inject(Store);
+  private dateRangeService = inject(DateRangeService);
+  private personalInfoService = inject(PersonalInfoService);
+  private infoService = inject(InfoService);
+  private catalogFilterService = inject(CatalogFilterService);
+  private mainPageHeaderService = inject(MainPageHeaderService);
+
   @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
   @Select(CatalogState.equipmentFilter) equipmentFilter$!: Observable<EquipmentFilter>;
-
-  constructor(
-    private api: CatalogApi,
-    private store: Store,
-    private dateRangeService: DateRangeService,
-    private personalInfoService: PersonalInfoService,
-    private infoService: InfoService,
-    private catalogFilterService: CatalogFilterService,
-    private mainPageHeaderService: MainPageHeaderService,
-  ) {}
 
   getCatalog() {
     this.api.getCatalog().subscribe((res) => {

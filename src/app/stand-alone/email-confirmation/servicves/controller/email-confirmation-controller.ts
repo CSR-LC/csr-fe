@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EmailConfirmationApi } from '../api/email-confirmation-api';
 import { Store } from '@ngxs/store';
 import { Observable, of, tap } from 'rxjs';
@@ -15,18 +15,16 @@ import { AuthService } from '@shared/services/auth-service/auth-service.service'
 
 @Injectable()
 export class EmailConfirmationController {
-  constructor(
-    private readonly store: Store,
-    private readonly api: EmailConfirmationApi,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly notificationService: NotificationsService,
-    private readonly personalInfoService: PersonalInfoService,
-    private readonly infoService: InfoService,
-    private readonly router: Router,
-    private readonly blockUiService: BlockUiService,
-    private mainPageHeaderService: MainPageHeaderService,
-    private readonly authService: AuthService,
-  ) {}
+  private readonly store = inject(Store);
+  private readonly api = inject(EmailConfirmationApi);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly notificationService = inject(NotificationsService);
+  private readonly personalInfoService = inject(PersonalInfoService);
+  private readonly infoService = inject(InfoService);
+  private readonly router = inject(Router);
+  private readonly blockUiService = inject(BlockUiService);
+  private mainPageHeaderService = inject(MainPageHeaderService);
+  private readonly authService = inject(AuthService);
 
   get user(): User | undefined {
     const store = this.store.snapshot().auth;

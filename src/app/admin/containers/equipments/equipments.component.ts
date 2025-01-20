@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { EquipmentController } from '@app/admin/services';
 import { Observable } from 'rxjs/internal/Observable';
 import { TableAction } from '@shared/models/table-action';
@@ -21,13 +21,13 @@ import { TableRow } from '@app/shared/models/table-row';
   providers: [EquipmentController],
 })
 export class EquipmentsComponent implements OnInit {
+  private readonly controller = inject(EquipmentController);
+
   columns: TableColumn[] = EquipmentColumns;
   equipments$: Observable<TableRow<Equipment>[]> = this.controller.equipmentData$;
 
   @Select(ApplicationDataState.equipmentCategories) equipmentCategories!: Observable<Category[]>;
   @Select(ApplicationDataState.equipmentStatuses) equipmentStatuses!: Observable<EquipmentStatus[]>;
-
-  constructor(private readonly controller: EquipmentController) {}
 
   ngOnInit() {
     this.controller.setPageHeader();

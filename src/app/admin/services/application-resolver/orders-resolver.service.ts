@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AdminApi } from '..';
 import { map, Observable, switchMap } from 'rxjs';
 import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
@@ -10,7 +10,8 @@ import { ApplicationDataState, ApplicationStatusesAction } from '@app/shared/sto
   providedIn: 'root',
 })
 export class OrdersResolverService {
-  constructor(private readonly api: AdminApi, private readonly store: Store) {}
+  private readonly api = inject(AdminApi);
+  private readonly store = inject(Store);
 
   getApplicationStatusNames(): Observable<ItemTranslated[]> {
     return this.api.getApplicationStatuses().pipe(

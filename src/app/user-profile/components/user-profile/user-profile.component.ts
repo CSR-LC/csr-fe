@@ -19,10 +19,10 @@ import { SharedModule } from '@shared/shared.module';
   standalone: true,
 })
 export class UserProfileComponent implements OnInit {
+  private readonly controller = inject(EmailConfirmationController);
+
   @Select(AuthState.user) user$!: Observable<User>;
   private destroyRef = inject(DestroyRef);
-
-  constructor(private readonly controller: EmailConfirmationController) {}
 
   ngOnInit() {
     this.controller.setPageTitle();

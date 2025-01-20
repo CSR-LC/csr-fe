@@ -1,5 +1,5 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Tokens, User } from '../models';
 import { rememberMeAction, ClearLoginData, Login, Logout, TokensAction, UserAction } from './actions';
 import { AuthApi } from '../services';
@@ -26,6 +26,8 @@ const defaults: AuthStore = {
 })
 @Injectable()
 export class AuthState {
+  private readonly authApi = inject(AuthApi);
+
   @Selector() static state(state: AuthStore) {
     return state;
   }
@@ -57,8 +59,6 @@ export class AuthState {
   static isEmailConfirmed(state: AuthStore): boolean {
     return state.user ? state.user.is_registration_confirmed : false;
   }
-
-  constructor(private readonly authApi: AuthApi) {}
 
   @Action(Login)
   login(ctx: StateContext<AuthStore>, action: Login) {

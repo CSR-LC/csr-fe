@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { CatalogController } from '../../services';
 import { ActivatedRoute } from '@angular/router';
 import { Equipment } from '../../models/equipment';
@@ -19,6 +27,10 @@ import { User } from '@app/auth/models';
   providers: [CatalogController],
 })
 export class EquipmentItemComponent implements OnInit {
+  private readonly controller = inject(CatalogController);
+  private readonly route = inject(ActivatedRoute);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
   @Select(AuthState.user) user!: Observable<User>;
 
@@ -29,12 +41,6 @@ export class EquipmentItemComponent implements OnInit {
   selectedRentPeriod: UnavailableDates | null = null;
 
   readonly defaultImage = './assets/img/no-photo.png';
-
-  constructor(
-    private readonly controller: CatalogController,
-    private readonly route: ActivatedRoute,
-    private readonly cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit(): void {
     this.controller.getCatalog();

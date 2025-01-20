@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterModalData } from '@app/catalog/models';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/shared/models/management';
@@ -16,6 +16,12 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterModalComponent implements OnInit {
+  private readonly data = inject<EquipmentFilterModalData>(MAT_DIALOG_DATA);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<FilterModalComponent>>(MatDialogRef);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private catalogFilterService = inject(CatalogFilterService);
+
   filterModalLabels = filterModalLabels;
 
   filterForm = this.formBuilder.group({
@@ -29,14 +35,6 @@ export class FilterModalComponent implements OnInit {
   count: number | undefined = undefined;
 
   prevFormState: EquipmentFilterForm | undefined = undefined;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly dialogRef: MatDialogRef<FilterModalComponent>,
-    private readonly cdr: ChangeDetectorRef,
-    private catalogFilterService: CatalogFilterService,
-  ) {}
 
   ngOnInit(): void {
     this.prevFormState = this.data.equipmentFilterForm;

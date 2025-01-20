@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, filter, Observable, switchMap, tap } from 'rxjs';
 import { BaseItemsResponse } from '@shared/types';
 import { AdminApi } from '@app/admin/services';
@@ -22,14 +22,12 @@ import { RowAction } from '@app/shared/models';
 @UntilDestroy
 @Injectable()
 export class UserControllerService {
-  private usersSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
+  private api = inject(AdminApi);
+  private notificationService = inject(NotificationsService);
+  private dialog = inject(MatDialog);
+  private mainPageHeaderService = inject(MainPageHeaderService);
 
-  constructor(
-    private api: AdminApi,
-    private notificationService: NotificationsService,
-    private dialog: MatDialog,
-    private mainPageHeaderService: MainPageHeaderService,
-  ) {}
+  private usersSubject$ = new BehaviorSubject<TableRow<User>[]>([]);
 
   get users$(): Observable<TableRow<User>[]> {
     return this.usersSubject$.asObservable();

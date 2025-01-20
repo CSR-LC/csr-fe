@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { ApplicationDataState, RolesAction } from '@shared/store/application-data';
 import { Role } from '@app/auth/models/role';
@@ -7,7 +7,8 @@ import { Store } from '@ngxs/store';
 
 @Injectable()
 export class RolesResolverService {
-  constructor(private api: ApiService, private store: Store) {}
+  private api = inject(ApiService);
+  private store = inject(Store);
 
   getRoles(): Observable<Role[]> {
     return this.api.getAllRoles().pipe(
