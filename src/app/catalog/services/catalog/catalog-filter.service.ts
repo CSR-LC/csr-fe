@@ -96,7 +96,9 @@ export class CatalogFilterService {
 
   getPrefilteredEquipmentCount(equipmentFilter: EquipmentFilter): Observable<number> {
     const payload = { ...this.equipmentFilterRequest, ...equipmentFilter };
-    return this.api.filterEquipment(payload).pipe(map((equipment) => equipment.total));
+    return this.api
+      .filterEquipment(payload)
+      .pipe(map((res) => res.items.filter((item) => item.status !== EquipmentStatusIds.archived).length));
   }
 
   filterEquipment(): void {
