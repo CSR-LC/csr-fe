@@ -18,14 +18,14 @@
     align-items: center;
   }
 
-  &__edit {
-    color: $main;
-  }
-
   &__details {
     display: flex;
     flex-direction: column;
     gap: 30px;
+  }
+
+  &__icon--disabled {
+    color: gray;
   }
 }
 

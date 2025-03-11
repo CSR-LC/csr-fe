@@ -1,0 +1,34 @@
+@import '/src/app/shared/styles/variables';
+
+.note {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 0;
+
+  &--warning {
+    @extend .note;
+    background-color: rgba($notification-warning-color, 0.1);
+  }
+
+  &__content {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    color: $color-text-black;
+
+    &--warning {
+      @extend .note__content;
+    }
+  }
+
+  &__icon {
+    flex: 1 0 auto;
+
+    &--warning {
+      @extend .note__icon;
+      color: $notification-warning-color;
+    }
+  }
+}
