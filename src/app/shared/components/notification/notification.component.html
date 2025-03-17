@@ -15,6 +15,11 @@
         class="icon-info"
       >info</mat-icon>
     }
+    @case (notificationTypes.Warning) {
+      <mat-icon
+        class="icon-warning"
+      >warning</mat-icon>
+    }
   }
   <div class="message">
     <span>{{ data.message }}</span>

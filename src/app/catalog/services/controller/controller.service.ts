@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { EquipmentFilter, EquipmentOrder, EquipmentRentalInfo } from '@app/catalog/models';
 import { DateRangeService } from '@app/features/date-range/services';
 import { Select, Store } from '@ngxs/store';
@@ -8,8 +8,7 @@ import { Equipment } from '../../models/equipment';
 import { CatalogState, GetCatalog } from '../../store';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { PersonalInfoService } from '@app/shared/services/personal-info/personal-info.service';
-import { User } from '@app/auth/models';
-import { AuthState, UserAction } from '@app/auth/store';
+import { AuthState } from '@app/auth/store';
 import { InfoService } from '@app/shared/services/info/info.service';
 import { InfoData } from '@app/shared/models';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
@@ -26,9 +25,9 @@ export class ControllerService {
   private catalogFilterService = inject(CatalogFilterService);
   private mainPageHeaderService = inject(MainPageHeaderService);
 
-  @Select(CatalogState.catalog) catalog$!: Observable<Equipment[]>;
-  @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
-  @Select(CatalogState.equipmentFilter) equipmentFilter$!: Observable<EquipmentFilter>;
+  catalog$ = this.store.select(CatalogState.catalog);
+  hasUserPesonalData$ = this.store.select(AuthState.hasUserPesonalData);
+  equipmentFilter$ = this.store.select(CatalogState.equipmentFilter);
 
   getCatalog() {
     this.api.getCatalog().subscribe((res) => {
@@ -73,14 +72,6 @@ export class ControllerService {
     return this.api.getCreatedOrder(payload);
   }
 
-  updateUserPersonalInfo(): Observable<void> {
-    return this.personalInfoService.updateUserPersonalInfo();
-  }
-
-  setUser(user: User) {
-    return this.store.dispatch(new UserAction(user));
-  }
-
   openInfoModal() {
     const infoData: InfoData = {
       headerText: 'Спасибо!',
@@ -92,6 +83,10 @@ export class ControllerService {
     };
 
     this.infoService.openInfoModal(infoData);
+  }
+
+  openUserBlockedModal() {
+    this.personalInfoService.openBlockedUserModal();
   }
 
   addPersonalInfo(period: UnavailableDates | null): Observable<UnavailableDates | null> {
@@ -118,14 +113,6 @@ export class ControllerService {
 
   set selectedCategoryId(categoryId: number) {
     this.catalogFilterService.selectedCategoryId = categoryId;
-  }
-
-  set equipmentFilter(equipmentFilter: EquipmentFilter) {
-    this.catalogFilterService.equipmentFilter = equipmentFilter;
-  }
-
-  set searchInput(searchInput: string) {
-    this.catalogFilterService.searchInput = searchInput;
   }
 
   get selectedCategoryId(): number {

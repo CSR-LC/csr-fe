@@ -1,0 +1,11 @@
+@import '/src/app/shared/styles/variables';
+
+.user-blocked-modal-content {
+  color: $color-text-gray;
+
+  a {
+    color: $main;
+    text-decoration: none;
+  }
+}
+

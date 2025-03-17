@@ -2,20 +2,35 @@
   <div class="profile-container">
     <div class="details">
       @if (user.is_registration_confirmed) {
+        @if (user.is_readonly) {
+          <lc-note [type]="NotificationTypes.Warning">
+            <p class="note">Ваш профиль заблокирован. Вы можете просматривать каталог. Вы не можете составлять заявки и редактировать свой профиль. Для получения более подробной информации свяжитесь с администратором:
+              <a href="mailto:info@lyonkinkot.ru">info&#64;lyonkinkot.ru</a>
+            </p>
+          </lc-note>
+        }
         <lc-user-details
           [title]="'Персональные данные'"
-      [details]="[
-      { label: 'Имя', text: user.name },
-      { label: 'Фамилия', text: user.surname },
-      { label: 'Мобильный телефон', text: user.phone_number }
-    ]" (edited)="editUserDetails(user)"></lc-user-details>
+          [details]="[
+            { label: 'Имя', text: user.name },
+            { label: 'Фамилия', text: user.surname },
+            { label: 'Мобильный телефон', text: user.phone_number }
+          ]"
+          [disabled]="user.is_readonly"
+          (edited)="editUserDetails(user)"
+        >
+        </lc-user-details>
       }
       <lc-user-details
         class="login-details"
         [title]="'Данные для входа'"
-      [details]="[
-      { label: 'Эл. почта', text: user.email},
-    ]" (edited)="changeEmail(user.email)"></lc-user-details>
+        [details]="[
+          { label: 'Эл. почта', text: user.email},
+        ]"
+        [disabled]="user.is_readonly"
+        (edited)="changeEmail(user.email)"
+      >
+      </lc-user-details>
     </div>
     <div class="actions">
       <button mat-button class="sign-out-btn action-btn" color="primary" (click)="logout()">ВЫЙТИ</button>

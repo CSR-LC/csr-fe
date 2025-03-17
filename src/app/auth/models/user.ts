@@ -3,7 +3,6 @@ import { Role } from './role';
 export type User = {
   email: string;
   id: number;
-  is_blocked: boolean;
   is_readonly: boolean;
   is_registration_confirmed: boolean;
   login: string;

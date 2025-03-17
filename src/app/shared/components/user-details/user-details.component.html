@@ -1,7 +1,7 @@
 <div class="user-details">
   <div class="user-details__header">
     <h3 class="user-details__title">{{ title }}</h3>
-    <button mat-icon-button class="user-details__edit" (click)="edit()">
+    <button mat-icon-button class="user-details__edit" color="primary" (click)="edit()" [disabled]="disabled">
       <mat-icon fontSet="material-icons-outlined">edit</mat-icon>
     </button>
   </div>
