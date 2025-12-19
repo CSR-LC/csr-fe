@@ -57,7 +57,7 @@ const routes: Routes = [
           },
           {
             path: AppRoutes.MyApplications,
-            loadChildren: () => import('./my-applications/my-applications.module').then((m) => m.MyApplicationsModule),
+            loadChildren: () => import('./my-applications/my-applications.module').then(m => m.MyApplicationsModule),
           },
           {
             path: AppRoutes.Admin,
