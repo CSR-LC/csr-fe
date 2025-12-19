@@ -1,15 +1,13 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { Application } from '@app/admin/types';
-import { CatalogApi } from '@app/catalog/services';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
-import { MyApplicationsApi } from '../services';
+import { Observable } from 'rxjs';
+import { MyApplicationsController } from '../services';
 
 export const myApplicationDetailsResolver: ResolveFn<Observable<Application | null>> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
-  apiService: MyApplicationsApi = inject(MyApplicationsApi),
-  catalogApi: CatalogApi = inject(CatalogApi),
+  controller: MyApplicationsController = inject(MyApplicationsController),
 ) => {
   const id = route.paramMap.get('id');
 
@@ -17,27 +15,5 @@ export const myApplicationDetailsResolver: ResolveFn<Observable<Application | nu
     throw new Error('Order ID is required');
   }
 
-  return apiService.getOrder(id).pipe(
-    switchMap((application: Application) => {
-      return catalogApi.getPhotoById(application.equipments[0].photoID).pipe(
-        map((res) => new Blob([res], { type: 'image/jpeg' })),
-        map((photoBlob) => {
-          const urlCreator = window.URL || window.webkitURL;
-          const imageUrl = urlCreator.createObjectURL(photoBlob);
-
-          const applicationWithImageUrl = { ...application };
-
-          applicationWithImageUrl.equipments[0] = {
-            ...applicationWithImageUrl.equipments[0],
-            imageUrl,
-          };
-
-          return applicationWithImageUrl;
-        }),
-      );
-    }),
-    catchError(() => {
-      return of(null);
-    }),
-  );
+  return controller.getApplicationWithImage(id);
 };
