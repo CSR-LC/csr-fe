@@ -17,6 +17,9 @@
     margin: 0;
     text-align: center;
     letter-spacing: 0.25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
