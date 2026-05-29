@@ -10,6 +10,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { mat_date_locale, mat_form_field_config, materialModules } from './material';
 import { sharedComponents } from './components/components';
 import { sharedDirectives } from './directives/directives';
+import { InfiniteScrollDirective } from '@shared/directives/infinite-scroll/infinite-scroll.directive';
 import { sharedPipes } from './pipes/pipes';
 import { MODAL_CONFIG_DESKTOP, MODAL_CONFIG_MOBILE } from '@shared/constants/user-modal-config';
 
@@ -19,7 +20,7 @@ function matDialogDefaultOptionsFactory(breakpointObserver: BreakpointObserver) 
 }
 
 @NgModule({
-  imports: [CommonModule, RouterModule, materialModules, ReactiveFormsModule, LayoutModule, NgxsFormPluginModule],
+  imports: [CommonModule, RouterModule, materialModules, ReactiveFormsModule, LayoutModule, NgxsFormPluginModule, InfiniteScrollDirective],
   declarations: [sharedComponents, sharedDirectives, sharedPipes],
   exports: [
     sharedComponents,
@@ -28,6 +29,7 @@ function matDialogDefaultOptionsFactory(breakpointObserver: BreakpointObserver) 
     materialModules,
     ReactiveFormsModule,
     NgxsFormPluginModule,
+    InfiniteScrollDirective,
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: mat_form_field_config },

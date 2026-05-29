@@ -9,4 +9,5 @@ export type DateRangeData = {
   unavailableDates: UnavailableDates[];
   purpose: DateRangePurpose;
   selectedPeriod?: DateRange<Date>;
+  minDate?: Date;
 };

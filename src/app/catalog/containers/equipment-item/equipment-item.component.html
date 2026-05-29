@@ -19,8 +19,8 @@
             <div class="info-item__rent-period"
               (click)="getSelectedRentPeriod(equipment?.id, equipment?.maximumDays)"
               >
-              {{ selectedRentPeriod.start_date | date: 'dd.MM.yyyy' }} -
-              {{ selectedRentPeriod.end_date | date: 'dd.MM.yyyy' }}
+              {{ dateService.fromNanoseconds(selectedRentPeriod.start_date) | date: 'dd.MM.yyyy':'UTC' }} -
+              {{ dateService.fromNanoseconds(selectedRentPeriod.end_date) | date: 'dd.MM.yyyy':'UTC' }}
             </div>
           </div>
         }

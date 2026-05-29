@@ -10,8 +10,8 @@
       <div class="my-application-details__info">
         <div class="my-application-details__rent-period">
           <mat-icon class="my-application-details__info-icon">info</mat-icon>
-          <p>Период аренды {{ details.rent_start | date:'dd.MM.yyyy' }}
-            — {{ details.rent_end | date:'dd.MM.yyyy' }}</p>
+          <p>Период аренды {{ toDate(details.rent_start) | date:'dd.MM.yyyy':'UTC' }}
+            — {{ toDate(details.rent_end) | date:'dd.MM.yyyy':'UTC' }}</p>
         </div>
 
         @if (details.equipments[0].description) {

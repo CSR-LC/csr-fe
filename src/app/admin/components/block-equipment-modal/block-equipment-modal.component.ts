@@ -11,6 +11,7 @@ import { UnavailableDates, DateRangeData } from '@app/features/date-range/models
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Period } from '@app/shared/models/period';
 import { DateRange } from '@angular/material/datepicker';
+import { DateService } from '@shared/services/date/date.service';
 
 @UntilDestroy
 @Component({
@@ -25,6 +26,7 @@ export class BlockEquipmentModalComponent implements OnInit {
   private readonly fb = inject(UntypedFormBuilder);
   private readonly validationService = inject(ValidationService);
   private readonly dateRangeService = inject(DateRangeService);
+  private readonly dateService = inject(DateService);
 
   readonly formName = 'block_equipment_modal';
   equipment?: Equipment;
@@ -49,8 +51,8 @@ export class BlockEquipmentModalComponent implements OnInit {
     const period = equipment.blockingPeriods[0];
 
     this.form.setValue({
-      startDate: new Date(period.start_date),
-      endDate: new Date(period.end_date),
+      startDate: this.dateService.fromNanoseconds(period.start_date),
+      endDate: this.dateService.fromNanoseconds(period.end_date),
     });
   }
 
@@ -68,8 +70,8 @@ export class BlockEquipmentModalComponent implements OnInit {
       .subscribe((res) => {
         if (!res) return;
         this.setFormValue({
-          startDate: new Date(res.start_date),
-          endDate: new Date(res.end_date),
+          startDate: this.dateService.fromNanoseconds(res.start_date),
+          endDate: this.dateService.fromNanoseconds(res.end_date),
         });
       });
   }
@@ -86,6 +88,8 @@ export class BlockEquipmentModalComponent implements OnInit {
   }
 
   private get dateRangeConfig(): DateRangeData {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     return {
       headerText: 'Выберите период блокировки',
       buttonText: 'Выбрать',
@@ -93,6 +97,7 @@ export class BlockEquipmentModalComponent implements OnInit {
       unavailableDates: this.unavailablePeriods,
       purpose: DateRangePurpose.block,
       selectedPeriod: this.blockPeriodForModal,
+      minDate: tomorrow,
     };
   }
 

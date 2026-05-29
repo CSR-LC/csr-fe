@@ -1,4 +1,4 @@
 export type UnavailableDates = {
-  end_date: string;
-  start_date: string;
+  end_date: number;
+  start_date: number;
 };

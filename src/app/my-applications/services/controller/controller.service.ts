@@ -1,6 +1,6 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { ApiService } from '@app/my-applications/services/api/api.service';
-import { catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MyApplicationsFilterProvider } from '@app/my-applications/services/providers/my-applications-filter-provider';
 import { DropdownFilter } from '@shared/models/dropdown-filter';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
@@ -14,6 +14,7 @@ import { DateRangeService } from '@app/features/date-range/services/controller/d
 import { CatalogApi } from '@app/catalog/services';
 import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
 import { DateRange } from '@angular/material/datepicker';
+import { DateService } from '@shared/services/date/date.service';
 
 @Injectable()
 export class ControllerService {
@@ -26,6 +27,7 @@ export class ControllerService {
   private notificationService = inject(NotificationsService);
   private dateRangeService = inject(DateRangeService);
   private catalogApi = inject(CatalogApi);
+  private dateService = inject(DateService);
 
   applications$ = this.infiniteScrollService.items$;
   hasMore$ = this.infiniteScrollService.hasMore$;
@@ -48,7 +50,7 @@ export class ControllerService {
         tap((items) => {
           this.infiniteScrollService.addItems(items);
           this.infiniteScrollService.setLoading(false);
-          this.infiniteScrollService.setHasMore(items.length > 0);
+          this.infiniteScrollService.setHasMore(items.length === limit);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -99,7 +101,7 @@ export class ControllerService {
 
   editApplicationPeriod(application: Application): Observable<Application | null> {
     const equipment = application.equipments?.[0];
-    
+
     if (!equipment || !equipment.id) {
       this.notificationService.openError('Не удалось загрузить данные оборудования');
       return of(null);
@@ -107,9 +109,12 @@ export class ControllerService {
 
     const equipmentId = equipment.id;
 
-    // Fetch full equipment details to get maximumDays
-    return this.catalogApi.info(equipmentId).pipe(
-      switchMap((fullEquipment) => {
+    // Fetch both equipment details and unavailable periods in parallel
+    return forkJoin({
+      fullEquipment: this.catalogApi.info(equipmentId),
+      unavailablePeriods: this.catalogApi.getUnavailablePeriods(equipmentId)
+    }).pipe(
+      switchMap(({ fullEquipment, unavailablePeriods }) => {
         const maxRentalPeriod = fullEquipment.maximumDays;
 
         if (!maxRentalPeriod) {
@@ -118,58 +123,43 @@ export class ControllerService {
         }
 
         // Parse dates and create DateRange for current period
-        const startDate = new Date(application.rent_start);
-        const endDate = new Date(application.rent_end);
-        
-        console.log('Current application dates:', {
-          rent_start: application.rent_start,
-          rent_end: application.rent_end,
-          startDate,
-          endDate
-        });
+        const startDate = this.dateService.fromNanoseconds(application.rent_start);
+        const endDate = this.dateService.fromNanoseconds(application.rent_end);
 
         const currentPeriod = new DateRange<Date>(startDate, endDate);
 
-        return this.catalogApi.getUnavailablePeriods(equipmentId).pipe(
-          switchMap((periods) => {
-            console.log('Unavailable periods from API:', periods);
-            
-            const dateRangeData = {
-              headerText: 'Редактировать период аренды',
-              buttonText: 'Подтвердить изменения',
-              maxRentalPeriod,
-              unavailableDates: periods.items || [],
-              purpose: DateRangePurpose.rent,
-              selectedPeriod: currentPeriod,
-            };
+        const dateRangeData = {
+          headerText: 'Редактировать период аренды',
+          buttonText: 'Подтвердить изменения',
+          maxRentalPeriod,
+          unavailableDates: unavailablePeriods.items || [],
+          purpose: DateRangePurpose.rent,
+          selectedPeriod: currentPeriod,
+        };
 
-            console.log('Opening date range modal with data:', dateRangeData);
+        return this.dateRangeService.openDateRangeModal(dateRangeData);
+      }),
+      switchMap((selectedPeriod) => {
+        if (!selectedPeriod) return of(null);
 
-            return this.dateRangeService.openDateRangeModal(dateRangeData);
+        const payload = {
+          description: application.description,
+          quantity: application.quantity,
+          rent_end: selectedPeriod.end_date,
+          rent_start: selectedPeriod.start_date,
+        };
+
+        return this.api.updateOrder(application.id.toString(), payload).pipe(
+          switchMap((updatedApplication) => {
+            // Fetch photo and add imageUrl to the updated application
+            return this.addImageUrlToApplication(updatedApplication);
           }),
-          switchMap((selectedPeriod) => {
-            if (!selectedPeriod) return of(null);
-
-            const payload = {
-              description: application.description,
-              quantity: application.quantity,
-              rent_end: selectedPeriod.end_date,
-              rent_start: selectedPeriod.start_date,
-            };
-
-            return this.api.updateOrder(application.id.toString(), payload).pipe(
-              switchMap((updatedApplication) => {
-                // Fetch photo and add imageUrl to the updated application
-                return this.addImageUrlToApplication(updatedApplication);
-              }),
-              tap(() => {
-                this.notificationService.openSuccess('Период аренды изменен успешно');
-              }),
-              catchError(() => {
-                this.notificationService.openError('Не удалось изменить период аренды');
-                return of(null);
-              }),
-            );
+          tap(() => {
+            this.notificationService.openSuccess('Период аренды изменен успешно');
+          }),
+          catchError(() => {
+            this.notificationService.openError('Не удалось изменить период аренды');
+            return of(null);
           }),
         );
       }),

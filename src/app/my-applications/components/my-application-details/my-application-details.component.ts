@@ -8,6 +8,7 @@ import { map, tap } from 'rxjs/operators';
 import { MyApplicationsController } from '@app/my-applications/services';
 import { AppRoutes } from '@shared/constants/routes.enum';
 import { filter } from 'rxjs';
+import { DateService } from '@shared/services/date/date.service';
 
 @Component({
   selector: 'lc-my-application-details',
@@ -20,6 +21,7 @@ import { filter } from 'rxjs';
 export class MyApplicationDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly dateService = inject(DateService);
   @SkipSelf()
   private readonly controller = inject(MyApplicationsController);
   
@@ -49,6 +51,10 @@ export class MyApplicationDetailsComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  toDate(ns: number | string): Date {
+    return this.dateService.fromNanoseconds(ns);
   }
 
   deleteApplication(): void {
