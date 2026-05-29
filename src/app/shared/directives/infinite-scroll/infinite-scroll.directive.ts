@@ -2,6 +2,7 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 
 @Directive({
   selector: '[lcInfiniteScroll]',
+  standalone: true,
 })
 export class InfiniteScrollDirective {
   @Output() scrolled = new EventEmitter<void>();

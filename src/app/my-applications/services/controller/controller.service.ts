@@ -1,12 +1,20 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { ApiService } from '@app/my-applications/services/api/api.service';
-import { map, Observable, tap } from 'rxjs';
+import { catchError, filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MyApplicationsFilterProvider } from '@app/my-applications/services/providers/my-applications-filter-provider';
 import { DropdownFilter } from '@shared/models/dropdown-filter';
 import { MainPageHeaderService } from '@shared/services/main-page-header.service';
 import { Application } from '@app/admin/types';
 import { InfiniteScrollService } from '@shared/services/infinite-scroll/infinite-scroll.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
+import { NotificationsService } from '@shared/services/notifications/notifications.service';
+import { DateRangeService } from '@app/features/date-range/services/controller/date-range.service';
+import { CatalogApi } from '@app/catalog/services';
+import { DateRangePurpose } from '@app/features/date-range/models/date-rrange-purpose';
+import { DateRange } from '@angular/material/datepicker';
+import { DateService } from '@shared/services/date/date.service';
 
 @Injectable()
 export class ControllerService {
@@ -15,6 +23,11 @@ export class ControllerService {
   private headerService = inject(MainPageHeaderService);
   private infiniteScrollService = inject(InfiniteScrollService<Application>);
   private filterProvider = inject(MyApplicationsFilterProvider);
+  private dialog = inject(MatDialog);
+  private notificationService = inject(NotificationsService);
+  private dateRangeService = inject(DateRangeService);
+  private catalogApi = inject(CatalogApi);
+  private dateService = inject(DateService);
 
   applications$ = this.infiniteScrollService.items$;
   hasMore$ = this.infiniteScrollService.hasMore$;
@@ -37,7 +50,7 @@ export class ControllerService {
         tap((items) => {
           this.infiniteScrollService.addItems(items);
           this.infiniteScrollService.setLoading(false);
-          this.infiniteScrollService.setHasMore(items.length > 0);
+          this.infiniteScrollService.setHasMore(items.length === limit);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -56,7 +69,143 @@ export class ControllerService {
     return this.filterProvider.getFilter();
   }
 
-  setPageTitle() {
-    this.headerService.setPageTitle('Мои заявки');
+  setPageTitle(title: string = 'Мои заявки') {
+    this.headerService.setPageTitle(title);
+  }
+
+  deleteApplication(applicationId: number): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmationModalComponent, {
+        autoFocus: false,
+        data: {
+          title: 'Удалить заявку',
+          body: 'Ваша заявка будет отозвана, её нельзя будет восстановить.',
+          applyButtonText: 'Удалить',
+          cancelButtonText: 'Отменить',
+        },
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => this.api.deleteOrder(applicationId.toString())),
+        tap(() => {
+          this.notificationService.openSuccess('Заявка удалена успешно');
+        }),
+        map(() => true),
+        catchError(() => {
+          this.notificationService.openError('Не удалось удалить заявку');
+          return of(false);
+        }),
+      );
+  }
+
+  editApplicationPeriod(application: Application): Observable<Application | null> {
+    const equipment = application.equipments?.[0];
+
+    if (!equipment || !equipment.id) {
+      this.notificationService.openError('Не удалось загрузить данные оборудования');
+      return of(null);
+    }
+
+    const equipmentId = equipment.id;
+
+    // Fetch both equipment details and unavailable periods in parallel
+    return forkJoin({
+      fullEquipment: this.catalogApi.info(equipmentId),
+      unavailablePeriods: this.catalogApi.getUnavailablePeriods(equipmentId)
+    }).pipe(
+      switchMap(({ fullEquipment, unavailablePeriods }) => {
+        const maxRentalPeriod = fullEquipment.maximumDays;
+
+        if (!maxRentalPeriod) {
+          this.notificationService.openError('Не удалось загрузить данные оборудования');
+          return of(null);
+        }
+
+        // Parse dates and create DateRange for current period
+        const startDate = this.dateService.fromNanoseconds(application.rent_start);
+        const endDate = this.dateService.fromNanoseconds(application.rent_end);
+
+        const currentPeriod = new DateRange<Date>(startDate, endDate);
+
+        const dateRangeData = {
+          headerText: 'Редактировать период аренды',
+          buttonText: 'Подтвердить изменения',
+          maxRentalPeriod,
+          unavailableDates: unavailablePeriods.items || [],
+          purpose: DateRangePurpose.rent,
+          selectedPeriod: currentPeriod,
+        };
+
+        return this.dateRangeService.openDateRangeModal(dateRangeData);
+      }),
+      switchMap((selectedPeriod) => {
+        if (!selectedPeriod) return of(null);
+
+        const payload = {
+          description: application.description,
+          quantity: application.quantity,
+          rent_end: selectedPeriod.end_date,
+          rent_start: selectedPeriod.start_date,
+        };
+
+        return this.api.updateOrder(application.id.toString(), payload).pipe(
+          switchMap((updatedApplication) => {
+            // Fetch photo and add imageUrl to the updated application
+            return this.addImageUrlToApplication(updatedApplication);
+          }),
+          tap(() => {
+            this.notificationService.openSuccess('Период аренды изменен успешно');
+          }),
+          catchError(() => {
+            this.notificationService.openError('Не удалось изменить период аренды');
+            return of(null);
+          }),
+        );
+      }),
+      catchError(() => {
+        this.notificationService.openError('Не удалось загрузить данные оборудования');
+        return of(null);
+      }),
+    );
+  }
+
+  getApplicationWithImage(orderId: string): Observable<Application | null> {
+    return this.api.getOrder(orderId).pipe(
+      switchMap((application: Application) => {
+        return this.addImageUrlToApplication(application);
+      }),
+      catchError(() => {
+        return of(null);
+      }),
+    );
+  }
+
+  addImageUrlToApplication(application: Application): Observable<Application> {
+    const photoID = application.equipments[0]?.photoID;
+    
+    if (!photoID) {
+      return of(application);
+    }
+
+    return this.catalogApi.getPhotoById(photoID).pipe(
+      map((res) => new Blob([res], { type: 'image/jpeg' })),
+      map((photoBlob) => {
+        const urlCreator = window.URL || window.webkitURL;
+        const imageUrl = urlCreator.createObjectURL(photoBlob);
+
+        return {
+          ...application,
+          equipments: [{
+            ...application.equipments[0],
+            imageUrl,
+          }],
+        };
+      }),
+      catchError(() => {
+        // If photo fetch fails, return application without imageUrl
+        return of(application);
+      }),
+    );
   }
 }

@@ -1,11 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { Application } from '@app/admin/types';
 import { AppRoutes } from '@shared/constants/routes.enum';
-import { Select } from '@ngxs/store';
-import { ApplicationDataState } from '@shared/store/application-data';
-import { Observable } from 'rxjs/internal/Observable';
-import { ItemTranslated } from '@shared/types';
-import { ApplicationStatusName } from '@app/admin/constants/applications-status-names';
+import { DateService } from '@shared/services/date/date.service';
+import { ApplicationStatusNamesTranslation } from '@app/admin/constants/applications-status-names-translation';
 
 @Component({
   selector: 'lc-my-application',
@@ -14,11 +11,15 @@ import { ApplicationStatusName } from '@app/admin/constants/applications-status-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyApplicationComponent {
+  private readonly dateService = inject(DateService);
   readonly route = `/${AppRoutes.MyApplications}`;
   @Input() application!: Application;
-  @Select(ApplicationDataState.applicationStatuses) applicationStatuses$!: Observable<ItemTranslated[]>;
 
-  getStatus(statuses: ItemTranslated[], statusName: ApplicationStatusName): string {
-    return statuses.find((status) => status.name === statusName)?.translation ?? '';
+  toDate(ns: number | string): Date {
+    return this.dateService.fromNanoseconds(ns);
+  }
+
+  getStatus(status: string): string {
+    return ApplicationStatusNamesTranslation[status as keyof typeof ApplicationStatusNamesTranslation] || status;
   }
 }

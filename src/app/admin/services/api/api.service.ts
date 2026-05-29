@@ -15,12 +15,14 @@ import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
 import { ChangeStatusBody } from '@app/admin/types';
 import { EquipmentRouterParams } from '@app/admin/constants';
+import { DateService } from '@shared/services/date/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private http = inject(HttpClient);
+  private readonly dateService = inject(DateService);
 
   private static USERS_BASE_URL = 'v1/users';
   private static ROLES_BASE_URL = 'v1/roles';
@@ -44,8 +46,8 @@ export class ApiService {
 
   blockEquipment(id: number, period: Period): Observable<void> {
     const body = {
-      end_date: period.endDate,
-      start_date: period.startDate,
+      end_date: this.dateService.toNanoseconds(period.endDate),
+      start_date: this.dateService.toNanoseconds(period.startDate),
     };
     return this.http.post<void>(`/equipment/${id}/blocking`, body);
   }

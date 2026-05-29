@@ -4,6 +4,7 @@ import { DateRange, MatCalendarCellClassFunction } from '@angular/material/datep
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateRangeData, UnavailableDates } from '../../models';
 import { DateRangePurpose } from '../../models/date-rrange-purpose';
+import { DateService } from '@shared/services/date/date.service';
 
 @Component({
   selector: 'lc-date-range',
@@ -13,6 +14,7 @@ import { DateRangePurpose } from '../../models/date-rrange-purpose';
 })
 export class DateRangeComponent implements OnInit {
   dateRangeData = inject<DateRangeData>(MAT_DIALOG_DATA);
+  private readonly dateService = inject(DateService);
 
   selectedRangeValue!: DateRange<Date> | null;
 
@@ -36,6 +38,9 @@ export class DateRangeComponent implements OnInit {
   ngOnInit() {
     this.purpose = this.dateRangeData.purpose;
     this.selectedRangeValue = this.dateRangeData.selectedPeriod || null;
+    if (this.dateRangeData.minDate) {
+      this.minDate = this.dateRangeData.minDate;
+    }
   }
 
   isDateUnavailable = (dateFromCalendar: Date): boolean => {
@@ -88,8 +93,8 @@ export class DateRangeComponent implements OnInit {
     if (!dateRange?.start || !dateRange.end) return;
 
     return {
-      end_date: dateRange.end.toISOString(),
-      start_date: dateRange.start.toISOString(),
+      end_date: this.dateService.toNanoseconds(dateRange.end),
+      start_date: this.dateService.toNanoseconds(dateRange.start),
     };
   }
 
@@ -98,15 +103,18 @@ export class DateRangeComponent implements OnInit {
     this.selectedRangeValue = new DateRange<Date>(null, null);
   }
 
-  private removeTime(date: Date | string): number {
-    return new Date(date).setHours(0, 0, 0, 0);
+  private removeTime(date: Date | string | number): number {
+    const resolved = typeof date === 'number' ? this.dateService.fromNanoseconds(date) : date;
+    return new Date(resolved).setHours(0, 0, 0, 0);
   }
 
   private isPeriodAvailable(start: Date, end: Date): boolean {
     if (!this.unavailableDates) return true;
 
     for (let i = 0; i < this.unavailableDates.length; i++) {
-      if (new Date(this.unavailableDates[i].start_date) > start && new Date(this.unavailableDates[i].end_date) < end) {
+      const periodStart = this.dateService.fromNanoseconds(this.unavailableDates[i].start_date);
+      const periodEnd = this.dateService.fromNanoseconds(this.unavailableDates[i].end_date);
+      if (periodStart > start && periodEnd < end) {
         return false;
       }
     }

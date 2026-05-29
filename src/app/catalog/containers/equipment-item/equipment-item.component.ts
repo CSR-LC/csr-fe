@@ -17,6 +17,7 @@ import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-de
 import { Select } from '@ngxs/store';
 import { AuthState } from '@app/auth/store';
 import { User } from '@app/auth/models';
+import { DateService } from '@shared/services/date/date.service';
 
 @UntilDestroy
 @Component({
@@ -30,6 +31,7 @@ export class EquipmentItemComponent implements OnInit {
   private readonly controller = inject(CatalogController);
   private readonly route = inject(ActivatedRoute);
   private readonly cdr = inject(ChangeDetectorRef);
+  readonly dateService = inject(DateService);
 
   @Select(AuthState.hasUserPesonalData) hasUserPesonalData$!: Observable<boolean>;
   @Select(AuthState.user) user!: Observable<User>;
