@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { EmailConfirmationController } from '../servicves/controller/email-confirmation-controller';
 import { EmailConfirmationApi } from '../servicves/api/email-confirmation-api';
-import { CommonModule } from '@angular/common';
+
 import { catchError, switchMap, finalize } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [SharedModule, CommonModule],
+  imports: [SharedModule],
   providers: [EmailConfirmationController, EmailConfirmationApi],
   selector: 'lc-email-confirmation',
   templateUrl: './email-confirmation.component.html',
@@ -15,11 +15,12 @@ import { catchError, switchMap, finalize } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailConfirmationComponent implements OnInit {
+  private readonly controller = inject(EmailConfirmationController);
+  private readonly cdr = inject(ChangeDetectorRef);
+
   userEmail?: string;
   token?: string;
   isTokenValid: boolean = true;
-
-  constructor(private readonly controller: EmailConfirmationController, private readonly cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.userEmail = this.controller.userMail;

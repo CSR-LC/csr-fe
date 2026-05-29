@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Equipment } from '@app/catalog/models/equipment';
@@ -15,16 +15,18 @@ import { Application } from '@app/admin/types/application';
 import { Item } from '@app/shared/types';
 import { ChangeStatusBody } from '@app/admin/types';
 import { EquipmentRouterParams } from '@app/admin/constants';
+import { DateService } from '@shared/services/date/date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  private http = inject(HttpClient);
+  private readonly dateService = inject(DateService);
+
   private static USERS_BASE_URL = 'v1/users';
   private static ROLES_BASE_URL = 'v1/roles';
   private static MANAGEMENT_BASE_URL = 'v1/management';
-
-  constructor(private http: HttpClient) {}
 
   getAllEquipment(): Observable<BaseItemsResponse<Equipment>> {
     const params = new HttpParams().set('limit', 0);
@@ -44,8 +46,8 @@ export class ApiService {
 
   blockEquipment(id: number, period: Period): Observable<void> {
     const body = {
-      end_date: period.endDate,
-      start_date: period.startDate,
+      end_date: this.dateService.toNanoseconds(period.endDate),
+      start_date: this.dateService.toNanoseconds(period.startDate),
     };
     return this.http.post<void>(`/equipment/${id}/blocking`, body);
   }

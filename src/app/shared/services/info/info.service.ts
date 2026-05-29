@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoModalComponent } from '@app/shared/components/info-modal/info-modal.component';
 import { InfoData } from '@app/shared/models';
@@ -8,7 +8,7 @@ import { Observable, of, switchMap } from 'rxjs';
   providedIn: 'root',
 })
 export class InfoService {
-  constructor(private readonly dialog: MatDialog) {}
+  private readonly dialog = inject(MatDialog);
 
   openInfoModal(infoData: InfoData): Observable<boolean | null> {
     return this.dialog

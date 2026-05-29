@@ -1,5 +1,10 @@
 @import 'src/app/shared/styles/variables';
 
+:host {
+  display: block;
+  height: 100%;
+}
+
 .my-applications-container {
   display: flex;
   flex-direction: column;

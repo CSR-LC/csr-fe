@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { Role, User } from '@app/auth/models';
@@ -16,6 +16,11 @@ import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destro
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssignRoleModalComponent implements OnInit {
+  data = inject<AssignRoleModalData>(MAT_DIALOG_DATA);
+  private formBuilder = inject(FormBuilder);
+  private validationService = inject(ValidationService);
+  private dialogRef = inject<MatDialogRef<AssignRoleModalComponent>>(MatDialogRef);
+
   formName = 'role_assignment_form';
   labels = RoleModal;
   roles: Role[] = [];
@@ -24,13 +29,6 @@ export class AssignRoleModalComponent implements OnInit {
     role: [null, Validators.required],
   });
   filteredUserOptions$: Observable<User[]> | undefined;
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: AssignRoleModalData,
-    private formBuilder: FormBuilder,
-    private validationService: ValidationService,
-    private dialogRef: MatDialogRef<AssignRoleModalComponent>,
-  ) {}
 
   ngOnInit() {
     this.roles = this.data.roles;

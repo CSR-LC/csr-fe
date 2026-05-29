@@ -27,4 +27,5 @@ export type Equipment = {
   technicalIssues: boolean;
   termsOfUse: string;
   title: string;
+  imageUrl?: string;
 };

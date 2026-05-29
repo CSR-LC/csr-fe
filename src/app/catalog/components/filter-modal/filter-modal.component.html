@@ -1,24 +1,30 @@
 <lc-modal-layout headerTitle="{{ filterModalLabels.headerTitle }}" (closed)="onModalClose()">
   <ng-container body>
     <form id="filterForm" [formGroup]="filterForm" ngxsForm="catalog.equipmentFilterForm" (ngSubmit)="showEquipments()">
-      <section *ngIf="petKinds" class="pet-kind-container" formArrayName="petKinds">
-        <mat-label class="label">{{ filterModalLabels.petKindsLabel }}</mat-label>
-        <mat-checkbox
-          *ngFor="let petKind of petKindsFormArray.controls; let i = index"
-          color="primary" 
-          [formControlName]="i"
-          class="pet-kind-item"
-        >{{ petKinds[i].name }}</mat-checkbox>
-      </section>
-      <section *ngIf="petSizes" class="pet-size-container" formArrayName="petSizes">
-        <mat-label class="label">{{ filterModalLabels.petSizesLabel }}</mat-label>
-        <mat-checkbox
-          *ngFor="let petSize of petSizesFormArray.controls; let i = index"
-          color="primary" 
-          [formControlName]="i"
-          class="pet-size-item"
-        >{{ petSizes[i].name }} {{!petSizes[i].is_universal ? (petSizes[i].size) : ''}}</mat-checkbox>
-      </section>
+      @if (petKinds) {
+        <section class="pet-kind-container" formArrayName="petKinds">
+          <mat-label class="label">{{ filterModalLabels.petKindsLabel }}</mat-label>
+          @for (petKind of petKindsFormArray.controls; track petKind; let i = $index) {
+            <mat-checkbox
+              color="primary"
+              [formControlName]="i"
+              class="pet-kind-item"
+            >{{ petKinds[i].name }}</mat-checkbox>
+          }
+        </section>
+      }
+      @if (petSizes) {
+        <section class="pet-size-container" formArrayName="petSizes">
+          <mat-label class="label">{{ filterModalLabels.petSizesLabel }}</mat-label>
+          @for (petSize of petSizesFormArray.controls; track petSize; let i = $index) {
+            <mat-checkbox
+              color="primary"
+              [formControlName]="i"
+              class="pet-size-item"
+            >{{ petSizes[i].name }} {{!petSizes[i].is_universal ? (petSizes[i].size) : ''}}</mat-checkbox>
+          }
+        </section>
+      }
       <section class="equipment-condition-container">
         <mat-slide-toggle color="primary" class="equipment-condition" formControlName="idealCondition">
           {{ filterModalLabels.idealConditionLabel }}
@@ -28,9 +34,9 @@
   </ng-container>
   <ng-container footer>
     <section class="filter-actions">
-      <ng-container *ngIf="filterForm.dirty">
+      @if (filterForm.dirty) {
         <button type="button" mat-button color="primary" class="filter-reset modal-action-button"
-                (click)="resetFilters()">
+          (click)="resetFilters()">
           <div class="inner"><i class="cross"></i> <span>{{ filterModalLabels.clearFiltersButtonLabel }}</span></div>
         </button>
         <button
@@ -40,24 +46,22 @@
           color="primary"
           class="modal-action-button"
           [mat-dialog-close]="false"
-        >
+          >
           {{ filterModalLabels.submitButtonLabel }} :
-
-          <ng-container *ngIf="count !== undefined">
+          @if (count !== undefined) {
             {{count}}
-          </ng-container>
-
-          <ng-container *ngIf="count === undefined">
+          }
+          @if (count === undefined) {
             <mat-progress-spinner
               class="example-margin"
               color="accent"
               mode="indeterminate"
               diameter="20"
             ></mat-progress-spinner>
-          </ng-container>
+          }
         </button>
-      </ng-container>
-      <ng-container *ngIf="!filterForm.dirty">
+      }
+      @if (!filterForm.dirty) {
         <button
           type="button"
           mat-raised-button
@@ -65,10 +69,10 @@
           class="modal-action-button"
           [mat-dialog-close]="false"
           (click)="showEquipments()"
-        >
+          >
           {{ filterModalLabels.applyButtonLabel }}
         </button>
-      </ng-container>
+      }
     </section>
   </ng-container>
 </lc-modal-layout>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
@@ -9,14 +9,14 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CatalogSearchComponent implements OnInit {
+  private catalogFilterService = inject(CatalogFilterService);
+
   showSearchInput: boolean = false;
   @Output() inputDisplayed = new EventEmitter<boolean>();
 
   form = new FormGroup({
     searchValue: new FormControl(''),
   });
-
-  constructor(private catalogFilterService: CatalogFilterService) {}
 
   ngOnInit() {
     this.updateFormValue(this.catalogFilterService.searchInput);

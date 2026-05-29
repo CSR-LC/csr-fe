@@ -8,6 +8,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { EmailConfirmationApi } from '@app/stand-alone/email-confirmation/servicves/api/email-confirmation-api';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@shared/shared.module';
+import { NoteComponent } from '@shared/components/note/note.component';
+import { NotificationTypes } from '@shared/constants/notification.enum';
 
 @Component({
   selector: 'lc-user-profile',
@@ -15,14 +17,14 @@ import { SharedModule } from '@shared/shared.module';
   styleUrls: ['./user-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [EmailConfirmationController, EmailConfirmationApi],
-  imports: [SharedModule, CommonModule],
+  imports: [SharedModule, CommonModule, NoteComponent],
   standalone: true,
 })
 export class UserProfileComponent implements OnInit {
+  private readonly controller = inject(EmailConfirmationController);
+
   @Select(AuthState.user) user$!: Observable<User>;
   private destroyRef = inject(DestroyRef);
-
-  constructor(private readonly controller: EmailConfirmationController) {}
 
   ngOnInit() {
     this.controller.setPageTitle();
@@ -47,4 +49,6 @@ export class UserProfileComponent implements OnInit {
   deleteProfile() {
     this.controller.deleteUserProfile().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
+
+  protected readonly NotificationTypes = NotificationTypes;
 }

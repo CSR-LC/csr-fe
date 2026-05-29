@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { EquipmentFilter, EquipmentFilterForm, EquipmentFilterModalData } from '@app/catalog/models';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl } from '@angular/forms';
 import { BaseKind, PetSize } from '@app/shared/models/management';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { filterModalLabels } from '@app/catalog/constants';
-import { debounceTime, distinctUntilChanged, skip, switchMap, tap } from 'rxjs';
+import { debounceTime, skip, switchMap, tap } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@shared/until-destroy/until-destroy';
 import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filter.service';
 
@@ -16,6 +16,12 @@ import { CatalogFilterService } from '@app/catalog/services/catalog/catalog-filt
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterModalComponent implements OnInit {
+  private readonly data = inject<EquipmentFilterModalData>(MAT_DIALOG_DATA);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly dialogRef = inject<MatDialogRef<FilterModalComponent>>(MatDialogRef);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private catalogFilterService = inject(CatalogFilterService);
+
   filterModalLabels = filterModalLabels;
 
   filterForm = this.formBuilder.group({
@@ -30,14 +36,6 @@ export class FilterModalComponent implements OnInit {
 
   prevFormState: EquipmentFilterForm | undefined = undefined;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private readonly data: EquipmentFilterModalData,
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly dialogRef: MatDialogRef<FilterModalComponent>,
-    private readonly cdr: ChangeDetectorRef,
-    private catalogFilterService: CatalogFilterService,
-  ) {}
-
   ngOnInit(): void {
     this.prevFormState = this.data.equipmentFilterForm;
     this.petKinds = this.data.petKinds;
@@ -51,11 +49,9 @@ export class FilterModalComponent implements OnInit {
       .pipe(
         skip(1),
         debounceTime(300),
-        distinctUntilChanged(),
         tap(() => {
           this.resetFormOnManualClear();
           this.count = undefined;
-          this.cdr.markForCheck();
         }),
         switchMap(() => {
           return this.catalogFilterService.getPrefilteredEquipmentCount(this.equipmentFilter);
@@ -82,7 +78,7 @@ export class FilterModalComponent implements OnInit {
   }
 
   resetFilters(): void {
-    this.filterForm.reset();
+    this.filterForm.reset({}, { emitEvent: false });
   }
 
   showEquipments(): void {
@@ -117,11 +113,16 @@ export class FilterModalComponent implements OnInit {
     };
   }
 
-  private resetFormOnManualClear() {
-    !this.filterForm.value.idealCondition &&
+  private get isClearForm(): boolean {
+    return (
+      !this.filterForm.value.idealCondition &&
       !this.filterForm.value.petKinds.reduce((acc: boolean, val: boolean) => acc || val, false) &&
-      !this.filterForm.value.petSizes.reduce((acc: boolean, val: boolean) => acc || val, false) &&
-      this.resetFilters();
+      !this.filterForm.value.petSizes.reduce((acc: boolean, val: boolean) => acc || val, false)
+    );
+  }
+
+  private resetFormOnManualClear(): void {
+    if (this.isClearForm) this.resetFilters();
   }
 
   onModalClose() {

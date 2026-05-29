@@ -1,39 +1,41 @@
 <lc-modal-layout
   [headerTitle]="infoData.headerText"
   [activeCloseIcon]="false"
->
+  >
   <ng-container body>
     <div class="body">
       <p class="message">
         {{ infoData.infoMessage }}
       </p>
-      <a
-        *ngIf="infoData.infoLink"
-        class="link"
-      >
-        {{ infoData.infoLink }}
-      </a>
+      @if (infoData.infoLink) {
+        <a
+          class="link"
+          >
+          {{ infoData.infoLink }}
+        </a>
+      }
     </div>
   </ng-container>
   <ng-container footer>
     <div class="buttons">
-      <button
-        *ngIf="infoData.buttonCancelText"
-        mat-raised-button
-        color="primary"
-        class="button-cancel"
-        [mat-dialog-close]="false"
-        type="button"
-      >
-        {{ infoData.buttonCancelText }}
-      </button>
+      @if (infoData.buttonCancelText) {
+        <button
+          mat-raised-button
+          color="primary"
+          class="button-cancel"
+          [mat-dialog-close]="false"
+          type="button"
+          >
+          {{ infoData.buttonCancelText }}
+        </button>
+      }
       <button
         mat-raised-button
         color="primary"
         class="button-confirm"
         [mat-dialog-close]="true"
         type="button"
-      >
+        >
         {{ infoData.buttonOkText }}
       </button>
     </div>

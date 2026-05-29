@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Type, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationModalData } from '@shared/models';
 
@@ -9,14 +9,14 @@ import { ConfirmationModalData } from '@shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationModalComponent implements OnInit {
+  confirmationModalData = inject<ConfirmationModalData>(MAT_DIALOG_DATA);
+
   title = '';
   body?: string;
   contentComponent: Type<any> | null = null;
   contentComponentData?: Record<string, unknown>;
   applyButtonText?: string;
   cancelButtonText?: string;
-
-  constructor(@Inject(MAT_DIALOG_DATA) public confirmationModalData: ConfirmationModalData) {}
 
   ngOnInit() {
     this.title = this.confirmationModalData.title;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter, Observable, switchMap } from 'rxjs';
 
@@ -15,17 +15,15 @@ import { NotificationSuccess } from '@app/shared/constants/notification-success.
 
 @Injectable()
 export class ControllerService {
-  rememberMe = this.store.selectSnapshot(AuthState.getRememberMe);
+  private readonly api = inject(ApiService);
+  private readonly router = inject(Router);
+  private readonly store = inject(Store);
+  private readonly authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
+  private readonly personalInfoService = inject(PersonalInfoService);
+  private readonly notificationService = inject(NotificationsService);
 
-  constructor(
-    private readonly api: ApiService,
-    private readonly router: Router,
-    private readonly store: Store,
-    private readonly authService: AuthService,
-    private readonly dialog: MatDialog,
-    private readonly personalInfoService: PersonalInfoService,
-    private readonly notificationService: NotificationsService,
-  ) {}
+  rememberMe = this.store.selectSnapshot(AuthState.getRememberMe);
 
   cancel() {
     this.router.navigate(['/auth']);

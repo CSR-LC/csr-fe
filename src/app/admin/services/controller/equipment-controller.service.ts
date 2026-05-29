@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ArchiveEquipmentModalComponent } from '@app/admin/components/archive-equipment-modal/archive-equipment-modal.component';
 import { AdminApi } from '@app/admin/services';
@@ -18,6 +18,7 @@ import { EquipmentStatus } from '@app/admin/types/equipment-status';
 import { Period } from '@app/shared/models/period';
 import { UnavailableDates } from '@app/features/date-range/models';
 import { DictionaryService } from '@app/shared/services/dictionary/dictionary.service';
+import { DateService } from '@shared/services/date/date.service';
 import { EquipmentModalComponent } from '@app/admin/components';
 import { EquipmentModalResponse } from '@app/admin/types/equipment-modal-response';
 import { Store } from '@ngxs/store';
@@ -36,6 +37,16 @@ import { EquipmentRouterParams } from '@app/admin/constants/equipment-router-par
 @UntilDestroy
 @Injectable()
 export class EquipmentController {
+  private readonly dialog = inject(MatDialog);
+  private readonly api = inject(AdminApi);
+  private readonly notificationService = inject(NotificationsService);
+  private readonly mainHeaderService = inject(MainPageHeaderService);
+  private readonly dictionaryService = inject(DictionaryService);
+  private readonly store = inject(Store);
+  private readonly datePipe = inject(DatePipe);
+  private readonly dateService = inject(DateService);
+  private readonly router = inject(Router);
+
   private equipmentDataSubj$ = new BehaviorSubject<TableRow<Equipment>[]>([]);
   private inventoryNumbers: number[] = [];
   categoryDictionary: Dictionary<string> = {};
@@ -54,17 +65,6 @@ export class EquipmentController {
   get equipmentData$(): Observable<TableRow<Equipment>[]> {
     return this.equipmentDataSubj$.asObservable();
   }
-
-  constructor(
-    private readonly dialog: MatDialog,
-    private readonly api: AdminApi,
-    private readonly notificationService: NotificationsService,
-    private readonly mainHeaderService: MainPageHeaderService,
-    private readonly dictionaryService: DictionaryService,
-    private readonly store: Store,
-    private readonly datePipe: DatePipe,
-    private readonly router: Router,
-  ) {}
 
   manageEvent(data: TableAction<Equipment>) {
     switch (data.action) {
@@ -156,8 +156,8 @@ export class EquipmentController {
     return `Заблокировано ${this.getDate(period.start_date)} - ${this.getDate(period.end_date)}`;
   }
 
-  private getDate(date: string): string {
-    return this.datePipe.transform(date, 'dd.MM.YYYY') || '';
+  private getDate(date: number): string {
+    return this.datePipe.transform(this.dateService.fromNanoseconds(date), 'dd.MM.YYYY', 'UTC') || '';
   }
 
   private getArchivedEquipmentActions(): RowAction {
@@ -247,9 +247,8 @@ export class EquipmentController {
   }
 
   private isDateInPeriod(date: Date, period: UnavailableDates) {
-    const startUnavailable = new Date(period.start_date);
-    const endUnavailable = new Date(period.end_date);
-    const dateTime = date.getTime();
+    const startUnavailable = this.dateService.fromNanoseconds(period.start_date);
+    const endUnavailable = this.dateService.fromNanoseconds(period.end_date);
     return date >= startUnavailable && date <= endUnavailable;
   }
 

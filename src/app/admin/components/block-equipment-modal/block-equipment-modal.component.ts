@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EquipmentModal } from '@app/admin/constants/equipment-modal.enum';
 import { Label } from '@app/admin/constants/label';
@@ -11,6 +11,7 @@ import { UnavailableDates, DateRangeData } from '@app/features/date-range/models
 import { UntilDestroy, untilDestroyed } from '@app/shared/until-destroy/until-destroy';
 import { Period } from '@app/shared/models/period';
 import { DateRange } from '@angular/material/datepicker';
+import { DateService } from '@shared/services/date/date.service';
 
 @UntilDestroy
 @Component({
@@ -20,6 +21,13 @@ import { DateRange } from '@angular/material/datepicker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockEquipmentModalComponent implements OnInit {
+  dialogData = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<BlockEquipmentModalComponent>>(MatDialogRef);
+  private readonly fb = inject(UntypedFormBuilder);
+  private readonly validationService = inject(ValidationService);
+  private readonly dateRangeService = inject(DateRangeService);
+  private readonly dateService = inject(DateService);
+
   readonly formName = 'block_equipment_modal';
   equipment?: Equipment;
   unavailablePeriods: UnavailableDates[] = [];
@@ -30,14 +38,6 @@ export class BlockEquipmentModalComponent implements OnInit {
     startDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
     endDate: [null, [Validators.required, this.validationService.getControlChangedValidator()]],
   });
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private readonly dialogRef: MatDialogRef<BlockEquipmentModalComponent>,
-    private readonly fb: UntypedFormBuilder,
-    private readonly validationService: ValidationService,
-    private readonly dateRangeService: DateRangeService,
-  ) {}
 
   ngOnInit() {
     this.equipment = this.dialogData.equipment;
@@ -51,8 +51,8 @@ export class BlockEquipmentModalComponent implements OnInit {
     const period = equipment.blockingPeriods[0];
 
     this.form.setValue({
-      startDate: new Date(period.start_date),
-      endDate: new Date(period.end_date),
+      startDate: this.dateService.fromNanoseconds(period.start_date),
+      endDate: this.dateService.fromNanoseconds(period.end_date),
     });
   }
 
@@ -70,8 +70,8 @@ export class BlockEquipmentModalComponent implements OnInit {
       .subscribe((res) => {
         if (!res) return;
         this.setFormValue({
-          startDate: new Date(res.start_date),
-          endDate: new Date(res.end_date),
+          startDate: this.dateService.fromNanoseconds(res.start_date),
+          endDate: this.dateService.fromNanoseconds(res.end_date),
         });
       });
   }
@@ -88,6 +88,8 @@ export class BlockEquipmentModalComponent implements OnInit {
   }
 
   private get dateRangeConfig(): DateRangeData {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     return {
       headerText: 'Выберите период блокировки',
       buttonText: 'Выбрать',
@@ -95,6 +97,7 @@ export class BlockEquipmentModalComponent implements OnInit {
       unavailableDates: this.unavailablePeriods,
       purpose: DateRangePurpose.block,
       selectedPeriod: this.blockPeriodForModal,
+      minDate: tomorrow,
     };
   }
 

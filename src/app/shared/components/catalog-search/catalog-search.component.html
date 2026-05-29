@@ -1,18 +1,20 @@
-<form [formGroup]="form" *ngIf="showSearchInput" class="search-form" (ngSubmit)="onSearch()">
-  <mat-form-field class="search-input">
-    <input
-      matInput
-      type="search"
-      maxlength="100"
-      class="search-input"
-      placeholder="Поиск"
-      formControlName="searchValue"
-      (search)="$event.stopPropagation()"
-    >
-  </mat-form-field>
-</form>
-<button
-  [ngClass]="showSearchInput ? 'cancel-button' : 'search-button'"
-  mat-icon-button
-  (click)="toggle()"
-></button>
+@if (showSearchInput) {
+  <form [formGroup]="form" class="search-form" (ngSubmit)="onSearch()">
+    <mat-form-field class="search-input">
+      <input
+        matInput
+        type="search"
+        maxlength="100"
+        class="search-input"
+        placeholder="Поиск"
+        formControlName="searchValue"
+        (search)="$event.stopPropagation()"
+        >
+      </mat-form-field>
+    </form>
+  }
+  <button
+    [ngClass]="showSearchInput ? 'cancel-button' : 'search-button'"
+    mat-icon-button
+    (click)="toggle()"
+  ></button>

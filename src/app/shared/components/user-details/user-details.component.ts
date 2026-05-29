@@ -14,6 +14,7 @@ export type UserDetail = {
 export class UserDetailsComponent {
   @Input() title!: string;
   @Input() details: UserDetail[] = [];
+  @Input() disabled = false;
   @Output() edited = new EventEmitter<void>();
 
   edit() {

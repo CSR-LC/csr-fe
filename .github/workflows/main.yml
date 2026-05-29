@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.2.2
       - name: Test
         run: |
           sudo apt update -y
@@ -31,7 +31,7 @@ jobs:
           sudo npm install -g @angular/cli
           sudo ng build
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.1
         with:
          name: artifact
          path: dist/lc-fe

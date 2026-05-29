@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { DropdownFilterOption } from '@shared/models/dropdown-filter-option';
@@ -7,7 +7,7 @@ import { DropdownFilterOption } from '@shared/models/dropdown-filter-option';
 @Component({
   selector: 'lc-dropdown-filter',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, ReactiveFormsModule],
+  imports: [MatSelectModule, ReactiveFormsModule],
   templateUrl: './dropdown-filter.component.html',
   styleUrls: ['./dropdown-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

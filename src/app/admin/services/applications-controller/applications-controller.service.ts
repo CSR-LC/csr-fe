@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AdminApi } from '..';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Application } from '@app/admin/types/application';
@@ -25,23 +25,23 @@ import { RowAction } from '@app/shared/models';
 import { ApplicationDataState } from '@shared/store/application-data';
 import { ActivatedRoute } from '@angular/router';
 import { EquipmentRouterParams } from '@app/admin/constants';
+import { DateService } from '@shared/services/date/date.service';
 
 @Injectable()
 export class ApplicationsControllerService {
+  private readonly api = inject(AdminApi);
+  private readonly dialog = inject(MatDialog);
+  private readonly store = inject(Store);
+  private readonly notificationsService = inject(NotificationsService);
+  private readonly dateService = inject(DateService);
+  private readonly mainPageHeaderService = inject(MainPageHeaderService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+
   private readonly applicationsSub = new BehaviorSubject<TableRow<Application>[]>([]);
 
   get applicationsData$(): Observable<TableRow<Application>[]> {
     return this.applicationsSub.asObservable();
   }
-
-  constructor(
-    private readonly api: AdminApi,
-    private readonly dialog: MatDialog,
-    private readonly store: Store,
-    private readonly notificationsService: NotificationsService,
-    private readonly mainPageHeaderService: MainPageHeaderService,
-    private readonly activatedRoute: ActivatedRoute,
-  ) {}
 
   get applicationStatuses(): ItemTranslated[] {
     return this.store.selectSnapshot(ApplicationDataState.applicationStatuses) || [];
@@ -93,9 +93,9 @@ export class ApplicationsControllerService {
   }
 
   private getRentPeriodValue(application: Application): string {
-    const start = new Date(application.rent_start);
-    const end = new Date(application.rent_end);
-    return `${start.getDate()}.${start.getMonth() + 1}-${end.getDate()}.${end.getMonth() + 1}`;
+    const start = this.dateService.fromNanoseconds(application.rent_start);
+    const end = this.dateService.fromNanoseconds(application.rent_end);
+    return `${start.getUTCDate()}.${start.getUTCMonth() + 1}-${end.getUTCDate()}.${end.getUTCMonth() + 1}`;
   }
 
   private getUserInfo(user: User): ApplicationUsersInfo {

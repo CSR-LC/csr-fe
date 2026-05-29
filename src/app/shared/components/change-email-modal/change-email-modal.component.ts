@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ValidationService } from '@shared/services/validation/validation.service';
@@ -10,17 +10,15 @@ import { ValidationService } from '@shared/services/validation/validation.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangeEmailModalComponent {
+  email = inject(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject<MatDialogRef<ChangeEmailModalComponent>>(MatDialogRef);
+  private readonly formBuilder = inject(UntypedFormBuilder);
+  private readonly validationService = inject(ValidationService);
+
   readonly formName = 'change_email_modal';
   loginInfoForm = this.formBuilder.group({
     email: [this.email || '', [Validators.required, Validators.maxLength(49), Validators.email]],
   });
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public email: string,
-    private readonly dialogRef: MatDialogRef<ChangeEmailModalComponent>,
-    private readonly formBuilder: UntypedFormBuilder,
-    private readonly validationService: ValidationService,
-  ) {}
 
   public submit() {
     this.validationService.emitSubmit(this.formName);

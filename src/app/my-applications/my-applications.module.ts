@@ -11,8 +11,8 @@ import { MyApplicationsFilterProvider } from '@app/my-applications/services/prov
 import { InfiniteScrollService } from '@shared/services/infinite-scroll/infinite-scroll.service';
 
 @NgModule({
-  declarations: [MyApplicationsComponent, MyApplicationComponent, MyApplicationDetailsComponent],
-  imports: [CommonModule, MyApplicationsRoutingModule, SharedModule, DropdownFilterComponent, LoaderComponent],
+  declarations: [MyApplicationsComponent, MyApplicationComponent],
+  imports: [CommonModule, MyApplicationsRoutingModule, SharedModule, DropdownFilterComponent, LoaderComponent, MyApplicationDetailsComponent],
   providers: [MyApplicationsApi, MyApplicationsController, MyApplicationsFilterProvider, InfiniteScrollService],
 })
 export class MyApplicationsModule {}

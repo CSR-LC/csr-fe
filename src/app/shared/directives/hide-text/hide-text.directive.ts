@@ -1,13 +1,14 @@
-import { Directive, ElementRef, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, OnInit, AfterViewInit, Renderer2, inject } from '@angular/core';
 import { EyeIconClasses, InputType } from '@shared/constants';
 
 @Directive({
   selector: '[lcHideText]',
 })
 export class HideTextDirective implements OnInit, AfterViewInit {
-  private eyeIconClasses = [EyeIconClasses.open, EyeIconClasses.closed];
+  private readonly element = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
 
-  constructor(private readonly element: ElementRef, private readonly renderer: Renderer2) {}
+  private eyeIconClasses = [EyeIconClasses.open, EyeIconClasses.closed];
 
   ngOnInit() {
     this.createIcon();
