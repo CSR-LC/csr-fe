@@ -36,6 +36,12 @@ jobs:
          name: artifact
          path: dist/lc-fe
          retention-days: 5
+      - name: Check dist folder
+        run: |
+          pwd
+          ls -la
+          ls -la dist || true
+          ls -la dist/lc-fe || true
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/develop'
         uses: JamesIves/github-pages-deploy-action@v4
