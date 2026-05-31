@@ -37,7 +37,7 @@ jobs:
          path: dist/lc-fe
          retention-days: 5
       - name: Deploy 🚀
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/develop'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
          folder: dist/lc-fe  # The folder the action should deploy
